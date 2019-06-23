@@ -1,0 +1,426 @@
+<template>
+    <div>
+		<div class="page-header-wrap">
+			<div class="pattern-full-width page-header">
+				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/10.jpg')"></div>
+				<div class="page-info">
+					<h2 class="intro">琐事</h2>
+					<p class="tsukkomi">记录单身19年的生活</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="page-content-wrap">
+			<div class="page-content acg">
+				<div class="content-primary">
+					<div class="article-order no-select">
+						<span>排序</span>
+						<ul class="order-list">
+							<li :class="{'o-selected':orderFlag===0}" @click="orderFlag=0">最新</li>
+							<li :class="{'o-selected':orderFlag===1}" @click="orderFlag=1">最旧</li>
+						</ul>
+					</div><!--文章排序待开发-->
+					<div class="article-list">
+						<div class="panel-t tl">
+							<p class="pt-time"><i class="far fa-clock"></i> 2011-11-11</p>
+							<div class="panel-t-img">
+								<router-link to="/">
+									<img src="http://127.0.0.1:80/static/img/7.jpg">
+								</router-link>
+							</div>
+							<div class="panel-t-info ">
+								<h2 class="title"><router-link to="/">物语系列时间线</router-link></h2>
+								<p class="preview">《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家戴源亨负责插画的轻小说系列</p>
+								<p class="cut-line-d" style="margin: .1rem 0"></p>
+								<span><router-link to="/个人主页" class="author"><i class="fas fa-user"></i> nyanya</router-link></span>
+								<span><i class="far fa-eye"></i> 666</span>
+								<span><router-link to="评论区" class="comments"><i class="far fa-comments"></i> 666</router-link></span>
+							</div>
+						</div>
+
+						<div class="panel-t tl">
+							<p class="pt-time"><i class="far fa-clock"></i> 2011-11-11</p>
+							<div class="panel-t-img">
+								<router-link to="/">
+									<img src="http://127.0.0.1:80/static/img/7.jpg">
+								</router-link>
+							</div>
+							<div class="panel-t-info ">
+								<h2 class="title"><router-link to="/">物语系列时间线</router-link></h2>
+								<p class="preview">《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家戴源亨负责插画的轻小说系列</p>
+								<p class="cut-line-d" style="margin: .1rem 0"></p>
+								<span><router-link to="/个人主页" class="author"><i class="fas fa-user"></i> nyanya</router-link></span>
+								<span><i class="far fa-eye"></i> 666</span>
+								<span><router-link to="评论区" class="comments"><i class="far fa-comments"></i> 666</router-link></span>
+							</div>
+						</div>
+					</div>
+					<div class="paging-box" v-if="pageNum>1">
+						<ol class="pb-original">
+							<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
+							<li v-show="curPage>=4" @click="curPage=1">1</li>
+							<li v-show="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+							<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
+							<li v-show="curPage<=pageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+							<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
+							<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="fas fa-caret-right"></i></li>
+						</ol>
+						<div class="pb-jump">
+							<span>共{{pageNum}}页，跳至</span>
+							<input type="text" @keyup.enter=""><!--指定跳转待开发-->
+							页
+						</div>
+					</div>
+				</div>
+				<div class="content-aside">
+					<div class="ca album">
+						<div class="album-img-wrap">
+							<img class="album-img" src="http://127.0.0.1:80/static/img/7.jpg">
+							<p>一张图片</p>
+						</div>
+					</div>
+					<div class="ca board">
+						<div class="board-head">
+							<span>游言　</span>
+							<i class="fab fa-first-order-alt"></i>
+						</div>
+						<div class="board-content">
+							异度之刃2有毒，害我天天两点睡
+						</div>
+						<div class="board-post-time">
+							-- Dec 12th, 23:33
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</template>
+
+<script>
+    export default {
+        name: "Trivial",
+        data() {
+            return {
+				pageNum:16,
+				curPage:1,
+				orderFlag:0
+			}
+        },
+        mounted() {
+        },
+		computed:{
+			pageList:function () {
+				if(this.pageNum===1)return [1];
+				else if(this.pageNum===2)return[1,2];
+				else if(this.pageNum===3)return[1,2,3];
+				else if(this.curPage===1)return[1,2,3];
+				else if(this.curPage===2)return[1,2,3,4];
+				else if(this.curPage>=3&&this.curPage<=this.pageNum-2)return[this.curPage-2,this.curPage-1,this.curPage,this.curPage+1,this.curPage+2];
+				else if(this.curPage===this.pageNum-1)return[this.curPage-2,this.curPage-1,this.curPage,this.pageNum];
+				else return[this.curPage-2,this.curPage-1,this.curPage];
+			}
+		},
+        components: {}
+    }
+</script>
+
+<style scoped>
+	/*-----------------------------------------------暂时重复 请使用article组件覆盖*/
+	.page-content{
+		max-width: 8rem;
+		padding: 0 .1rem;
+		margin: 0 auto;
+		background: snow;
+	}
+	/*-----------------------------------*/
+	.page-content.acg{
+		max-width: 10.5rem;
+		overflow: hidden;/*解决子元素浮动撑不开父元素*/
+		height: 100%;
+		position: relative;
+	}
+	.pattern-full-width{ /*使用Code组件覆盖*/
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+	}
+	.pattern-full-width:before{
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+	.page-img{
+		background: no-repeat center center;
+		background-size: cover;
+		background-origin: border-box;
+		width: 100%;
+		height: 4rem;
+		margin-top: .7rem;
+		transition: all .5s;
+	}
+	.page-info{
+		position: absolute;
+		left: 0;
+		right: 0;
+		text-align: center;
+		top: 50%;
+		color: white;
+		padding: 0 .5rem;
+		text-shadow: 0.02rem 0.02rem 0.1rem black;
+	}
+	.page-info .intro{
+		font-size: .4rem;
+		margin-bottom: .1rem;
+		transition: .5s;
+	}
+	.page-info .tsukkomi{
+		font-size: .2rem;
+	}
+	/*-----------------------------------------------*/
+	.content-primary{ /*使用coacg覆盖*/
+		max-width: 7rem;
+		margin: 0 auto;
+		float: left;
+		transition: .5s;
+	}
+	.article-order{
+		margin: .2rem 0;
+		height: 100%;
+		overflow: hidden;
+		border-bottom: .01rem solid #e5e5e5;
+	}
+	.article-order span{
+		font-size: .2rem;
+		float: left;
+		margin: 0 .2rem;
+	}
+	.order-list{
+		list-style: none;
+		float: left;
+	}
+	.order-list li{
+		cursor: pointer;
+		display: inline-block;
+		float: left;
+		line-height: .3rem;
+		padding: 0 .05rem;
+		border-bottom:.01rem solid #e5e5e5;
+		transition: .5s;
+	}
+	.order-list li:hover{
+		color: #00a1d6;
+		border-color: #00a1d6;
+	}
+	.o-selected{
+		border-color: #00a1d6 !important;
+		color: unset !important;
+	}
+
+		.panel-t{
+			border-radius: .03rem;
+			box-shadow: 0 .01rem .02rem rgba(0,0,0,0.15), 0 .02rem .04rem rgba(0,0,0,0.10);
+			border:.01rem solid #e5e5e5;
+			position: relative;
+			margin-bottom: .2rem;
+			color: #636363;
+			transition: .3s;
+		}
+		.panel-t:hover{
+			box-shadow: 0 .03rem .06rem rgba(0,0,0,0.15), 0 .06rem .12rem rgba(0,0,0,0.10);
+		}
+			.pt-time{
+				padding-left: .1rem;
+				border-left: 6px solid darkgrey;
+				line-height: 20px;
+				font-size: 12px;
+
+			}
+			.panel-t-img{
+				position: absolute;
+				top: .25rem;
+				left: .15rem;
+			}
+				.panel-t-img img{
+					object-fit: cover;
+					object-position: center center;
+					width: 1.5rem;
+					height: 1.5rem;
+				}
+			.panel-t-info{
+				margin-left: 1.8rem;
+				padding: 0 .1rem .1rem .1rem;
+			}
+			.panel-t-info a{
+				color: inherit;
+			}
+			.panel-t-info span{
+				margin-right: .15rem;
+				font-size: .14rem;
+				color: #9e9e9e;
+			}
+				.panel-t-info .title{
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					font-size: .2rem;
+					line-height: .5rem;
+				}
+				.panel-t-info .preview{
+					overflow: hidden;
+					height: .63rem;
+				}
+	.paging-box{
+		margin: .3rem 0;
+		text-align: left;/*??*/
+	}
+	.paging-box .pb-original{
+		display: inline-block;
+		margin: 0 .2rem;
+		border-radius: .05rem;
+	}
+	.pb-original li{
+		float: left;
+		height: .25rem;
+		width: .25rem;
+		line-height: .25rem;
+		color: #009ccd;
+		cursor: pointer;
+		user-select: none;
+		text-align: center;
+		transition: background-color.3s;
+	}
+	.pb-original .ellipses{
+		cursor: auto;
+	}
+	.pb-original li:hover{
+		background: #eaeaea;
+	}
+	.pb-original .prev{
+		border-top-left-radius: .05rem;
+		border-bottom-left-radius: .05rem;
+	}
+	.pb-original .next{
+		border-top-right-radius: .05rem;
+		border-bottom-right-radius: .05rem;
+	}
+	.pb-original .current{
+		background: #009ccd !important;
+		color: white;
+		text-shadow: 0 0 .04rem white;
+		border-radius: .05rem;
+	}
+	.pb-jump{
+		float: right;
+		color: #99a2aa;
+		line-height: .25rem;
+		font-size: .14rem;
+		margin-right: .2rem;
+	}
+	.pb-jump input{
+		background: transparent;
+		outline: none;
+		border: .01rem solid #ddd;
+		border-radius: .05rem;
+		width: .4rem;
+		height: .3rem;
+		padding: 0 .07rem;
+		color: #6c6c6c;
+		text-align: center;
+		transition: .3s;
+	}
+	.pb-jump input:focus{
+		border-color: #009ccd;
+	}
+	.content-aside{/*使用coacg覆盖*/
+		width: 2.8rem;
+		margin-top: .5rem;
+		float: right;
+	}
+		.ca{ /*以Game为标准*/
+			width: 100%;
+			border-radius: .05rem;
+			background: rgba(252,250,242,.7);
+			box-shadow: 0 0.01rem 0.03rem rgba(26,26,26,.5);
+			margin-bottom: .2rem;
+		}
+		.album{
+			overflow: hidden;
+		}
+		.album-img-wrap{
+			position: relative;
+			height: 2.8rem;
+			width: 2.8rem;
+		}
+		.album-img{
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center center;
+		}
+		.album-img-wrap p{
+			position: absolute;
+			bottom: 0;
+			padding: .05rem .1rem;
+			font-size: .14rem;
+			color: #eeeeee;
+			width: 100%;
+			background: rgba(0,0,0,.3);
+		}
+
+
+
+		.cah.board,.ca.board { /*以下使用homepage覆盖*/
+			height: 1.1rem;
+			position: relative;
+		}
+		.board-head{
+			position: absolute;
+			top: .2rem;
+			left: 0;
+			writing-mode: vertical-rl;
+			padding-right: .1rem;
+			border-right: .01rem dashed #c5ccd3;
+		}
+		.board-content{
+			height: 70%;
+			width: 100%;
+			font-size: .14rem;
+			letter-spacing: .003rem;
+			line-height: .18rem;
+			text-align: left;
+			text-indent: .2rem;
+			padding: .22rem .1rem 0 .55rem;
+			color: #425066;
+		}
+		.board-post-time{
+			position: absolute;
+			right: .15rem;
+			bottom: .15rem;
+			color: #c5ccd3;
+			font-size: .12rem;
+		}
+
+@media screen and (max-width: 1050px) {
+	.content-primary{
+		float: none;
+	}
+	.content-aside{
+		display: none;
+	}
+}
+@media screen and (max-width: 1005px){
+	.page-img{
+		margin-top: .5rem;
+		height: 3rem;
+	}
+	.page-info .intro{
+		font-size: .3rem;
+	}
+}
+</style>

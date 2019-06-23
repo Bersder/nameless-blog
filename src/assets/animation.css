@@ -1,0 +1,128 @@
+@keyframes fadeInUp {
+	0%{
+		opacity: 0;
+		transform: translateY(50px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes mini-fadeInUp {
+	0%{
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes fadeInRight {
+	0%{
+		opacity: 0;
+		transform: translateX(50px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+@keyframes fadeInLeft {
+	0%{
+		opacity: 0;
+		transform: translateX(-50px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+@keyframes fadeInDown {
+	0%{
+		opacity: 0;
+		transform: translateY(-50px);
+	}
+	100%{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes enlarge {
+	0%{
+		opacity: 0;
+		transform: scale(.5);
+	}
+	100%{
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+@keyframes blurLoad {
+	0%{
+		filter: blur(30px);
+	}
+	70%{
+		filter: blur(10px);
+	}
+	100%{
+		filter: blur(0);
+	}
+}
+@keyframes spin {
+	from{
+		transform: rotate(0deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotateBF {
+	0%,50%{transform: scale(1)}
+	62.5%{transform: rotate(30deg)}
+	75%{transform: rotate(0deg)}
+	87.5%{transform: rotate(-30deg)}
+	100%{transform: rotate(0deg)}
+}
+@keyframes fadeBF {
+	0%{opacity: 1}
+	50%{opacity: 0}
+	100%{opacity: 1}
+}
+@keyframes rotateXY {
+	0%{}
+	100%{transform: rotate3d(-1,1,0,360deg)}
+}
+@keyframes enlargeA {
+	0%,40%{transform: scale(1)}
+	90%{transform: scale(1.2)}
+	100%{transform: scale(1)}
+}
+@keyframes fadeOut {
+	100%{opacity: 0}
+}
+@keyframes fadeIn {
+	from{opacity: 0}
+	to{opacity: 1}
+}
+@keyframes holdFadeIn {
+	0%,50%{opacity: 0}
+	100%{opacity: 1}
+}
+.fade-in{
+	animation: fadeIn 1.5s;
+}
+@keyframes frontFlip {
+	0%{
+		transform: rotateX(90deg);
+		opacity: 0;
+	}
+	70%{
+		transform: rotateX(-20deg);
+		opacity: .7;
+	}
+	100%{
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
