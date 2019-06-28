@@ -37,7 +37,7 @@
 	export default {
         name: "Archive",
 		created(){
-			fetch('http://localhost:80/apis/apiv4.php').then(response=>{
+			fetch('/apis/apiv4.php').then(response=>{
 				this.articles = response.data.data;
 				this.articles.forEach(e=>{
 					if(!this.arch_data[e.time.slice(0,4)])

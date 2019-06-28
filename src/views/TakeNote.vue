@@ -61,7 +61,7 @@
         name: "TakeNote",
 		created(){
 			if(!this.nid){
-				fetch('http://localhost:80/apis/edit/initn.php').then(response=>{
+				fetch('/apis/edit/initn.php').then(response=>{
 					this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
 					this.nid = response.data.nid;
 					this.tagOptions = response.data.tagOptions || [];
@@ -70,7 +70,7 @@
 				});
 			}
 			else{
-				fetch('http://localhost:80/apis/edit/initn.php',{nid:this.nid}).then(response=>{
+				fetch('/apis/edit/initn.php',{nid:this.nid}).then(response=>{
 					let note = response.data;
 					if(note.exist){
 						this.rawContent = note.rawContent || '';
@@ -133,7 +133,7 @@
 			$imgAdd(pos,$file){
 				let param = new FormData();
 				param.append('img',$file);
-				post_form('http://localhost:80/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data[1]))
+				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data[1]))
 			},
 			hiAdd(){
 				document.getElementById('hi-add').click();
@@ -172,7 +172,7 @@
 					category:this.selectedCat,
 					rawContent:v.replace(/\\/g,'\\\\').replace(/'/g,"\\'"),
 				};
-				post('http://localhost:80/apis/edit/saveTmp.php?nid='+this.nid,data);
+				post('/apis/edit/saveTmp.php?nid='+this.nid,data);
 			},
 			launch(){
 
@@ -202,14 +202,14 @@
 					if(typeof this.hi==='object'){
 						let fd = new FormData();
 						fd.append('hi',this.hi);
-						post_form('http://localhost:80/apis/edit/mdimg.php?nid='+this.nid,fd).then(response=>{
+						post_form('/apis/edit/mdimg.php?nid='+this.nid,fd).then(response=>{
 							data.imgSrc = response.data[1];
-							post('http://localhost:80/apis/edit/launch.php?nid='+this.nid,data)
+							post('/apis/edit/launch.php?nid='+this.nid,data)
 						});
 					}
 					else{
 						data.imgSrc = this.hi;
-						post('http://localhost:80/apis/edit/launch.php?nid='+this.nid,data)
+						post('/apis/edit/launch.php?nid='+this.nid,data)
 					}
 
 				}
@@ -261,7 +261,7 @@
 			line-height: .3rem;
 		}
 	.publish-area{
-		padding:.2rem 1rem;
+		padding:.2rem .2rem;
 	}
 	.pa-unit{
 		margin-bottom: .1rem;

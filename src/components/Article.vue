@@ -208,7 +208,7 @@
 				//console.log(this.titlePosition)
 			},
 			fetchData(data){
-				fetch('http://localhost:80/apis/apiv3.php',data).then(response=>{
+				fetch('/apis/apiv3.php',data).then(response=>{
 					let data = response.data;
 					//console.log(response.data);
 					this.title = data.info.title;

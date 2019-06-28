@@ -3,14 +3,14 @@
 		<div class="article-order no-select">
 			<span>排序</span>
 			<ul class="order-list">
-				<li :class="{'o-selected':orderFlag===0}" @click="orderFlag=0">最新</li>
-				<li :class="{'o-selected':orderFlag===1}" @click="orderFlag=1">最旧</li>
-				<li :class="{'o-selected':orderFlag===2}" @click="orderFlag=2">最热</li>
+				<li :class="{'o-selected':orderFlag===0}" @click="orderFlag=0">按时间</li>
+				<li :class="{'o-selected':orderFlag===1}" @click="orderFlag=1">按热度</li>
+
 			</ul>
 		</div><!--文章排序待开发-->
 		<div class="article-list">
 
-			<panel v-for="(article,index) in articles" :key="index" :article="article"></panel>
+			<panel v-for="(article,index) in curArts" :key="index" :article="article"></panel>
 		</div>
 		<div class="paging-box" v-if="pageNum>1">
 			<ol class="pb-original">
@@ -24,7 +24,7 @@
 			</ol>
 			<div class="pb-jump">
 				<span>共{{pageNum}}页，跳至</span>
-				<input type="text" @keyup.enter=""><!--指定跳转待开发-->
+				<input type="text" @keyup.enter="pageJump"><!--指定跳转待开发-->
 				页
 			</div>
 		</div>
@@ -32,24 +32,65 @@
 </template>
 
 <script>
+	import {fetch} from "../util/http";
 	let articles = [
 		{aid:'1',title:'物语系列时间线',preview:'《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家VOFAN（本名戴源亨）负责插画的轻小说系列',imgSrc:'http://127.0.0.1:80/static/img/2.jpg',commentCount:'567',author:'nyanya',time:'2018-12-12',type:'code'},
+		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
+		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
+		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
+		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
 		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
 
 	];
 	import BasePanel from '@/components/BasePanel'
     export default {
-        name: "",
+        name: "ContentPrimaryACG",
+		created(){
+			fetch('/apis/apiv1.php?',{_:this.type[0]}).then(response=>{
+				console.log(response.data);
+				let data = response.data.data;
+				this.curArts = this.arts[0][1] = data.artsNew;
+				this.arts[1][1] = data.artsHot;
+				this.pageNum = Math.ceil(parseInt(data.artNum) / 6);
+				console.log(this.arts)
+				//侧边栏初始化
+			})
+		},
         data() {
             return {
             	articles:articles,
-				pageNum:16,
+				pageNum:1,
 				curPage:1,
-				orderFlag:0
+				orderFlag:0,
+				arts:{
+            		0:{},
+					1:{}
+				},
+				curArts:[]
 			}
         },
-        mounted() {
-        },
+		watch:{
+        	orderFlag(cur,pre){
+        		if(this.curPage===1)this.curArts = this.arts[cur][1];
+        		else this.curPage = 1;
+			},
+			curPage(cur,pre){
+        		if(this.arts[this.orderFlag][cur])this.curArts = this.arts[this.orderFlag][cur];
+        		else{
+					fetch('/apis/apiv2.php',{_:this.type[0],pn:cur,order:this.orderFlag}).then(response=>{
+						this.curArts = this.arts[this.orderFlag][cur] = response.data.data.arts;
+					})
+				}
+			}
+		},
+        methods:{
+			pageJump(e){
+				let page = parseInt(e.target.value);
+				if(isNaN(page)){}
+				else this.curPage = page<1?1:(e.target.value>this.pageNum?this.pageNum:page);
+				e.target.value='';
+			},
+		},
 		computed:{
 			pageList:function () {
 				if(this.pageNum===1)return [1];
@@ -75,6 +116,7 @@
 		margin: 0 auto;
 		float: left;
 		transition: .5s;
+		width: 100%;
 	}
 	.article-order{
 		margin: .2rem 0;

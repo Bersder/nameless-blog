@@ -71,7 +71,7 @@
     export default {
         name: "Note",
 		created(){
-			fetch('http://localhost:80/apis/apiv1.php',{_:'n'}).then(response=>{
+			fetch('/apis/apiv1.php',{_:'n'}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
 				this.catMap = data.catMap;
@@ -100,7 +100,7 @@
 			curFilter(cur,pre){ //监视filter变化并切换到对应note列表
 				if(this.notes[cur])this.curNotes = this.notes[cur];
 				else{
-					fetch('http://localhost:80/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
+					fetch('/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
 						console.log(response.data);
 						this.curNotes = this.notes[cur] = response.data.data;
 					})
@@ -112,7 +112,7 @@
         		console.log(cur);
         		if(this.curNotes.length<parseInt(this.catCount[cur])){
         			console.log(this.curNotes.length,parseInt(this.catCount[cur]));
-					fetch('http://localhost:80/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
+					fetch('/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
 						response.data.data.forEach(e=>this.notes[cur].push(e))
 					})
 				}

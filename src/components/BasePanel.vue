@@ -2,7 +2,7 @@
 	<div class="panel">
 		<div class="panel-img">
 			<router-link :to="article.aid" append>
-				<div class="img lazy" :style="{'background-image':'url('+article.imgSrc+')'}"></div>
+				<div class="img lazy" :style="{'background-image':'url(http://localhost:80'+article.imgSrc+')'}"></div>
 			</router-link>
 		</div>
 		<div class="panel-info">

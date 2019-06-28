@@ -76,7 +76,7 @@ export default {
         name: "Write",
 		created(){
         	if(!this.aid){
-				fetch('http://localhost:80/apis/edit/initw.php').then(response=>{
+				fetch('/apis/edit/initw.php').then(response=>{
 					this.$router.replace({name:'write',query:{aid:response.data.aid}});
 					this.aid=response.data.aid;
 					this.tagOptions = response.data.tagOptions || [];
@@ -84,7 +84,7 @@ export default {
 				//全新文章获取其adi，添加至后缀
 			}
 			else {//如果有后缀，不申请aid，根据现有aid请求保存的信息
-				fetch('http://localhost:80/apis/edit/initw.php',{aid:this.aid}).then(response=>{
+				fetch('/apis/edit/initw.php',{aid:this.aid}).then(response=>{
 					console.log(response.data);
 					let art = response.data;
 					if(art.exist){
@@ -149,7 +149,7 @@ export default {
 			$imgAdd(pos,$file){
 				let param = new FormData();
 				param.append('img',$file);
-				post_form('http://localhost:80/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data[1]))
+				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data[1]))
 			},
 			hiAdd(){
 				document.getElementById('hi-add').click();
@@ -188,7 +188,7 @@ export default {
 					series:this.selectedSeries,
 					rawContent:v.replace(/\\/g,'\\\\').replace(/'/g,"\\'")
 				};
-        		post('http://localhost:80/apis/edit/saveTmp.php?aid='+this.aid,data);
+        		post('/apis/edit/saveTmp.php?aid='+this.aid,data);
 			},
 			launch(){
 
@@ -218,14 +218,14 @@ export default {
 					if(typeof this.hi==='object'){
 						let fd = new FormData();
 						fd.append('hi',this.hi);
-						post_form('http://localhost:80/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
+						post_form('/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
 							data.imgSrc = response.data[1];
-							post('http://localhost:80/apis/edit/launch.php?aid='+this.aid,data)
+							post('/apis/edit/launch.php?aid='+this.aid,data)
 						});
 					}
 					else{
 						data.imgSrc = this.hi;
-						post('http://localhost:80/apis/edit/launch.php?aid='+this.aid,data)
+						post('/apis/edit/launch.php?aid='+this.aid,data)
 					}
 
 				}
