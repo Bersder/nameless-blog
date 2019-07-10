@@ -105,6 +105,11 @@
 				searchKey:null
 			}
         },
+		watch:{
+        	isOpened(cur,pre){
+        		this.$store.commit('isMaskedC',cur)
+			}
+		},
         // mounted() {
         // 	let me = this;
         // 	window.onscroll = debounce(function () {
@@ -144,12 +149,14 @@
 		box-shadow: 0 .01rem .4rem -.08rem rgba(0,0,0,.5);
 	}
 
-
+	.masked .site-header{
+		z-index: 2000;
+	}
 	.site-header{
 		position: fixed;
 		width: 100%;
 		background: rgba(255,255,255,.9);
-		z-index: 99999;
+		z-index: 1000;
 		transition: all .4s ease;
 	}
 	.site-header.home{
@@ -371,6 +378,10 @@
 		border-top: .01rem solid #ddd;
 		background: rgba(252,252,252,.9);
 		transition: .5s;
+		overflow-y: auto;
+	}
+	.nav-aside::-webkit-scrollbar{
+		display: none;
 	}
 	.nav-aside.open{
 		transform: translateX(-2.4rem);

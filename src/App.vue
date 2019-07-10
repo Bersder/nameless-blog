@@ -1,5 +1,5 @@
 <template>
-  <div :id="isMobile?'mobile-app':'app'">
+  <div :id="isMobile?'mobile-app':'app'" :class="{masked:isMasked&&screenWidth<1000}">
 	  <top-nav></top-nav>
 	  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
 	  <keep-alive include="Article">
@@ -38,7 +38,7 @@ export default {
 		'top-nav':TheTopNav
 	},
 	computed:{
-    	...mapState(['isMobile'])
+    	...mapState(['isMobile','isMasked','screenWidth'])
 	}
 
 }
@@ -101,6 +101,12 @@ export default {
 		background:rgba(33, 33, 37, 0.6);
 		color:white;
 	}
+	.masked{
+		position: fixed;
+		right: 0;
+		left: 0;
+		overflow: hidden;
+	}
 	#app,#mobile-app {
 	    font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	    -webkit-font-smoothing: antialiased;
@@ -142,11 +148,13 @@ export default {
 	.page-content-wrap{
 		background: rgba(255,255,255,.5);
 	}
-	.v-note-wrapper{
+	.publish-area .v-note-wrapper{
+		max-height: 6rem;
+		min-height: 6rem;
 		clear: both;
 	}
-	.publish-area .v-note-edit.divarea-wrapper,.publish-area .v-note-show{
-		height: 6rem;
+	.content-area .v-note-wrapper{
+		z-index: 999;
 	}
 	.content-area .v-note-edit.divarea-wrapper,.content-area .v-note-show{
 		min-height: 7rem;

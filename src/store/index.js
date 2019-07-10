@@ -10,6 +10,7 @@ export default new Vuex.Store({
 		scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
 		screenHeight:window.innerHeight || document.documentElement.clientHeight,
 		screenWidth:document.body.clientWidth,
+		isMasked:false
 	},
 	mutations:{
 		platformInit(state,payload){
@@ -22,6 +23,9 @@ export default new Vuex.Store({
 		screenSizeC(state,payload){
 			state.screenHeight = payload.screenHeight;
 			state.screenWidth = payload.screenWidth;
+		},
+		isMaskedC(state,cur){
+			state.isMasked = cur;
 		}
 	},
 	getters:{

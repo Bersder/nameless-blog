@@ -25,7 +25,7 @@
 					<div class="tag-btn-wrap" >
 						<span>Tags</span>
 						<div class="tag-btn tl" @click.stop>
-							<span v-for="each in selectedTags" class="tag-item">{{each}} <i class="fas fa-times" @click="deleteTag(each)"></i></span>
+							<span v-if="!isMobile" v-for="each in selectedTags" class="tag-item">{{each}} <i class="fas fa-times" @click="deleteTag(each)"></i></span>
 							<span class="tag-num" v-if="selectedTags.length">{{selectedTags.length}}</span>
 							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;catExpand=false" >
 							<ul v-show="tiFocus&&tagOptions.length>0" @mouseover="tiFocus=true">
@@ -48,7 +48,7 @@
 						<button @click="launch"><i class="fas fa-rocket"></i> Launch</button>
 					</div>
 				</div>
-				<mavon-editor v-model="rawContent" :codeStyle="'darcula'" :tabSize="4" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
+				<mavon-editor v-model="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
 
 			</div>
 		</div>
@@ -96,17 +96,62 @@
 					}
 				})
 			}
+			if (this.isMobile){
+				this.mdSetting.toolbars.subfield = false;
+				this.mdSetting.subfield = false;
+			}
 		},
 		computed:{
 			...mapState({
 				pf:'platform',
 				st:'scrollTop',
 				sh:'screenHeight',
-				sw:'screenWidth'
-			})
+				sw:'screenWidth',
+				isMobile:'isMobile'
+			}),
 		},
         data() {
             return {
+            	mdSetting:{
+            		tabSize:4,
+					codeStyle:'darcula',
+					imageFilter:function(file){
+						return (/image\/\w+/.test(file.type)&&file.size<5000000);
+					},
+					subfield:true,
+					toolbars:{
+						bold: true,
+						italic: true,
+						header: true,
+						underline: true,
+						strikethrough: true,
+						mark: true,
+						superscript: true,
+						subscript: true,
+						quote: true,
+						ol: true,
+						ul: true,
+						link: true,
+						imagelink: true,
+						code: true,
+						table: true,
+						fullscreen: false,
+						readmodel: true,
+						htmlcode: false,
+						help: true,
+						undo: true,
+						redo: true,
+						trash: false,
+						save: true,
+						navigation: true,
+						alignleft: true,
+						aligncenter: true,
+						alignright: true,
+						/* 2.2.1 */
+						subfield: true,
+						preview: true,
+					}
+				},
             	catOptions:[],
 				tagOptions:[],
 				catMap:{zatsu:'雑モツ'},
@@ -273,8 +318,11 @@
 			border-radius: .04rem;
 			line-height: .3rem;
 		}
+	#mobile-app .publish-area{
+		padding: .1rem .05rem;
+	}
 	.publish-area{
-		padding:.2rem .2rem;
+		padding:.1rem .2rem;
 	}
 	.pa-unit{
 		margin-bottom: .1rem;
@@ -283,6 +331,7 @@
 	.pa-unit.detail-select{
 		margin: 0;
 		text-align: left;
+		overflow: hidden;
 	}
 
 		.pa-unit .fa-file,.pa-unit .fa-edit{
@@ -370,7 +419,7 @@
 					background: #eaeaea;
 				}
 		.tag-btn-wrap{
-			max-width: 8rem;
+			max-width: 9rem;
 			width: 100%;
 		}
 			.tag-btn{
@@ -456,8 +505,14 @@
 		display: inline-block;
 		margin-bottom: .05rem;
 	}
+	#mobile-app .pa-submit{
+		display: block;
+	}
+	#mobile-app .pa-submit button{
+		width: 100%;
+	}
 	.pa-submit button{
-		width: 2rem;
+		width: 2.5rem;
 		line-height: .3rem;
 		padding: 0 .1rem;
 		color: #535a63;
@@ -471,7 +526,7 @@
 		color: #00a1d6;
 	}
 
-@media screen and (max-width: 1005px) {
+@media screen and (max-width: 1000px) {
 	.header-img{
 		margin-top: .5rem;
 		height: 3rem;
