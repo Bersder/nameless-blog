@@ -1,6 +1,6 @@
 <template>
     <div>
-		<figure class="htbg" id="htbg" :style="{height:screenHeight+'px','background-image':'url('+bgUrl+')'}">
+		<figure class="htbg" id="htbg" :style="{height:(SH || screenHeight)+'px','background-image':'url('+bgUrl+')'}">
 			<div class="focusinfo no-select">
 				<div class="ht-title">
 					Bersder3000
@@ -48,24 +48,22 @@
 </template>
 
 <script>
-	import {media} from "../util/global";
-
+	import {mapState} from 'vuex'
 	export default {
         name: "",
         data() {
             return {
-				screenHeight:0,
+				SH:'0',
 				bgUrl:'http://127.0.0.1:80/static/img/2.jpg'
 			}
         },
         mounted() {
-        	let me = this;
-        	setTimeout(()=>me.screenHeight=window.innerHeight || document.documentElement.clientHeight,500);
-        	media.$on('screenHeightC',function (data) {
-        		me.screenHeight = data;
-			});
+        	setTimeout(()=>this.SH=window.innerHeight || document.documentElement.clientHeight,500);
+        	setTimeout(()=>this.SH=false,1000)
         },
-        components: {},
+        computed:{
+        	...mapState(['screenHeight'])
+		},
 		methods:{
         	go_down:function () {
 				document.getElementsByClassName('site-wrapper')[0].scrollIntoView({behavior: "smooth",

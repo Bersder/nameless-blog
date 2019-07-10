@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div :id="isMobile?'mobile-app':'app'">
 	  <top-nav></top-nav>
 	  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
-	  <keep-alive>
+	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>
 
@@ -13,13 +13,34 @@
 import TheSiteFooter from './components/TheSiteFooter'
 import TheTopNav from './components/TheTopNav'
 import HeaderTop from './components/HeaderTop'
+import {mapState} from 'vuex'
+import {debounce} from "./util/util";
 export default {
     name: 'App',
+	created(){
+		let agents = ["Android", "SymbianOS", "BlackBerry","Windows Phone", "iPad", "iPod", "iPhone"];
+		for(let i=0;i<agents.length;i++)
+			if (navigator.userAgent.indexOf(agents[i])>0){
+				this.$store.commit('platformInit',{platform:agents[i],isMobile:true});
+				break;
+			}
+	},
+	mounted(){
+		window.onscroll = debounce(()=>this.$store.commit('scrollTopC',window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop),50);
+		window.onresize = debounce(()=>this.$store.commit('screenSizeC',{
+			screenHeight:window.innerHeight || document.documentElement.clientHeight,
+			screenWidth:window.innerWidth || document.body.clientWidth
+		}),50)
+	},
 	components:{
     	'site-footer':TheSiteFooter,
 		'header-top':HeaderTop,
 		'top-nav':TheTopNav
+	},
+	computed:{
+    	...mapState(['isMobile'])
 	}
+
 }
 </script>
 
@@ -80,7 +101,7 @@ export default {
 		background:rgba(33, 33, 37, 0.6);
 		color:white;
 	}
-	#app {
+	#app,#mobile-app {
 	    font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	    -webkit-font-smoothing: antialiased;
 	    -moz-osx-font-smoothing: grayscale;
@@ -125,7 +146,7 @@ export default {
 		clear: both;
 	}
 	.publish-area .v-note-edit.divarea-wrapper,.publish-area .v-note-show{
-		height: 7rem;
+		height: 6rem;
 	}
 	.content-area .v-note-edit.divarea-wrapper,.content-area .v-note-show{
 		min-height: 7rem;

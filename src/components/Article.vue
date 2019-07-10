@@ -21,7 +21,7 @@
 					<article :id="'post-'+$route.params.id" class="">
 						{{xtype}},{{xid}}
 						<div class="entry-content tl"><!--markdown 渲染区域-->
-							<mavon-editor  v-model="rawContent" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
+							<mavon-editor  v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
 						</div>
 						<footer class="post-footer">
 							<div class="post-update"><span>{{lut}} Lsat Update</span></div>
@@ -142,7 +142,8 @@
 					defaultOpen:'preview',
 					editable:false,
 					toolbarsFlag:false,
-					scrollStyle:true
+					scrollStyle:true,
+					codeStyle:'darcula'
 				},
 
 				titleList:[],

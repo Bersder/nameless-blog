@@ -79,7 +79,7 @@
 <script>
 	import {debounce} from "../util/util";
 	import {media} from "../util/global";
-
+	import {mapState} from 'vuex'
 	let navData = [
 		{icon:'fa fa-archive',des:'归档',animate:'rotate-bf',subs:[
 				{icon:'fa fa-film',des:'Anime',href:'/archive/anime'},
@@ -98,30 +98,32 @@
         data() {
             return {
             	navData:navData,
-				scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
-				screenWidth:document.body.clientWidth,
-				screenHeight:window.innerHeight || document.documentElement.clientHeight,
+				// scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
+				// screenWidth:window.innerWidth || document.body.clientWidth,
+				// screenHeight:window.innerHeight || document.documentElement.clientHeight,
 				isOpened:false,
 				searchKey:null
 			}
         },
-        mounted() {
-        	let me = this;
-        	window.onscroll = debounce(function () {
-				me.scrollTop = pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-				media.$emit('scrollTopC',me.scrollTop)
-			},50);
-        	window.onresize = debounce(function () {
-				me.screenWidth = document.body.clientWidth;
-				media.$emit('screenWidthC',me.screenWidth);
-				me.screenHeight = window.innerHeight || document.documentElement.clientHeight;
-				media.$emit('screenHeightC',me.screenHeight);
-			},50)
-        },
+        // mounted() {
+        // 	let me = this;
+        // 	window.onscroll = debounce(function () {
+		// 		me.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+		// 		media.$emit('scrollTopC',me.scrollTop)
+		// 	},50);
+        // 	window.onresize = debounce(function () {
+		// 		me.screenWidth = window.innerWidth || document.body.clientWidth;
+		// 		media.$emit('screenWidthC',me.screenWidth);
+		// 		me.screenHeight = window.innerHeight || document.documentElement.clientHeight;
+		// 		media.$emit('screenHeightC',me.screenHeight);
+		// 	},50)
+        // },
         computed:{
         	processed:function () {
 				return this.scrollTop/(document.body.offsetHeight-document.documentElement.clientHeight)*100 + '%';
-			}
+			},
+			...mapState(['scrollTop','screenWidth','screenHeight'])
+
 		},
 		methods:{
         	post_Search:function () {
