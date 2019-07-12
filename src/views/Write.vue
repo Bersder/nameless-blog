@@ -14,14 +14,25 @@
 		<div class="page-content-wrap" >
 			<div class="publish-area">
 				<div class="pa-unit">
-					<i class="far fa-file fa-lg"> :</i>
+					<i class="far fa-file"> :</i>
 					<input type="text" class="title-input" placeholder="无题" v-model.trim="title">
 				</div>
 				<div class="pa-unit">
-					<i class="far fa-edit fa-lg">:</i>
+					<i class="far fa-edit">:</i>
 					<input type="text" class="preview-input" placeholder="无介绍则截取文章内容开头代之" v-model.trim="preview">
 				</div>
-				<div class="pa-unit">
+				<div class="pa-unit detail-select">
+					<div class="tag-btn-wrap" >
+						<span>Tags</span>
+						<div class="tag-btn tl" @click.stop>
+							<span v-if="!isMobile" v-for="each in selectedTags" class="tag-item">{{each}} <i class="fas fa-times" @click="deleteTag(each)"></i></span>
+							<span class="tag-num" v-if="selectedTags.length">{{selectedTags.length}}</span>
+							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;seriesExpand=typeExpand=false" >
+							<ul v-show="tiFocus&&tagOptions.length!==0" @mouseover="tiFocus=true">
+								<li v-for="each in tagOptions" @click="selectTag(each)" :class="{'t-selected':selectedTags.indexOf(each)!==-1}">{{each}}</li>
+							</ul>
+						</div>
+					</div>
 					<div class="type-btn">
 						<span>Type</span>
 						<button @click.stop="typeExpand=!typeExpand;tiFocus=seriesExpand=false" class="tl">
@@ -34,7 +45,7 @@
 					</div>
 					<div class="series-btn">
 						<span>Series</span>
-						<button @click.stop="seriesExpand=!seriesExpand;tiFocus=typeExpand=false" class="tl">
+						<button @click.stop="seriesExpand=!seriesExpand;tiFocus=typeExpand=false" :title="selectedSeries" class="tl">
 							<span>{{selectedSeries}}</span>
 							<i class="fas fa-sort-down fa-lg"></i>
 						</button>
@@ -43,21 +54,12 @@
 							<li @click="selectedSeries='null'">不选择分组</li>
 						</ul>
 					</div>
-					<div class="tag-btn-wrap" >
-						<span>Tags</span>
-						<div class="tag-btn tl" @click.stop>
-							<span v-for="each in selectedTags" class="tag-item">{{each}} <i class="fas fa-times" @click="deleteTag(each)"></i></span>
-							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;seriesExpand=typeExpand=false" >
-							<ul v-show="tiFocus&&tagOptions.length!==0" @mouseover="tiFocus=true">
-								<li v-for="each in tagOptions" @click="selectTag(each)" :class="{'t-selected':selectedTags.indexOf(each)!==-1}">{{each}}</li>
-							</ul>
-						</div>
+
+					<div class="pa-submit">
+						<button @click="launch"><i class="fas fa-rocket"></i> Launch</button>
 					</div>
 				</div>
-				<mavon-editor v-model="rawContent" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
-				<div class="pa-submit">
-					<button @click="launch"><i class="fas fa-rocket"></i> Launch</button>
-				</div>
+				<mavon-editor v-model="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
 			</div>
 
 		</div>
@@ -70,8 +72,8 @@ import {unique} from "../util/util";
 import {post} from "../util/http";
 import {post_form} from "../util/http";
 import {fetch} from "../util/http";
-import axios from 'axios'
-
+import {mapState} from 'vuex'
+import {mdSetEdit} from "../util/global";
 export default {
         name: "Write",
 		created(){
@@ -85,7 +87,6 @@ export default {
 			}
 			else {//如果有后缀，不申请aid，根据现有aid请求保存的信息
 				fetch('/apis/edit/initw.php',{aid:this.aid}).then(response=>{
-					console.log(response.data);
 					let art = response.data;
 					if(art.exist){
 						this.rawContent = art.rawContent || '';
@@ -106,10 +107,18 @@ export default {
 					}
 				})
 			}
+			if (this.isMobile){
+				this.mdSetting.toolbars.subfield = false;
+				this.mdSetting.subfield = false;
+			}
 
+		},
+		computed:{
+        	...mapState(['isMobile'])
 		},
         data() {
             return {
+				mdSetting:mdSetEdit,
             	typeOptions:['anime','code','game','trivial'],
 				seriesOptions:[],
 				tagOptions:[],
@@ -142,6 +151,7 @@ export default {
         	selectTag(t){
         		if(this.selectedTags.indexOf(t)===-1)
         			this.selectedTags.push(t);
+				else this.selectedTags.splice(this.selectedTags.indexOf(t),1)
 			},
 			deleteTag(t){
 				this.selectedTags.splice(this.selectedTags.indexOf(t),1)
@@ -276,47 +286,69 @@ export default {
 			border-radius: .04rem;
 			line-height: .3rem;
 		}
+	#mobile-app .publish-area{
+		padding: .1rem .05rem;
+	}
 	.publish-area{
-		padding:.2rem 1rem;
+		padding:.1rem .2rem;
 	}
 	.pa-unit{
 		margin-bottom: .1rem;
+		position: relative;
 	}
+	#mobile-app .pa-unit.detail-select>div{
+		margin-right: 0;
+	}
+	.pa-unit.detail-select{
+		margin: 0;
+		text-align: left;
+	}
+		.pa-unit .fa-file,.pa-unit .fa-edit{
+			position: absolute;
+			top: 50%;
+			left: .2rem;
+			transform: translate3d(0,-50%,0);
+		}
 		.title-input{
 			height: .4rem;
-			max-width: 8rem;
 			width: 100%;
 			font-size: .2rem;
-			padding: .1rem .2rem;
+			padding-left: .5rem;
 			outline: none;
 			border: .01rem solid #adadad;
 			border-radius: .05rem;
 		}
 		.preview-input{
-			padding-left: .1rem;
+			padding-left: .5rem;
 			height: .3rem;
-			max-width: 8rem;
 			width: 100%;
 			outline: none;
 			border: .01rem solid #adadad;
 			border-radius: .05rem;
 		}
 
-		.type-btn,.series-btn,.tag-btn,.cat-btn{
+		.type-btn,.series-btn,.tag-btn-wrap,.cat-btn{
 			display: inline-block;
 			position: relative;
 			margin-right: .2rem;
+			margin-bottom: .05rem;
 		}
 			.type-btn button,.series-btn button,.cat-btn button{
 				position: relative;
-				height: .3rem;
-				min-width: 1rem;
+				width: 1.5rem;
 				text-transform: capitalize;
 				padding: 0 .25rem 0 .15rem;
-				background: snow;
-				border: .01rem solid #adadad;
+				background: white;
+				border: .01rem solid #ccd0d7;
 				border-radius: .05rem;
 			}
+			.type-btn button span,.cat-btn button span,.series-btn button span{
+					display: block;
+					overflow: hidden;
+					text-overflow:ellipsis;
+					white-space: nowrap;
+					line-height: .3rem;
+				}
 			.type-btn i,.series-btn i,.cat-btn i{
 				position: absolute;
 				right: .05rem;
@@ -324,13 +356,13 @@ export default {
 			}
 			.type-btn ul,.series-btn ul,.cat-btn ul {
 				background: snow;
-				top: .31rem;
-				right: -.5rem;
+				top: 100%;
+				right: 0;
 				width: 1.5rem;
+				margin-top: .01rem;
 				border-radius: .03rem;
-				border: .01rem solid #e5e5e5;
-				box-shadow: 0 0 .05rem rgba(0,0,0,.5);
-				padding: .1rem .15rem;
+				box-shadow: 0 .04rem .07rem rgba(0,0,0,.2);
+				padding: .1rem 0;
 				z-index: 1600;
 				position: absolute;
 			}.series-btn ul{left: .5rem !important;}
@@ -338,7 +370,8 @@ export default {
 				.type-btn li,.series-btn li,.cat-btn li{
 					cursor: pointer;
 					text-align: left;
-					line-height: .2rem;
+					padding: 0 .2rem;
+					line-height: .25rem;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -347,18 +380,16 @@ export default {
 					background: #eaeaea;
 				}
 		.tag-btn-wrap{
-			display: inline-block;
-			max-width: 7rem;
+			max-width: 9rem;
 			width: 100%;
 		}
 			.tag-btn{
 				display: inline-block;
 				position: relative;
-				width: calc(100% - .6rem);
-				background: snow;
-				line-height: .3rem;
+				width: calc(100% - .4rem);
+				background: white;
 				padding: 0 .1rem;
-				border: .01rem solid #adadad;
+				border: .01rem solid #ccd0d7;
 				border-radius: .05rem;
 			}
 				.tag-input{
@@ -367,10 +398,10 @@ export default {
 					background: transparent;
 					outline: none;
 					border: none;
-					max-width: 3.06rem;
+					max-width: 3.1rem;
 					width: 100%;
 				}
-				.tag-btn span{
+				.tag-btn .tag-item{
 					display: inline-block;
 					height: .2rem;
 					line-height: .2rem;
@@ -378,20 +409,34 @@ export default {
 					font-size: .12rem;
 					margin-right: .05rem;
 				}
+				.tag-btn .tag-num{
+					display: inline-block;
+					position: absolute;
+					top: -.05rem;
+					left: -.05rem;
+					height: .16rem;
+					width: .16rem;
+					line-height: .16rem;
+					text-align: center;
+					color: white;
+					font-size: .12rem;
+					background: #FF7D7D;
+					border-radius: 50%;
+				}
 				.tag-btn span i{
 					cursor: pointer;
 				}
 				.tag-btn ul{
 					position: absolute;
-					top: .32rem;
+					top: 100%;
+					margin-top: .02rem;
 					left: 0;
 					width: 3rem;
 					font-size: .14rem;
 					color: grey;
 					background: snow;
 					border-radius: .03rem;
-					border: .01rem solid #e5e5e5;
-					box-shadow: 0 0 .05rem rgba(0,0,0,.5);
+					box-shadow: 0 .04rem .07rem rgba(0,0,0,.2);
 					padding: .1rem .15rem;
 					z-index: 1600;
 
@@ -408,19 +453,29 @@ export default {
 						cursor: pointer;
 						transition: all .5s ease;
 					}
-					.tag-btn li:hover,li.t-selected{
+					.tag-btn li:hover{
+						color: #00a1d6;
+						border-color: #00a1d6;
+					}
+					.tag-btn li.t-selected{
 						color: white;
 						background: #00a1d6;
+						border-color: #00a1d6;
 					}
 	.pa-submit{
-		margin: .2rem 0;
-		text-align: right;
+		display: inline-block;
+		margin-bottom: .05rem;
+	}
+	#mobile-app .pa-submit{
+		display: block;
+	}
+	#mobile-app .pa-submit button{
+		width: 100%;
 	}
 	.pa-submit button{
-		height: .36rem;
-		max-width: 5rem;
-		width: 100%;
-		padding: .1rem;
+		width: 3rem;
+		line-height: .3rem;
+		padding: 0 .1rem;
 		color: #535a63;
 		background: snow;
 		border: .01rem solid #ccc;
@@ -449,7 +504,7 @@ export default {
     inputTags 临时专有 varchar（100）
     asbackup 临时专有 完成发布并作为备份
     }*/
-@media screen and (max-width: 1005px) {
+@media screen and (max-width: 1000px) {
 	.header-img{
 		margin-top: .5rem;
 		height: 3rem;

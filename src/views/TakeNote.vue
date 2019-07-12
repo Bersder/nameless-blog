@@ -61,7 +61,9 @@
 	import {post_form} from "../util/http";
 	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
-    export default {
+	import {mdSetEdit} from "../util/global";
+
+	export default {
         name: "TakeNote",
 		created(){
 			if(!this.nid){
@@ -112,46 +114,7 @@
 		},
         data() {
             return {
-            	mdSetting:{
-            		tabSize:4,
-					codeStyle:'darcula',
-					imageFilter:function(file){
-						return (/image\/\w+/.test(file.type)&&file.size<5000000);
-					},
-					subfield:true,
-					toolbars:{
-						bold: true,
-						italic: true,
-						header: true,
-						underline: true,
-						strikethrough: true,
-						mark: true,
-						superscript: true,
-						subscript: true,
-						quote: true,
-						ol: true,
-						ul: true,
-						link: true,
-						imagelink: true,
-						code: true,
-						table: true,
-						fullscreen: false,
-						readmodel: true,
-						htmlcode: false,
-						help: true,
-						undo: true,
-						redo: true,
-						trash: false,
-						save: true,
-						navigation: true,
-						alignleft: true,
-						aligncenter: true,
-						alignright: true,
-						/* 2.2.1 */
-						subfield: true,
-						preview: true,
-					}
-				},
+            	mdSetting:mdSetEdit,
             	catOptions:[],
 				tagOptions:[],
 				catMap:{zatsu:'雑モツ'},
@@ -328,10 +291,12 @@
 		margin-bottom: .1rem;
 		position: relative;
 	}
+	#mobile-app .pa-unit.detail-select>div{
+		margin-right: 0;
+	}
 	.pa-unit.detail-select{
 		margin: 0;
 		text-align: left;
-		overflow: hidden;
 	}
 
 		.pa-unit .fa-file,.pa-unit .fa-edit{
@@ -381,7 +346,7 @@
 				border: .01rem solid #ccd0d7;
 				border-radius: .05rem;
 			}
-				.cat-btn button span{
+				.type-btn button span,.cat-btn button span,.series-btn button span{
 					display: block;
 					overflow: hidden;
 					text-overflow:ellipsis;
@@ -437,7 +402,7 @@
 					background: transparent;
 					outline: none;
 					border: none;
-					max-width: 3.06rem;
+					max-width: 3.1rem;
 					width: 100%;
 				}
 				.tag-btn .tag-item{
@@ -512,7 +477,7 @@
 		width: 100%;
 	}
 	.pa-submit button{
-		width: 2.5rem;
+		width: 3rem;
 		line-height: .3rem;
 		padding: 0 .1rem;
 		color: #535a63;
@@ -525,7 +490,7 @@
 		border-color: #00a1d6;
 		color: #00a1d6;
 	}
-
+	/*以上使用Write覆盖*/
 @media screen and (max-width: 1000px) {
 	.header-img{
 		margin-top: .5rem;

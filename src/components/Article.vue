@@ -108,8 +108,10 @@
 <script>
 	import {media} from "../util/global";
 	import {fetch} from "../util/http";
+	import {mapState} from 'vuex'
+	import {mdSetPreview} from "../util/global";
 
-    export default {
+	export default {
         name: "Article",
 		beforeRouteEnter(to,from,next){
         	if(/\d+/.test(to.params.id)&&(!to.params.type||['anime','code','game','trivial'].indexOf(to.params.type)!==-1))next();
@@ -137,25 +139,17 @@
 				series:undefined,//acgt特有
 				rawContent:'',
 
-				mdSet:{
-					subfield:false,
-					defaultOpen:'preview',
-					editable:false,
-					toolbarsFlag:false,
-					scrollStyle:true,
-					codeStyle:'darcula'
-				},
+				mdSet:mdSetPreview,
 
 				titleList:[],
 				titlePosition:[],
 				articleHeight:null,
-				scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
 
 			}
         },
-        mounted() {
-        	media.$on('scrollTopC',data=>this.scrollTop = data);
-        },
+		computed:{
+        	...mapState(['scrollTop'])
+		},
         methods:{
 			isCollapsed(subs) {
 				if(!subs.length) return false;
