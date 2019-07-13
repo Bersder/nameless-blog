@@ -115,7 +115,7 @@ export default {
 	    color: #2c3e50;
 		font-size: .16rem;
 		/*height: 10000px;*/
-		background: #ffcac7;/*测试*/
+		background: #f1f4f7;/*测试*/
 	}
 	.pr{float: right}.pl{float: left}.tc{text-align: center}
 	.tr{text-align: right}.tl{text-align: left}
@@ -148,9 +148,11 @@ export default {
 	.page-content-wrap{
 		background: rgba(255,255,255,.5);
 	}
+	#mobile-app .publish-area .v-note-wrapper{
+		height: 5.5rem;
+	}
 	.publish-area .v-note-wrapper{
-		max-height: 6rem;
-		min-height: 6rem;
+		height: 6.9rem;
 		clear: both;
 	}
 	.content-area .v-note-wrapper{

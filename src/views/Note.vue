@@ -210,6 +210,9 @@
 		overflow: hidden;
 		position: relative;
 	}
+	#mobile-app .panel-n-wrap{
+		padding: .1rem 0;
+	}
 	.panel-n-wrap{
 		display: inline-block;
 		padding: .1rem;

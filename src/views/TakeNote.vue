@@ -2,13 +2,19 @@
 	<div @click="catExpand=tiFocus=false">
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="header-img" id="hi">
-					<div class="hi-btn" @click="hiAdd">
-						<span class="far fa-images" v-if="!hi"> 选择一张图片</span>
-						<span class="far fa-images" v-if="hi"> 更换图片{{sw}},{{sh}},{{st}},{{pf}}</span>
-						<input type="file" @change="hiChange" id="hi-add" hidden>
+				<div class="no-img" v-show="!hi" @click="hiAdd">
+					<i class="far fa-images"></i>
+					<h4>请添加文章头图</h4>
+					<p class="tips">支持5MB内的JPG／JPEG／BMP／PNG格式的高清图片</p>
+					<p class="tips">（建议大于960*540像素）</p>
+				</div>
+				<div class="header-img" id="hi" v-show="hi">
+					<div class="hi-control">
+						<button class="re-add" @click="hiAdd"><i class="fas fa-image"></i> </button>
+						<button class="delete" @click="hi=null"><i class="fas fa-trash-alt"></i> </button>
 					</div>
 				</div>
+				<input type="file" @change="hiChange" id="hi-add" hidden>
 			</div>
 		</div>
 		<div class="page-content-wrap">
@@ -250,7 +256,7 @@
 		width: 100%;
 		overflow: hidden;
 	}
-	.pattern-full-width:before{/*以上使用code覆盖*/
+	.header-img:before{/*以上使用code覆盖*/
 		content: "";
 		position: absolute;
 		top: 0;
@@ -259,28 +265,62 @@
 		right: 0;
 		background-color: rgba(0, 0, 0, 0.1);
 	}
+	.no-img{
+		margin-top: .7rem;
+		color: #99a2aa;
+		padding-top: 1.5rem;
+		height: 4.5rem;
+		cursor: pointer;
+		background-color: #eff0f2;
+	}
+	.no-img:hover{
+		background-color: #e8e9eb;
+	}
+		.no-img .fa-images{
+			font-size: .5rem;
+		}
+		.no-img h4{
+			margin: .1rem 0;
+		}
+		.no-img .tips{
+			font-size: .14rem;
+		}
+
+
 	.header-img{
 		position: relative;
 		background: no-repeat 40% center;
 		background-size: cover;
 		background-origin: border-box;
 		width: 100%;
-		height: 4rem;
+		height: 4.5rem;
 		margin-top: .7rem;
 		transition: all .5s;
 	}
-		.hi-btn{
-			position: absolute;
-			top: .3rem;
-			left: .5rem;
-			background: rgba(0,0,0,.4);
-			border: .03rem solid rgba(255,255,255,.3);
-			padding: 0 .1rem;
-			color: white;
-			cursor: pointer;
-			border-radius: .04rem;
-			line-height: .3rem;
+		.header-img:hover .hi-control{
+			opacity: 1;
 		}
+		.header-img .hi-control{
+			position: absolute;
+			border-top-left-radius: .05rem;
+			bottom: 0;
+			right: 0;
+			background-color: rgba(0,0,0,.5);
+			transition: .2s;
+			opacity: 0;
+		}
+			.header-img .hi-control button{
+				border: 0;
+				color: white;
+				font-size: .2rem;
+				outline: none;
+				padding: .1rem .15rem;
+				line-height: .3rem;
+			}
+			.header-img .hi-control button:hover{
+				transition-duration: .2s;
+				background-color: rgba(0,0,0,.5);
+			}
 	#mobile-app .publish-area{
 		padding: .1rem .05rem;
 	}
@@ -334,7 +374,7 @@
 		.type-btn,.series-btn,.tag-btn-wrap,.cat-btn{
 			display: inline-block;
 			position: relative;
-			margin-right: .2rem;
+			margin-right: .1rem;
 			margin-bottom: .05rem;
 		}
 			.type-btn button,.series-btn button,.cat-btn button{
@@ -492,9 +532,12 @@
 	}
 	/*以上使用Write覆盖*/
 @media screen and (max-width: 1000px) {
-	.header-img{
+	.header-img,.no-img{
 		margin-top: .5rem;
 		height: 3rem;
+	}
+	.no-img{
+		padding-top: .8rem;
 	}
 }
 </style>
