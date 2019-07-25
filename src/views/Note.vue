@@ -155,8 +155,7 @@
 		background-size: cover;
 		background-origin: border-box;
 		width: 100%;
-		height: 4rem;
-		margin-top: .7rem;
+		height: 5rem;
 		transition: all .5s;
 	}
 	.page-info{
@@ -164,7 +163,7 @@
 		left: 0;
 		right: 0;
 		text-align: center;
-		top: 50%;
+		top: 40%;
 		color: white;
 		padding: 0 .5rem;
 		text-shadow: 0.02rem 0.02rem 0.1rem black;
@@ -369,7 +368,6 @@
 	}
 @media screen and (max-width: 1005px){/*使用Code组件覆盖*/
 	.page-img{
-		margin-top: .5rem;
 		height: 3rem;
 	}
 	.page-info .intro{

@@ -399,6 +399,7 @@ export default {
 				width: 1.5rem;
 				margin-top: .01rem;
 				border-radius: .03rem;
+				list-style-type: none;
 				box-shadow: 0 .04rem .07rem rgba(0,0,0,.2);
 				padding: .1rem 0;
 				z-index: 1600;

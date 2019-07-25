@@ -1,5 +1,5 @@
 <template>
-  <div :id="isMobile?'mobile-app':'app'" :class="{masked:isMasked&&screenWidth<1000}">
+  <div :id="isMobile?'mobile-app':'app'" >
 	  <top-nav></top-nav>
 	  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
 	  <keep-alive include="Article">
@@ -17,6 +17,11 @@ import {mapState} from 'vuex'
 import {debounce} from "./util/util";
 export default {
     name: 'App',
+	data(){
+    	return {
+    		st:0
+		}
+	},
 	created(){
 		let agents = ["Android", "SymbianOS", "BlackBerry","Windows Phone", "iPad", "iPod", "iPhone"];
 		for(let i=0;i<agents.length;i++)
@@ -24,6 +29,20 @@ export default {
 				this.$store.commit('platformInit',{platform:agents[i],isMobile:true});
 				break;
 			}
+	},
+	watch:{
+    	isMasked(cur,pre){
+			//弹窗屏蔽底层滑动
+    		if (cur&&this.screenWidth<1000){
+				this.st = document.scrollingElement.scrollTop;
+				document.body.classList.add('masked');
+				document.body.style.top = -this.st+'px';
+			}
+    		else{
+				document.body.classList.remove('masked');
+				document.scrollingElement.scrollTop = this.st;
+			}
+		}
 	},
 	mounted(){
 		window.onscroll = debounce(()=>this.$store.commit('scrollTopC',window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop),50);
@@ -57,7 +76,7 @@ export default {
 	}
 
 	a{text-decoration: none;transition: .5s}
-	p,ul,ol,li{display: block;}
+	p,ul,ol{display: block;}
 	h1{letter-spacing: 2px}
 	button{
 		cursor: pointer;
@@ -102,10 +121,9 @@ export default {
 		color:white;
 	}
 	.masked{
+		-webkit-overflow-scrolling:touch;
 		position: fixed;
-		right: 0;
-		left: 0;
-		overflow: hidden;
+		width: 100%;
 	}
 	#app,#mobile-app {
 	    font-family: 'Avenir', Helvetica, Arial, sans-serif;

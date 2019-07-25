@@ -363,7 +363,7 @@
 	.update-content,.random-content{
 		padding: .1rem .1rem .1rem .3rem;
 		font-size: .14rem;
-		list-style: none;
+		list-style-type: none;
 	}
 		.update-content li:before{
 			content: '❁';

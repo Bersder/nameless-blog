@@ -170,7 +170,8 @@
 		.broadcast-content{
 			padding: .1rem .15rem;
 			font-size: .12rem;
-			overflow: hidden
+			overflow: hidden;
+			list-style-type: none;
 		}
 			.broadcast-content li{
 				float: left;

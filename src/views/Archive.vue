@@ -124,7 +124,7 @@
 	}
 	.mons-list{
 		position: relative;
-		list-style: none;
+		list-style-type: none;
 		margin-left: .7rem;
 		padding: .15rem 0;
 	}
@@ -158,6 +158,7 @@
 			margin-left: 1.05rem;
 			padding-left: .5rem;
 			overflow: hidden;
+			list-style-type: none;
 			transition: .5s ease-in-out;
 		}
 			.days-list a{

@@ -201,7 +201,7 @@
 		margin: 0 .2rem;
 	}
 	.order-list{
-		list-style: none;
+		list-style-type: none;
 		float: left;
 	}
 	.order-list li{
@@ -283,8 +283,10 @@
 		display: inline-block;
 		margin: 0 .2rem;
 		border-radius: .05rem;
+		list-style-type: none;
 	}
 	.pb-original li{
+		display: block;
 		float: left;
 		height: .25rem;
 		width: .25rem;

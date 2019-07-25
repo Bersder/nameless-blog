@@ -187,6 +187,7 @@
 			}
 		.language ul{
 			transition: all .3s;
+			list-style-type: none;
 		}
 			.language-img-wrap{
 				position: relative;

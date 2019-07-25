@@ -1,5 +1,5 @@
 <template>
-	<div class="site-header" :class="{shadowed:scrollTop>20,home:$route.name==='homepage'&&scrollTop<70&&!isOpened&&screenWidth>=1000}">
+	<div class="site-header" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!/article.*/.test($route.name)&&!isMasked,pinned:upping||scrollTop<200}">
 		<div class="header-scrollbar" :style="{width:processed}"></div>
 
 		<div class="header-nav-m" v-show="screenWidth<1000">
@@ -9,11 +9,11 @@
 					<span></span>
 					<span></span>
 				</div>
-				<p class="nav-title"><router-link to="/">Oshino Nyanya</router-link></p>
-				<div class="nav-login pr"><router-link to="/"><i class="far fa-user-circle"></i></router-link></div>
+				<p class="nav-title" v-show="isOpened"><router-link to="/">Oshino Nyanya</router-link></p>
+<!--				<div class="nav-login pr"><router-link to="/"><i class="far fa-user-circle"></i></router-link></div>-->
 			</div>
-			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight+'px'}"></div>
-			<div class="nav-aside" :class="{open:!isOpened}">
+			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight-50+'px'}"></div>
+			<div class="nav-aside" :class="{open:!isOpened}" :style="{height:screenHeight-50+'px'}">
 				<div class="nav-avatar">
 					<router-link to="个人主页"><img src="http://localhost:80/uploads/avatar/me.png"></router-link>
 				</div>
@@ -127,7 +127,7 @@
         	processed:function () {
 				return this.scrollTop/(document.body.offsetHeight-document.documentElement.clientHeight)*100 + '%';
 			},
-			...mapState(['scrollTop','screenWidth','screenHeight'])
+			...mapState(['scrollTop','screenWidth','screenHeight','upping','isMasked'])
 
 		},
 		methods:{
@@ -141,25 +141,30 @@
 <style scoped>
 	.nav-m-mask{
 		position: fixed;
-		right: 0;
+		top: .5rem;
+		bottom: 0;
 		left: 0;
+		right: 0;
 		background: rgba(0,0,0,.4);
 	}
-	.shadowed{
-		box-shadow: 0 .01rem .4rem -.08rem rgba(0,0,0,.5);
-	}
-
 	.masked .site-header{
 		z-index: 2000;
 	}
 	.site-header{
 		position: fixed;
+		top: 0;
 		width: 100%;
 		background: rgba(255,255,255,.9);
 		z-index: 1000;
-		transition: all .4s ease;
+		transition: all .4s;
+		box-shadow: 0 .01rem .4rem -.08rem rgba(0,0,0,.5);
+		transform: translateY(-.75rem);
 	}
-	.site-header.home{
+	.site-header.pinned{
+		transform: translateY(0);
+	}
+	.site-header.reachTop{
+		box-shadow: none;
 		background: transparent;
 	}
 	.header-scrollbar{
@@ -216,7 +221,7 @@
 		}
 			.site-nav .menu{
 				display: inline-block;
-				list-style: none;
+				list-style-type: none;
 				width: auto;
 			}
 				.site-nav .menu>li{
@@ -237,7 +242,7 @@
 					.menu>li>a:hover:after{
 						width: 100%;
 					}
-					.home .menu>li>a{
+					.reachTop .menu>li>a{
 						color: white;
 					}
 				.menu li a{
@@ -252,7 +257,7 @@
 				.sub-menu{
 					display: none;
 					position: absolute;
-					list-style: none;
+					list-style-type: none;
 					top: .42rem;
 					right: -.12rem;
 					padding: .1rem 0;
@@ -281,7 +286,7 @@
 					}
 		.search-box{
 			position: relative;
-			margin: .18rem .1rem;
+			margin: .16rem .1rem;
 			animation: fadeInRight 1.5s;
 		}
 			.home .search-box{
@@ -289,9 +294,9 @@
 			}
 			.search-box input{
 				outline: none;
-				border: .01rem solid #eaeaea;
+				border: .02rem solid #eaeaea;
 				padding: .07rem;
-				width: .31rem;
+				width: .33rem;
 				transition: .5s;
 				border-radius: .5rem;
 				color: transparent;
@@ -335,6 +340,9 @@
 			transition: .5s ease-in-out;
 			cursor: pointer;
 		}
+			.reachTop .nav-icon span{
+				background: #dfdfdf;
+			}
 			.nav-icon span{
 				display: block;
 				position: absolute;
@@ -406,6 +414,9 @@
 		.nav-menu{
 			padding: 0.1rem;
 		}
+			.nav-menu ul{
+				list-style-type: none;
+			}
 
 			.nav-menu p{font-size: .15rem;text-align: left;margin-bottom: .1rem}
 			.nav-menu span{

@@ -8,6 +8,7 @@ export default new Vuex.Store({
 		platform:'',
 		isMobile:false,
 		scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
+		upping:false,
 		screenHeight:window.innerHeight || document.documentElement.clientHeight,
 		screenWidth:document.body.clientWidth,
 		isMasked:false
@@ -18,6 +19,7 @@ export default new Vuex.Store({
 			state.isMobile = payload.isMobile;
 		},
 		scrollTopC(state,cur){
+			if (Math.abs(state.scrollTop - cur)>50)state.upping = (state.scrollTop > cur);
 			state.scrollTop = cur
 		},
 		screenSizeC(state,payload){
