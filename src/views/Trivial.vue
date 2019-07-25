@@ -5,7 +5,7 @@
 				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/10.jpg')"></div>
 				<div class="page-info">
 					<h2 class="intro">琐事</h2>
-					<p class="tsukkomi">记录单身19年的生活</p>
+					<p class="tsukkomi">记录单身20年的生活</p>
 				</div>
 			</div>
 		</div>
@@ -160,8 +160,7 @@
 		background-size: cover;
 		background-origin: border-box;
 		width: 100%;
-		height: 4rem;
-		margin-top: .7rem;
+		height: 5rem;
 		transition: all .5s;
 	}
 	.page-info{
@@ -418,7 +417,6 @@
 }
 @media screen and (max-width: 1005px){
 	.page-img{
-		margin-top: .5rem;
 		height: 3rem;
 	}
 	.page-info .intro{

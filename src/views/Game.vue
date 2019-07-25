@@ -85,8 +85,7 @@
 		background-size: cover;
 		background-origin: border-box;
 		width: 100%;
-		height: 4rem;
-		margin-top: .7rem;
+		height: 5rem;
 		transition: all .5s;
 	}
 	.page-info{
@@ -214,7 +213,6 @@
 	}
 	@media screen and (max-width: 1005px){
 		.page-img{
-			margin-top: .5rem;
 			height: 3rem;
 		}
 		.page-info .intro{
