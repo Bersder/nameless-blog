@@ -482,6 +482,7 @@
 					box-shadow: 0 .04rem .07rem rgba(0,0,0,.2);
 					padding: .1rem .15rem;
 					z-index: 1600;
+					list-style-type: none;
 
 				}
 					.tag-btn li{
@@ -490,7 +491,6 @@
 						margin-right: .05rem;
 						margin-bottom: .05rem;
 						border: .01rem solid #d9d9d9;
-						height: .2rem;
 						line-height: .18rem;
 						border-radius: .1rem;
 						cursor: pointer;

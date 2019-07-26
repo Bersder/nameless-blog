@@ -340,7 +340,7 @@
 		position: relative;
 	}
 	.note-list>div,.list-container>div{
-		animation: mini-fadeInDown 1s ease-in-out;
+		animation: mini-fadeInDown 1s cubic-bezier(.25,.46,.45,.94) forwards;
 	}
 	#mobile-app .panel-n-wrap{
 		padding: .1rem 0;

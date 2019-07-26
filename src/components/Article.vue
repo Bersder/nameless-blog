@@ -347,7 +347,7 @@
 						padding: 0 .1rem;
 						margin-right: .1rem;
 						border: .01rem solid #e5e9ef;
-						height: .22rem;
+						line-height: .2rem;
 						border-radius: .2rem;
 						transition: all .5s ease;
 					}

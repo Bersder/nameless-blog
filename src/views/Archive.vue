@@ -1,29 +1,58 @@
 <template>
     <div>
-		<div class="blank"></div>
+		<div class="page-header-wrap">
+			<div class="pattern-full-width page-header">
+				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/10.jpg')"></div>
+				<div class="page-info">
+					<h2 class="intro">笔记页</h2>
+					<p class="tsukkomi">高中时代留下来的“坏习惯”</p>
+				</div>
+			</div>
+		</div>
 		<div class="page-content-wrap">
 			<div class="page-content">
-				<h2 class="pc-title">归档</h2>
-				<span class="pc-title-en">Archives</span>
-				<div class="archives">
-					<p class="tr"><a @click="test2">「展开／折叠」</a></p>
-					<div class="years-list" v-for="year in year_ord">
-						<h3>{{year}} 年</h3>
-						<ul class="mons-list">
-							<li class="ml-item" v-for="mon in arch_data[year].mon_ord">
-								<span class="mon"  @click="test(year,mon)" >{{mon}} 月(加把劲{{arch_data[year][mon].articles.length}}次)</span>
-								<ul class="days-list" :id="year+'-'+mon" :style="{height:arch_data[year][mon].articles.length*24+'px'}" >
-									<li v-for="art in arch_data[year][mon].articles">
-										<span class="day">{{art.day}}日</span>
-										<router-link :to="'/archive/'+art.type+'/'+art.aid" >{{art.title}}</router-link>
-									</li>
-								</ul>
-							</li>
+				<div class="tag-cloud tl">
+					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
+					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
+						<li class="tag" v-for="(item,key,index) in tagDict" :key="index"><router-link :to="'tags/'+key" :title="item+' 篇文章'">{{key}}</router-link></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+						<li class="tag"><a>我的世界</a></li>
+					</ul>
+				</div>
+				<div class="archive-list">
+					<h2 class="archive-title">归档</h2>
+					<span class="archive-title-en">Archives</span>
+					<div class="archives">
+						<p class="tr" style="padding: 0 .2rem"><a @click="test2">「展开／折叠」</a></p>
+						<div class="years-list" v-for="year in year_ord">
+							<h3>{{year}} 年</h3>
+							<ul class="mons-list">
+								<li class="ml-item" v-for="mon in arch_data[year].mon_ord">
+									<span class="mon"  @click="test(year,mon)" >{{mon}}月({{arch_data[year][mon].articles.length}}篇)</span>
+									<ul class="days-list" :id="year+'-'+mon" :style="{height:arch_data[year][mon].articles.length*24+'px'}" >
+										<li v-for="art in arch_data[year][mon].articles">
+											<span class="day">{{art.day}}日</span>
+											<router-link :to="'/archive/'+art.type+'/'+art.aid" >{{art.title}}</router-link>
+											<span class=""></span>
+										</li>
+									</ul>
+								</li>
 
-						</ul>
+							</ul>
+						</div>
 					</div>
-
-
 				</div>
 			</div>
 		</div>
@@ -33,12 +62,12 @@
 <script>
 	import {fetch} from "../util/http";
 	import {fast_unique} from "../util/util";
-
+	import {mapState} from 'vuex'
 	export default {
         name: "Archive",
 		created(){
 			fetch('/apis/apiv4.php').then(response=>{
-				this.articles = response.data.data;
+				this.articles = response.data.data.articles;
 				this.articles.forEach(e=>{
 					if(!this.arch_data[e.time.slice(0,4)])
 						this.arch_data[e.time.slice(0,4)] = {};
@@ -51,20 +80,27 @@
 				this.year_ord.forEach(e=>{
 					this.arch_data[e]["mon_ord"] = Object.keys(this.arch_data[e]).sort((a,b)=>{return b - a});
 				});
-				console.log(this.arch_data)
+				response.data.data.tags.forEach(e=>{
+					this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length - 2)
+				});
+				if ((!this.isMobile&&Object.keys(this.tagDict).length>30)||(Object.keys(this.tagDict).length>12&& this.isMobile)) this.manyTags = true;
+			});
 
-
-
-			})
 		},
         data() {
             return {
 				articles:[],
 				year_ord:[],
 				arch_data:{},
-				expand_flag:true
+				tagDict:{},
+				expand_flag:true,
+				manyTags:false,
+				tagExpand:false
 			}
         },
+		computed:{
+        	...mapState(['isMobile'])
+		},
         mounted() {
         },
 		methods:{
@@ -89,6 +125,11 @@
 					});
 				this.expand_flag = !this.expand_flag
 			}
+		},
+		filters:{
+        	expandStatus(e){
+        		return e?'-':'+'
+			}
 		}
 
     }
@@ -100,17 +141,109 @@
 		max-width: 8rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
-		background: rgba(55,55,55,.5);
+		/*background: rgba(55,55,55,.5);*/
+	}
+	.pattern-full-width{ /*使用Code组件覆盖*/
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+	}
+	.pattern-full-width:before{
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+	.page-img{
+		background: no-repeat center center;
+		background-size: cover;
+		background-origin: border-box;
+		width: 100%;
+		height: 5rem;
+		transition: all .5s;
+	}
+	.page-info{
+		position: absolute;
+		left: 0;
+		right: 0;
+		text-align: center;
+		top: 40%;
+		color: white;
+		padding: 0 .5rem;
+		text-shadow: 0.02rem 0.02rem 0.1rem black;
+	}
+	.page-info .intro{
+		font-size: .4rem;
+		margin-bottom: .1rem;
+		transition: .5s;
+	}
+	.page-info .tsukkomi{
+		font-size: .2rem;
 	}
 	/*-----------------------------------------------*/
-	.pc-title{
+	.tag-cloud h2{
+		margin: .2rem 0 .1rem 0;
+	}
+	.tag-cloud .roll-toggle{
+		display: inline-block;
+		color: inherit;
+		text-align: center;
+		vertical-align: middle;
+		background: #eaeaea;
+		padding: .05rem 0;
+		width: .22rem;
+		font-size: .12rem;
+		line-height: .12rem;
+		border-radius: .03rem;
+		transition: all .5s cubic-bezier(.25,.46,.45,.94);
+	}
+	.tag-cloud .roll-toggle:hover{
+		color: white;
+		background: rgba(0,0,0,.8);
+	}
+	.tag-list{
+		list-style-type: none;
+		overflow: hidden;
+		max-height: 1rem;
+		transition: 1s;
+	}
+	.tag-list.more{
+		max-height: 10rem;
+	}
+		.tag-list .tag{
+			display: inline-block;
+			padding: 0 .08rem;
+			margin-right: .05rem;
+			margin-bottom: .1rem;
+			border: .02rem solid rgba(0,0,0,.1);
+			border-radius: 1rem;
+			font-size: .14rem;
+			line-height: .2rem;
+			transition: .5s cubic-bezier(.25,.46,.45,.94);
+		}
+			.tag-list .tag a{
+				color: #6d757a;
+			}
+			.tag-list .tag:hover a{
+				color: white;
+			}
+		.tag-list .tag:hover{
+			border-color: rgba(0,0,0,.5);
+			background: rgba(0,0,0,.5);
+		}
+
+
+	.archive-title{
 		display: inline-block;
 		margin: .2rem 0;
 		padding-right: .1rem;
 		border-right: #ddd dashed .01rem;
 		font-weight: normal;
 	}
-	.pc-title-en{
+	.archive-title-en{
 		padding-left: .1rem;
 		color: #a1a1a1;
 	}
@@ -118,21 +251,27 @@
 		text-align: left;
 	}
 	.archives li{position: relative}
+	#mobile-app .archives h3{
+		padding-left: .5rem;
+	}
 	.archives h3{
-		font-size: .2rem;
-		padding-left: 1.8rem;
+		font-size: .25rem;
+		padding-left: 1.5rem;
+	}
+	#mobile-app .mons-list{
+		margin-left: 0;
 	}
 	.mons-list{
 		position: relative;
 		list-style-type: none;
-		margin-left: .7rem;
+		margin-left: 1rem;
 		padding: .15rem 0;
 	}
 	.mons-list:before{
 		position: absolute;
 		content: '';
 		display: block;
-		left: 1.4rem;
+		left: .8rem;
 		top: 0;
 		width: .06rem;
 		height: 100%;
@@ -143,7 +282,7 @@
 	.ml-item>span:before{
 		position: absolute;
 		top: .02rem;
-		left: 1.36rem;
+		left: .76rem;
 		content: '';
 		width: .15rem;
 		height: .15rem;
@@ -155,14 +294,20 @@
 	}
 
 		.ml-item .days-list{
-			margin-left: 1.05rem;
+			margin-left: .45rem;
 			padding-left: .5rem;
 			overflow: hidden;
 			list-style-type: none;
 			transition: .5s ease-in-out;
 		}
 			.days-list a{
+				position: absolute;
+				left: .35rem;
+				right: 0;
 				color: inherit;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 			.days-list a:hover{
 				color: #00a1d6;
@@ -173,11 +318,19 @@
 			.ml-item .days-list li:before{
 				position: absolute;
 				content: '';
-				top: 40%;
+				top: .1rem;
 				left: -.16rem;
 				border-radius: .1rem;
 				border: .04rem solid #FF7D7D;
 				box-sizing: border-box;
 				z-index: 10;
 			}
+@media screen and (max-width: 1005px){/*使用Code组件覆盖*/
+	.page-img{
+		height: 3rem;
+	}
+	.page-info .intro{
+		font-size: .3rem;
+	}
+}
 </style>
