@@ -13,16 +13,30 @@
 			<div class="page-content note">
 				<div class="notice tl"><i class="fas fa-volume-up"></i> 自用笔记公开，基于个人记忆及思维习惯写成，有不同程度的省略和变形，仅供参考</div>
 				<div class="content-primary-n">
-					<div class="note-filters tl">
-						<p style="font-size: .2rem">Filters</p>
-						<div class="filter-box no-select" v-for="each in catKey" @click="curFilter=each"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>{{catMap[each]}}</span></div>
-<!--						<div class="filter-box no-select" @click="curFilter='python'"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>Python</span></div>
-						<div class="filter-box no-select"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>Java</span></div>
-						<div class="filter-box no-select"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>深度学习</span></div>
-						<div class="filter-box no-select"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>大学四年</span></div>
-						<div class="filter-box no-select"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>数据结构</span></div>-->
+					<div class="note-sort-options">
+						<span class="nso-l" :class="{'nso-selected':!rSelected}" @click="rSelected=false">日期降序</span><span class="nso-r" :class="{'nso-selected':rSelected}" @click="rSelected=true">分类归类</span>
 					</div>
-					<div class="note-list tl">
+<!--					<div class="note-filters tl">-->
+<!--						<p style="font-size: .2rem">Filters</p>-->
+<!--						<div class="filter-box no-select" v-for="each in catKey" @click="curFilter=each"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>{{catMap[each]}}</span></div>-->
+<!--					</div>-->
+					<div class="list-container tl" v-if="rSelected">
+						<div class="category-list" v-for="(item,key,index) in catMap" :key="index">
+							<div class="category-title">
+								{{item}} <span> · {{key}}</span>
+							</div>
+							<div class="category-list-item" v-for="(item_,index_) in sortedNotes[key]">
+								<span class="item-num">{{index_|twoNum}}</span>
+								<span class="item-name">
+									<router-link :to="item_.nid" class="item-link" append>{{item_.title}}</router-link><span class="item-tag" v-for="tag in item_.tags"><a :href="'/tags/'+tag">{{tag}}</a></span>
+								</span>
+								<span class="item-date">{{item_.time.substr(0,10)}}</span>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="note-list tl" v-if="!rSelected">
 
 						<div class="panel-n-wrap" v-for="each in curNotes"><!--需要：时间o，标题o，预览o，图片o，分类，nido-->
 							<div class="panel-n" >
@@ -48,15 +62,16 @@
 								</div>
 							</div>
 						</div>
+						<div class="pager" v-if="curNotes.length<noteNum" @click="loadMore" >
+							<div class="dec"></div>
+							<div class="previous-more">
+								<span>More</span>
+							</div>
+						</div>
+						<div class="pager-no-more" v-if="curNotes.length>=noteNum">没有更多啦( *・ω・)✄╰ひ╯</div>
 
 					</div>
-					<div class="pager" v-if="curNotes.length<parseInt(catCount[curFilter])" @click="loadMore(curFilter)" >
-						<div class="dec"></div>
-						<div class="previous-more">
-							<span>More</span>
-						</div>
-					</div>
-					<div class="pager-no-more" v-if="curNotes.length>=parseInt(catCount[curFilter])">没有更多啦( *・ω・)✄╰ひ╯</div>
+
 				</div>
 				<div class="content-aside-n">
 
@@ -75,10 +90,16 @@
 				console.log(response.data);
 				let data = response.data.data;
 				this.catMap = data.catMap;
-				this.catKey = Object.keys(this.catMap);
-				this.catCount = data.catCount;
-				data.notes.forEach(e=>this.notes['all'].push(e));
-				this.curNotes = this.notes['all'];
+				// this.catKey = Object.keys(this.catMap);
+				// this.catCount = data.catCount;
+				data.notes.forEach(e=>{
+					if (e.tags) e.tags = e.tags.split(',');
+					this.notes.push(e);
+				});
+				this.noteNum = data.notes.length;
+				this.curNotes = this.notes.slice(0,this.noteNum<6?this.noteNum:6);
+				for(let i in this.catMap)
+					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.category===i));
 				// response.data.data.forEach((e)=>this.notes.all.push(e));
 				// this.curNotes = this.notes.all
 			})
@@ -86,39 +107,54 @@
         data() {
             return {
             	catMap:null,
-				catKey:[],
-				catCount:{},
+				// catKey:[],
+				noteNum:0,
+				// catCount:{},
+				rSelected:false,
 
-            	curFilter:'all',
-				notes:{all:[]},
-
+            	// curFilter:'all',
+				notes:[],
+				sortedNotes:{},
 				curNotes:[]
 
 			}
         },
 		watch:{
-			curFilter(cur,pre){ //监视filter变化并切换到对应note列表
-				if(this.notes[cur])this.curNotes = this.notes[cur];
-				else{
-					fetch('/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
-						console.log(response.data);
-						this.curNotes = this.notes[cur] = response.data.data;
-					})
-				}
-			}
+			// curFilter(cur,pre){ //监视filter变化并切换到对应note列表
+			// 	if(this.notes[cur])this.curNotes = this.notes[cur];
+			// 	else{
+			// 		fetch('/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
+			// 			console.log(response.data);
+			// 			this.curNotes = this.notes[cur] = response.data.data;
+			// 		})
+			// 	}
+			// }
 		},
 		methods:{
-        	loadMore(cur){ //加载更多，当前filter长度小于上限时发起请求，否则无作为
-        		console.log(cur);
-        		if(this.curNotes.length<parseInt(this.catCount[cur])){
-        			console.log(this.curNotes.length,parseInt(this.catCount[cur]));
-					fetch('/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
-						response.data.data.forEach(e=>this.notes[cur].push(e))
-					})
-				}
-        		else console.log(this.curNotes.length,parseInt(this.catCount[cur]));
-
-
+        	// loadMore(cur){ //加载更多，当前filter长度小于上限时发起请求，否则无作为
+        	// 	console.log(cur);
+        	// 	if(this.curNotes.length<parseInt(this.catCount[cur])){
+        	// 		console.log(this.curNotes.length,parseInt(this.catCount[cur]));
+			// 		fetch('/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
+			// 			response.data.data.forEach(e=>this.notes[cur].push(e))
+			// 		})
+			// 	}
+        	// 	else console.log(this.curNotes.length,parseInt(this.catCount[cur]));
+			//
+			//
+			// },
+			loadMore(){
+				if(this.curNotes.length===this.noteNum){}
+				else if(this.curNotes.length+6<this.noteNum)
+					for(let i=0;i<6;i++)this.curNotes.push(this.notes[this.curNotes.length]);
+				else
+					for(let i=this.curNotes.length;i<this.noteNum;i++)this.curNotes.push(this.notes[i]);
+			}
+		},
+		filters:{
+        	twoNum(data){
+        		data++;
+        		return data<10?'0'+data:data
 			}
 		},
 
@@ -182,6 +218,99 @@
 		overflow: hidden;
 		height: 100%;
 	}
+	.note-sort-options{
+		margin: .3rem 0;
+	}
+	.note-sort-options span{
+		line-height: .25rem;
+		border: .01rem solid #9dd9ff;
+		color: #9dd9ff;
+		cursor: pointer;
+		user-select: none;
+	}
+		.note-sort-options .nso-l{
+			border-radius: 1rem 0 0 1rem;
+			padding:  .04rem .07rem .04rem .1rem;
+			border-right: none;
+		}
+		.note-sort-options .nso-r{
+			border-radius: 0 1rem 1rem 0;
+			padding:  .04rem .1rem .04rem .07rem;
+			border-left: none;
+
+		}
+		.note-sort-options .nso-selected{
+			background-color: #9dd9ff;
+			color: #fff;
+		}
+
+	.category-list{
+		margin: .3rem 0;
+		font-size: .15rem;
+		line-height: .17rem;
+	}
+		.category-list .category-title{
+			margin-bottom: .15rem;
+			border-left: .15rem solid #dddddd;
+			padding-left: .15rem;
+			color: #00a1d6;
+			font-size: .2rem;
+			line-height: .24rem;
+			letter-spacing: .01rem;
+		}
+			.category-title span{
+				color: #bbbbbb;
+				font-size: .12rem;
+			}
+		#mobile-app .category-list-item{
+			margin: 0 .1rem;
+		}
+		.category-list .category-list-item{
+			margin: 0 .5rem;
+			padding: .1rem 0;
+			line-height: .19rem;
+			border-bottom: .01rem dotted #eaeaea;
+		}
+			.category-list-item .item-num{
+				display: inline-block;
+				vertical-align: top;
+				font-size: .12rem;
+				padding:  0 .05rem;
+				border-radius: .1rem;
+				border: .01rem solid #9dd9ff;
+				line-height: .16rem;
+				user-select: none;
+				color: #00a1d6;
+			}
+			.category-list-item .item-name{
+				display: inline-block;
+				max-width: 60%;
+
+			}
+				.item-name .item-link{
+					color: inherit;
+					font-size: .16rem;
+					margin-right: .05rem;
+					transition: .5s;
+				}
+				.item-name .item-tag{
+					font-size: .12rem;
+					background: #eaeaea;
+					padding: .02rem .05rem;
+					border-radius: .1rem;
+					margin-right: .05rem;
+				}
+					.item-tag a{
+						color: inherit;
+					}
+				.item-name .item-link:hover{
+					color: #00a1d6;
+				}
+			.category-list-item .item-date{
+				font-size: .12rem;
+				float: right;
+				color: #888888;
+			}
 
 	.note-filters{
 		width: 100%;
@@ -207,7 +336,11 @@
 
 	.note-list{
 		overflow: hidden;
+		padding-top: .1rem;
 		position: relative;
+	}
+	.note-list>div,.list-container>div{
+		animation: mini-fadeInDown 1s ease-in-out;
 	}
 	#mobile-app .panel-n-wrap{
 		padding: .1rem 0;
@@ -231,7 +364,7 @@
 	}
 	.panel-n-img{
 		position: relative;
-		height: 2rem;
+		height: 1.5rem;
 		overflow: hidden;
 		border-top-left-radius: .03rem;
 		border-top-right-radius: .03rem;
@@ -255,18 +388,17 @@
 			text-indent: .2rem;
 			color: snow;
 			font-size: .15rem;
-			top: .8rem;
 			opacity: 0;
 			transition: .5s ease;
 		}
 		.panel-n:hover .float-preview{
-			top: .4rem;
+			transform: translateY(-1.3rem);
 			opacity: 1;
 		}
 	.slant-mask{
 		position: absolute;
 		width: 110%;
-		top: 1.5rem;
+		top: 1rem;
 		min-height: .5rem;
 		padding: .1rem .2rem;
 		transform-origin: left top;
@@ -281,7 +413,7 @@
 	.panel-n-info{
 		padding: .1rem .2rem;
 		position: relative;
-		height: 1rem;
+		height: .8rem;
 		background-color: white;
 	}
 		.panel-n-info .title a{
@@ -317,6 +449,8 @@
 		width: 1.2rem;
 		margin: .2rem auto 0;
 		cursor: pointer;
+		text-align: center;
+		clear: both;
 	}
 		.previous-more{
 			position: relative;
@@ -364,7 +498,9 @@
 			transform: translate(.02rem,.02rem);
 		}
 	.pager-no-more{
+		text-align: center;
 		padding: .1rem;
+		clear: both;
 	}
 @media screen and (max-width: 1005px){/*使用Code组件覆盖*/
 	.page-img{

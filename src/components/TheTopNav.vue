@@ -9,7 +9,7 @@
 					<span></span>
 					<span></span>
 				</div>
-				<p class="nav-title" v-show="isOpened"><router-link to="/">Oshino Nyanya</router-link></p>
+				<p class="nav-title" v-show="upping&&scrollTop>200"><router-link to="/">Oshino Nyanya</router-link></p>
 <!--				<div class="nav-login pr"><router-link to="/"><i class="far fa-user-circle"></i></router-link></div>-->
 			</div>
 			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight-50+'px'}"></div>

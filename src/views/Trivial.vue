@@ -168,7 +168,7 @@
 		left: 0;
 		right: 0;
 		text-align: center;
-		top: 50%;
+		top: 40%;
 		color: white;
 		padding: 0 .5rem;
 		text-shadow: 0.02rem 0.02rem 0.1rem black;

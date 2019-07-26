@@ -266,7 +266,6 @@
 		background-color: rgba(0, 0, 0, 0.1);
 	}
 	.no-img{
-		margin-top: .7rem;
 		color: #99a2aa;
 		padding-top: 1.5rem;
 		height: 4.5rem;
@@ -294,7 +293,6 @@
 		background-origin: border-box;
 		width: 100%;
 		height: 4.5rem;
-		margin-top: .7rem;
 		transition: all .5s;
 	}
 		.header-img:hover .hi-control{
@@ -534,7 +532,6 @@
 	/*以上使用Write覆盖*/
 @media screen and (max-width: 1000px) {
 	.header-img,.no-img{
-		margin-top: .5rem;
 		height: 3rem;
 	}
 	.no-img{

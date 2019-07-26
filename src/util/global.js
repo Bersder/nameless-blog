@@ -1,6 +1,6 @@
 import Vue from 'vue'
 export const media = new Vue({});
-
+export const monsMap = ['','Jan ','Feb ','Mar ','Apr ','May ','Jun ','Jul ','Aug ','Sep ','Oct ','Nov ','Dec '];
 export const mdSetEdit = {
 	tabSize:4,
 	codeStyle:'darcula',

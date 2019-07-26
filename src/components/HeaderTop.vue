@@ -170,7 +170,6 @@
 	.htbg{
 		height: 2.5rem !important;
 		background-attachment: scroll;
-		margin-top: .5rem;
 	}
 	.focusinfo,.ht-down{
 		display: none;

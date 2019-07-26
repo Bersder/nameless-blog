@@ -13,7 +13,7 @@
 		<div class="page-content-wrap">
 			<div class="page-content acg">
 				<pc-acg type="code"></pc-acg>
-				<div class="content-aside"><!--侧边栏待开发-->
+				<div class="content-aside">
 					<div class="ca language">
 						<ul :style="{width:langNum*100+'%','margin-left':ulLeft*100+'%'}">
 							<li class="language-img-wrap">
@@ -111,7 +111,7 @@
 		left: 0;
 		right: 0;
 		text-align: center;
-		top: 50%;
+		top: 40%;
 		color: white;
 		padding: 0 .5rem;
 		text-shadow: 0.02rem 0.02rem 0.1rem black;

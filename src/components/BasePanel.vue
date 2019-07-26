@@ -11,7 +11,7 @@
 			<p class="cut-line" style="margin: .1rem 0"></p>
 			<div class="meta">
 				<router-link to="/个人主页" class="author"><i class="fas fa-user"></i>{{article.author}}</router-link>
-				<span class="time"><i class="far fa-clock"></i> {{article.time}}</span>
+				<span class="time"><i class="far fa-clock"></i> {{article.time.substr(0,10)|ymd2Mdy}}</span>
 				<router-link to="评论区" class="comments"><i class="far fa-comments"></i> {{article.commentCount}}</router-link>
 			</div>
 			<router-link class="to-article" :to="article.aid" append></router-link>
@@ -20,14 +20,19 @@
 </template>
 
 <script>
-    export default {
+	import {monsMap} from "../util/global";
+	export default {
         name: "BasePanel",
         data() {
             return {
 			}
         },
-        mounted() {
-        },
+        filters:{
+        	ymd2Mdy(data){
+				let ymd = data.split('-');
+				return monsMap[parseInt(ymd[1])] + ymd[2] + ', ' + ymd[0]
+			}
+		},
         props:['article']
     }
 </script>
@@ -60,7 +65,7 @@
 			transform: scale(1.1);
 		}
 	.panel-info{
-		padding: .15rem .25rem .25rem .25rem;
+		padding: .15rem .25rem .2rem .25rem;
 		text-align: left;
 		color: #636363;
 	}
@@ -73,12 +78,19 @@
 			color: #636363;
 			transition: color .5s;
 		}
+		.panel-info .preview{
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-size: .18rem;
+		}
 		.panel-info .title:hover{
 			color: #FF7D7D;
 		}
 		.meta .author,.meta .time,.meta .comments{
 			margin-right: .2rem;
 			font-size: .14rem;
+			font-weight: 600;
 			color: #98a6ad;
 		}
 @media screen and (min-width: 800px) {
@@ -102,7 +114,7 @@
 		position: relative;
 		height: 3rem;
 		margin-top: -3rem;
-		padding-top: 1.3rem;
+		padding-top: 1.2rem;
 		padding-bottom: 0;
 		border-radius: .1rem;
 		background: rgba(0,0,0,.2);
@@ -114,12 +126,13 @@
 	}
 		.panel-info .title{
 			color: white;
+			font-size: .3rem;
 			text-align: center;
 			transition: .5s;
 		}
 		.panel:hover h2{
 			display: block;
-			transform: translateY(-.3rem);
+			transform: translateY(-.1rem);
 			text-shadow: 0 0 .03rem white;
 		}
 		.panel-info .preview,.panel-info .cut-line,.panel-info .meta{
@@ -136,9 +149,18 @@
 		}
 }
 @media screen and (max-width: 799px){
+	.panel{
+		border-radius: .05rem;
+	}
+	.panel-img{
+		border-top-left-radius: .05rem;
+		border-top-right-radius: .05rem ;
+	}
 	.panel-img .img{
 		min-height: 1.8rem;
 		height: auto;
+		border-top-left-radius: .05rem;
+		border-top-right-radius: .05rem ;
 	}
 }
 @media screen and (max-width: 600px) {
@@ -147,6 +169,13 @@
 	}
 	.panel-info{
 		padding: .15rem;
+	}
+	.panel-info .title{
+		font-size: .16rem;
+		margin-bottom: .05rem;
+	}
+	.panel-info .preview{
+		font-size: .14rem;
 	}
 }@media screen and (max-width: 400px) {
 	.panel-img .img{
