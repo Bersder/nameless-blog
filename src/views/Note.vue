@@ -262,27 +262,28 @@
 				color: #bbbbbb;
 				font-size: .12rem;
 			}
-		#mobile-app .category-list-item{
+		#mobile-app .category-list-item,.tag-query-result ul li{
 			margin: 0 .1rem;
 		}
-		.category-list .category-list-item{
+		.category-list .category-list-item,.tag-query-result ul li{
 			margin: 0 .5rem;
 			padding: .1rem 0;
-			line-height: .19rem;
+			line-height: .2rem;
 			border-bottom: .01rem dotted #eaeaea;
 		}
-			.category-list-item .item-num{
+			.category-list-item .item-num,.tag-query-result ul li .item-type{
 				display: inline-block;
 				vertical-align: top;
-				font-size: .12rem;
+				font-size: .14rem;
+				margin-right: .05rem;
 				padding:  0 .05rem;
 				border-radius: .1rem;
 				border: .01rem solid #9dd9ff;
-				line-height: .16rem;
+				line-height: .18rem;
 				user-select: none;
 				color: #00a1d6;
 			}
-			.category-list-item .item-name{
+			.category-list-item .item-name,.tag-query-result ul li .item-name{
 				display: inline-block;
 				max-width: 60%;
 
@@ -290,13 +291,16 @@
 				.item-name .item-link{
 					color: inherit;
 					font-size: .16rem;
-					margin-right: .05rem;
+					margin-right: .1rem;
 					transition: .5s;
 				}
 				.item-name .item-tag{
+					display: inline-block;
 					font-size: .12rem;
 					background: #eaeaea;
-					padding: .02rem .05rem;
+					padding: 0 .05rem;
+					line-height: .18rem;
+					vertical-align: top;
 					border-radius: .1rem;
 					margin-right: .05rem;
 				}
@@ -306,7 +310,7 @@
 				.item-name .item-link:hover{
 					color: #00a1d6;
 				}
-			.category-list-item .item-date{
+			.category-list-item .item-date,.tag-query-result ul li .item-date{
 				font-size: .12rem;
 				float: right;
 				color: #888888;

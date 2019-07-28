@@ -12,6 +12,8 @@ import Write from '@/views/Write'
 import TakeNote from "@/views/TakeNote"
 import Archive from "@/views/Archive"
 import Link from "@/views/Link"
+import Tag from "@/views/Tag"
+import TagResult from "@/components/TagResult"
 
 Vue.use(Router);
 
@@ -27,6 +29,12 @@ export default new Router({
 			path: '/s/:domain',
 			name: 'search',
 			component:Search
+		},
+		{
+			path: '/tags',
+			name: 'tag',
+			component:Tag,
+			children:[{path:':tag',name:'taglist',component:TagResult}]
 		},
 		{
 			path: '/archive',

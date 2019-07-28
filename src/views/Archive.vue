@@ -14,7 +14,7 @@
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
-						<li class="tag" v-for="(item,key,index) in tagDict" :key="index"><router-link :to="'tags/'+key" :title="item+' 篇文章'">{{key}}</router-link></li>
+						<li class="tag" v-for="(item,key,index) in tagDict" :key="index"><router-link :to="'/tags/'+key" :title="item+' 相关'">{{key}}</router-link></li>
 						<li class="tag"><a>我的世界</a></li>
 						<li class="tag"><a>我的世界</a></li>
 						<li class="tag"><a>我的世界</a></li>
@@ -81,7 +81,7 @@
 					this.arch_data[e]["mon_ord"] = Object.keys(this.arch_data[e]).sort((a,b)=>{return b - a});
 				});
 				response.data.data.tags.forEach(e=>{
-					this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length - 2)
+					this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length + e.relateNote.split(',').length - 4)
 				});
 				if ((!this.isMobile&&Object.keys(this.tagDict).length>30)||(Object.keys(this.tagDict).length>12&& this.isMobile)) this.manyTags = true;
 			});
