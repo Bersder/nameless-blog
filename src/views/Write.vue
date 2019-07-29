@@ -52,12 +52,12 @@
 					<div class="series-btn">
 						<span>系列</span>
 						<button @click.stop="seriesExpand=!seriesExpand;tiFocus=typeExpand=false" :title="selectedSeries" class="tl">
-							<span>{{selectedSeries}}</span>
+							<span>{{selectedSeries||'不选择分组'}}</span>
 							<i class="fas fa-sort-down fa-lg"></i>
 						</button>
 						<ul v-show="seriesExpand">
-							<li v-for="each in seriesOptions" @click="selectedSeries=each">{{each}}</li>
-							<li @click="selectedSeries='null'">不选择分组</li>
+							<li v-for="each in seriesOptions" @click="selectedSeries=each" :title="each">{{each}}</li>
+							<li @click="selectedSeries=null">不选择分组</li>
 						</ul>
 					</div>
 
@@ -99,10 +99,10 @@ export default {
 						this.title = art.info.title || '';
 						this.selectedType = art.info.type || 'code';
 						this.preview = art.info.preview || '';
-						this.selectedSeries = art.info.series || 'null';
+						this.selectedSeries = art.info.series || null;
 						this.selectedTags = art.info.tags || [];
 						this.tagOptions = art.tagOptions || [];
-						//this.seriesOptions = art.seriesOptions || [];
+						this.seriesOptions = art.seriesOptions || [];
 						this.inputTags = art.info.inputTags || '';
 						this.hi = art.info.imgSrc || null;
 						document.getElementById('hi').style.backgroundImage='url(http://localhost:80'+art.info.imgSrc+')'
@@ -135,7 +135,7 @@ export default {
             	selectedType:'code',
 				preview:'',
 				rawContent:'',
-				selectedSeries:'null',
+				selectedSeries:null,
 				selectedTags:[],
 				inputTags:'',
 				hi:null,
@@ -404,7 +404,7 @@ export default {
 				padding: .1rem 0;
 				z-index: 1600;
 				position: absolute;
-			}.series-btn ul{left: .5rem !important;}
+			}
 
 				.type-btn li,.series-btn li,.cat-btn li{
 					cursor: pointer;
@@ -442,7 +442,6 @@ export default {
 				}
 				.tag-btn .tag-item{
 					display: inline-block;
-					height: .2rem;
 					line-height: .2rem;
 					background: #a6f1fb;
 					font-size: .12rem;
@@ -478,7 +477,7 @@ export default {
 					box-shadow: 0 .04rem .07rem rgba(0,0,0,.2);
 					padding: .1rem .15rem;
 					z-index: 1600;
-
+					list-style-type: none;
 				}
 					.tag-btn li{
 						float: left;

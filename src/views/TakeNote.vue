@@ -446,7 +446,6 @@
 				}
 				.tag-btn .tag-item{
 					display: inline-block;
-					height: .2rem;
 					line-height: .2rem;
 					background: #a6f1fb;
 					font-size: .12rem;

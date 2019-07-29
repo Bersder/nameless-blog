@@ -13,7 +13,6 @@ import TakeNote from "@/views/TakeNote"
 import Archive from "@/views/Archive"
 import Link from "@/views/Link"
 import Tag from "@/views/Tag"
-import TagResult from "@/components/TagResult"
 
 Vue.use(Router);
 
@@ -34,7 +33,7 @@ export default new Router({
 			path: '/tags',
 			name: 'tag',
 			component:Tag,
-			children:[{path:':tag',name:'taglist',component:TagResult}]
+			children:[{path:':tag'}]
 		},
 		{
 			path: '/archive',

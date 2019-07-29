@@ -15,20 +15,6 @@
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
 						<li class="tag" v-for="(item,key,index) in tagDict" :key="index"><router-link :to="'/tags/'+key" :title="item+' 相关'">{{key}}</router-link></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
-						<li class="tag"><a>我的世界</a></li>
 					</ul>
 				</div>
 				<div class="archive-list">
