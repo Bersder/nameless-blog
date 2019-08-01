@@ -16,9 +16,9 @@
 			<ol class="pb-original">
 				<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
 				<li v-show="curPage>=4" @click="curPage=1">1</li>
-				<li v-show="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+				<li v-if="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
 				<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
-				<li v-show="curPage<=pageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+				<li v-if="curPage<=pageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
 				<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
 				<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="fas fa-caret-right"></i></li>
 			</ol>

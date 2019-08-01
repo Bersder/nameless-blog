@@ -99,6 +99,7 @@
 						</div>
 					</div>
 				</div>
+				<comment></comment>
 			</div>
 		</div>
 
@@ -110,6 +111,7 @@
 	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
 	import {mdSetPreview} from "../util/global";
+	import CommentModule from "@/components/CommentModule";
 
 	export default {
         name: "Article",
@@ -227,6 +229,9 @@
         		if(f)return ' ·' + f + '阅读';
 				else return null;
 			}
+		},
+		components:{
+        	comment:CommentModule
 		},
 		activated() {
         	let type = this.$route.name === 'article_note'?'note':this.$route.params.type;
