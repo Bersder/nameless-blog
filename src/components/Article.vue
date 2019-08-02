@@ -99,7 +99,7 @@
 						</div>
 					</div>
 				</div>
-				<comment></comment>
+				<comment :id_="xid" :type="xtype"></comment>
 			</div>
 		</div>
 
@@ -192,6 +192,7 @@
 						})
 					}
 				}
+				this.titleList.push({des:'Comments',id:'comments',index:this.titleList[this.titleList.length-1].index+1,subs:[]});
 				//console.log(this.titleList);
 				this.titlePosition = [];
 				this.titlePosition.push(0);
@@ -200,9 +201,10 @@
 					if(v1.subs.length)
 						v1.subs.forEach((v2)=>this.titlePosition.push(document.getElementById(v2.id).offsetTop+550))
 				});
+				this.titlePosition[this.titlePosition.length-1] -= 600;
 				this.titlePosition.push(document.body.offsetHeight);
-				this.articleHeight = document.getElementsByClassName('page-content')[0].offsetHeight;
-				//console.log(this.titlePosition)
+				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+550;
+				// console.log(this.titlePosition)
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{

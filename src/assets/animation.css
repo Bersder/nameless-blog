@@ -136,3 +136,13 @@
 		opacity: 1;
 	}
 }
+@keyframes stretchdelay {
+	0%, 40%, 100% {
+		transform: scaleY(0.4);
+
+	}
+	20% {
+		transform: scaleY(1.0);
+
+	}
+}
