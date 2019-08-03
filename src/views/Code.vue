@@ -66,8 +66,13 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-    export default {
+	import {fetch} from "../util/http";
+
+	export default {
         name: "Code",
+		created(){
+
+		},
         data() {
             return {
             	ulLeft:0,

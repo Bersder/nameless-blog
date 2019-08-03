@@ -10,9 +10,9 @@
 		</div><!--文章排序待开发-->
 		<div class="article-list">
 
-			<panel v-for="(article,index) in curArts" :key="index" :article="article"></panel>
+			<panel v-for="article in curArts" :key="article.aid" :article="article"></panel>
 		</div>
-		<div class="paging-box">
+		<div class="paging-box" v-if="pageNum>1">
 			<ol class="pb-original">
 				<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
 				<li v-show="curPage>=4" @click="curPage=1">1</li>

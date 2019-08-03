@@ -12,7 +12,7 @@
 				<textarea placeholder="请在这里输入你的评论..." v-model="content"></textarea>
 			</div>
 			<div class="comment-buttons tr">
-				<span><label><input type="checkbox" v-model="notifyMe"> 有回复提醒我</label></span>
+				<span><label><input type="checkbox" v-model="notifyMe"> 回复提醒</label></span>
 				<button @click="commentSubmit" >提交评论</button>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 						</div>
 						<div class="comment-meta">
 							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a> <span class="comment-id pr">#{{comment.id}}</span></p>
-							<span>{{comment.datetime}}</span>
+							<span :title="comment.datetime.substr(0,16)">{{comment.datetime|commentTime}}</span>
 						</div>
 						<div class="comment-content">
 							<p>{{comment.content}}</p>
@@ -52,7 +52,7 @@
 									</div>
 									<div class="comment-meta">
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span> <span class="comment-id pr">#{{reply.id}}</span></p>
-										<span>{{reply.datetime}}</span>
+										<span :title="comment.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
 									</div>
 									<div class="comment-content">
 										<p>{{reply.content}}</p>
@@ -88,10 +88,9 @@
         name: "CommentModule",
 		created(){
 			post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:0}).then(response=>{
-				console.log(response.data.data);
 				let data = response.data.data;
 				this.allCount = parseInt(data.allCount);
-				this.pageNum = Math.ceil(data.commentCount/5);
+				this.pageNum = Math.ceil(data.commentCount/10);
 				console.log(this.allCount,this.pageNum);
 				this.commentWaiting = false;
 				data.comments.forEach(e=>{
@@ -99,10 +98,6 @@
 					delete e.replies;
 					this.commentList.push(e)
 				});
-
-				console.log(this.commentList)
-
-
 			})
 		},
 		data(){
@@ -124,7 +119,24 @@
 			}
 		},
 		watch:{
-
+			curPage(cur,pre){
+				this.commentWaiting = true;
+				this.commentList.length = 0;
+				post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:(cur-1)*10}).then(response=>{
+					console.log(response.data.data);
+					let data = response.data.data;
+					this.allCount = parseInt(data.allCount);
+					this.pageNum = Math.ceil(data.commentCount/10);
+					console.log(this.allCount,this.pageNum);
+					this.commentWaiting = false;
+					data.comments.forEach(e=>{
+						e['children'] = this.gen_children(e);
+						delete e.replies;
+						this.commentList.push(e)
+					});
+					console.log(this.commentList)
+				})
+			}
 		},
 		methods:{
         	gen_children(comment){
@@ -175,7 +187,10 @@
 						if(window.confirm('即将提交评论，是否确认')){
 							post('/apis/apiv7.php',data).then(response=>{
 								console.log(response);
-								// location.reload();
+								if (response.data.code<1)
+									location.reload();
+								else
+									console.warn('评论失败，错误编号：'+response.data.code)
 							})
 						}
 					}
@@ -206,7 +221,21 @@
 		props:['id_','type'],
 		filters:{
         	commentTime(datetime){
-
+				let gap = new Date().getTime() -  new Date(datetime).getTime();
+				if (gap<60000)return '刚刚';
+				else{
+					let gap_m = Math.floor(gap/60000);
+					if (gap_m<60)return gap_m + '分钟前';
+					else{
+						let gap_h = Math.floor(gap_m/60);
+						if (gap_h<24)return gap_h + '小时前';
+						else{
+							let gap_d = Math.floor(gap_h/24);
+							if (gap_d<30)return gap_d + '日前';
+							else return datetime
+						}
+					}
+				}
 			},
 			respondTitle(to_uname){
         		return to_uname?' @'+to_uname:'添加新评论'
@@ -349,6 +378,11 @@
 		#mobile-app .comment-children .comment-meta,#mobile-app .comment-children .comment-content{
 			margin-left: .5rem;
 		}
+		#mobile-app .comment-content{
+			font-size: .14rem;
+			margin-right: .2rem;
+			margin-top: .05rem;
+		}
 		.comments-list-item .comment-children{
 			margin-left: .65rem;
 		}
@@ -385,7 +419,7 @@
 					font-size: .14rem;
 				}
 			.comment-content-wrap .comment-content{
-				margin: .1rem .1rem 0 .65rem;
+				margin: .1rem .5rem 0 .65rem;
 			}
 			.comment-content-wrap .comment-reply{
 				position: absolute;

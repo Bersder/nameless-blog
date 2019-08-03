@@ -16,8 +16,8 @@
 					<div class="article-order no-select">
 						<span>排序</span>
 						<ul class="order-list">
-							<li :class="{'o-selected':orderFlag===0}" @click="orderFlag=0">最新</li>
-							<li :class="{'o-selected':orderFlag===1}" @click="orderFlag=1">最旧</li>
+							<li :class="{'o-selected':orderFlag===0}" @click="orderFlag=0">按时间</li>
+							<li :class="{'o-selected':orderFlag===1}" @click="orderFlag=1">按热度</li>
 						</ul>
 					</div><!--文章排序待开发-->
 					<div class="article-list">
@@ -38,22 +38,7 @@
 							</div>
 						</div>
 
-						<div class="panel-t tl">
-							<p class="pt-time"><i class="far fa-clock"></i> 2011-11-11</p>
-							<div class="panel-t-img">
-								<router-link to="/">
-									<img src="http://127.0.0.1:80/static/img/7.jpg">
-								</router-link>
-							</div>
-							<div class="panel-t-info ">
-								<h2 class="title"><router-link to="/">物语系列时间线</router-link></h2>
-								<p class="preview">《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家戴源亨负责插画的轻小说系列</p>
-								<p class="cut-line-d" style="margin: .1rem 0"></p>
-								<span><router-link to="/个人主页" class="author"><i class="fas fa-user"></i> nyanya</router-link></span>
-								<span><i class="far fa-eye"></i> 666</span>
-								<span><router-link to="评论区" class="comments"><i class="far fa-comments"></i> 666</router-link></span>
-							</div>
-						</div>
+
 					</div>
 					<div class="paging-box" v-if="pageNum>1">
 						<ol class="pb-original">
@@ -101,11 +86,20 @@
 <script>
     export default {
         name: "Trivial",
+		created(){
+
+		},
         data() {
             return {
 				pageNum:16,
 				curPage:1,
-				orderFlag:0
+				orderFlag:0,
+
+				arts:{
+					0:{},
+					1:{}
+				},
+				curArts:[]
 			}
         },
         mounted() {
@@ -186,6 +180,7 @@
 		max-width: 7rem;
 		margin: 0 auto;
 		float: left;
+		width: 100%;
 		transition: .5s;
 	}
 	.article-order{
@@ -240,20 +235,36 @@
 				font-size: 12px;
 
 			}
+			#mobile-app .panel-t-img{
+				position: unset;
+				padding: 0 .1rem;
+			}
 			.panel-t-img{
 				position: absolute;
 				top: .25rem;
 				left: .15rem;
 			}
+				#mobile-app .panel-t-img a{
+					display: block;
+					font-size: 0;
+				}
+				#mobile-app .panel-t-img img{
+					width: 100%;
+				}
 				.panel-t-img img{
 					object-fit: cover;
 					object-position: center center;
 					width: 1.5rem;
 					height: 1.5rem;
 				}
+			#mobile-app .panel-t-info{
+				margin-left: 0;
+				height: auto;
+			}
 			.panel-t-info{
 				margin-left: 1.8rem;
 				padding: 0 .1rem .1rem .1rem;
+				height: 1.65rem;
 			}
 			.panel-t-info a{
 				color: inherit;
@@ -263,16 +274,26 @@
 				font-size: .14rem;
 				color: #9e9e9e;
 			}
+				#mobile-app .panel-t-info .title{
+					line-height: .3rem;
+					font-size: .16rem;
+				}
 				.panel-t-info .title{
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					font-size: .2rem;
-					line-height: .5rem;
+					line-height: .4rem;
+				}
+				#mobile-app .panel-t-info .preview{
+					font-size: .14rem;
+					line-height: .2rem;
+					height: .6rem;
 				}
 				.panel-t-info .preview{
 					overflow: hidden;
-					height: .63rem;
+					line-height: .22rem;
+					height: .66rem;
 				}
 	.paging-box{
 		margin: .3rem 0;

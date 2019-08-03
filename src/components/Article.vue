@@ -192,7 +192,10 @@
 						})
 					}
 				}
-				this.titleList.push({des:'Comments',id:'comments',index:this.titleList[this.titleList.length-1].index+1,subs:[]});
+				if (this.titleList.length)
+					this.titleList.push({des:'Comments',id:'comments',index:this.titleList[this.titleList.length-1].index+1,subs:[]});
+				else
+					this.titleList.push({des:'Comments',id:'comments',index:1,subs:[]});
 				//console.log(this.titleList);
 				this.titlePosition = [];
 				this.titlePosition.push(0);
