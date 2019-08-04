@@ -86,7 +86,7 @@
     export default {
         name: "Note",
 		created(){
-			fetch('/apis/apiv1.php',{_:'n'}).then(response=>{
+			fetch('/apis/apiv1.php',{_:'note'}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
 				this.catMap = data.catMap;

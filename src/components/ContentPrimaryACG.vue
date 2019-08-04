@@ -35,24 +35,17 @@
 	import {fetch} from "../util/http";
 	let articles = [
 		{aid:'1',title:'物语系列时间线',preview:'《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家VOFAN（本名戴源亨）负责插画的轻小说系列',imgSrc:'http://127.0.0.1:80/static/img/2.jpg',commentCount:'567',author:'nyanya',time:'2018-12-12',type:'code'},
-		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
-		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
-		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
-		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
-		{aid:'2',title:'何西亚之死',preview:'何西亚是个咋骗家，被德奇害死了？',imgSrc:'http://127.0.0.1:80/static/img/4.jpg',commentCount:'234',author:'nyanya',time:'2018-12-1',type:'code'},
-
 	];
 	import BasePanel from '@/components/BasePanel'
     export default {
         name: "ContentPrimaryACG",
 		created(){
-			fetch('/apis/apiv1.php?',{_:this.type[0]}).then(response=>{
+			fetch('/apis/apiv1.php?',{_:this.type}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
 				this.curArts = this.arts[0][1] = data.artsNew;
 				this.arts[1][1] = data.artsHot;
 				this.pageNum = Math.ceil(parseInt(data.artNum) / 6);
-				console.log(this.arts)
 				//侧边栏初始化
 			})
 		},
@@ -77,7 +70,7 @@
 			curPage(cur,pre){
         		if(this.arts[this.orderFlag][cur])this.curArts = this.arts[this.orderFlag][cur];
         		else{
-					fetch('/apis/apiv2.php',{_:this.type[0],pn:cur,order:this.orderFlag}).then(response=>{
+					fetch('/apis/apiv2.php',{_:this.type,pn:cur,order:this.orderFlag}).then(response=>{
 						this.curArts = this.arts[this.orderFlag][cur] = response.data.data.arts;
 					})
 				}

@@ -21,20 +21,20 @@
 						</ul>
 					</div><!--文章排序待开发-->
 					<div class="article-list">
-						<div class="panel-t tl">
-							<p class="pt-time"><i class="far fa-clock"></i> 2011-11-11</p>
+						<div class="panel-t tl" v-for="art in curArts" :key="art.aid">
+							<p class="pt-time"><i class="far fa-clock"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
-								<router-link to="/">
-									<img src="http://127.0.0.1:80/static/img/7.jpg">
+								<router-link :to="art.aid" append>
+									<img :src="'http://127.0.0.1:80'+art.imgSrc">
 								</router-link>
 							</div>
 							<div class="panel-t-info ">
-								<h2 class="title"><router-link to="/">物语系列时间线</router-link></h2>
-								<p class="preview">《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家戴源亨负责插画的轻小说系列</p>
+								<h2 class="title"><router-link to="/">{{art.title}}</router-link></h2>
+								<p class="preview">{{art.preview}}</p>
 								<p class="cut-line-d" style="margin: .1rem 0"></p>
 								<span><router-link to="/个人主页" class="author"><i class="fas fa-user"></i> nyanya</router-link></span>
-								<span><i class="far fa-eye"></i> 666</span>
-								<span><router-link to="评论区" class="comments"><i class="far fa-comments"></i> 666</router-link></span>
+								<span><i class="far fa-eye"></i> {{art.readCount}}</span>
+								<span><router-link to="评论区" class="comments"><i class="far fa-comments"></i> {{art.commentCount}}</router-link></span>
 							</div>
 						</div>
 
@@ -84,10 +84,20 @@
 </template>
 
 <script>
-    export default {
+	import {fetch} from "../util/http";
+	export default {
         name: "Trivial",
 		created(){
-
+			fetch('/apis/apiv1.php',{_:'trivial'}).then(response=>{
+				let data = response.data.data;
+				console.log(data);
+				this.$set(this.arts[0],'1',data.artsNew);
+				this.$set(this.arts[1],'1',data.artsHot);
+				data.artsNew.forEach(e=>{
+					this.curArts.push(e)
+				});
+				this.pageNum = Math.ceil(parseInt(data.artNum)/8)
+			})
 		},
         data() {
             return {
@@ -116,7 +126,34 @@
 				else return[this.curPage-2,this.curPage-1,this.curPage];
 			}
 		},
-        components: {}
+        watch:{
+			orderFlag(cur,pre){
+				if(this.curPage===1){
+					this.curArts.length = 0;
+					this.arts[cur][1].forEach(e=>{
+						this.curArts.push(e);
+					});
+				}
+				else this.curPage = 1;
+			},
+			curPage(cur,pre){
+				if(this.arts[this.orderFlag][cur]){
+					this.curArts.length = 0;
+					this.arts[this.orderFlag][cur].forEach(e=>{
+						this.curArts.push(e)
+					})
+				}
+				else{
+					fetch('/apis/apiv2.php',{_:'trivial',pn:cur,order:this.orderFlag}).then(response=>{
+						this.$set(this.arts[this.orderFlag],cur,response.data.data.arts);
+						this.curArts.length = 0;
+						this.arts[this.orderFlag][cur].forEach(e=>{
+							this.curArts.push(e)
+						})
+					})
+				}
+			}
+		}
     }
 </script>
 

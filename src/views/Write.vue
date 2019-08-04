@@ -88,6 +88,7 @@ export default {
 					this.$router.replace({name:'write',query:{aid:response.data.aid}});
 					this.aid=response.data.aid;
 					this.tagOptions = response.data.tagOptions || [];
+					this.seriesOptions = response.data.seriesOptions || [];
 				});
 				//全新文章获取其adi，添加至后缀
 			}
@@ -271,10 +272,9 @@ export default {
 		background-color: rgba(0, 0, 0, 0.1);
 	}
 	.no-img{
-		margin-top: .7rem;
 		color: #99a2aa;
-		padding-top: 1.5rem;
-		height: 4.5rem;
+		padding-top: 2rem;
+		height: 5rem;
 		cursor: pointer;
 		background-color: #eff0f2;
 	}
@@ -296,8 +296,7 @@ export default {
 		background-size: cover;
 		background-origin: border-box;
 		width: 100%;
-		height: 4.5rem;
-		margin-top: .7rem;
+		height: 5rem;
 		transition: all .5s;
 	}
 		.header-img:hover .hi-control{
@@ -544,7 +543,6 @@ export default {
     }*/
 @media screen and (max-width: 1000px) {
 	.header-img,.no-img{
-		margin-top: .5rem;
 		height: 3rem;
 	}
 	.no-img{

@@ -267,8 +267,8 @@
 	}
 	.no-img{
 		color: #99a2aa;
-		padding-top: 1.5rem;
-		height: 4.5rem;
+		padding-top: 2rem;
+		height: 5rem;
 		cursor: pointer;
 		background-color: #eff0f2;
 	}
@@ -292,7 +292,7 @@
 		background-size: cover;
 		background-origin: border-box;
 		width: 100%;
-		height: 4.5rem;
+		height: 5rem;
 		transition: all .5s;
 	}
 		.header-img:hover .hi-control{
