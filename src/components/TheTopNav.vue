@@ -108,6 +108,9 @@
 		watch:{
         	isOpened(cur,pre){
         		this.$store.commit('isMaskedC',cur)
+			},
+			screenWidth(cur,pre){
+        		if (cur > 1000 && this.isOpened) this.isOpened = false;
 			}
 		},
         // mounted() {

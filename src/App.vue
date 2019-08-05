@@ -33,7 +33,7 @@ export default {
 	watch:{
     	isMasked(cur,pre){
 			//弹窗屏蔽底层滑动
-    		if (cur&&this.screenWidth<1000){
+    		if (cur){
 				this.st = document.scrollingElement.scrollTop;
 				document.body.classList.add('masked');
 				document.body.style.top = -this.st+'px';

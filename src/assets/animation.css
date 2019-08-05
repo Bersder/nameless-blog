@@ -68,17 +68,6 @@
 		transform: scale(1);
 	}
 }
-@keyframes blurLoad {
-	0%{
-		filter: blur(30px);
-	}
-	70%{
-		filter: blur(10px);
-	}
-	100%{
-		filter: blur(0);
-	}
-}
 @keyframes spin {
 	from{
 		transform: rotate(0deg);
@@ -118,9 +107,6 @@
 @keyframes holdFadeIn {
 	0%,50%{opacity: 0}
 	100%{opacity: 1}
-}
-.fade-in{
-	animation: fadeIn 1.5s;
 }
 @keyframes frontFlip {
 	0%{

@@ -11,7 +11,12 @@ export default new Vuex.Store({
 		upping:false,
 		screenHeight:window.innerHeight || document.documentElement.clientHeight,
 		screenWidth:document.body.clientWidth,
-		isMasked:false
+		isMasked:false,
+
+		LBImgs:[],
+		LBDescriptions:[],
+		LBIndex:0,
+		LBshow:false
 	},
 	mutations:{
 		platformInit(state,payload){
@@ -28,6 +33,20 @@ export default new Vuex.Store({
 		},
 		isMaskedC(state,cur){
 			state.isMasked = cur;
+		},
+		lbImgsC(state,payload){
+			state.LBDescriptions.length = state.LBImgs.length = 0;
+			for(let i=0;i<payload.imgs.length;i++){
+				state.LBImgs.push(payload.imgs[i]);
+				state.LBDescriptions.push(payload.descriptions[i]);
+			}
+			state.LBIndex = 0;
+		},
+		lbIndexC(state,index){
+			state.LBIndex = index;
+		},
+		lbShowC(state,cur){
+			state.LBshow = cur
 		}
 	},
 	getters:{
