@@ -5,7 +5,7 @@
 	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>
-
+	  <luminous-box></luminous-box>
   </div>
 </template>
 
@@ -13,6 +13,7 @@
 import TheSiteFooter from './components/TheSiteFooter'
 import TheTopNav from './components/TheTopNav'
 import HeaderTop from './components/HeaderTop'
+import LuminousBox from '@/components/LuminousBox'
 import {mapState} from 'vuex'
 import {debounce} from "./util/util";
 export default {
@@ -54,7 +55,8 @@ export default {
 	components:{
     	'site-footer':TheSiteFooter,
 		'header-top':HeaderTop,
-		'top-nav':TheTopNav
+		'top-nav':TheTopNav,
+		'luminous-box':LuminousBox
 	},
 	computed:{
     	...mapState(['isMobile','isMasked','screenWidth'])

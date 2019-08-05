@@ -15,6 +15,7 @@ export default new Vuex.Store({
 
 		LBImgs:[],
 		LBDescriptions:[],
+		LBTimes:[],
 		LBIndex:0,
 		LBshow:false
 	},
@@ -34,12 +35,13 @@ export default new Vuex.Store({
 		isMaskedC(state,cur){
 			state.isMasked = cur;
 		},
-		lbImgsC(state,payload){
-			state.LBDescriptions.length = state.LBImgs.length = 0;
-			for(let i=0;i<payload.imgs.length;i++){
-				state.LBImgs.push(payload.imgs[i]);
-				state.LBDescriptions.push(payload.descriptions[i]);
-			}
+		lbImgsC(state,img_des_list){
+			state.LBDescriptions.length = state.LBImgs.length = state.LBTimes.length = 0;
+			img_des_list.forEach(e=>{
+				state.LBImgs.push(e.imgSrc);
+				state.LBDescriptions.push(e.description);
+				e.time?state.LBTimes.push(e.time):state.LBTimes.push('')
+			});
 			state.LBIndex = 0;
 		},
 		lbIndexC(state,index){

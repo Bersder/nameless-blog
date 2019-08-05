@@ -5,13 +5,13 @@
 			<div class="luminous-box-inner">
 				<div class="luminous-box-topbar">
 					<div class="process pl">
-						{{LBIndex+1}} / {{LBImgs.length}}
+						{{LBIndex+1}} / {{LBImgs.length}}&nbsp;&nbsp;&nbsp;
+						<span>{{LBTimes[LBIndex].substr(0,16)}}</span>
 					</div>
 					<div class="toolbar pr">
-						<button @click=""><i class="fas fa-play"></i></button>
 						<button @click="LBsidebarShow=!LBsidebarShow"><i class="fas fa-bars"></i></button>
-						<button @click=""><i class="fas fa-search"></i></button>
-						<button @click="LBshow=!LBshow"><i class="fas fa-times"></i></button>
+						<button @click="autoplay"><i :class="interval?'fas fa-stop':'fas fa-play'"></i></button>
+						<button @click="closeLB"><i class="fas fa-times"></i></button>
 					</div>
 				</div>
 				<div class="luminous-box-nav">
@@ -50,7 +50,8 @@
 		data(){
         	return {
 				LBimgShow:true,
-        		LBsidebarShow:false
+        		LBsidebarShow:false,
+				interval:null
 			}
 		},
 		watch:{
@@ -81,10 +82,21 @@
 					this.$store.commit('lbIndexC',index);
 					setTimeout(()=>this.LBimgShow = true,200);
 				}
+			},
+			closeLB(){
+				this.$store.commit('lbShowC',false)
+			},
+			autoplay(){
+				if (!this.interval)
+					this.interval = setInterval(()=>this.jumpto((this.LBIndex+1)%this.LBImgs.length),4000);
+				else{
+					clearInterval(this.interval);
+					this.interval = null
+				}
 			}
 		},
 		computed:{
-        	...mapState(['LBImgs','LBDescriptions','LBIndex','LBshow'])
+        	...mapState(['LBImgs','LBDescriptions','LBTimes','LBIndex','LBshow'])
 		}
     }
 </script>
@@ -222,7 +234,7 @@
 				display: block;
 				background: no-repeat center center;
 				background-size: cover;
-				height: .8rem;
+				height: 1rem;
 				border: .03rem solid transparent;
 				margin-bottom: .05rem;
 				cursor: pointer;

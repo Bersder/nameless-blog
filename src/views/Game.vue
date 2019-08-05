@@ -51,8 +51,15 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-    export default {
+	import {fetch} from "../util/http";
+
+	export default {
         name: "Game",
+		created(){
+			fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
+				console.log(response.data.data)
+			})
+		},
         data() {
             return {
 			}
