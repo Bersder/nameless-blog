@@ -328,26 +328,26 @@
 		position: relative;
 	}
 	.cah.board,.ca.board {
-		height: 1.1rem;
+		min-height: 1.1rem;
 		position: relative;
 	}
 	.board-head{
 		position: absolute;
 		top: .2rem;
 		left: 0;
+		bottom: .2rem;
 		writing-mode: vertical-rl;
 		padding-right: .1rem;
 		border-right: .01rem dashed #c5ccd3;
 	}
 	.board-content{
-		height: 70%;
 		width: 100%;
 		font-size: .14rem;
 		letter-spacing: .003rem;
 		line-height: .18rem;
 		text-align: left;
 		text-indent: .2rem;
-		padding: .22rem .1rem 0 .55rem;
+		padding: .22rem .1rem .4rem .55rem;
 		color: #425066;
 	}
 	.board-post-time{

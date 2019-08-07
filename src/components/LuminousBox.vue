@@ -84,7 +84,10 @@
 				}
 			},
 			closeLB(){
-				this.$store.commit('lbShowC',false)
+				this.$store.commit('lbShowC',false);
+				if (this.interval)
+					clearInterval(this.interval);
+					this.interval = null;
 			},
 			autoplay(){
 				if (!this.interval)

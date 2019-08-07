@@ -66,14 +66,13 @@
 					</div>
 					<div class="ca board">
 						<div class="board-head">
-							<span>游言　</span>
-							<i class="fab fa-first-order-alt"></i>
+							<span>日常　</span><i class="fab fa-first-order-alt"></i>
 						</div>
 						<div class="board-content">
-							异度之刃2有毒，害我天天两点睡
+							{{gossip.content}}
 						</div>
 						<div class="board-post-time">
-							-- Dec 12th, 23:33
+							-- {{gossip.time|gossipTime}}
 						</div>
 					</div>
 				</div>
@@ -84,6 +83,8 @@
 
 <script>
 	import {fetch} from "../util/http";
+	import {contentAsideMixin} from "../util/global";
+	import {mapState} from 'vuex'
 	export default {
         name: "Trivial",
 		created(){
@@ -97,8 +98,12 @@
 				});
 				this.pageNum = Math.ceil(parseInt(data.artNum)/8);
 				this.$store.commit('lbImgsC',data.album);
-				this.firstImg = data.album[0].imgSrc;
-				this.firstDes = data.album[0].description;
+				if (data.album.length){
+					this.firstImg = data.album[0].imgSrc;
+					this.firstDes = data.album[0].description;
+				}
+				if (data.gossip)
+					this.gossip = data.gossip;
 			})
 		},
         data() {
@@ -106,8 +111,6 @@
 				pageNum:16,
 				curPage:1,
 				orderFlag:0,
-				firstImg:'http://localhost:80/test/placeholder.jpg',
-				firstDes:'数据正在赶路中',
 				arts:{
 					0:{},
 					1:{}
@@ -136,7 +139,8 @@
 				else if(this.curPage>=3&&this.curPage<=this.pageNum-2)return[this.curPage-2,this.curPage-1,this.curPage,this.curPage+1,this.curPage+2];
 				else if(this.curPage===this.pageNum-1)return[this.curPage-2,this.curPage-1,this.curPage,this.pageNum];
 				else return[this.curPage-2,this.curPage-1,this.curPage];
-			}
+			},
+			...mapState(['isMobile'])
 		},
         watch:{
 			orderFlag(cur,pre){
@@ -165,7 +169,8 @@
 					})
 				}
 			}
-		}
+		},
+		mixins:[contentAsideMixin]
     }
 </script>
 
@@ -461,26 +466,26 @@
 
 
 		.cah.board,.ca.board { /*以下使用homepage覆盖*/
-			height: 1.1rem;
+			min-height: 1.1rem;
 			position: relative;
 		}
 		.board-head{
 			position: absolute;
 			top: .2rem;
 			left: 0;
+			bottom: .2rem;
 			writing-mode: vertical-rl;
 			padding-right: .1rem;
 			border-right: .01rem dashed #c5ccd3;
 		}
 		.board-content{
-			height: 70%;
 			width: 100%;
 			font-size: .14rem;
 			letter-spacing: .003rem;
 			line-height: .18rem;
 			text-align: left;
 			text-indent: .2rem;
-			padding: .22rem .1rem 0 .55rem;
+			padding: .22rem .1rem .4rem .55rem;
 			color: #425066;
 		}
 		.board-post-time{

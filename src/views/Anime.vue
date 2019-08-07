@@ -16,8 +16,8 @@
 				<div class="content-aside"><!--侧边栏待开发-->
 					<div class="ca album">
 						<div class="album-img-wrap">
-							<img class="album-img" src="http://127.0.0.1:80/static/img/7.jpg">
-							<p>一张图片</p>
+							<img class="album-img" @click="openLB" :src="firstImg">
+							<p>{{firstDes}}</p>
 						</div>
 					</div>
 					<div class="ca broadcast">
@@ -42,10 +42,10 @@
 							<i class="fab fa-first-order-alt"></i>
 						</div>
 						<div class="board-content">
-							异度之刃2有毒，害我天天两点睡
+							{{gossip.content}}
 						</div>
 						<div class="board-post-time">
-							-- Dec 12th, 23:33
+							-- {{gossip.time|gossipTime}}
 						</div>
 					</div>
 				</div>
@@ -56,16 +56,39 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-    export default {
+	import {contentAsideMixin} from "../util/global";
+	import {mapState} from 'vuex'
+	import {fetch} from "../util/http";
+
+	export default {
         name: "Anime",
+		created(){
+			if (!this.isMobile)
+				fetch('/apis/apiv8.php',{_:'anime'}).then(response=>{
+					let data = response.data.data;
+					console.log(data);
+					this.$store.commit('lbImgsC',data.album);
+					if (data.album.length){
+						this.firstImg = data.album[0].imgSrc;
+						this.firstDes = data.album[0].description;
+					}
+					if (data.gossip)
+						this.gossip = data.gossip;
+
+				})
+		},
         data() {
-            return {}
+            return {
+
+			}
         },
-        mounted() {
-        },
+        computed:{
+        	...mapState(['isMobile'])
+		},
 		components: {
 			'pc-acg':ContentPrimaryACG
 		},
+		mixins:[contentAsideMixin]
     }
 </script>
 
@@ -184,26 +207,26 @@
 				color: inherit;
 			}
 		.cah.board,.ca.board { /*以下使用homepage覆盖*/
-			height: 1.1rem;
+			min-height: 1.1rem;
 			position: relative;
 		}
 		.board-head{
 			position: absolute;
 			top: .2rem;
 			left: 0;
+			bottom: .2rem;
 			writing-mode: vertical-rl;
 			padding-right: .1rem;
 			border-right: .01rem dashed #c5ccd3;
 		}
 		.board-content{
-			height: 70%;
 			width: 100%;
 			font-size: .14rem;
 			letter-spacing: .003rem;
 			line-height: .18rem;
 			text-align: left;
 			text-indent: .2rem;
-			padding: .22rem .1rem 0 .55rem;
+			padding: .22rem .1rem .4rem .55rem;
 			color: #425066;
 		}
 		.board-post-time{

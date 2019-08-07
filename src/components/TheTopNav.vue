@@ -77,8 +77,6 @@
 </template>
 
 <script>
-	import {debounce} from "../util/util";
-	import {media} from "../util/global";
 	import {mapState} from 'vuex'
 	let navData = [
 		{icon:'fa fa-archive',des:'归档',animate:'rotate-bf',subs:[

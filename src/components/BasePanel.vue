@@ -20,7 +20,6 @@
 </template>
 
 <script>
-	import {monsMap} from "../util/global";
 	export default {
         name: "BasePanel",
         data() {
@@ -30,7 +29,7 @@
         filters:{
         	ymd2Mdy(data){
 				let ymd = data.split('-');
-				return monsMap[parseInt(ymd[1])] + ymd[2] + ', ' + ymd[0]
+				return ['','Jan ','Feb ','Mar ','Apr ','May ','Jun ','Jul ','Aug ','Sep ','Oct ','Nov ','Dec '][parseInt(ymd[1])] + ymd[2] + ', ' + ymd[0]
 			}
 		},
         props:['article']

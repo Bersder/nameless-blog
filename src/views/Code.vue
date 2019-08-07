@@ -16,46 +16,31 @@
 				<div class="content-aside">
 					<div class="ca language">
 						<ul :style="{width:langNum*100+'%','margin-left':ulLeft*100+'%'}">
-							<li class="language-img-wrap">
-								<img src="http://127.0.0.1:80/static/img/moe.python.jpg" width="280" height="410">
-								<p>python是最好的语言</p>
-							</li>
-							<li class="language-img-wrap">
-								<img src="http://127.0.0.1:80/static/img/moe.c.png" width="280" height="410">
-								<p>python是最好的语言</p>
-							</li>
-							<li class="language-img-wrap">
-								<img src="http://127.0.0.1:80/static/img/moe.php.jpg" width="280" height="410">
-								<p>本站后端支持</p>
-							</li>
-							<li class="language-img-wrap">
-								<img src="http://127.0.0.1:80/static/img/moe.javaScript.jpg" width="280" height="410">
-								<p>JavaScript</p>
+							<li class="language-img-wrap" v-for="each in languageList">
+								<img :src="each.imgSrc" width="280" height="410">
+								<p>{{each.description}}</p>
 							</li>
 						</ul>
 						<span class="lprev" style="left: 0"><i class="fas fa-chevron-left fa-2x" @click="ulLeft=ulLeft==0?1-langNum:ulLeft+1"></i></span>
 						<span class="lnext" style="right: 0"><i class="fas fa-chevron-right fa-2x" @click="ulLeft=ulLeft==1-langNum?0:ulLeft-1"></i></span>
 					</div>
-					<div class="ca series tl">
+					<div class="ca series tl" v-if="seriesList.length" style="min-height: 1rem;">
 						<div class="series-head">
 							<i class="fas fa-paperclip"></i> 现存系列
 						</div>
 						<div class="series-content">
-							<p><router-link to="/">系列一</router-link><span> (6篇)</span></p>
-							<p><router-link to="/">系列一</router-link><span> (6篇)</span></p>
-							<p><router-link to="/">系列一</router-link><span> (6篇)</span></p>
+							<p v-for="series in seriesList"><router-link :to="'/series/'+series.name" :title="series.name+' | '+series.count+'篇'">{{series.name}}</router-link><span> ({{series.count}}篇)</span></p>
 						</div>
 					</div>
 					<div class="ca board">
 						<div class="board-head">
-							<span>Error　</span>
-							<i class="fab fa-first-order-alt"></i>
+							<span>Error　</span><i class="fab fa-first-order-alt"></i>
 						</div>
 						<div class="board-content">
-							异度之刃2有毒，害我天天两点睡
+							{{gossip.content}}
 						</div>
 						<div class="board-post-time">
-							-- Dec 12th, 23:33
+							-- {{gossip.time|gossipTime}}
 						</div>
 					</div>
 				</div>
@@ -66,24 +51,41 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
+	import {languageList} from "../util/USER_VAR";
+	import {contentAsideMixin} from "../util/global";
+	import {mapState} from 'vuex'
 	import {fetch} from "../util/http";
 
 	export default {
         name: "Code",
 		created(){
-
+			if (!this.isMobile)
+				fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
+					let data = response.data.data;
+					console.log(data);
+					if (data.gossip)
+						this.gossip = data.gossip;
+					data.seriesList.forEach(e=>{
+						this.seriesList.push(e)
+					})
+				})
 		},
         data() {
             return {
             	ulLeft:0,
-				langNum:4
+				languageList:languageList,
+				langNum:languageList.length,
+				seriesList:[]
+
 			}
         },
-        mounted() {
-        },
+		computed:{
+        	...mapState(['isMobile'])
+		},
         components: {
         	'pc-acg':ContentPrimaryACG
 		},
+		mixins:[contentAsideMixin]
 
     }
 </script>
@@ -218,6 +220,11 @@
 			padding: .1rem .1rem .1rem .3rem;
 			font-size: .14rem;
 		}
+			.series-content p{
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 			.series-content p:before{
 				content: '★';
 				color: #edb100;
@@ -231,26 +238,26 @@
 			}
 
 		.cah.board,.ca.board { /*以下使用homepage覆盖*/
-			height: 1.1rem;
+			min-height: 1.1rem;
 			position: relative;
 		}
 		.board-head{
 			position: absolute;
 			top: .2rem;
 			left: 0;
+			bottom: .2rem;
 			writing-mode: vertical-rl;
 			padding-right: .1rem;
 			border-right: .01rem dashed #c5ccd3;
 		}
 		.board-content{
-			height: 70%;
 			width: 100%;
 			font-size: .14rem;
 			letter-spacing: .003rem;
 			line-height: .18rem;
 			text-align: left;
 			text-indent: .2rem;
-			padding: .22rem .1rem 0 .55rem;
+			padding: .22rem .1rem .4rem .55rem;
 			color: #425066;
 		}
 		.board-post-time{

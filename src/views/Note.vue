@@ -430,7 +430,7 @@
 		}
 		.panel-n-info .category{
 			position: absolute;
-			padding: 0 .15rem .15rem;
+			padding: 0 .15rem .1rem;
 			right: 0;
 			bottom: 0;
 			text-align: right;
@@ -442,6 +442,7 @@
 			.panel-n-info .category .cat-icon{
 				display: inline-block;
 				margin-left: .1rem;
+				vertical-align: middle;
 				width: .32rem;
 				height: .32rem;
 				border: .01rem solid #eaeaea;

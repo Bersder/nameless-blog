@@ -1,6 +1,23 @@
-import Vue from 'vue'
-export const media = new Vue({});
-export const monsMap = ['','Jan ','Feb ','Mar ','Apr ','May ','Jun ','Jul ','Aug ','Sep ','Oct ','Nov ','Dec '];
+export const contentAsideMixin = {
+	data(){
+		return{
+			firstImg:'http://localhost:80/test/placeholder.jpg',
+			firstDes:'数据正在赶路中',
+			gossip:{content:'这里什么都没有',time:'2333-06-06 23:33:33'},
+		}
+	},
+	methods:{
+		openLB(){
+			this.$store.commit('lbShowC',true);
+		},
+	},
+	filters:{
+		gossipTime(datetime){
+			let ymd = datetime.substr(0,10).split('-');
+			return ['','Jan ','Feb ','Mar ','Apr ','May ','Jun ','Jul ','Aug ','Sep ','Oct ','Nov ','Dec '][parseInt(ymd[1])] + ' ' + ymd[2] + ', ' + datetime.substr(11,5)
+		}
+	}
+};
 export const mdSetEdit = {
 	tabSize:4,
 	codeStyle:'darcula',

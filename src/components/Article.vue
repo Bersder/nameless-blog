@@ -107,7 +107,6 @@
 </template>
 
 <script>
-	import {media} from "../util/global";
 	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
 	import {mdSetPreview} from "../util/global";
@@ -234,6 +233,13 @@
         		if(f)return ' ·' + f + '阅读';
 				else return null;
 			}
+		},
+		mounted(){
+			document.body.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+				inline: "nearest"
+			});
 		},
 		components:{
         	comment:CommentModule

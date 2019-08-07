@@ -16,8 +16,8 @@
 				<div class="content-aside"><!--侧边栏待开发-->
 					<div class="ca album">
 						<div class="album-img-wrap">
-							<img class="album-img" src="http://127.0.0.1:80/static/img/7.jpg">
-							<p>一张图片</p>
+							<img class="album-img" @click="openLB" :src="firstImg">
+							<p>{{firstDes}}</p>
 						</div>
 					</div>
 					<div class="ca fexchange tl">
@@ -25,9 +25,7 @@
 							<i class="fas fa-user-friends"></i> 好友交换
 						</div>
 						<div class="fexchange-content">
-							<p><i class="fab fa-playstation"> PSN</i>:Bersder3000</p>
-							<p><i class="fab fa-nintendo-switch"> NS</i>:SW-1724-8480-2131</p>
-							<p><i class="fab fa-steam-symbol"> Steam</i>:Bersder3000</p>
+							<p v-for="each in friendExchange"><i :class="each.icon"> {{each.description}}</i>:{{each.value}}</p>
 						</div>
 					</div>
 					<div class="ca board">
@@ -36,10 +34,10 @@
 							<i class="fab fa-first-order-alt"></i>
 						</div>
 						<div class="board-content">
-							异度之刃2有毒，害我天天两点睡
+							{{gossip.content}}
 						</div>
 						<div class="board-post-time">
-							-- Dec 12th, 23:33
+							-- {{gossip.time|gossipTime}}
 						</div>
 					</div>
 
@@ -52,23 +50,38 @@
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
 	import {fetch} from "../util/http";
+	import {contentAsideMixin} from "../util/global";
+	import {mapState} from 'vuex'
+	import {friendExchange} from "../util/USER_VAR";
 
 	export default {
         name: "Game",
 		created(){
-			fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
-				console.log(response.data.data)
-			})
+        	if (!this.isMobile)
+				fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
+					console.log(response.data.data);
+					let data = response.data.data;
+					this.$store.commit('lbImgsC',data.album);
+					if (data.album.length){
+						this.firstImg = data.album[0].imgSrc;
+						this.firstDes = data.album[0].description;
+					}
+					if (data.gossip)
+						this.gossip = data.gossip;
+				})
 		},
         data() {
             return {
+				friendExchange:friendExchange
 			}
         },
-        mounted() {
-        },
+		computed:{
+        	...mapState(['isMobile'])
+		},
 		components: {
 			'pc-acg':ContentPrimaryACG
 		},
+		mixins:[contentAsideMixin]
     }
 </script>
 
@@ -180,26 +193,26 @@
 					background: rgba(0,0,0,.3);
 				}
 		.cah.board,.ca.board { /*以下使用homepage覆盖*/
-			height: 1.1rem;
+			min-height: 1.1rem;
 			position: relative;
 		}
 			.board-head{
 				position: absolute;
 				top: .2rem;
 				left: 0;
+				bottom: .2rem;
 				writing-mode: vertical-rl;
 				padding-right: .1rem;
 				border-right: .01rem dashed #c5ccd3;
 			}
 			.board-content{
-				height: 70%;
 				width: 100%;
 				font-size: .14rem;
 				letter-spacing: .003rem;
 				line-height: .18rem;
 				text-align: left;
 				text-indent: .2rem;
-				padding: .22rem .1rem 0 .55rem;
+				padding: .22rem .1rem .4rem .55rem;
 				color: #425066;
 			}
 			.board-post-time{
