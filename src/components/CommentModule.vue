@@ -69,7 +69,7 @@
 				<h3>这里什么都没有`╮(￣▽￣)╭` </h3>
 			</div>
 		</div>
-		<ol class="pager" v-if="pageNum>1">
+		<ol class="c-pager" v-if="pageNum>1">
 			<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
 			<li v-show="curPage>=4" @click="curPage=1">1</li>
 			<li v-if="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
@@ -445,23 +445,23 @@
 		text-align: center;
 	}
 
-	.pager{
+	.c-pager{
 		display: inline-block;
 		margin: .2rem 0;
 		list-style-type: none;
 		color: #bbbbbb;
 	}
-		.pager li{
+		.c-pager li{
 			transition: 1s cubic-bezier(.25,.46,.45,.94);
 			float: left;
 			line-height: .2rem;
 			padding: 0 .05rem;
 			cursor: pointer;
 		}
-		.pager li.current{
+		.c-pager li.current{
 			color: #00a1d6;
 		}
-		.pager li:hover{
+		.c-pager li:hover{
 			color: #00a1d6;
 		}
 

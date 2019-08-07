@@ -10,7 +10,7 @@ export default new Vuex.Store({
 		scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
 		upping:false,
 		screenHeight:window.innerHeight || document.documentElement.clientHeight,
-		screenWidth:document.body.clientWidth,
+		screenWidth:window.innerWidth || document.body.clientWidth,
 		isMasked:false,
 
 		LBImgs:[],
@@ -52,7 +52,9 @@ export default new Vuex.Store({
 		}
 	},
 	getters:{
-
+		reachBottom(state){
+			return state.scrollTop + state.screenHeight >= document.documentElement.scrollHeight
+		}
 	}
 
 })

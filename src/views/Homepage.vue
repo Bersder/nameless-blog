@@ -10,36 +10,63 @@
 					</div>
 					<div class="panel-h-list">
 						<p class="description tl"><i class="fas fa-torii-gate"></i> 入る</p>
-						<div class="panel-h">
+						<div class="panel-h" v-for="each in curArts" :key="each.aid">
 							<div class="panel-h-img">
-								<router-link to="/">
-									<img src="http://127.0.0.1:80/static/img/2.jpg">
+								<router-link :to="'/archive/'+each.type+'/'+each.aid">
+									<img :src="'http://localhost:80'+each.imgSrc">
 									<div class="float-preview tl">
-										真正开始传奇鱼的垂钓，最好将剧情推到第三章更换营地以后更加方便，因为解锁传奇鱼地图和鱼饵的位置还是相对偏
+										{{each.preview}}
 									</div>
 								</router-link>
 							</div>
 							<div class="panel-h-info">
 								<div class="post-time">
-									<p class="pt-ym">2018. 18</p>
-									<p class="pt-d">18</p>
+									<p class="pt-ym">{{each.time|ym}}</p>
+									<p class="pt-d">{{each.time.substr(8,2)}}</p>
 								</div>
 								<div class="post-meta">
-									<span><i class="fas fa-hashtag"></i> 关键字</span>
-									<span><i class="far fa-comments"></i>666 评论</span>
+									<span><i class="fas fa-hashtag"></i><router-link :to="'/archive/'+each.type"> {{each.type|typeEN2CN}}</router-link></span>
+									<span><i class="far fa-comments"></i><router-link :to="'/archive/'+each.type+'/'+each.aid+'#comments'"> {{each.commentCount|commentNum}}</router-link></span>
 								</div>
 								<div class="post-title">
-									<p><router-link to="/">Roude镇枪店的秘密</router-link></p>
+									<p><router-link :to="'/archive/'+each.type+'/'+each.aid">{{each.title}}</router-link></p>
+								</div>
+								<div class="post-read">
+									<i class="fas fa-fire"></i> {{each.readCount|readNum}}
 								</div>
 							</div>
 						</div>
+<!--						<div class="panel-h">-->
+<!--							<div class="panel-h-img">-->
+<!--								<router-link to="/">-->
+<!--									<img src="http://127.0.0.1:80/static/img/2.jpg">-->
+<!--									<div class="float-preview tl">-->
+<!--										真正开始传奇鱼的垂钓，最好将剧情推到第三章更换营地以后更加方便，因为解锁传奇鱼地图和鱼饵的位置还是相对偏-->
+<!--									</div>-->
+<!--								</router-link>-->
+<!--							</div>-->
+<!--							<div class="panel-h-info">-->
+<!--								<div class="post-time">-->
+<!--									<p class="pt-ym">2018. 18</p>-->
+<!--									<p class="pt-d">18</p>-->
+<!--								</div>-->
+<!--								<div class="post-meta">-->
+<!--									<span><i class="fas fa-hashtag"></i> 关键字</span>-->
+<!--									<span><i class="far fa-comments"></i>666 评论</span>-->
+<!--								</div>-->
+<!--								<div class="post-title">-->
+<!--									<p><router-link to="/">Roude镇枪店的秘密</router-link></p>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
 					</div>
-					<div class="pager">
+					<div class="pager" @click="loadMore" v-if="curArts.length<artNum">
 						<div class="dec"></div>
 						<div class="previous-more">
 							<span>Previous</span>
 						</div>
 					</div>
+					<div class="pager-no-more" v-if="curArts.length>=artNum">没有更多啦( *・ω・)✄╰ひ╯</div>
 
 				</div>
 				<div class="content-aside-h">
@@ -85,14 +112,60 @@
 </template>
 
 <script>
-    export default {
-        name: "",
+	import {fetch} from "../util/http";
+	import {mapGetters} from 'vuex'
+	export default {
+        name: "Homepage",
+		created(){
+        	fetch('/apis/apiv9.php').then(response=>{
+        		let data = response.data.data;
+        		this.artNum = parseInt(data.artNum);
+				data.arts.forEach(e=>this.curArts.push(e));
+				console.log(this.curArts);
+
+			})
+		},
         data() {
-            return {}
+            return {
+            	artNum:0,
+            	curArts:[]
+			}
         },
         mounted() {
+
         },
-        components: {}
+		computed:{
+        	...mapGetters(['reachBottom'])
+		},
+		watch:{
+        	reachBottom(cur,pre){
+        		if (cur)this.loadMore();
+			}
+		},
+        methods:{
+        	loadMore(){
+				if (this.curArts.length<this.artNum)
+					fetch('/apis/apiv9.php',{more:Math.floor(this.curArts.length/8)}).then(response=>{
+						response.data.data.arts.forEach(e=>this.curArts.push(e))
+					});
+			}
+		},
+		filters:{
+        	typeEN2CN(type){
+        		if (type==='anime')return 'Anime';
+        		else if (type==='code')return '极客';
+        		else return type==='game'?'游民':'随写';
+			},
+			ym(time){
+        		return time.substr(0,4) + '. ' + time.substr(5,2)
+			},
+			commentNum(count){
+        		return count>0?count+' 评论':'No Comment';
+			},
+			readNum(count){
+        		return count.replace(/(\d)(?=(?:\d{3})+$)/g,'$1,')
+			}
+		}
     }
 </script>
 
@@ -132,7 +205,7 @@
 	.panel-h{
 		width: 100%;
 		height: 2rem;
-		margin-bottom: .2rem;
+		margin-bottom: .3rem;
 		border-radius: .03rem;
 		background: rgba(252,250,242,.7);
 		box-shadow: 0 .02rem .05rem rgba(0,0,0,.3);
@@ -199,6 +272,23 @@
 		margin-top: .15rem;
 		margin-right: .2rem;
 	}
+	.panel-h .post-read{
+		position: absolute;
+		bottom: 0;
+		font-size: .16rem;
+		line-height: .2rem;
+		user-select: none;
+		color: #FF7D7D;
+		padding: 0 .1rem;
+		border: .02rem solid #FF7D7D;
+		border-radius: .03rem;
+	}
+	.panel-h:nth-child(odd) .post-read{
+		left: .15rem;
+	}
+	.panel-h:nth-child(even) .post-read{
+		right: .15rem;
+	}
 	.pt-ym{
 		padding-bottom: .1rem;
 	}
@@ -225,6 +315,12 @@
 	}
 	.post-meta span{
 		margin-right: .1rem;
+	}
+	.post-meta a{
+		color: inherit;
+	}
+	.post-meta a:hover{
+		color: #FF7D7D;
 	}
 	.post-title{
 		writing-mode: vertical-rl;
@@ -305,6 +401,13 @@
 			border-color: #00a1d6;
 			transform: translate(.02rem,.02rem);
 		}
+	.pager-no-more{
+		color: grey;
+		margin: .2rem 0;
+		text-align: center;
+		padding: .1rem;
+		clear: both;
+	}
 
 
 
@@ -408,19 +511,11 @@
 			display: none;
 		}
 	}
-	@media screen and (max-width: 1005px){/*使用Code组件覆盖*/
-		.page-img{
-			margin-top: .5rem;
-			height: 3rem;
-		}
-		.page-info .intro{
-			font-size: .3rem;
-		}
-	}
 	@media screen and (max-width: 500px) {
 		.panel-h{ /*如果不行加important*/
-			height: 4rem;
-			padding: .1rem;
+			height: 3.8rem;
+			padding: .05rem;
+			margin-bottom: .1rem;
 		}
 		.panel-h-img{
 			height: 50% ;

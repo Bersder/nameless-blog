@@ -503,6 +503,8 @@
 			transform: translate(.02rem,.02rem);
 		}
 	.pager-no-more{
+		color: grey;
+		margin: .2rem 0;
 		text-align: center;
 		padding: .1rem;
 		clear: both;

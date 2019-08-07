@@ -210,8 +210,7 @@
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{
-					let data = response.data;
-					//console.log(response.data);
+					let data = response.data.data;
 					this.title = data.info.title;
 					this.imgSrc = data.info.imgSrc;
 					this.author = data.info.author;
@@ -235,11 +234,12 @@
 			}
 		},
 		mounted(){
-			document.body.scrollIntoView({
-				behavior: "smooth",
-				block: "start",
-				inline: "nearest"
-			});
+        	if (!this.$route.hash)
+				document.body.scrollIntoView({
+					behavior: "smooth",
+					block: "start",
+					inline: "nearest"
+				});
 		},
 		components:{
         	comment:CommentModule
@@ -251,11 +251,12 @@
 				this.xtype = type;
 				this.initData();
 				this.fetchData({xid:this.xid,_:this.xtype[0]});
-				document.body.scrollIntoView({
+				if (!this.$route.hash)
+					document.body.scrollIntoView({
 					behavior: "smooth",
 					block: "start",
 					inline: "nearest"
-				});
+					});
 			}
 
 
@@ -338,7 +339,7 @@
 	}
 		.content-area{
 			padding-top: .5rem;
-			animation: fadeInUp 1.5s .3s;
+			animation: fadeInUp 1.5s ;
 		}
 			.post-footer{
 				border-top: .01rem dashed #ddd;
