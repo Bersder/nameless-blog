@@ -1,18 +1,28 @@
 <template>
 	<div>
 		<div class="page-content-wrap">
-			<div class="page-content homepage">
-				<div class="notice tl"><i class="fas fa-volume-up"></i> 自用笔记公开，基于个人记忆及思维习惯写成，有不同程度的省略和变形，仅供参考</div>
+			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3}">
+				<div class="notice tl" v-if="notice"><i class="fas fa-volume-up"></i> {{notice}}</div>
 				<div class="content-primary-h">
-					<div class="topped-area">
+					<div class="topped-area" v-if="!isMobile">
 						<p class="description tl"><i class="fas fa-anchor"></i> 置顶区</p>
-						<!--暂时不开发-->
+						<div class="topped-list tl">
+							<div class="panel-topped" v-for="item in topped" :key="item.aid" :class="{odd:topped.length%2}">
+								<router-link :to="item|artUrl">
+									<img :src="'http://localhost:80'+item.imgSrc">
+									<div class="float-preview tl">
+										<h3 :title="item.title">{{item.title}}</h3>
+										{{item.preview}}
+									</div>
+								</router-link>
+							</div>
+						</div>
 					</div>
 					<div class="panel-h-list">
 						<p class="description tl"><i class="fas fa-torii-gate"></i> 入る</p>
 						<div class="panel-h" v-for="each in curArts" :key="each.aid">
 							<div class="panel-h-img">
-								<router-link :to="'/archive/'+each.type+'/'+each.aid">
+								<router-link :to="each|artUrl">
 									<img :src="'http://localhost:80'+each.imgSrc">
 									<div class="float-preview tl">
 										{{each.preview}}
@@ -29,36 +39,13 @@
 									<span><i class="far fa-comments"></i><router-link :to="'/archive/'+each.type+'/'+each.aid+'#comments'"> {{each.commentCount|commentNum}}</router-link></span>
 								</div>
 								<div class="post-title">
-									<p><router-link :to="'/archive/'+each.type+'/'+each.aid">{{each.title}}</router-link></p>
+									<p><router-link :to="each|artUrl">{{each.title}}</router-link></p>
 								</div>
 								<div class="post-read">
 									<i class="fas fa-fire"></i> {{each.readCount|readNum}}
 								</div>
 							</div>
 						</div>
-<!--						<div class="panel-h">-->
-<!--							<div class="panel-h-img">-->
-<!--								<router-link to="/">-->
-<!--									<img src="http://127.0.0.1:80/static/img/2.jpg">-->
-<!--									<div class="float-preview tl">-->
-<!--										真正开始传奇鱼的垂钓，最好将剧情推到第三章更换营地以后更加方便，因为解锁传奇鱼地图和鱼饵的位置还是相对偏-->
-<!--									</div>-->
-<!--								</router-link>-->
-<!--							</div>-->
-<!--							<div class="panel-h-info">-->
-<!--								<div class="post-time">-->
-<!--									<p class="pt-ym">2018. 18</p>-->
-<!--									<p class="pt-d">18</p>-->
-<!--								</div>-->
-<!--								<div class="post-meta">-->
-<!--									<span><i class="fas fa-hashtag"></i> 关键字</span>-->
-<!--									<span><i class="far fa-comments"></i>666 评论</span>-->
-<!--								</div>-->
-<!--								<div class="post-title">-->
-<!--									<p><router-link to="/">Roude镇枪店的秘密</router-link></p>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
 					</div>
 					<div class="pager" @click="loadMore" v-if="curArts.length<artNum">
 						<div class="dec"></div>
@@ -70,15 +57,15 @@
 
 				</div>
 				<div class="content-aside-h">
-					<div class="cah random tl">
-						<div class="random-head">
-							<i class="fas fa-random"></i>随便看看
+					<div class="cah hit tl">
+						<div class="hit-head">
+							<span><i class="fas fa-fire"></i> 最热</span>
 						</div>
-						<ul class="random-content">
-							<li data-text="A">
+						<ul class="hit-content">
+							<li :data-text="item.type[0].toUpperCase()" v-for="item in hits" :key="item.aid">
 								<div class="rc-item pl">
-									<p><router-link to="/">文章一文章一文章一文章一文章一文章一文章一文章一</router-link></p>
-									<span>666 阅读</span>
+									<p><router-link :to="item|artUrl">{{item.title}}</router-link></p>
+									<span>{{item.type|typeEN2CN}} | {{item.readCount|readNum}} 阅读</span>
 								</div>
 							</li>
 						</ul>
@@ -88,9 +75,7 @@
 							<i class="far fa-file-alt"> 最近更新</i>
 						</div>
 						<ul class="update-content">
-							<li><router-link to="/">Python 从零开始爬虫(七)——实战：网易云音乐评论爬取（附加密算法）</router-link></li>
-							<li><router-link to="/">文章二</router-link></li>
-							<li><router-link to="/">文章三</router-link></li>
+							<li v-for="item in latestUpdate" :key="item.aid"><router-link :to="item|artUrl">{{item.title}}</router-link><span> ({{item.lut|updateTime}})</span></li>
 						</ul>
 					</div>
 					<div class="cah board">
@@ -99,10 +84,10 @@
 							<i class="fab fa-first-order-alt"></i>
 						</div>
 						<div class="board-content">
-							迷上柏大辅的歌了，打码听他的后摇真的带劲
+							{{gossip.content}}
 						</div>
 						<div class="board-post-time">
-							-- Dec 12th, 23:33
+							-- {{gossip.time|gossipTime}}
 						</div>
 					</div>
 				</div>
@@ -114,6 +99,9 @@
 <script>
 	import {fetch} from "../util/http";
 	import {mapGetters} from 'vuex'
+	import {mapState} from 'vuex'
+	import {contentAsideMixin} from "../util/global";
+
 	export default {
         name: "Homepage",
 		created(){
@@ -121,21 +109,31 @@
         		let data = response.data.data;
         		this.artNum = parseInt(data.artNum);
 				data.arts.forEach(e=>this.curArts.push(e));
-				console.log(this.curArts);
-
+				data.latestUpdate.forEach(e=>this.latestUpdate.push(e));
+				data.hits.forEach(e=>this.hits.push(e));
+				data.topped.forEach(e=>this.topped.push(e));
+				if (data.gossip)
+					this.gossip = data.gossip;
+				this.notice = data.notice;
 			})
 		},
         data() {
             return {
             	artNum:0,
-            	curArts:[]
+            	curArts:[],
+				latestUpdate:[],
+				hits:[],
+				topped:[],
+				notice:null
+
 			}
         },
         mounted() {
 
         },
 		computed:{
-        	...mapGetters(['reachBottom'])
+        	...mapGetters(['reachBottom']),
+			...mapState(['scrollTop','screenHeight','isMobile'])
 		},
 		watch:{
         	reachBottom(cur,pre){
@@ -164,8 +162,29 @@
 			},
 			readNum(count){
         		return count.replace(/(\d)(?=(?:\d{3})+$)/g,'$1,')
+			},
+			artUrl(art){
+        		return '/archive/'+art.type+'/'+art.aid
+			},
+			updateTime(datetime){
+				let gap = new Date().getTime() -  new Date(datetime).getTime();
+				if (gap<60000)return '刚刚';
+				else{
+					let gap_m = Math.floor(gap/60000);
+					if (gap_m<60)return gap_m + '分钟前';
+					else{
+						let gap_h = Math.floor(gap_m/60);
+						if (gap_h<24)return gap_h + '小时前';
+						else{
+							let gap_d = Math.floor(gap_h/24);
+							if (gap_d<30)return gap_d + '日前';
+							else return '数月前'
+						}
+					}
+				}
 			}
-		}
+		},
+		mixins:[contentAsideMixin]
     }
 </script>
 
@@ -175,6 +194,68 @@
 		padding-bottom: .1rem;
 		border-bottom: .01rem dashed #eaeaea;
 	}
+	.topped-list{
+		overflow: hidden;
+	}
+		.panel-topped.odd:last-child{
+			width: unset;
+		}
+		.panel-topped{
+/*			display: inline-block;*/
+			margin: 0 .05rem .1rem .05rem;
+			height: 1.5rem;
+			width: calc(50% - .1rem);
+			position: relative;
+			overflow: hidden;
+			float: left;
+		}
+		.panel-topped:before{
+			content: 'Top';
+			position: absolute;
+			right: .1rem;
+			top: .1rem;
+			text-align: center;
+			width: 1rem;
+			transform-origin: top;
+			background: #00a1d699;
+			font-size: .16rem;
+			line-height: .2rem;
+			font-weight: bold;
+			color: white;
+			z-index: 10;
+			transform: translateX(50%) rotate(45deg);
+		}
+			.panel-topped a{
+				border-radius: .05rem;
+				overflow: hidden;
+			}
+				.panel-topped a:hover .float-preview{
+					transform: translateY(-100%);
+				}
+				.panel-topped a:hover img{
+					transform: scale(1.1);
+				}
+
+				.panel-topped .float-preview{
+					position: relative;
+					height: 100%;
+					font-size: .14rem;
+					overflow: hidden;
+					padding: .2rem .15rem 0;
+					color: #f5f5f0;
+					background: rgba(30,30,30,.6);
+					transition: .5s ease;
+					text-align: center;
+				}
+					.panel-topped .float-preview h3{
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						font-size: .2rem;
+						line-height: .4rem;
+					}
+
+
 	/*-----------------------------------------------暂时重复 请使用article组件覆盖*/
 	.page-content{
 		max-width: 8rem;
@@ -189,12 +270,11 @@
 		max-width: 9.3rem;
 		overflow: hidden;/*解决子元素浮动撑不开父元素*/
 		height: 100%;
+		transition: 1s cubic-bezier(.25,.46,.45,.94);
+		background: transparent;
 	}
-	.page-focus{
-		padding: .3rem;
-		position: relative;
-		font-size: .2rem;
-		margin:  .2rem 0;
+	#app .page-content.homepage.hidden{
+		opacity: 0;
 	}
 	.content-primary-h{
 		max-width: 6rem;
@@ -210,6 +290,7 @@
 		background: rgba(252,250,242,.7);
 		box-shadow: 0 .02rem .05rem rgba(0,0,0,.3);
 		transition: all .5s ease-in-out;
+		animation: fadeInDown .6s cubic-bezier(.25,.46,.45,.94);
 	}
 	.panel-h-img{
 		width: 50%;
@@ -226,17 +307,18 @@
 		border-top-left-radius: .03rem;
 		border-bottom-left-radius: .03rem;
 	}
-	.panel-h-img a{
+	.panel-h-img a,.panel-topped a{
 		position: relative;
 		display: block;
 		height: 100%;
+		font-size: 0;
 	}
-	.panel-h-img img{
+	.panel-h-img img,.panel-topped img{
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		object-position: center center;
-		transition: opacity .5s;
+		transition: .5s;
 	}
 	.panel-h:hover img{
 		opacity: .9;
@@ -244,17 +326,16 @@
 	.panel-h-img .float-preview{
 		position: relative;
 		height: .9rem;
-		bottom: 0;
 		font-size: .14rem;
 		text-indent: .2rem;
 		overflow: hidden;
 		padding: .1rem .15rem;
 		color: #f5f5f0;
 		background: rgba(0,0,0,.5);
-		transition: bottom .5s ease-in-out;
+		transition: .5s ease;
 	}
 	.panel-h:hover .float-preview{
-		bottom: .9rem;
+		transform: translateY(-.9rem) ;
 	}
 	.panel-h-info{
 		position: relative;
@@ -415,6 +496,7 @@
 
 
 	.content-aside-h{
+		margin-top: .5rem;
 		width: 2.8rem;
 		float: right;
 	}
@@ -425,7 +507,7 @@
 		box-shadow: 0 .01rem .03rem rgba(26,26,26,.5);
 		margin-bottom: .2rem;
 	}
-	.cah.random{
+	.cah.hit{
 		height: 100%;
 		overflow: hidden;
 		position: relative;
@@ -460,10 +542,10 @@
 		color: #c5ccd3;
 		font-size: .12rem;
 	}
-	.update-head,.random-head{
+	.update-head,.hit-head{
 		padding: .1rem .1rem 0;
 	}
-	.update-content,.random-content{
+	.update-content,.hit-content{
 		padding: .1rem .1rem .1rem .3rem;
 		font-size: .14rem;
 		list-style-type: none;
@@ -473,11 +555,11 @@
 			color: #ff6052;
 			margin-right: .05rem;
 		}
-		.update-content a,.random-content a{
+		.update-content a,.hit-content a{
 			color: inherit;
 		}
 
-		.random-content li:before{
+		.hit-content li:before{
 			content: attr(data-text);
 			font-size: .3rem;
 			line-height: .38rem;
@@ -490,11 +572,12 @@
 			border: .01rem dashed #d5d5d5;
 			float: left;
 		}
-		.random-content span{
+		.hit-content span,.update-content span{
 			font-size: .12rem;
+			user-select: none;
 			color: #bac1c8;
 		}
-		.random-content li{
+		.hit-content li{
 			height: 100%;
 			overflow: hidden;
 			position: relative;
@@ -513,18 +596,23 @@
 	}
 	@media screen and (max-width: 500px) {
 		.panel-h{ /*如果不行加important*/
-			height: 3.8rem;
+			height: 3.5rem;
 			padding: .05rem;
 			margin-bottom: .1rem;
 		}
 		.panel-h-img{
-			height: 50% ;
+			height: 1.5rem;
 			width: 100% ;
 			border-radius: .03rem;
 			box-shadow: 0 0 .05rem rgba(0,0,0,.8);
 		}
+		.panel-h .float-preview{
+			height: 100%;
+		}
+		.panel-h:hover .float-preview{
+			transform: translateY(-100%) ;
+		}
 		.panel-h-info{
-			padding-top: .1rem;
 			float: none ;
 			width: 100% ;
 		}

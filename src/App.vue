@@ -1,7 +1,9 @@
 <template>
   <div :id="isMobile?'mobile-app':'app'" >
 	  <top-nav></top-nav>
-	  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
+	  <keep-alive>
+		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
+	  </keep-alive>
 	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>

@@ -17,3 +17,16 @@ export const languageList=[
 	{imgSrc:'http://127.0.0.1:80/site/images/moe.php.jpg',description:'本站后端支持'},
 	{imgSrc:'http://127.0.0.1:80/site/images/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
 ];
+export const headerTop = {
+	logo:'Bersder3000',
+	socials:[
+		{url:'https://bilibili.com',iconSrc:'https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png'}
+
+	],
+	motto:'Mind is a terrible thing to lose',
+	bgs:[
+		{imgSrc:'http://127.0.0.1:80/site/header/anime.jpg',author:'Satom',authorLink:'',workName:'',workLink:'',avatar:''}
+	]
+
+};
+//前期没时间实现只能export出来先了，后期需要存入数据库提供在线修改
