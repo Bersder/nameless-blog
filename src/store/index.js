@@ -2,8 +2,21 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex);
-
+const account={
+	namespaced:true,
+	state:{
+		name:'',
+		token:'',
+	},
+	mutations:{
+		login(state,payload){
+		}
+	}
+};
 export default new Vuex.Store({
+	modules: {
+		account:account
+	},
 	state:{
 		platform:'',
 		isMobile:false,

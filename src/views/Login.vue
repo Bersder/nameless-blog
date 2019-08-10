@@ -1,0 +1,169 @@
+<template>
+	<div>
+		<div class="login-wrap" :style="{height:screenHeight+'px'}">
+			<div class="login">
+				<h1>Oshino·Nya</h1>
+				<p>
+					<label>
+						Username or Email Address
+						<input type="text" v-model="account">
+					</label>
+				</p>
+				<p>
+					<label>
+						Password
+						<input type="password" v-model="password">
+					</label>
+				</p>
+				<p class="remember" style="line-height: .2rem">
+					Remember Me
+					<span :class="{active:remember}" @click="remember=!remember"></span>
+				</p>
+				<p class="login-submit">
+					<button @click="loginSubmit">Sign in</button>
+				</p>
+			</div>
+		</div>
+	</div>
+
+</template>
+
+<script>
+	import {mapState} from 'vuex'
+	import {post} from "../util/http";
+	import {aesEncrypt} from "../util/util";
+
+	export default {
+        name: "Login",
+		data(){
+        	return {
+        		account:'OshinoNya',
+				password:'1Bersder',
+				remember:false
+
+			}
+		},
+		computed:{
+			...mapState(['screenHeight'])
+		},
+		methods:{
+        	loginSubmit(){
+				if (this.account && this.password) {
+					let data = {
+						account:this.account,
+						psw:this.password,
+					};
+					post('/apis/login.php',aesEncrypt(JSON.stringify(data))).then(response=>{
+						if (response.data.code > 0){
+							//信息错误
+						}
+						else{
+							let data = response.data;
+							console.log(data)
+						}
+					})
+				}
+				else
+					window.alert("make sure you have filled the boxes below")
+			}
+		}
+
+    }
+</script>
+
+<style scoped>
+	.login-wrap{
+		position: relative;
+	}
+	.login-wrap:before{
+		content: '';
+		position: absolute;
+		background-image: url(http://localhost:80/site/bg/loginbg.jpg);
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		filter: blur(2px);
+	}
+	.login{
+		width: 350px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		padding: .2rem .25rem;
+		background: rgba(255,255,255,.5);
+		border-radius: .05rem;
+		text-align: left;
+	}
+		.login h1{
+			text-align: center;
+			margin-bottom: .2rem;
+		}
+		.login label{
+			color: #494949;
+			font-size: .14rem;
+		}
+		.login input{
+			display: block;
+			border: .01rem solid #eaeaea;
+			border-radius: .03rem;
+			padding: .05rem .1rem;
+			transition: .5s;
+			color: grey;
+			margin-top: .1rem;
+			margin-bottom: .15rem;
+			width: 100%;
+			outline: none;
+			font-size: .18rem;
+		}
+		.login input:focus{
+			border-color: #00a1d6;
+			color: #2c3e50;
+		}
+			.login .remember span{
+				float: right;
+				position: relative;
+				display: inline-block;
+				width: .4rem;
+				height: .2rem;
+				border-radius: .1rem;
+				background-color: grey;
+				cursor: pointer;
+				transition: .5s ease;
+			}
+			.login .remember span.active{
+				background-color: #14b119;
+			}
+
+			.login .remember span:before{
+				content: '';
+				position: absolute;
+				top: .02rem;
+				left: .02rem;
+				height: .16rem;
+				width: .16rem;
+				border-radius: 50%;
+				transition: .5s ease;
+				background: white;
+			}
+			.login .remember span.active:before{
+				left: .22rem;
+			}
+
+			.login .login-submit button{
+				display: block;
+				width: 100%;
+				color: white;
+				margin-top: .1rem;
+				padding: .05rem .1rem;
+				font-size: .16rem;
+				line-height: .2rem;
+				border-radius: .05rem;
+				border: .01rem solid rgba(0,0,0,.1);
+				background: linear-gradient(top,#00a1d6, #0093c3);
+			}
+</style>

@@ -23,7 +23,7 @@ export const headerTop = {
 		{url:'https://bilibili.com',iconSrc:'https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png'}
 
 	],
-	motto:'Mind is a terrible thing to lose',
+	motto:'谢谢你，那个一直努力到了现在的自己',
 	bgs:[
 		{imgSrc:'http://127.0.0.1:80/site/header/anime.jpg',author:'Satom',authorLink:'',workName:'',workLink:'',avatar:''}
 	]

@@ -13,6 +13,7 @@ import TakeNote from "@/views/TakeNote"
 import Archive from "@/views/Archive"
 import Link from "@/views/Link"
 import Tag from "@/views/Tag"
+import Login from "@/views/Login"
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
 			path: '/',
 			name: 'homepage',
 			component:Homepage
+		},
+		{
+			path: '/login',
+			name: 'login',
+			component:Login
 		},
 		{
 			path: '/s/:domain',

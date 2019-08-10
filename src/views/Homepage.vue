@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="page-content-wrap">
-			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3}">
+			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3&&screenWidth>800}">
 				<div class="notice tl" v-if="notice"><i class="fas fa-volume-up"></i> {{notice}}</div>
 				<div class="content-primary-h">
 					<div class="topped-area" v-if="!isMobile">
@@ -133,7 +133,7 @@
         },
 		computed:{
         	...mapGetters(['reachBottom']),
-			...mapState(['scrollTop','screenHeight','isMobile'])
+			...mapState(['scrollTop','screenHeight','screenWidth','isMobile'])
 		},
 		watch:{
         	reachBottom(cur,pre){
