@@ -7,6 +7,7 @@
 	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>
+	  <site-footer v-if="$route.name!=='login'"></site-footer>
 	  <luminous-box></luminous-box>
   </div>
 </template>
@@ -18,6 +19,8 @@ import HeaderTop from './components/HeaderTop'
 import LuminousBox from '@/components/LuminousBox'
 import {mapState} from 'vuex'
 import {debounce} from "./util/util";
+import {post} from "./util/http";
+
 export default {
     name: 'App',
 	data(){
@@ -32,6 +35,25 @@ export default {
 				this.$store.commit('platformInit',{platform:agents[i],isMobile:true});
 				break;
 			}
+		if (window.localStorage.getItem('BB3000_token')){//尝试自动登录
+			let token = window.localStorage.getItem('BB3000_token');
+			post('/apis/auth/aLogin.php',{token:token}).then(response=>{
+				if (response.data.code>0){
+					//token过期或非法,清除token
+					window.localStorage.removeItem('BB3000_token');
+					console.log('自动登录失败，过期/非法')
+				}
+				else{
+					//vuex用户信息注入
+					console.log('自动登录成功，开始信息注入');
+					let data = response.data.data;
+					data.token = token;
+					this.$store.commit('account/alogin',data);
+				}
+
+			})
+
+		}
 	},
 	watch:{
     	isMasked(cur,pre){
@@ -45,6 +67,9 @@ export default {
 				document.body.classList.remove('masked');
 				document.scrollingElement.scrollTop = this.st;
 			}
+		},
+		loginStatus(cur,pre){
+			this.$router.options.routes[1].meta.loginStatus = cur;
 		}
 	},
 	mounted(){
@@ -61,7 +86,10 @@ export default {
 		'luminous-box':LuminousBox
 	},
 	computed:{
-    	...mapState(['isMobile','isMasked','screenWidth'])
+    	...mapState(['isMobile','isMasked','screenWidth']),
+		...mapState({
+			loginStatus:state=>state.account.loginStatus
+		})
 	}
 
 }

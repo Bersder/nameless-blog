@@ -28,7 +28,8 @@ export default new Router({
 		{
 			path: '/login',
 			name: 'login',
-			component:Login
+			component:Login,
+			meta:{loginStatus:false}
 		},
 		{
 			path: '/s/:domain',

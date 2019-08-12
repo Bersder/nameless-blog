@@ -2,7 +2,7 @@
 	<div>
 		<div class="login-wrap" :style="{height:screenHeight+'px'}">
 			<div class="login">
-				<h1>Oshino·Nya</h1>
+				<h1><router-link to="/">Oshino·Nya</router-link></h1>
 				<p>
 					<label>
 						Username or Email Address
@@ -24,6 +24,11 @@
 				</p>
 			</div>
 		</div>
+		<transition name="fadedown">
+			<div class="login-info" v-if="loginInfoShow" :style="{background:loginOK?'#e5ffe880':'#ffe3e380',color:loginOK?'#e5ffe8':'#ffe3e3'}">
+				<h4><i :class="loginOK?'far fa-check-circle':'fas fa-exclamation'"></i>{{loginInfo}}</h4>
+			</div>
+		</transition>
 	</div>
 
 </template>
@@ -37,14 +42,43 @@
         name: "Login",
 		data(){
         	return {
-        		account:'OshinoNya',
-				password:'1Bersder',
-				remember:false
+        		account:'',
+				password:'',
+				remember:false,
+				loginInfoShow:false,
+				loginInfo:'',
+				loginOK:true
 
 			}
 		},
 		computed:{
-			...mapState(['screenHeight'])
+			...mapState(['screenHeight']),
+		},
+		beforeRouteEnter(to,from,next){
+        	console.log(to,from);
+        	if (!from.name){ //非路由方式进入
+        		if (window.localStorage.getItem('BB3000_token')){
+        			console.log('//非路由方式进入,存在token，回去主页等待验证');
+					next('/');
+				}//存在token，回去主页等待验证
+
+				else{
+					console.log('//非路由方式进入,没有token，允许进行登录');
+					next()
+				}//没有token，允许进行登录
+
+			}
+			else{//路由方式进入
+				if (to.meta.loginStatus){
+					console.log('路由方式进入，已经登录过');
+					next('/');
+				} //已经登录过
+				else{
+					console.log('路由方式进入，没登录');
+					next();
+				}
+
+			}
 		},
 		methods:{
         	loginSubmit(){
@@ -52,19 +86,35 @@
 					let data = {
 						account:this.account,
 						psw:this.password,
+						remember: this.remember?1:0
 					};
-					post('/apis/login.php',aesEncrypt(JSON.stringify(data))).then(response=>{
+					post('/apis/auth/login.php',aesEncrypt(JSON.stringify(data))).then(response=>{
 						if (response.data.code > 0){
 							//信息错误
+							this.callLoginInfo('登录失败，请检查帐号密码是否正确',false)
 						}
 						else{
-							let data = response.data;
-							console.log(data)
+							let data = response.data.data;
+							this.$store.commit('account/login',data);
+							this.callLoginInfo('登录成功，即将返回主页',true);
+							this.account = this.password = '';
+							setTimeout(()=>{
+								this.$router.push({name:'homepage'});
+							},4000)
+
 						}
 					})
 				}
 				else
 					window.alert("make sure you have filled the boxes below")
+
+
+			},
+			callLoginInfo(info,ok){
+				this.loginInfo=info;
+				this.loginOK = ok;
+        		this.loginInfoShow = true;
+        		setTimeout(()=>this.loginInfoShow=false,3000)
 			}
 		}
 
@@ -72,6 +122,34 @@
 </script>
 
 <style scoped>
+	.fadedown-enter-active{
+		animation: infobox-fadeDown .5s cubic-bezier(.25,.46,.45,.94);
+	}
+	.fadedown-leave-active{
+		animation: infobox-fadeDown .5s cubic-bezier(.25,.46,.45,.94) reverse;
+	}
+	@keyframes infobox-fadeDown {
+		0%{
+			opacity: 0;
+			transform: translate(-50%,-.7rem);
+		}
+		100%{
+			opacity: 1;
+			transform: translate(-50%,0);
+		}
+	}
+	.login-info{
+		position: fixed;
+		top: 0;
+		left: 50%;
+		height: .7rem;
+		padding: 0 .2rem;
+		color: #8b8e99;
+		line-height: .7rem;
+		border-bottom-right-radius: .05rem;
+		border-bottom-left-radius: .05rem;
+		transform: translateX(-50%);
+	}
 	.login-wrap{
 		position: relative;
 	}

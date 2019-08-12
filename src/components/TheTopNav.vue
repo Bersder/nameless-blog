@@ -15,10 +15,10 @@
 			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight-50+'px'}"></div>
 			<div class="nav-aside" :class="{open:!isOpened}" :style="{height:screenHeight-50+'px'}">
 				<div class="nav-avatar">
-					<router-link to="个人主页"><img src="http://localhost:80/uploads/avatar/me.png"></router-link>
+					<router-link :to="loginStatus?'/space':'/about'"><img src="http://localhost:80/uploads/avatar/me.png"></router-link>
 				</div>
-				<p style="color: #333;font-weight: 700;">忍野ニャニャ</p>
-				<p style="color: #8b8e99;font-size: .12rem;margin-top: .05rem">魂音泉也不错呢！</p>
+				<p style="color: #333;font-weight: 700;">忍野喵</p>
+				<p style="color: #8b8e99;font-size: .12rem;margin-top: .05rem">君若喜坂上なち、友達</p>
 				<p class="cut-line"></p>
 
 
@@ -128,7 +128,10 @@
         	processed:function () {
 				return this.scrollTop/(document.body.offsetHeight-document.documentElement.clientHeight)*100 + '%';
 			},
-			...mapState(['scrollTop','screenWidth','screenHeight','upping','isMasked'])
+			...mapState(['scrollTop','screenWidth','screenHeight','upping','isMasked']),
+			...mapState({
+				loginStatus:state=>state.account.loginStatus,
+			})
 
 		},
 		methods:{
@@ -396,14 +399,23 @@
 		transform: translateX(-2.4rem);
 	}
 		.nav-avatar{
-			padding: .2rem 0;
+			padding: .15rem .2rem;
+			position: relative;
 		}
-			.nav-avatar img,.nav-avatar a{
+			.nav-avatar a{
 				display: inline-block;
 				width: .9rem;
 				height: .9rem;
-				border-radius: 100%;
+				overflow: hidden;
+				font-size: 0;
+				border-radius: 50%;
 			}
+				.nav-avatar a img{
+					object-fit: cover;
+					object-position: center center;
+					height: 100%;
+					width: 100%;
+				}
 		.search-box-m{
 			margin: .2rem 0;
 			padding: .1rem .15rem;

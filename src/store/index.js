@@ -2,14 +2,38 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex);
-const account={
+const account={//默认未登录状态
 	namespaced:true,
 	state:{
-		name:'',
+		uid:0,
+		name:'???',//暂时这些信息
+		avatar:'http://localhost:80/test/none.png',
 		token:'',
+		loginStatus:false
 	},
 	mutations:{
 		login(state,payload){
+			window.localStorage.setItem('BB3000_token',payload.token);
+			state.token = payload.token;
+			state.uid = payload.info.uid;
+			state.name = payload.info.name;
+			state.avatar = payload.info.avatar;
+			state.loginStatus = true;
+		},
+		alogin(state,payload){
+			state.token = payload.token;
+			state.uid = payload.info.uid;
+			state.name = payload.info.name;
+			state.avatar = payload.info.avatar;
+			state.loginStatus = true;
+		},
+		logout(state){
+			window.localStorage.removeItem('BB3000_token');
+			state.token = '';
+			state.uid = 0;
+			state.name = '???';
+			state.avatar = 'http://localhost:80/test/none.png';
+			state.loginStatus = true;
 		}
 	}
 };
