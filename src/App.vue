@@ -135,6 +135,13 @@ export default {
 		border-radius: .05rem;
 		background-color: #ffa7a5;
 	}
+	/*测试*/
+	.site-wrapper{
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-position: center center;
+		background-size: cover;
+	}
 	.blank{
 		padding-top: .7rem;
 	}
@@ -164,7 +171,6 @@ export default {
 	    text-align: center;
 	    color: #2c3e50;
 		font-size: .16rem;
-		/*height: 10000px;*/
 		background: #f1f4f7;/*测试*/
 	}
 	.pr{float: right}.pl{float: left}.tc{text-align: center}
@@ -195,8 +201,8 @@ export default {
 	.is-collapsed{
 		max-height: 0;
 	}
-	.page-content-wrap{
-		background: rgba(255,255,255,.5);
+	.page-content-wrap,.page-header-wrap{
+		background: rgba(255,255,255,.66);
 	}
 	#mobile-app .publish-area .v-note-wrapper{
 		height: 5.5rem;

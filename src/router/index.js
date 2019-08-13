@@ -32,7 +32,7 @@ export default new Router({
 			meta:{loginStatus:false}
 		},
 		{
-			path: '/s/:domain',
+			path: '/search/:key',
 			name: 'search',
 			component:Search
 		},

@@ -448,6 +448,7 @@
 				border: .01rem solid #eaeaea;
 				border-radius: 100%;
 			}
+	/*使用homepage样式覆盖*/
 	.pager{
 		position: relative;
 		height: .4rem;

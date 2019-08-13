@@ -102,9 +102,6 @@
 </script>
 
 <style scoped>
-	.page-content-wrap,.page-header-wrap{
-		background: rgba(255,255,255,.5);
-	}
 	/*-----------------------------------------------暂时重复 请使用article组件覆盖*/
 	.page-content{
 		max-width: 8rem;

@@ -100,7 +100,7 @@
 	import {fetch} from "../util/http";
 	import {mapGetters} from 'vuex'
 	import {mapState} from 'vuex'
-	import {contentAsideMixin} from "../util/global";
+	import {contentAsideMixin,panelhMixin} from "../util/global";
 
 	export default {
         name: "Homepage",
@@ -149,20 +149,6 @@
 			}
 		},
 		filters:{
-        	typeEN2CN(type){
-        		if (type==='anime')return 'Anime';
-        		else if (type==='code')return '极客';
-        		else return type==='game'?'游民':'随写';
-			},
-			ym(time){
-        		return time.substr(0,4) + '. ' + time.substr(5,2)
-			},
-			commentNum(count){
-        		return count>0?count+' 评论':'No Comment';
-			},
-			readNum(count){
-        		return count.replace(/(\d)(?=(?:\d{3})+$)/g,'$1,')
-			},
 			artUrl(art){
         		return '/archive/'+art.type+'/'+art.aid
 			},
@@ -184,7 +170,7 @@
 				}
 			}
 		},
-		mixins:[contentAsideMixin]
+		mixins:[contentAsideMixin,panelhMixin]
     }
 </script>
 

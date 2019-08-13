@@ -1,5 +1,5 @@
 <template>
-	<div class="site-header" v-if="$route.name!=='login'" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!/article.*/.test($route.name)&&!isMasked,pinned:upping||scrollTop<200}">
+	<div class="site-header" v-if="$route.name!=='login'" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!/article.*|search/.test($route.name)&&!isMasked,pinned:upping||scrollTop<200}">
 		<div class="header-scrollbar" :style="{width:processed}"></div>
 
 		<div class="header-nav-m" v-show="screenWidth<1000">
@@ -9,7 +9,7 @@
 					<span></span>
 					<span></span>
 				</div>
-				<p class="nav-title" v-show="upping&&scrollTop>200"><router-link to="/">Oshino Nyanya</router-link></p>
+				<p class="nav-title"><router-link to="/">Oshino·Nya</router-link></p>
 <!--				<div class="nav-login pr"><router-link to="/"><i class="far fa-user-circle"></i></router-link></div>-->
 			</div>
 			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight-50+'px'}"></div>
@@ -67,7 +67,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="search-box pr">
+			<div class="search-box-t pr">
 				<input type="search" v-model.trim="searchKey" @keyup.enter="post_Search" required>
 			</div>
 
@@ -135,8 +135,12 @@
 
 		},
 		methods:{
-        	post_Search:function () {
-				console.log(this.searchKey);
+        	post_Search(){
+        		if (this.searchKey){
+					this.$router.push({name:'search',params:{key:this.searchKey}});
+					this.searchKey = '';
+				}
+
 			}
 		}
     }
@@ -288,15 +292,15 @@
 						font-size: .16rem;
 						margin: .05rem 0;
 					}
-		.search-box{
+		.search-box-t{
 			position: relative;
 			margin: .16rem .1rem;
 			animation: fadeInRight 1.5s;
 		}
-			.home .search-box{
+			.home .search-box-t{
 				display: none;
 			}
-			.search-box input{
+			.search-box-t input{
 				outline: none;
 				border: .02rem solid #eaeaea;
 				padding: .07rem;
@@ -306,7 +310,7 @@
 				color: transparent;
 				background: url("http://127.0.0.1:80/static/img/search.png") no-repeat .05rem .05rem;
 			}
-			.search-box input:focus{
+			.search-box-t input:focus{
 				color: #425066;
 				width: 2rem;
 				padding: .07rem .07rem .07rem .3rem;

@@ -265,9 +265,6 @@
 </script>
 
 <style scoped>
-	.page-content-wrap,.page-header-wrap{
-		background: rgba(255,255,255,.5);
-	}
 	.pattern-center{
 		position: relative;
 		margin: 0 auto;
