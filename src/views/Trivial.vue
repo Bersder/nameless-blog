@@ -334,9 +334,7 @@
 				padding: 0 .1rem .1rem .1rem;
 				height: 1.65rem;
 			}
-			.panel-t-info a{
-				color: inherit;
-			}
+
 			.panel-t-info span{
 				margin-right: .15rem;
 				font-size: .14rem;

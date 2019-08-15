@@ -203,9 +203,7 @@
 				border-radius: .1rem;
 				background: #eaeaea;
 			}
-			.broadcast-content a{
-				color: inherit;
-			}
+
 		.cah.board,.ca.board { /*以下使用homepage覆盖*/
 			min-height: 1.1rem;
 			position: relative;

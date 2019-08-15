@@ -406,9 +406,6 @@
 					font-weight: bold;
 					font-size: .15rem;
 				}
-					.uname a{
-						color: inherit;
-					}
 					.uname .comment-id,.uname .reply-id{
 						font-size: .12rem;
 						vertical-align: text-bottom;

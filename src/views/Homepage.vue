@@ -383,9 +383,6 @@
 	.post-meta span{
 		margin-right: .1rem;
 	}
-	.post-meta a{
-		color: inherit;
-	}
 	.post-meta a:hover{
 		color: #FF7D7D;
 	}
@@ -541,9 +538,7 @@
 			color: #ff6052;
 			margin-right: .05rem;
 		}
-		.update-content a,.hit-content a{
-			color: inherit;
-		}
+
 
 		.hit-content li:before{
 			content: attr(data-text);

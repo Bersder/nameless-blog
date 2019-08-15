@@ -205,9 +205,6 @@
 		.search-404 li{
 			padding: .1rem 0;
 		}
-		.search-404 a{
-			color: inherit;
-		}
 		.search-404 a:hover{
 			color: #FF7D7D;
 		}
@@ -396,9 +393,6 @@
 	}
 	.post-meta span{
 		margin-right: .1rem;
-	}
-	.post-meta a{
-		color: inherit;
 	}
 	.post-meta a:hover{
 		color: #FF7D7D;

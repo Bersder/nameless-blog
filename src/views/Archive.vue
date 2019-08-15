@@ -175,7 +175,6 @@
 	}
 	.tag-cloud .roll-toggle{
 		display: inline-block;
-		color: inherit;
 		text-align: center;
 		vertical-align: middle;
 		background: #eaeaea;
@@ -290,7 +289,6 @@
 				position: absolute;
 				left: .35rem;
 				right: 0;
-				color: inherit;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;

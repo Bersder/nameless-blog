@@ -62,9 +62,7 @@
 		overflow: hidden;
 		text-shadow: 0 0 .01rem rgba(0, 0, 0, .3);
 	}
-	.site-info a{
-		color: inherit;
-	}
+
 	.site-info a:hover{
 		color: #00a1d6;
 	}

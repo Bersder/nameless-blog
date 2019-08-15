@@ -212,7 +212,6 @@
 		}
 		.tag-cloud .roll-toggle{
 			display: inline-block;
-			color: inherit;
 			text-align: center;
 			vertical-align: middle;
 			background: #eaeaea;
@@ -295,7 +294,6 @@
 
 		}
 		.item-name .item-link{
-			color: inherit;
 			font-size: .16rem;
 			margin-right: .1rem;
 			transition: .5s;
@@ -310,9 +308,7 @@
 			border-radius: .1rem;
 			margin-right: .05rem;
 		}
-		.item-tag a{
-			color: inherit;
-		}
+
 		.item-name .item-link:hover{
 			color: #00a1d6;
 		}

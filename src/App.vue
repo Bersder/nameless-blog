@@ -107,7 +107,7 @@ export default {
 		font-size: 625%;
 	}
 
-	a{text-decoration: none;transition: .5s}
+	a{text-decoration: none;transition: .5s ease;color: inherit}
 	p,ul,ol{display: block;}
 	h1{letter-spacing: 2px}
 	button{

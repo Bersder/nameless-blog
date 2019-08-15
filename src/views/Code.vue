@@ -230,9 +230,6 @@
 				color: #edb100;
 				margin-right: .05rem;
 			}
-			.series-content a{
-				color: inherit;
-			}
 			.series-content span{
 				color: #afafaf;
 			}

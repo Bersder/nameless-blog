@@ -26,12 +26,17 @@
 		<div class="space-n-wrap">
 			<div class="n-inner">
 				<div class="n-tab-link">
-
+					<router-link to="/space/dynamic" class="n-btn">
+						<span class="iconfont icon-dongtai"></span><span class="n-title">动态</span>
+					</router-link>
 				</div>
 				<div class="">
 
 				</div>
 			</div>
+		</div>
+		<div class="space-c-wrap">
+
 		</div>
 
 	</div>
@@ -161,9 +166,29 @@
 		padding: 0 .2rem;
 		max-width: 11rem;
 		height: .6rem;
+		text-align: left;
 		background: white;
 		border-radius: 0 0 .05rem .05rem;
+		box-shadow: 0 0 0 1px #eee;
 	}
+		.n-inner .n-tab-link {
+			display: inline-block;
+		}
+			.n-tab-link .n-btn{
+				display: inline-block;
+				margin-right: .3rem;
+				font-size: 0;
+				line-height: .6rem;
+			}
+				.n-btn .iconfont{
+					font-size: .2rem;
+					vertical-align: middle;
+					margin-right: .04rem;
+				}
+				.n-btn .n-title{
+					font-size: .13rem;
+					vertical-align: middle;
+				}
 
 @media screen and (max-width: 1000px) {
 	.h-inner{

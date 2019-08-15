@@ -260,10 +260,6 @@
 			.link-list ul li:nth-child(even){
 				text-align: left;
 			}
-				.link-list ul li a{
-					color: inherit;
-					transition: .5s;
-				}
 				.link-list ul li a:hover{
 					color: #00a1d6;
 				}
