@@ -1,5 +1,5 @@
 <template>
-	<div class="site-header" v-if="$route.name!=='login'" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!/article.*|search/.test($route.name)&&!isMasked,pinned:upping||scrollTop<200}">
+	<div class="site-header" v-if="$route.name!=='login'" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!/article.*|search|space/.test($route.name)&&!isMasked,pinned:upping||scrollTop<200}">
 		<div class="header-scrollbar" :style="{width:processed}"></div>
 
 		<div class="header-nav-m" v-show="screenWidth<1000">

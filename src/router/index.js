@@ -14,6 +14,7 @@ import Archive from "@/views/Archive"
 import Link from "@/views/Link"
 import Tag from "@/views/Tag"
 import Login from "@/views/Login"
+import Space from "@/views/Space"
 
 Vue.use(Router);
 
@@ -96,6 +97,11 @@ export default new Router({
 			path: '/takenote',
 			name: 'takenote',
 			component: TakeNote
+		},
+		{
+			path:'/space',
+			name: 'space',
+			component:Space
 		}
 	]
 })
