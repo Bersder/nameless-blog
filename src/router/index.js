@@ -28,6 +28,15 @@ export default new Router({
 			component:Homepage
 		},
 		{
+			path:'/space',
+			name: 'space',
+			component:Space,
+			meta:{loginStatus:false},
+			children: [
+				{path:'launch',name:'space-l',component:SpaceLaunch}
+			]
+		},
+		{
 			path: '/login',
 			name: 'login',
 			component:Login,
@@ -99,13 +108,5 @@ export default new Router({
 			name: 'takenote',
 			component: TakeNote
 		},
-		{
-			path:'/space',
-			name: 'space',
-			component:Space,
-			children: [
-				{path:'launch',name:'space-l',component:SpaceLaunch}
-			]
-		}
 	]
 })

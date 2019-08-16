@@ -319,9 +319,10 @@
 
 
 	.waiting{
-		margin: 1rem auto;
+		margin: 0 auto;
 		text-align: center;
-		height: .35rem;
+		height: 2.35rem;
+		padding: 1rem 0;
 		width: .5rem;
 		font-size: .1rem;
 	}

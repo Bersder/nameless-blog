@@ -46,6 +46,23 @@
 	import {post} from "../util/http";
 	export default {
         name: "Space",
+		// beforeRouteEnter(to,from,next){
+		// 	if (!from.name){
+		// 		console.log('非路由方式进入,回主页验证token');
+		// 		next('/')
+		// 	}
+		// 	else{
+		// 		if (to.meta.loginStatus){
+		// 			console.log('路由方式进入，已经登录过');
+		// 			next();
+		// 		}
+		// 		else{
+		// 			console.log('(非法)路由方式进入，回主页');
+		// 			next();
+		// 		}
+		//
+		// 	}
+		// },
 		components: {
 
 		},

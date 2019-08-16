@@ -1,13 +1,20 @@
 <template>
     <div>
-		<h2 class="draft-head">我的草稿</h2>
-		<div class="draft-content" :class="{empty:!drafts.length}">
-			<div class="draft-list">
+		<h2 class="draft-head">{{this.type==='note'?'笔记':'文章'}}草稿<router-link title="新写一篇" :to="this.type==='note'?'/takenote':'/write'"><i class="iconfont icon-addfriend"></i></router-link> </h2>
+		<div class="draft-content" :class="{empty:!draftFound}">
+			<div class="waiting" id="anchor" v-show="draftWaiting">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+			<transition-group tag="div" name="flip" class="draft-list" v-if="!draftWaiting">
 				<div class="draft-list-item" v-for="each in drafts" :key="each.id">
-					<p class="row1"><span class="draft-type">{{each.type|typeEN2CN}}</span><router-link :to="each|draftUrl">{{each.title}}</router-link></p>
+					<p class="row1"><span class="draft-type">{{each.type|typeEN2CN}}</span><router-link :to="each|draftUrl">{{each.title||'标题未定'}}</router-link></p>
 					<p class="row2"><span class="draft-update">上次更新:{{each.lut|updateTime}}</span> · <router-link class="draft-edit" :to="each|draftUrl">编辑</router-link><a  href="javascript:void(0);" @click="dropDraft(each)" class="draft-trash pr">!!舍弃!!</a></p>
 				</div>
-			</div>
+			</transition-group>
 		</div>
 	</div>
 </template>
@@ -19,13 +26,25 @@
         name: "SpaceLaunchDraft",
 		created(){
 			post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
-				let data = response.data.data;
-				data.drafts.forEach(e=>this.drafts.push(e));
+				if (response.data.code < 1){
+					let data = response.data.data;
+					this.draftWaiting = false;
+					this.draftFound = Boolean(data.drafts.length);
+					data.drafts.forEach(e=>this.drafts.push(e));
+				}
+			}).catch(err=>{
+				if (err.response.status===401){
+					this.$store.commit('account/logout');
+					this.$router.push('/')
+				}
+
 			})
 		},
 		data(){
         	return {
-        		drafts:[]
+        		drafts:[],
+				draftFound:true,
+				draftWaiting:true,
 			}
 		},
 		computed:{
@@ -38,16 +57,32 @@
         		if(window.confirm('确认舍弃该草稿？'))
 					post('/apis/auth/v2api.php',{token:this.token,type:this.type,id:draft.id}).then(response=>{
 						if (response.data.code < 1)
-							this.drafts.splice(this.drafts.indexOf(draft),1)
+							this.drafts.splice(this.drafts.indexOf(draft),1);
+					}).catch(err=>{
+						if (err.response.status===401){
+							this.$store.commit('account/logout');
+							this.$router.push('/')
+						}
+
 					})
 			}
 		},
 		watch:{
         	type(cur,pre){
+				this.draftFound = true;
+				this.draftWaiting = true;
         		while(this.drafts.pop()){}
         		post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
         			let data = response.data.data;
+					this.draftWaiting = false;
+					this.draftFound = Boolean(data.drafts.length);
         			data.drafts.forEach(e=>{this.drafts.push(e)})
+				}).catch(err=>{
+					if (err.response.status===401){
+						this.$store.commit('account/logout');
+						this.$router.push('/')
+					}
+
 				})
 			}
 		},
@@ -86,6 +121,13 @@
 </script>
 
 <style scoped>
+	.flip-leave-active{
+		position: absolute;
+	}
+	.flip-leave-to{
+		opacity: 0;
+		transform: translateY(-.7rem);
+	}
 	.draft-head{
 		font-size: .2rem;
 		line-height: .4rem;
@@ -93,6 +135,17 @@
 		text-align: left;
 		border-bottom: .01rem dashed #eaeaea;
 	}
+		.draft-head a{
+			margin-left: .1rem;
+		}
+		.draft-head i{
+			font-size: .2rem;
+			transition: .5s ease;
+			color: #6d757a;
+		}
+		.draft-head i:hover{
+			color: #00a1d6;
+		}
 	.draft-content{
 		min-height: 4.5rem;
 	}
@@ -111,12 +164,15 @@
 	}
 	.draft-list{
 		margin-bottom: .2rem;
+		position: relative;
 	}
 	.draft-list-item{
+		width: 100%;
 		padding: .15rem 0;
 		font-size: .13rem;
 		border-bottom: .01rem solid #eaeaea;
 		text-align: left;
+		transition: .5s ease;
 	}
 	.draft-list-item:last-child{
 		border-bottom: none;
@@ -150,4 +206,32 @@
 			background: indianred;
 			color: white;
 		}
+	/*下面使用commentModule样式*/
+	.waiting{
+		margin: 0 auto;
+		text-align: center;
+		height: 2.35rem;
+		padding: 1rem 0;
+		width: .5rem;
+		font-size: .1rem;
+	}
+	.waiting>div{
+		display: inline-block;
+		height: 100%;
+		width: .05rem;
+		background: #00a1d6;
+		animation: stretchdelay 1.2s infinite ease-in-out;
+	}
+	.waiting .rect2{
+		animation-delay: -1.1s;
+	}
+	.waiting .rect3{
+		animation-delay: -1s
+	}
+	.waiting .rect4{
+		animation-delay: -.9s;
+	}
+	.waiting .rect5{
+		animation-delay: -.8s;
+	}
 </style>

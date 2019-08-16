@@ -41,7 +41,7 @@ export default {
 				if (response.data.code>0){
 					//token过期或非法,清除token
 					window.localStorage.removeItem('BB3000_token');
-					console.log('自动登录失败，过期/非法')
+					console.log('自动登录失败，过期/非法');
 				}
 				else{
 					//vuex用户信息注入
@@ -69,7 +69,7 @@ export default {
 			}
 		},
 		loginStatus(cur,pre){
-			this.$router.options.routes[1].meta.loginStatus = cur;
+			this.$router.options.routes[1].meta.loginStatus = this.$router.options.routes[2].meta.loginStatus = cur;
 		}
 	},
 	mounted(){
