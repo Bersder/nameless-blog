@@ -26,19 +26,19 @@
 		<div class="space-n-wrap">
 			<div class="n-inner">
 				<div class="n-tab-link">
-					<router-link to="/space/dynamic" class="n-btn">
-						<span class="iconfont icon-dongtai"></span><span class="n-title">动态</span>
-					</router-link>
+					<router-link to="/space/dynamic" class="n-btn"><span class="iconfont icon-dongtai"></span><span class="n-title">动态</span></router-link>
+					<router-link to="/space/launch" class="n-btn"><span class="iconfont icon-launch"></span><span class="n-title">发布</span></router-link>
+					<router-link to="/space/album" class="n-btn"><span class="iconfont icon-album"></span><span class="n-title">相册</span></router-link>
+					<router-link to="/space/setting" class="n-btn"><span class="iconfont icon-gear"></span><span class="n-title">设置</span></router-link>
 				</div>
-				<div class="">
+				<div class="n-statistics">
 
 				</div>
 			</div>
 		</div>
 		<div class="space-c-wrap">
-
+			<router-view></router-view>
 		</div>
-
 	</div>
 </template>
 
@@ -66,10 +66,13 @@
 </script>
 
 <style scoped>
+	.space-c-wrap{
+		margin: .1rem 0;
+	}
 	.h-inner{
 		position: relative;
 		padding-top: 1.2rem;
-		max-width: 11rem;
+		max-width: 12rem;
 		margin: .7rem auto 0;
 		background-image: url(http://localhost:80/site/images/space.png);
 		background-position: center center;
@@ -164,12 +167,12 @@
 	.n-inner{
 		margin: 0 auto;
 		padding: 0 .2rem;
-		max-width: 11rem;
+		max-width: 12rem;
 		height: .6rem;
 		text-align: left;
 		background: white;
 		border-radius: 0 0 .05rem .05rem;
-		box-shadow: 0 0 0 1px #eee;
+		box-shadow: 0 0 0 .01rem #eee;
 	}
 		.n-inner .n-tab-link {
 			display: inline-block;
@@ -184,6 +187,18 @@
 					font-size: .2rem;
 					vertical-align: middle;
 					margin-right: .04rem;
+				}
+				.iconfont.icon-dongtai{
+					color: #fb7299;
+				}
+				.iconfont.icon-launch{
+					color: slateblue;
+				}
+				.iconfont.icon-album{
+					color: yellowgreen;
+				}
+				.iconfont.icon-gear{
+					color: #00a1d6;
 				}
 				.n-btn .n-title{
 					font-size: .13rem;

@@ -15,6 +15,7 @@ import Link from "@/views/Link"
 import Tag from "@/views/Tag"
 import Login from "@/views/Login"
 import Space from "@/views/Space"
+import SpaceLaunch from "@/components/SpaceLaunch";
 
 Vue.use(Router);
 
@@ -101,7 +102,10 @@ export default new Router({
 		{
 			path:'/space',
 			name: 'space',
-			component:Space
+			component:Space,
+			children: [
+				{path:'launch',name:'space-l',component:SpaceLaunch}
+			]
 		}
 	]
 })
