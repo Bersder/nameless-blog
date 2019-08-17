@@ -26,7 +26,7 @@
 		</div>
 
 		<div class="comments-main">
-			<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论</span></h3>
+			<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论{{this.unique}}</span></h3>
 			<div class="comments-list" v-if="allCount">
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
@@ -136,6 +136,9 @@
 					});
 					console.log(this.commentList)
 				})
+			},
+			unique(cur,pre){
+				console.log(cur,this.id_,this.type)//待修复，comments更新bug
 			}
 		},
 		methods:{
@@ -218,7 +221,7 @@
 				else return[this.curPage-2,this.curPage-1,this.curPage];
 			}
 		},
-		props:['id_','type'],
+		props:['id_','type','unique'],
 		filters:{
         	commentTime(datetime){
 				let gap = new Date().getTime() -  new Date(datetime).getTime();

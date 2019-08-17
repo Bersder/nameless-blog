@@ -105,6 +105,7 @@ export default {
 	html{
 		overflow-x: hidden;
 		font-size: 625%;
+		scroll-behavior: smooth
 	}
 
 	a{text-decoration: none;transition: .5s ease;color: inherit}

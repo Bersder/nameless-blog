@@ -2,9 +2,9 @@
     <div class="space-launch">
 		<div class="l-sidenav">
 			<ul class="sidenav-list">
-				<li class="sidenav-item" @click="curType='article';curCom='draft'">文章</li>
-				<li class="sidenav-item" @click="curType='note';curCom='draft'">笔记</li>
-				<li class="sidenav-item">管理</li>
+				<li class="sidenav-item" :class="{cur:curIndex===0}" @click="curType='article';curCom='draft';curIndex=0">文章</li>
+				<li class="sidenav-item" :class="{cur:curIndex===1}" @click="curType='note';curCom='draft';curIndex=1">笔记</li>
+				<li class="sidenav-item" :class="{cur:curIndex===2}" @click="curCom='admin';curIndex=2">内容管理</li>
 			</ul>
 		</div>
 		<component class="l-main" :is="curCom" :type="curType"></component>
@@ -13,6 +13,8 @@
 
 <script>
 	import SpaceLaunchDraft from '@/components/SpaceLaunchDraft'
+	import SpaceLaunchAdmin from '@/components/SpaceLaunchAdmin'
+
     export default {
         name: "SpaceLaunch",
 		created(){
@@ -21,11 +23,13 @@
 		data(){
         	return{
 				curCom:'draft',
-				curType:'article'
+				curType:'article',
+				curIndex:0,
 			}
 		},
 		components:{
-        	draft:SpaceLaunchDraft
+        	draft:SpaceLaunchDraft,
+			admin:SpaceLaunchAdmin
 		}
 
     }
@@ -50,7 +54,7 @@
 				text-align: left;
 				line-height: .4rem;
 				padding-left: .3rem;
-				transition: .5s ease;
+				transition: .3s ease;
 				cursor: pointer;
 			}
 			.sidenav-list .sidenav-item:hover{

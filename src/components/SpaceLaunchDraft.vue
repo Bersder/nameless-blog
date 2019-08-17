@@ -73,10 +73,12 @@
 				this.draftWaiting = true;
         		while(this.drafts.pop()){}
         		post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
-        			let data = response.data.data;
-					this.draftWaiting = false;
-					this.draftFound = Boolean(data.drafts.length);
-        			data.drafts.forEach(e=>{this.drafts.push(e)})
+        			if (response.data.code<1){
+						let data = response.data.data;
+						this.draftWaiting = false;
+						this.draftFound = Boolean(data.drafts.length);
+						data.drafts.forEach(e=>{this.drafts.push(e)})
+					}
 				}).catch(err=>{
 					if (err.response.status===401){
 						this.$store.commit('account/logout');

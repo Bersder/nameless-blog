@@ -184,7 +184,7 @@
 		overflow: hidden;
 	}
 		.panel-topped.odd:last-child{
-			width: unset;
+			width: 100%;
 		}
 		.panel-topped{
 /*			display: inline-block;*/

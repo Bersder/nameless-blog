@@ -8,8 +8,7 @@
 					<p class="entry-info">
 						<span><router-link to="/"><img src="http://127.0.0.1:80/static/img/2.jpg">{{author}}</router-link></span>
 						<span class="isolate">·</span>
-						{{time}}
-						{{readCount | rfilter}}
+						{{time}}{{readCount|rfilter}}
 					</p>
 				</div>
 			</div>
@@ -21,7 +20,7 @@
 					<article :id="'post-'+$route.params.id" class="">
 						{{xtype}},{{xid}}
 						<div class="entry-content tl"><!--markdown 渲染区域-->
-							<mavon-editor  v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
+							<mavon-editor @change="afterRender" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
 						</div>
 						<footer class="post-footer">
 							<div class="post-update"><span>{{lut}} Lsat Update</span></div>
@@ -99,7 +98,7 @@
 						</div>
 					</div>
 				</div>
-				<comment :id_="xid" :type="xtype"></comment>
+				<comment :id_="xid" :type="xtype" :unique="xid+xtype"></comment>
 			</div>
 		</div>
 
@@ -152,13 +151,22 @@
         	...mapState(['scrollTop'])
 		},
         methods:{
+        	afterRender(raw,render){
+				if (!this.$route.hash)
+					setTimeout(()=>document.body.scrollIntoView(true),250);
+					//setTimeout(()=>document.body.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}),300);
+        		else{
+        			setTimeout(()=>document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true),250);
+				}
+				setTimeout(()=>this.genNavList(),500);
+			},
 			isCollapsed(subs) {
 				if(!subs.length) return false;
 				else return this.scrollTop>this.titlePosition[subs[subs.length-1].index+1];
 			},
 			initData(){
 				this.imgSrc = '/site/images/loading.gif';
-				this.rawContent = this.title = '';
+				this.title = '';
 				this.time = '6666-66-66';
 				this.lut = '6666-66-66 66:66:66';
 				this.tags = [];
@@ -167,7 +175,7 @@
 				this.series = undefined;
 			},
 			genNavList(){
-				this.titleList = [];
+        		while (this.titleList.pop()){}
 				let hs = document.querySelectorAll('.v-show-content h2,.v-show-content h3');
 				let H2indexs =[];
 				for(let i=0;i<hs.length;i++)
@@ -191,8 +199,11 @@
 						})
 					}
 				}
-				if (this.titleList.length)
-					this.titleList.push({des:'Comments',id:'comments',index:this.titleList[this.titleList.length-1].index+1,subs:[]});
+				if (this.titleList.length){
+					let sublen = this.titleList[this.titleList.length-1].subs.length;
+					let cindex = sublen?this.titleList[this.titleList.length-1].subs[sublen-1].index+1:this.titleList[this.titleList.length-1].index+1;
+					this.titleList.push({des:'Comments',id:'comments',index:cindex,subs:[]});
+				}
 				else
 					this.titleList.push({des:'Comments',id:'comments',index:1,subs:[]});
 				//console.log(this.titleList);
@@ -205,12 +216,13 @@
 				});
 				this.titlePosition[this.titlePosition.length-1] -= 600;
 				this.titlePosition.push(document.body.offsetHeight);
-				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+550;
-				// console.log(this.titlePosition)
+				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+100;
+				//console.log(this.titlePosition)
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{
 					let data = response.data.data;
+					this.rawContent = data.rawContent || '';
 					this.title = data.info.title;
 					this.imgSrc = data.info.imgSrc;
 					this.author = data.info.author;
@@ -218,28 +230,18 @@
 					this.lut = data.info.lut;
 					this.tags = data.info.tags;
 					this.commentCount = parseInt(data.info.commentCount);
-					this.rawContent = data.rawContent || '';
 					this.liked = parseInt(data.info.liked);
 					this.readCount = data.info.readCount;
 					this.series = data.info.series;//acgn特殊处理
-					setTimeout(()=>this.genNavList(),600);
 				})
 			}
 
 		},
 		filters:{
         	rfilter(f){
-        		if(f)return ' ·' + f + '阅读';
+        		if(f)return ' · ' + f + '阅读';
 				else return null;
 			}
-		},
-		mounted(){
-        	if (!this.$route.hash)
-				document.body.scrollIntoView({
-					behavior: "smooth",
-					block: "start",
-					inline: "nearest"
-				});
 		},
 		components:{
         	comment:CommentModule
@@ -251,14 +253,15 @@
 				this.xtype = type;
 				this.initData();
 				this.fetchData({xid:this.xid,_:this.xtype[0]});
-				if (!this.$route.hash)
-					document.body.scrollIntoView({
-					behavior: "smooth",
-					block: "start",
-					inline: "nearest"
-					});
 			}
-
+			else{//直接使用缓存，不用等待渲染
+				//activated在create之后，因此首次进入会跳入此处扰乱复用判断?
+				if (!this.$route.hash)
+					document.body.scrollIntoView(true);
+				else{
+					document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true)
+				}
+			}
 
 		}
 	}
@@ -336,7 +339,7 @@
 	}
 		.content-area{
 			padding-top: .5rem;
-			animation: fadeInUp 1.5s ;
+			animation: fadeIn 2s ;
 		}
 			.post-footer{
 				border-top: .01rem dashed #ddd;
