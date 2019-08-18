@@ -35,19 +35,34 @@
 					<div class="comment-num"><router-link :to="each|commentUrl">{{each.commentCount}}</router-link></div>
 					<div class="ptime">{{each.time.substr(0,10)}}</div>
 					<div class="utime">{{each.lut|updateTime}}</div>
-					<div class="operate"><button @click="editItem(each)">编辑</button> / <button class="del">删除</button></div>
+					<div class="operate"><button @click="editItem(each)">编辑</button> / <button v-if="each.topped" @click="topItem(each)">{{parseInt(each.topped)?'取消置顶':'置顶'}}</button> / <button @click="delItem(each)" class="del">删除</button></div>
 				</div>
 
 			</div>
 		</div>
-
+		<div class="auth-box-container" v-if="authBoxShow">
+			<div class="auth-box">
+				<div class="box-header">
+					<span style="color: #db6e6e;font-weight: bold">危险操作</span><a @click="authBoxShow=false;password=''"><i class="iconfont icon-cancel"></i></a>
+				</div>
+				<div class="box-warn">你正在尝试删除现有文章/笔记</div>
+				<div class="box-body">
+					<p style="margin-bottom: .1rem;">该操作一旦执行无法撤销，将会永久的删除文章<strong>《{{delTarget.title}}》</strong>及其评论</p>
+					<p>输入用户密码以授权操作</p>
+					<input type="password" v-model="password">
+					<button @click="authorize">授权操作</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 	import {mapState} from 'vuex'
 	import {post} from "../util/http";
-    export default {
+	import {aesEncrypt} from "../util/util";
+
+	export default {
         name: "SpaceLaunchContent",
 		created(){
         	post('/apis/auth/v3api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
@@ -74,7 +89,6 @@
 					this.$store.commit('account/logout');
 					this.$router.push('/')
 				}
-
 			})
 
 		},
@@ -88,6 +102,9 @@
 				curList:[],
 				notes:[],
 				articles:[],
+				delTarget:'',
+				authBoxShow:false,
+				password:''
 			}
 		},
 		watch:{
@@ -110,16 +127,58 @@
 						this.$store.commit('account/logout');
 						this.$router.push('/')
 					}
-
 				})
 			},
+			topItem(item){
+					let query = parseInt(item.topped)?'':'?topped';
+					post('/apis/auth/v4api.php'+query,{token:this.token,id:item.id}).then(response=>{
+						if (response.data.code < 1){
+							//置顶或取消置顶成功
+							item.topped = parseInt(item.topped)?'0':'1'
+						}
+					}).catch(err=>{
+						if (err.response.status===401){
+							this.$store.commit('account/logout');
+							this.$router.push('/')
+						}
+					})
+			},
 			delItem(item){
-        		//未实现，需要密码确认
+        		//呼出授权box，为其指定目标
+				this.delTarget = item;
+				this.authBoxShow = true;
+			},
+			authorize(){
+        		//开始授权
+        		if (this.password) {
+					let data = {
+						name:this.name,
+						psw:this.password,
+						id:this.delTarget.id,
+						type:this.delTarget.type
+					};
+					post('/apis/auth/v5api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+						if (response.data.code < 1){//授权成功删除
+							this.password = '';
+							this.authBoxShow = false;
+						}
+						else{//授权失败
+
+						}
+					}).catch(err=>{
+						if (err.response.status===401){
+							this.$store.commit('account/logout');
+							this.$router.push('/')
+						}
+					})
+				}
+
 			}
 		},
 		computed:{
 			...mapState({
-				token:state=>state.account.token
+				token:state=>state.account.token,
+				name:state=>state.account.name,
 			})
 		},
 		filters:{
@@ -281,5 +340,71 @@
 			border-bottom-color: transparent;
 
 		}
+	.auth-box-container{
+		position: fixed;
+		z-index: 2000;
+		height: 100%;
+		width: 100%;
+		background: rgba(0,0,0,.4);
+		left: 0;
+		top: 0;
+	}
+	.auth-box{
+		position: relative;
+		top: 50%;
+		transform: translate(0,-50%);
+		margin: 0 auto;
+		width: 3.5rem;
+		background: white;
+		border: .01rem solid #6d757a;
+		box-shadow: 0 0 .15rem rgba(0,0,0,.4);
+		border-radius: .03rem;
+		text-align: left;
+		font-size: .15rem;
+	}
+		.auth-box .box-header {
+			padding: .15rem;
+			background-color: #f6f8fa;
+			line-height: .15rem;
+		}
+			.box-header a{
+				font-size: .12rem;
+				cursor: pointer;
+				float: right;
+				color: #6d757a;
+				vertical-align: middle;
+			}
+			.box-header a:hover{
+				color: #00a1d6;
+			}
+		.auth-box .box-warn{
+			font-size: .14rem;
+			background: #fffbdd;
+			color: #735c0f;
+			border: .01rem solid rgba(27,31,35,.15);
+			padding: .1rem .15rem;
+		}
+		.auth-box .box-body{
+			padding: .15rem;
 
+		}
+			.box-body input{
+				display: block;
+				border: .01rem solid #e0e0e0;
+				border-radius: .03rem;
+				padding: .05rem .1rem;
+				width: 100%;
+				margin: .1rem 0;
+			}
+			.box-body button{
+				display: block;
+				width: 100%;
+				color: white;
+				padding: .05rem .1rem;
+				font-size: .16rem;
+				line-height: .2rem;
+				border-radius: .05rem;
+				border: .01rem solid rgba(0,0,0,.1);
+				background: linear-gradient(top, #2faad6, #0093c3);
+			}
 </style>

@@ -87,24 +87,14 @@
 	export default {
         name: "CommentModule",
 		created(){
-			post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:0}).then(response=>{
-				let data = response.data.data;
-				this.allCount = parseInt(data.allCount);
-				this.pageNum = Math.ceil(data.commentCount/10);
-				console.log(this.allCount,this.pageNum);
-				this.commentWaiting = false;
-				data.comments.forEach(e=>{
-					e['children'] = this.gen_children(e);
-					delete e.replies;
-					this.commentList.push(e)
-				});
-			})
+			this.fetchComment(0);
 		},
 		data(){
         	return {
         		allCount:'??',
 				pageNum:1,
 				curPage:1,
+				newing:false,//用于标识“需要更新”，同步curPage和unique的
 				commentWaiting:true,
 				commentList:[],
 
@@ -122,8 +112,31 @@
 			curPage(cur,pre){
 				this.commentWaiting = true;
 				this.commentList.length = 0;
-				post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:(cur-1)*10}).then(response=>{
-					console.log(response.data.data);
+				this.fetchComment((cur - 1)*10);
+				if (this.newing)//被unique叫去更新
+					this.newing = false;
+				else//页内跳转
+					document.getElementById('comments').scrollIntoView(true);
+			},
+			unique(cur,pre){//文章发生更新，评论跟着更新
+				this.allCount = '??';
+				this.pageNum = 1;
+				if (this.curPage === 1){ //原来就在第一页，不去触发curPage，自己去更新数据
+					//原来在第一页，自己更新
+					this.commentWaiting = true;
+					this.commentList.length = 0;
+					this.fetchComment(0);
+				}
+				else{//原来不在第一页，更新并触发curPage，让他更新数据，
+					//原来不在第一页，让curPage更新
+					this.newing = true;
+					this.curPage = 1;
+				}
+			}
+		},
+		methods:{
+        	fetchComment(offset){
+				post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
 					let data = response.data.data;
 					this.allCount = parseInt(data.allCount);
 					this.pageNum = Math.ceil(data.commentCount/10);
@@ -134,14 +147,8 @@
 						delete e.replies;
 						this.commentList.push(e)
 					});
-					console.log(this.commentList)
 				})
 			},
-			unique(cur,pre){
-				console.log(cur,this.id_,this.type)//待修复，comments更新bug
-			}
-		},
-		methods:{
         	gen_children(comment){
         		let stack = [];
         		let children = [];
