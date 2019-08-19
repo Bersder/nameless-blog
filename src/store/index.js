@@ -38,9 +38,26 @@ const account={//默认未登录状态
 		}
 	}
 };
+const infoBox={
+	namespaced:true,
+	state:{
+		info:'',
+		infoShow:false,
+		infoOK:true
+	},
+	mutations:{
+		callInfoBox(state,payload){
+			state.info = payload.info;
+			state.infoOK = payload.ok;
+			state.infoShow = true;
+			setTimeout(()=>state.infoShow=false,payload.during)
+		}
+	}
+};
 export default new Vuex.Store({
 	modules: {
-		account:account
+		account:account,
+		infoBox:infoBox
 	},
 	state:{
 		platform:'',

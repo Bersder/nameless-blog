@@ -9,6 +9,12 @@
 	  </keep-alive>
 	  <site-footer v-if="$route.name!=='login'"></site-footer>
 	  <luminous-box></luminous-box>
+	  <transition name="fadedown">
+		  <div class="info-box" v-if="infoShow" :style="{background:infoOK?'#3dcaff':'#ff763b'}">
+<!--			  '#e5ffe880':'#ffe3e380'-->
+			  <h4><i :class="infoOK?'iconfont icon-ok':'iconfont icon-warn'"></i> {{info}}</h4>
+		  </div>
+	  </transition>
   </div>
 </template>
 
@@ -88,7 +94,10 @@ export default {
 	computed:{
     	...mapState(['isMobile','isMasked','screenWidth']),
 		...mapState({
-			loginStatus:state=>state.account.loginStatus
+			loginStatus:state=>state.account.loginStatus,
+			infoShow:state=>state.infoBox.infoShow,
+			infoOK:state=>state.infoBox.infoOK,
+			info:state=>state.infoBox.info
 		})
 	}
 
@@ -136,6 +145,36 @@ export default {
 		border-radius: .05rem;
 		background-color: #ffa7a5;
 	}
+	.fadedown-enter-active{
+		animation: infobox-fadeDown .5s cubic-bezier(.25,.46,.45,.94);
+	}
+	.fadedown-leave-active{
+		animation: infobox-fadeDown .5s cubic-bezier(.25,.46,.45,.94) reverse;
+	}
+	@keyframes infobox-fadeDown {
+		0%{
+			opacity: 0;
+			transform: translate(-50%,-.7rem);
+		}
+		100%{
+			opacity: 1;
+			transform: translate(-50%,0);
+		}
+	}
+	.info-box{
+		position: fixed;
+		top: 0;
+		left: 50%;
+		height: .7rem;
+		color: white;
+		padding: 0 .25rem;
+		line-height: .7rem;
+		border-bottom-right-radius: .05rem;
+		border-bottom-left-radius: .05rem;
+		transform: translateX(-50%);
+		z-index: 2000;
+	}
+
 	/*测试*/
 	.site-wrapper{
 		background-repeat: no-repeat;

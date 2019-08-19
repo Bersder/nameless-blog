@@ -70,8 +70,7 @@
 					let data = response.data.data;
 					console.log(data);
 					this.notes = data.notes;
-					this.articles = data.articles;
-					data.articles.forEach(e=>this.curList.push(e));
+					this.curList =  this.articles = data.articles;
 					this.numSum = data.notes.length + data.articles.length;
 					let pvSum = 0;let commentSum = 0;
 					data.notes.forEach(e=>{
@@ -134,8 +133,19 @@
 					post('/apis/auth/v4api.php'+query,{token:this.token,id:item.id}).then(response=>{
 						if (response.data.code < 1){
 							//置顶或取消置顶成功
+							this.$store.commit('infoBox/callInfoBox',{
+								info:parseInt(item.topped)?'取消置顶成功':'置顶成功',
+								ok:true,
+								during:2000
+							});
 							item.topped = parseInt(item.topped)?'0':'1'
 						}
+						else
+							this.$store.commit('infoBox/callInfoBox',{
+								info:'操作失败',
+								ok:true,
+								during:2000
+							});
 					}).catch(err=>{
 						if (err.response.status===401){
 							this.$store.commit('account/logout');
@@ -161,9 +171,23 @@
 						if (response.data.code < 1){//授权成功删除
 							this.password = '';
 							this.authBoxShow = false;
+							this.$store.commit('infoBox/callInfoBox',{
+								info:'再见了你嘞！',
+								ok:true,
+								during:2000
+							});
+							if (this.curIndex)
+								this.notes.splice(this.notes.indexOf(this.delTarget),1);
+							else
+								this.articles.splice(this.articles.indexOf(this.delTarget),1);
 						}
 						else{//授权失败
-
+							this.password = '';
+							this.$store.commit('infoBox/callInfoBox',{
+								info:'密码错误，授权失败',
+								ok:false,
+								during:3000
+							});
 						}
 					}).catch(err=>{
 						if (err.response.status===401){
