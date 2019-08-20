@@ -16,6 +16,7 @@ import Tag from "@/views/Tag"
 import Login from "@/views/Login"
 import Space from "@/views/Space"
 import SpaceLaunch from "@/components/SpaceLaunch";
+import SpaceDynamic from "@/components/SpaceDynamic";
 
 Vue.use(Router);
 
@@ -33,7 +34,8 @@ export default new Router({
 			component:Space,
 			meta:{loginStatus:false},
 			children: [
-				{path:'launch',name:'space-l',component:SpaceLaunch}
+				{path:'launch',name:'space-l',component:SpaceLaunch},
+				{path:'dynamic',name:'space-d',component:SpaceDynamic}
 			]
 		},
 		{

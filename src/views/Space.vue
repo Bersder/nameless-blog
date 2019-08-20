@@ -84,7 +84,7 @@
 
 <style scoped>
 	.space-c-wrap{
-		margin: .1rem 0;
+		margin: .15rem 0;
 	}
 	.h-inner{
 		position: relative;

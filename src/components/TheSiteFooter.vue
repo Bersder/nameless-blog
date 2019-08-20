@@ -55,7 +55,7 @@
 		animation: holdFadeIn 2s linear forwards;
 	}
 	.site-info{
-		width: 5rem;
+		width: 5.1rem;
 		margin: 0 auto;
 		font-size: .14rem;
 		color: #6d757a;
