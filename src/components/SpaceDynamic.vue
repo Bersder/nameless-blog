@@ -3,16 +3,12 @@
 		<div class="col-1">
 			<div class="history-dynamic">
 				<div class="dynamic-content-wrap" v-for="each in curDynamics" :key="each.id">
-					<div class="dynamic-avatar">
-						<img :src="avatar" height="40" width="40">
-					</div>
+					<div class="dynamic-avatar"><img :src="avatar" height="40" width="40"></div>
 					<div class="dynamic-meta">
 						<p class="uname">{{name}}</p>
 						<span>{{each.type|typeEN2CN}} · {{each.time|postTime}}</span>
 					</div>
-					<div class="dynamic-content">
-						<p>{{each.content}}</p>
-					</div>
+					<div class="dynamic-content"><p>{{each.content}}</p></div>
 					<div class="dynamic-opt">
 						<i class="iconfont icon-more"></i>
 						<div class="more-opt">
@@ -28,10 +24,12 @@
 				<h3>发布动态</h3>
 				<textarea placeholder="要写些什么呢?" v-model="sendContent"></textarea>
 				<div class="type-selector">
-					<div></div>
+					<div v-for="(item,key) in typeMap" @click="sendType=key" :class="{cur:sendType===key}">{{item}}</div>
 				</div>
+				<button @click="launchDynamic">确认</button>
 			</div>
 		</div>
+
 		<div class="popup-panel-container" v-if="popupShow">
 			<div class="popup-panel">
 				<h3 class="popup-title tl">删除动态</h3>
@@ -56,7 +54,6 @@
 				let data = response.data.data;
 				data.dynamics.forEach(e=>this.curDynamics.push(e));
 				this.dynamicNum = parseInt(data.dNum);
-				console.log(this.curDynamics,this.dynamicNum)
 			}).catch(err=>{
 				if (err.response.status===401){
 					this.$store.commit('account/logout');
@@ -72,6 +69,7 @@
 				delTarget:null, //待删目标
 				sendContent:'',
 				sendType:'',
+				typeMap:{anime:'Anime',code:'极客',game:'游民',trivial:'随写'}
         	}
 		},
 		watch:{
@@ -80,25 +78,51 @@
 			}
 		},
 		methods:{
+        	launchDynamic(){
+        		if (this.sendContent.replace(/^\s*|\s*$/g,'')&&this.sendType){
+        			let data = {
+        				token:this.token,
+						content:this.sendContent.replace(/^\s*|\s*$/g,''),
+						type:this.sendType
+					};
+        			post('/apis/auth/v7api.php',data).then(response=>{
+						if (response.data.code<1){
+							this.sendContent = '';
+							this.$store.commit('infoBox/callInfoBox',{
+								info:'动态发布成功',
+								ok:true,
+								during:2000
+							});
+							setTimeout(()=>location.reload(),2000)
+						}
+					}).catch(err=>{
+						if (err.response.status===401){
+							this.$store.commit('account/logout');
+							this.$router.push('/')
+						}
+					})
+				}
+        		else{
+					window.alert('请检查必要信息是否完整且正确')
+				}
+			},
         	delDynamic(item){
-        		this.popupShow = true;
 				this.delTarget = item;
+				this.popupShow = true;
 			},
 			delConfirm(bool){
 				if (bool) //确认删除
 					post('/apis/auth/v7api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
 						if (response.data.code<1){//删除成功，总数-1,
 							this.dynamicNum--;
+							this.curDynamics.splice(this.curDynamics.indexOf(this.delTarget),1);
 							this.popupShow = false;
 							this.$store.commit('infoBox/callInfoBox',{
 								info:'动态删除成功',
 								ok:true,
 								during:2000
 							});
-							this.curDynamics.splice(this.curDynamics.indexOf(this.delTarget),1);
-
 						}
-
 					}).catch(err=>{
 						if (err.response.status===401){
 							this.$store.commit('account/logout');
@@ -182,7 +206,7 @@
 		position: relative;
 		padding: .2rem;
 		background: white;
-		border-radius: .05rem;
+		border-radius: .03rem;
 		box-shadow: 0 0 0 .01rem #eee;
 		text-align: left;
 		margin-bottom: .1rem;
@@ -256,22 +280,64 @@
 
 	.dynamic-launch{
 		padding: .15rem;
+		position: relative;
 	}
 		.dynamic-launch textarea{
 			display: block;
 			margin: .1rem 0;
 			padding: .1rem;
-			height: 1rem;
+			height: 1.2rem;
 			resize: none;
 			width: 100%;
 			border: .02rem solid rgba(0,0,0,.1);
 			outline: none;
-			background: transparent;
 			transition: .5s;
 		}
-		.dynamic-launch .type-selector{
-
+		.dynamic-launch textarea:focus{
+			border-color: #00a1d6;
 		}
+		.dynamic-launch .type-selector{
+			display: flex;
+			width: 70%;
+			flex-flow: row wrap;
+			justify-content: space-between;
+		}
+			.type-selector div{
+				flex: 1;
+				font-size: .15rem;
+				line-height: .15rem;
+				padding: .05rem 0;
+				margin-right: -.01rem;
+				border: .01rem solid #41a7ea;
+				text-align: center;
+				cursor: pointer;
+				color: #00a1d6;
+				transition: .3s ease;
+				user-select: none;
+			}
+			.type-selector div.cur{
+				background: #00a1d6;
+				color: white;
+			}
+		.dynamic-launch button{
+			position: absolute;
+			bottom: .15rem;
+			right: .15rem;
+			border-radius: 1rem;
+			border: .02rem solid rgba(0,0,0,.1);
+			padding: .04rem .15rem;
+			font-size: .14rem;
+			line-height: .14rem;
+			color: #6a737d;
+			font-weight: 600;
+			transition: .5s;
+		}
+		.dynamic-launch button:hover{
+			color: white;
+			background: #00a1d6;
+		}
+
+
 
 
 
