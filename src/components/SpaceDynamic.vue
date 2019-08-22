@@ -54,12 +54,7 @@
 				let data = response.data.data;
 				data.dynamics.forEach(e=>this.curDynamics.push(e));
 				this.dynamicNum = parseInt(data.dNum);
-			}).catch(err=>{
-				if (err.response.status===401){
-					this.$store.commit('account/logout');
-					this.$router.push('/')
-				}
-			})
+			}).catch(err=>console.warn(err))
 		},
 		data(){
         	return{
@@ -95,12 +90,7 @@
 							});
 							setTimeout(()=>location.reload(),2000)
 						}
-					}).catch(err=>{
-						if (err.response.status===401){
-							this.$store.commit('account/logout');
-							this.$router.push('/')
-						}
-					})
+					}).catch(err=>console.warn(err))
 				}
         		else{
 					window.alert('请检查必要信息是否完整且正确')
@@ -123,12 +113,7 @@
 								during:2000
 							});
 						}
-					}).catch(err=>{
-						if (err.response.status===401){
-							this.$store.commit('account/logout');
-							this.$router.push('/')
-						}
-					});
+					}).catch(err=>console.warn(err));
 				else
 					this.popupShow = false
 			},
@@ -136,12 +121,7 @@
 				if (this.curDynamics.length < this.dynamicNum) {
 					post('/apis/auth/v6api.php?more='+Math.floor(this.curDynamics.length/10),{token:this.token}).then(response=>{
 						response.data.data.dynamics.forEach(e=>this.curDynamics.push(e))
-					}).catch(err=>{
-						if (err.response.status===401){
-							this.$store.commit('account/logout');
-							this.$router.push('/')
-						}
-					})
+					}).catch(err=>console.warn(err))
 				}
 			}
 		},

@@ -4,13 +4,11 @@
 			<div class="h-inner">
 				<div class="h-user">
 					<div class="h-info">
-						<div class="h-avatar">
-							<img src="http://localhost:80/uploads/avatar/me.png">
-						</div>
+						<div class="h-avatar"><img :src="avatar"></div>
 						<div class="h-basic">
 							<p>
-								<span class="h-name">忍野喵</span>
-								<span class="h-status"><i class="iconfont icon-gezi"></i> 咕咕咕</span>
+								<span class="h-name">{{name}}</span>
+								<span class="h-status" title="点击改变状态" @click="statusChange" :style="{background:statusMap[status].color}"><i class="iconfont" :class="statusMap[status].icon"></i> {{statusMap[status].des}}</span>
 							</p>
 							<div class="h-sign">
 								<input type="text" @change="signChange" v-model="signature">
@@ -44,6 +42,7 @@
 
 <script>
 	import {post} from "../util/http";
+	import {mapState} from 'vuex';
 	export default {
         name: "Space",
 		// beforeRouteEnter(to,from,next){
@@ -63,20 +62,49 @@
 		//
 		// 	}
 		// },
-		components: {
-
+		computed:{
+			...mapState({
+				token:state=>state.account.token,
+				avatar:state=>state.account.avatar,
+				name:state=>state.account.name
+			})
 		},
 		created(){
-
+			post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				let info = response.data.data.info;
+				this.signature = info.sign||'这个人很懒，什么都没写';
+				this.status = parseInt(info.status)
+			}).catch(err=>console.warn(err))
 		},
 		data(){
         	return{
-				signature:'编辑个性签名'
+				signature:'编辑个性签名',
+				status:0,
+				statusMap:[ //移动至用户变量
+					{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
+					{icon:'icon-focus',des:'专注',color:'#ff3d44'},
+					{icon:'icon-gezi',des:'咕咕咕',color:'#00a1d6'},
+					{icon:'icon-bxs-smiley-sad',des:'(悲)',color:'#9b9b9b'}
+				]
 			}
 		},
 		methods:{
         	signChange(e){
-
+        		post('/apis/auth/v0api.php',{token:this.token,sign:this.signature}).then(response=>{
+        			if (response.data.code < 1)
+						this.$store.commit('infoBox/callInfoBox',{
+							info:'个人签名更新成功',
+							ok:true,
+							during:2000
+						});
+				}).catch(err=>console.warn(err))
+			},
+			statusChange(){
+        		let nextStatus = (this.status+1)%this.statusMap.length;
+				post('/apis/auth/v0api.php',{token:this.token,status:nextStatus}).then(response=>{
+					if (response.data.code < 1)
+						this.status=nextStatus;
+				}).catch(err=>console.warn(err))
 			}
 		}
     }
@@ -147,7 +175,6 @@
 						font-size: .12rem;
 						padding: .01rem .05rem;
 						border-radius: .04rem;
-						background: #f45a8d;
 						cursor: pointer;
 					}
 						.h-status i{

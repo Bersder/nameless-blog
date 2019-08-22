@@ -1,7 +1,22 @@
 import axios from 'axios';
 import qs from 'qs'
+import router from '@/router'
+import store from '@/store'
 axios.defaults.timeout = 5000;
 const baseURL = process.env.API_ROOT;
+axios.interceptors.response.use(
+	response=>{return response},
+	err=>{
+		if (err.response) {
+			switch (err.response.status) {
+				case 401:
+					console.log('401拦截');
+					store.commit('account/logout');
+					router.push('/');
+			}
+		}
+		return Promise.reject(err.response.data)
+	});
 export function fetch(url, params = {}){
 	return new Promise((resolve,reject)=>{
 		axios.get(baseURL+url,{

@@ -83,12 +83,7 @@
 					});
 					this.pvSum = pvSum;this.commentSum = commentSum;
 				}
-			}).catch(err=>{
-				if (err.response.status===401){
-					this.$store.commit('account/logout');
-					this.$router.push('/')
-				}
-			})
+			}).catch(err=>console.warn(err))
 
 		},
 		data(){
@@ -121,12 +116,7 @@
 						let to = item.type==='note'?'/takenote?nid='+item.id:'/write?aid='+item.id;
 						this.$router.push(to)
 					}
-				}).catch(err=>{
-					if (err.response.status===401){
-						this.$store.commit('account/logout');
-						this.$router.push('/')
-					}
-				})
+				}).catch(err=>console.warn(err))
 			},
 			topItem(item){
 					let query = parseInt(item.topped)?'':'?topped';
@@ -146,12 +136,7 @@
 								ok:true,
 								during:2000
 							});
-					}).catch(err=>{
-						if (err.response.status===401){
-							this.$store.commit('account/logout');
-							this.$router.push('/')
-						}
-					})
+					}).catch(err=>console.warn(err))
 			},
 			delItem(item){
         		//呼出授权box，为其指定目标
@@ -189,12 +174,7 @@
 								during:3000
 							});
 						}
-					}).catch(err=>{
-						if (err.response.status===401){
-							this.$store.commit('account/logout');
-							this.$router.push('/')
-						}
-					})
+					}).catch(err=>console.warn(err))
 				}
 
 			}

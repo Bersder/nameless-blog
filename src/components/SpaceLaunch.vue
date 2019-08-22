@@ -36,7 +36,7 @@
 </script>
 
 <style scoped>
-	.space-launch {
+	.space-launch,.space-album{
 		margin: 0 auto;
 		max-width: 12rem;
 		background: white;
@@ -44,7 +44,7 @@
 		box-shadow: 0 0 0 .01rem #eee;
 		overflow: hidden;/**/
 	}
-	.l-sidenav{
+	.l-sidenav,.a-sidenav{
 		width: 2rem;
 		float: left;
 		font-size: .14rem;
@@ -65,7 +65,7 @@
 				background-color: #00a1d6;
 				color: white;
 			}
-	.l-main {
+	.l-main,.a-main{
 		width: calc(100% - 2rem);
 		float: left;
 		padding: .2rem;

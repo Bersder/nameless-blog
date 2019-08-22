@@ -17,6 +17,7 @@ import Login from "@/views/Login"
 import Space from "@/views/Space"
 import SpaceLaunch from "@/components/SpaceLaunch";
 import SpaceDynamic from "@/components/SpaceDynamic";
+import SpaceAlbum from "@/components/SpaceAlbum";
 
 Vue.use(Router);
 
@@ -35,7 +36,8 @@ export default new Router({
 			meta:{loginStatus:false},
 			children: [
 				{path:'launch',name:'space-l',component:SpaceLaunch},
-				{path:'dynamic',name:'space-d',component:SpaceDynamic}
+				{path:'dynamic',name:'space-d',component:SpaceDynamic},
+				{path:'album',name:'space-a',component:SpaceAlbum}
 			]
 		},
 		{

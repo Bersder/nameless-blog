@@ -1,7 +1,7 @@
 <template>
     <div>
 		<h2 class="draft-head">{{this.type==='note'?'笔记':'文章'}}草稿<router-link title="新写一篇" :to="this.type==='note'?'/takenote':'/write'"><i class="iconfont icon-addfriend"></i></router-link> </h2>
-		<div class="draft-content" :class="{empty:!draftFound}">
+		<div class="draft-content" :class="{empty:!draftFound}" etext="什么草稿都没有，好干净！">
 			<div class="waiting" id="anchor" v-show="draftWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
@@ -32,13 +32,7 @@
 					this.draftFound = Boolean(data.drafts.length);
 					data.drafts.forEach(e=>this.drafts.push(e));
 				}
-			}).catch(err=>{
-				if (err.response.status===401){
-					this.$store.commit('account/logout');
-					this.$router.push('/')
-				}
-
-			})
+			}).catch(err=>console.warn(err))
 		},
 		data(){
         	return {
@@ -58,13 +52,7 @@
 					post('/apis/auth/v2api.php',{token:this.token,type:this.type,id:draft.id}).then(response=>{
 						if (response.data.code < 1)
 							this.drafts.splice(this.drafts.indexOf(draft),1);
-					}).catch(err=>{
-						if (err.response.status===401){
-							this.$store.commit('account/logout');
-							this.$router.push('/')
-						}
-
-					})
+					}).catch(err=>console.warn(err))
 			}
 		},
 		watch:{
@@ -79,13 +67,7 @@
 						this.draftFound = Boolean(data.drafts.length);
 						data.drafts.forEach(e=>{this.drafts.push(e)})
 					}
-				}).catch(err=>{
-					if (err.response.status===401){
-						this.$store.commit('account/logout');
-						this.$router.push('/')
-					}
-
-				})
+				}).catch(err=>console.warn(err))
 			}
 		},
 		props:['type'],
@@ -130,7 +112,7 @@
 		opacity: 0;
 		transform: translateY(-.7rem);
 	}
-	.draft-head{
+	.draft-head,.album-head{
 		font-size: .2rem;
 		line-height: .4rem;
 		font-weight: normal;
@@ -148,12 +130,12 @@
 		.draft-head i:hover{
 			color: #00a1d6;
 		}
-	.draft-content{
+	.draft-content,.album-content{
 		min-height: 4.5rem;
 	}
-	.draft-content.empty:after{
+	.draft-content.empty:after,.album-content.empty:after{
 		background-image: url(http://localhost:80/site/images/nodata.png);
-		content:"什么草稿都没有，好干净！";
+		content:attr(etext);
 		display: block;
 		background-position: center center;
 		background-repeat: no-repeat;
