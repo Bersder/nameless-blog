@@ -180,6 +180,8 @@ export default {
         				fr.readAsDataURL(file);
         				this.hi = file;
 					}
+        			else
+        				window.alert('文件过大');
 				else window.alert('请选择正确的文件类型')
 			},
 			saveTmp(v,r){

@@ -4,7 +4,7 @@
 			<ul>
 				<ul class="sidenav-list">
 					<li class="sidenav-item" :class="{cur:curIndex===0}" @click="curCom='album';curIndex=0">我的相簿</li>
-					<li class="sidenav-item" :class="{cur:curIndex===1}" @click="curCom='pAlbum';curIndex=1">上传图片</li>
+					<li class="sidenav-item" :class="{cur:curIndex===1}" @click="curCom='albumU';curIndex=1">上传图片</li>
 				</ul>
 			</ul>
 		</div>
@@ -15,6 +15,7 @@
 
 <script>
 	import SpaceAlbumAlbum from '@/components/SpaceAlbumAlbum'
+	import SpaceAlbumAlbumU from '@/components/SpaceAlbumAlbumU'
     export default {
         name: "SpaceAlbum",
 		created(){
@@ -27,7 +28,8 @@
 			}
 		},
 		components:{
-        	album:SpaceAlbumAlbum
+        	album:SpaceAlbumAlbum,
+			albumU:SpaceAlbumAlbumU
 		}
 
     }
