@@ -167,16 +167,18 @@
 			},
 			hiChange(e){
 				let file = e.target.files[0];
-				if(/image\/\w+/.test(file.type))
-					if(file.size<5000000){
-						let fr = new FileReader();
-						fr.onload = function(){document.getElementById('hi').style.backgroundImage='url('+fr.result+')'};
-						fr.readAsDataURL(file);
-						this.hi = file;
-					}
-					else
-						window.alert('文件过大');
-				else window.alert('请选择正确的文件类型')
+				if (file) {
+					if(/image\/\w+/.test(file.type))
+						if(file.size<5000000){
+							let fr = new FileReader();
+							fr.onload = function(){document.getElementById('hi').style.backgroundImage='url('+fr.result+')'};
+							fr.readAsDataURL(file);
+							this.hi = file;
+						}
+						else
+							window.alert('文件过大');
+					else window.alert('请选择正确的文件类型')
+				}
 			},
 			saveTmp(v,r){
 				let it;

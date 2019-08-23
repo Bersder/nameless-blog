@@ -16,7 +16,7 @@
 				<div class="content-aside"><!--侧边栏待开发-->
 					<div class="ca album">
 						<div class="album-img-wrap">
-							<img class="album-img" @click="openLB" :src="firstImg">
+							<img class="album-img" @click="openLB" :src="'http://localhost:80'+firstImg">
 							<p>{{firstDes}}</p>
 						</div>
 					</div>

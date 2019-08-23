@@ -14,7 +14,7 @@
 			</div>
 			<div class="album-list tl">
 				<div class="album-card" v-for="(item,index) in curAlbums" :key="item.id">
-					<a class="picture" :style="{backgroundImage:'url('+item.imgSrc+')'}" @click="openLB(index)"><a @click.stop="delPicture(item)" class="iconfont icon-trash"></a></a>
+					<a class="picture" :style="{backgroundImage:'url(http://localhost:80'+item.imgSrc+')'}" @click="openLB(index)"><a @click.stop="delPicture(item)" class="iconfont icon-trash"></a></a>
 					<a class="title">{{item.description}}</a>
 				</div>
 			</div>
@@ -147,13 +147,14 @@
 					post('/apis/auth/v9api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
 						if (response.data.code < 1) {
 							this.popupShow = false;
+							location.reload()
+						}
+						else
 							this.$store.commit('infoBox/callInfoBox',{
-								info:'图片删除成功',
-								ok:true,
+								info:'图片删除失败',
+								ok:false,
 								during:2000
 							});
-							setTimeout(()=>location.reload(),2000)
-						}
 					}).catch(err=>console.warn(err));
 				else
 					this.popupShow = false

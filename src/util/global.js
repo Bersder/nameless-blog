@@ -1,7 +1,7 @@
 export const contentAsideMixin = {
 	data(){
 		return{
-			firstImg:'http://localhost:80/test/placeholder.jpg',
+			firstImg:'/test/placeholder.jpg',
 			firstDes:'数据正在赶路中',
 			gossip:{content:'这里什么都没有',time:'2333-06-06 23:33:33'},
 		}
