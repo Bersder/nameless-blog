@@ -18,7 +18,6 @@
 			<div class="page-content">
 				<div class="content-area">
 					<article :id="'post-'+$route.params.id" class="">
-						{{xtype}},{{xid}}
 						<div class="entry-content tl"><!--markdown 渲染区域-->
 							<mavon-editor @change="afterRender" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
 						</div>
@@ -28,56 +27,56 @@
 							<div class="post-copyright">
 								<div class="post-copyright-author tl">
 									<span class="pck">文章作者：</span>
-									<span class="pcv">忍野ニャニャ</span>
+									<span class="pcv">忍野ニャ</span>
 								</div>
 								<div class="post-copyright-link tl">
 									<span class="pck">文章链接：</span>
-									<span class="pcv">localhost:8080/test</span>
+									<span class="pcv">http://localhost:80{{xtype|artUrl(xid)}}</span>
 								</div>
 								<div class="post-copyright-license tl">
 									<span class="pck">版权声明：</span>
 									<span>文章采用</span>
-									<span><a class="pcv" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fab fa-creative-commons" aria-hidden="true"></i>CC BY-NC-SA 4.0</a></span>
+									<span><a class="pcv" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="iconfont icon-cc" aria-hidden="true"></i>CC BY-NC-SA 4.0</a></span>
 									<span>，转载时请标明来源并附上地址</span>
 								</div>
 							</div>
-							<div class="post-tags pl">
-								<i class="fa fa-tags pl"></i>
-								<ul style="list-style: none;float: left">
-									<li class="tag" v-for="(tag,index) in tags" :key="index"><router-link :to="'/tags/'+tag" rel="tag">{{tag}}</router-link></li> <!--动态-->
+							<div class="post-tags">
+								<i class="iconfont icon-tags"></i>
+								<ul>
+									<li class="tag" v-for="(tag,index) in tags" :key="index"><router-link :to="'/tags/'+tag" rel="tag">{{tag}}</router-link></li>
 								</ul>
 							</div>
-							<div class="post-like">
-								<a href="/" class="like"><i class="far fa-heart"></i><span class="count">{{liked}}</span></a>
+							<div class="post-like pr">
+								<a href="/" class="like"><i class="iconfont icon-heart"></i><span class="count">{{liked}}</span></a>
 							</div>
-							<div class="post-share">
-								<i class="fas fa-share"></i>
+							<div class="post-share pr">
+								<i class="iconfont icon-share"></i>
 								<div class="share-option">
-									<a class="fab fa-weixin" href="/" target="_blank" rel="nofollow"></a>
-									<a class="fab fa-qq" href="/" target="_blank" rel="nofollow"></a>
-									<a class="fab fa-weibo" href="/" target="_blank" rel="nofollow"></a>
-									<a class="fab fa-facebook-square fa-lg" href="/" target="_blank" rel="nofollow"></a>
-									<a class="fab fa-twitter-square fa-lg" href="/" target="_blank" rel="nofollow"></a>
+									<a class="iconfont icon-wechat" href="/" target="_blank" rel="nofollow"></a>
+									<a class="iconfont icon-qq" href="/" target="_blank" rel="nofollow"></a>
+									<a class="iconfont icon-weibo" href="/" target="_blank" rel="nofollow"></a>
+									<a class="iconfont icon-facebook" href="/" target="_blank" rel="nofollow"></a>
+									<a class="iconfont icon-twitter" href="/" target="_blank" rel="nofollow"></a>
 								</div>
 							</div>
 						</footer>
 					</article>
 					<div class="post-prev">
-						<div class="half previous tl">
-							<router-link to="/">
-								<div class="background" style="background-image: url('http://127.0.0.1:80/static/img/4.jpg')"></div>
+						<div class="previous tl" v-if="pre" :class="{half:pre&&next}">
+							<router-link :to="pre|toUrl">
+								<div class="background" :style="{backgroundImage:'url(http://localhost:80'+pre.imgSrc+')'}"></div>
 								<span class="label">PREVIOUS</span>
 								<div class="info">
-									<h3>shang</h3>
+									<h3>{{pre.title}}</h3>
 								</div>
 							</router-link>
 						</div>
-						<div class="half next tr">
-							<router-link to="/">
-								<div class="background" style="background-image: url('http://127.0.0.1:80/static/img/5.jpg')"></div>
+						<div class="next tr" v-if="next" :class="{half:pre&&next}">
+							<router-link :to="next|toUrl">
+								<div class="background" :style="{backgroundImage:'url(http://localhost:80'+next.imgSrc+')'}"></div>
 								<span class="label">NEXT</span>
 								<div class="info">
-									<h3>xia</h3>
+									<h3>{{next.title}}</h3>
 								</div>
 							</router-link>
 						</div>
@@ -138,7 +137,8 @@
 				readCount:undefined,
 				series:undefined,//acgt特有
 				rawContent:'',
-
+				pre:null,
+				next:null,
 				mdSet:mdSetPreview,
 
 				titleList:[],
@@ -147,6 +147,32 @@
 
 			}
         },
+		watch:{
+        	$route(cur,pre){
+				if (/article.*/.test(cur.name)) {
+					let type = cur.name === 'article_note'?'note':cur.params.type;
+					if(this.xid!==cur.params.id||this.xtype!==type){//如果文章变更放弃缓存重新请求数据
+						console.log('changing');
+						this.xid = cur.params.id;
+						this.xtype = type;
+						this.initData();
+						this.fetchData({xid:this.xid,_:this.xtype[0]});
+					}
+					else{//直接使用缓存，不用等待渲染
+						console.log('reuse');
+						if (!cur.hash)
+							document.body.scrollIntoView(true);
+						else{
+							try {
+								document.getElementById(cur.hash.substr(1)).scrollIntoView(true)
+							}catch (e) {
+
+							}
+						}
+					}
+				}
+			}
+		},
 		computed:{
         	...mapState(['scrollTop'])
 		},
@@ -221,23 +247,40 @@
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{
-					let data = response.data.data;
-					this.rawContent = data.rawContent || '';
-					this.title = data.info.title;
-					this.imgSrc = data.info.imgSrc;
-					this.author = data.info.author;
-					this.time = data.info.time.substr(0,10);
-					this.lut = data.info.lut;
-					this.tags = data.info.tags;
-					this.commentCount = parseInt(data.info.commentCount);
-					this.liked = parseInt(data.info.liked);
-					this.readCount = data.info.readCount;
-					this.series = data.info.series;//acgn特殊处理
+					if (response.data.code < 1) {
+						let data = response.data.data;
+						this.rawContent = data.rawContent || '';
+						this.title = data.info.title;
+						this.imgSrc = data.info.imgSrc;
+						this.author = data.info.author;
+						this.time = data.info.time.substr(0,10);
+						this.lut = data.info.lut;
+						this.tags = data.info.tags;
+						this.commentCount = parseInt(data.info.commentCount);
+						this.liked = parseInt(data.info.liked);
+						this.readCount = data.info.readCount;
+						this.series = data.info.series;//acgn特殊处理
+						this.pre = data.pre;
+						this.next = data.next;
+					}
+					else{
+						//不存在该文章
+						this.$router.go(-1);
+					}
 				})
 			}
 
 		},
 		filters:{
+        	toUrl(item){
+        		if (item)
+					return item.type==='note'?'/note/'+item.id:'/archive/'+item.type+'/'+item.id;
+        		else
+					return '';
+			},
+			artUrl(type,id){
+				return type==='note'?'/note/'+id:'/archive/'+type+'/'+id
+			},
         	rfilter(f){
         		if(f)return ' · ' + f + '阅读';
 				else return null;
@@ -246,24 +289,27 @@
 		components:{
         	comment:CommentModule
 		},
-		activated() {
-        	let type = this.$route.name === 'article_note'?'note':this.$route.params.type;
-			if(this.xid!==this.$route.params.id||this.xtype!==type){//如果文章变更放弃缓存重新请求数据
-				this.xid = this.$route.params.id;
-				this.xtype = type;
-				this.initData();
-				this.fetchData({xid:this.xid,_:this.xtype[0]});
-			}
-			else{//直接使用缓存，不用等待渲染
-				//activated在create之后，因此首次进入会跳入此处扰乱复用判断?
-				if (!this.$route.hash)
-					document.body.scrollIntoView(true);
-				else{
-					document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true)
-				}
-			}
-
-		}
+		// activated() {
+        // 	let type = this.$route.name === 'article_note'?'note':this.$route.params.type;
+		// 	if(this.xid!==this.$route.params.id||this.xtype!==type){//如果文章变更放弃缓存重新请求数据
+		// 		this.xid = this.$route.params.id;
+		// 		this.xtype = type;
+		// 		this.initData();
+		// 		this.fetchData({xid:this.xid,_:this.xtype[0]});
+		// 	}
+		// 	else{//直接使用缓存，不用等待渲染
+		// 		//activated在create之后，因此首次进入会跳入此处扰乱复用判断?
+		// 		if (!this.$route.hash)
+		// 			document.body.scrollIntoView(true);
+		// 		else{
+		// 			try {
+		// 				document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true)
+		// 			}catch (e) {
+		//
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 </script>
 
@@ -344,25 +390,36 @@
 			.post-footer{
 				border-top: .01rem dashed #ddd;
 				border-bottom: .01rem dashed #ddd;
-				padding: .2rem .1rem;
-				height: 2rem; /*暂定*/
+				padding: .1rem;
+				overflow: hidden;
 			}
 				.post-update{
 					font-family: 'Comic Sans MS',sans-serif;
 				}
 				.post-copyright{
-					padding: .2rem 0;
-					line-height: .25rem;
+					padding: .1rem;
+					margin: .15rem 0;
+					font-size: .14rem;
+					border-radius: .03rem;
+					border: .01rem solid #eaeaea;
 				}.pck{color: #7d7d7d;font-weight: bold}.pcv{color: #b3b3b3;text-decoration: underline}a.pcv:hover{color: #FF7D7D}
 				.post-tags{
 					color: grey;
 					text-transform: uppercase;
+					position: relative;
 				}
-					.post-tags i{margin-top: .04rem;margin-right: .05rem}
+					.post-tags i{position: absolute;top:0;left:0;font-size:.18rem}
+					.post-tags ul{
+						list-style-type: none;
+						margin-left: .25rem;
+						overflow: hidden;
+					}
 					.post-tags .tag{
 						float: left;
 						padding: 0 .1rem;
-						margin-right: .1rem;
+						font-size: .14rem;
+						margin-right: .05rem;
+						margin-bottom: .03rem;
 						border: .01rem solid #e5e9ef;
 						line-height: .2rem;
 						border-radius: .2rem;
@@ -371,26 +428,14 @@
 					.post-tags .tag:hover{
 						border-color: #00a1d6;
 					}
-					.post-tags .tag a{
-						color: #6d757a;
-						font-size: .14rem;
-						display: inline-block;
-						transition: all .5s ease;
-					}
 					.post-tags .tag:hover a{
 						color: #00a1d6;
 					}
-				.post-like{
-					clear: both;
-					float: right;
-				}
 					.post-like .like{
 						color: #ff4646;
-						float: right;
 					}
 				.post-share{
-					float: right;
-					margin-right: .2rem;
+					margin-right: .1rem;
 					color: #ff4646;
 				}
 					.share-option{
@@ -406,50 +451,56 @@
 							margin-right: .05rem;
 							border-radius: 20%;
 						}
-						a.fa-weixin{
+						a.icon-wechat{
 							 color: #00c500;
 							 border: .01rem solid #00c500;
 						 }
-						a.fa-weibo{
+						a.icon-weibo{
 							color:#ff3d36;
 							border: .01rem solid #ff3d36;
 						}
-						a.fa-qq{
+						a.icon-qq{
 							color: lightskyblue;
 							border: .01rem solid lightskyblue;
 							height: .18rem;
 							width: .19rem;
 						}
-						a.fa-facebook-square{
-							color: cornflowerblue;
+						a.icon-facebook{
+							color: white;
+							background: cornflowerblue;
+							border: .01rem solid cornflowerblue;
 						}
-						a.fa-twitter-square{
-							color: lightskyblue;
+						a.icon-twitter{
+							color: white;
+							background: lightskyblue;
+							border: .01rem solid lightskyblue;
 						}
-						a.fa-weixin:hover{
+						a.icon-wechat:hover{
 							background: #00c500;
 							color: white;
-							text-shadow: 0 0 .3rem #00c500;
+							box-shadow: 0 0 .3rem #00c500;
 						}
-						a.fa-facebook-square:hover{
-							background: cornflowerblue;
-							color: white;
-							text-shadow: 0 0 .3rem cornflowerblue;
+						a.icon-facebook:hover{
+							color: cornflowerblue;
+							background: white;
+							border-color: white;
+							box-shadow: 0 0 .3rem cornflowerblue;
 						}
-						a.fa-twitter-square:hover{
+						a.icon-twitter:hover{
+							color: lightskyblue;
+							background: white;
+							border-color: white;
+							box-shadow: 0 0 .3rem lightskyblue;
+						}
+						a.icon-qq:hover{
 							background: lightskyblue;
 							color: white;
-							text-shadow: 0 0 .3rem lightskyblue;
+							box-shadow: 0 0 .3rem lightskyblue;
 						}
-						a.fa-qq:hover{
-							background: lightskyblue;
-							color: white;
-							text-shadow: 0 0 .3rem lightskyblue;
-						}
-						a.fa-weibo:hover{
+						a.icon-weibo:hover{
 							background: #ff3d36;
 							color: white;
-							text-shadow: 0 0 .3rem #ff3d36;
+							box-shadow: 0 0 .3rem #ff3d3680;
 						}
 
 
@@ -458,7 +509,7 @@
 				width: 100%;
 				margin: .5rem 0;
 				overflow: hidden;
-				background: black;
+				background: #1e1e1e
 			}
 			.post-prev .half{
 				width: 50%;
@@ -476,12 +527,12 @@
 				background-size: cover;
 				background-origin: border-box;
 				width: 100%;
-				opacity: .4;
+				opacity: .5;
 				height: 1.5rem;
 				transition: opacity .5s;
 			}
 		.previous:hover .background,.next:hover .background{
-			opacity: .7;
+			opacity: .8;
 		}
 			.post-prev .label{
 				position: absolute;

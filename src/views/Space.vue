@@ -8,7 +8,7 @@
 						<div class="h-basic">
 							<p>
 								<span class="h-name">{{name}}</span>
-								<span class="h-status" title="点击改变状态" @click="statusChange" :style="{background:statusMap[status].color}"><i class="iconfont" :class="statusMap[status].icon"></i> {{statusMap[status].des}}</span>
+								<span class="h-status" title="点击改变状态" @click="statusChange" :style="{background:statusMap[status].color}"><i class="iconfont" :class="statusMap[status].icon"></i>{{statusMap[status].des}}</span>
 							</p>
 							<div class="h-sign">
 								<input type="text" @change="signChange" v-model="signature">
@@ -36,6 +36,9 @@
 		</div>
 		<div class="space-c-wrap">
 			<router-view></router-view>
+			<div class="space-home">
+
+			</div>
 		</div>
 	</div>
 </template>
@@ -89,7 +92,7 @@
 			}
 		},
 		methods:{
-        	signChange(e){
+        	signChange(){
         		post('/apis/auth/v0api.php',{token:this.token,sign:this.signature}).then(response=>{
         			if (response.data.code < 1)
 						this.$store.commit('infoBox/callInfoBox',{
@@ -114,6 +117,16 @@
 	.space-c-wrap{
 		margin: .15rem 0;
 	}
+	.space-home{
+		margin: 0 auto;
+		max-width: 12rem;
+		background: transparent;
+		overflow: hidden;
+	}
+
+
+
+
 	.h-inner{
 		position: relative;
 		padding-top: 1.2rem;

@@ -9,7 +9,7 @@
 					</transition>
 					<div class="upload-img" :class="{empty:!tmpImg}" @click="imgAdd" id="img">
 						<div class="no-img-meta" v-if="!tmpImg">
-							<i style="font-size: .5rem" class="iconfont icon-plus"></i>
+							<i style="font-size: .5rem" class="iconfont icon-plus clearm"></i>
 							<p>点击添加图片</p>
 						</div>
 						<input type="file" @change="imgChange" id="img-input" hidden>
@@ -20,7 +20,7 @@
 				<h4 class="tl">图片描述及归类</h4>
 				<div class="upload-info">
 					<div class="type-input">
-						<span>{{typeMap[tmpType]}}</span><i class="iconfont icon-down pr"></i>
+						<span>{{typeMap[tmpType]}}</span><i class="iconfont icon-down clearm pr"></i>
 						<ul><li v-for="(item,key) in typeMap" @click="tmpType=key">{{item}}</li></ul>
 					</div>
 					<input type="text" class="description-input" placeholder="图片描述" v-model.trim="tmpDes">
@@ -33,7 +33,7 @@
 			<div class="section-content" :class="{empty:!imgs.length}" etext="待上传图片——无">
 				<div class="upload-list">
 					<div class="album-card" v-for="item in imgs">
-						<a class="picture" :style="item.img|bgUrl" :class="{uploading:item.uploading,fail:item.fail}"><a @click.stop="delImg(item)" v-if="!item.uploading" class="iconfont icon-trash"></a></a>
+						<a class="picture" :style="item.img|bgUrl" :class="{uploading:item.uploading,fail:item.fail}"><a @click.stop="delImg(item)" v-if="!item.uploading" class="iconfont icon-trash clearm"></a></a>
 						<a class="title">{{item.des}}<span style="font-size: .12rem;color: #8b8e99"> ·{{typeMap[item.type]}}</span></a>
 					</div>
 				</div>

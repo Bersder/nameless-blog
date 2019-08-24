@@ -12,7 +12,7 @@
 	  <transition name="fadedown">
 		  <div class="info-box" v-if="infoShow" :style="{background:infoOK?'#3dcaff':'#ff763b'}">
 <!--			  '#e5ffe880':'#ffe3e380'  #5abebc终物语出现的颜色-->
-			  <h4><i :class="infoOK?'iconfont icon-ok':'iconfont icon-warn'"></i> {{info}}</h4>
+			  <h4><i :class="infoOK?'iconfont icon-ok':'iconfont icon-warn'"></i>{{info}}</h4>
 		  </div>
 	  </transition>
   </div>
@@ -219,6 +219,8 @@ export default {
 	.fa,.fas,.far,.fab{
 		margin-right: .03rem;
 	}
+	.iconfont{margin-right: .03rem}
+	.clearm{margin:0}
 	.center{
 		text-align: center;
 	}
