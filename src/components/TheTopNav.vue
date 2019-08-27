@@ -16,9 +16,10 @@
 			<div class="nav-aside" :class="{open:!isOpened}" :style="{height:screenHeight-50+'px'}">
 				<div class="nav-avatar">
 					<router-link :to="loginStatus?'/space':'/about'"><img src="http://localhost:80/uploads/avatar/me.png"></router-link>
+					<span class="me-status" :title="'STATUS:'+statusMap[meStatus].des" :style="{background:statusMap[meStatus].color}"><i class="iconfont" :class="statusMap[meStatus].icon"></i></span>
 				</div>
 				<p style="color: #333;font-weight: 700;">忍野喵</p>
-				<p style="color: #8b8e99;font-size: .12rem;margin-top: .05rem">君若喜坂上なち、友達</p>
+				<p style="color: #8b8e99;font-size: .12rem;margin-top: .05rem;padding: 0 .2rem">{{meSign}}</p>
 				<p class="cut-line"></p>
 
 
@@ -78,6 +79,8 @@
 
 <script>
 	import {mapState} from 'vuex'
+	import {fetch} from "../util/http";
+	import {statusMap} from "../util/USER_VAR";
 	let navData = [
 		{icon:'fa fa-archive',des:'归档',animate:'rotate-bf',subs:[
 				{icon:'fa fa-film',des:'Anime',href:'/archive/anime'},
@@ -93,6 +96,13 @@
 	];
     export default {
         name: "TheTopNav",
+		created(){
+        	fetch('/apis/apiv0.php').then(response=>{
+        		let data = response.data.data;
+				this.meSign = data.info.sign;
+        		this.meStatus = data.info.status
+			})
+		},
         data() {
             return {
             	navData:navData,
@@ -100,7 +110,10 @@
 				// screenWidth:window.innerWidth || document.body.clientWidth,
 				// screenHeight:window.innerHeight || document.documentElement.clientHeight,
 				isOpened:false,
-				searchKey:null
+				searchKey:null,
+				meSign:'如果你看到了这个，提醒我今晚吃烤鸽子',
+				meStatus:0,
+				statusMap:statusMap
 			}
         },
 		watch:{
@@ -139,6 +152,7 @@
         		if (this.searchKey){
 					this.$router.push({name:'search',params:{key:this.searchKey}});
 					this.searchKey = '';
+					this.isOpened = false;
 				}
 
 			}
@@ -402,17 +416,37 @@
 	.nav-aside.open{
 		transform: translateX(-2.4rem);
 	}
+		.nav-aside .me-status{
+			display: block;
+			position: absolute;
+			bottom: .2rem;
+			right: .8rem;
+			font-size: .16rem;
+			border-radius: 50%;
+			height: .24rem;
+			width: .24rem;
+			border: .02rem solid #ffffffdd;
+			color: white;
+		}
+		.nav-aside .me-status i{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			margin: 0;
+		}
 		.nav-avatar{
 			padding: .15rem .2rem;
 			position: relative;
 		}
 			.nav-avatar a{
 				display: inline-block;
-				width: .9rem;
-				height: .9rem;
+				width: .8rem;
+				height: .8rem;
 				overflow: hidden;
 				font-size: 0;
 				border-radius: 50%;
+				border: .02rem dotted #1e1e1e20;
 			}
 				.nav-avatar a img{
 					object-fit: cover;

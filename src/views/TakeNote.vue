@@ -4,7 +4,7 @@
 			<div class="pattern-full-width page-header">
 				<div class="no-img" v-show="!hi" @click="hiAdd">
 					<i class="far fa-images"></i>
-					<h4>请添加文章头图</h4>
+					<h4>请添加笔记头图</h4>
 					<p class="tips">支持5MB内的JPG／JPEG／BMP／PNG格式的高清图片</p>
 					<p class="tips">（建议大于960*540像素）</p>
 				</div>
@@ -25,7 +25,7 @@
 				</div>
 				<div class="pa-unit">
 					<i class="far fa-edit">:</i>
-					<input type="text" class="preview-input" placeholder="无介绍则截取文章内容开头代之" v-model.trim="preview">
+					<input type="text" class="preview-input" placeholder="无介绍则截取笔记内容开头代之" v-model.trim="preview">
 				</div>
 				<div class="pa-unit detail-select">
 					<div class="tag-btn-wrap" >
@@ -54,7 +54,7 @@
 						<button @click="launch"><i class="fas fa-rocket"></i> Launch</button>
 					</div>
 				</div>
-				<mavon-editor v-model="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
+				<mavon-editor v-model.trim="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
 
 			</div>
 		</div>
@@ -65,7 +65,6 @@
 	import {unique} from "../util/util";
 	import {post} from "../util/http";
 	import {post_form} from "../util/http";
-	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
 	import {mdSetEdit} from "../util/global";
 
@@ -73,18 +72,22 @@
         name: "TakeNote",
 		created(){
 			if(!this.nid){
-				fetch('/apis/edit/initn.php').then(response=>{
-					this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
-					this.nid = response.data.nid;
-					this.tagOptions = response.data.tagOptions || [];
-					this.catMap = response.data.catMap;
-					this.catOptions = Object.keys(this.catMap)|| [];
-				});
+				post('/apis/edit/initn.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					if (response.data.code < 1) {
+						this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
+						this.nid = response.data.nid;
+						this.tagOptions = response.data.tagOptions || [];
+						this.catMap = response.data.catMap;
+						this.catOptions = Object.keys(this.catMap)|| [];
+					}
+					else
+						this.$router.push({name:'homepage'});
+				}).catch(err=>console.warn(err));
 			}
 			else{
-				fetch('/apis/edit/initn.php',{nid:this.nid}).then(response=>{
-					let note = response.data;
-					if(note.exist){
+				post('/apis/edit/initn.php?nid='+this.nid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					if(response.data.exist>0){
+						let note = response.data;
 						this.rawContent = note.rawContent || '';
 						this.title = note.info.title || '';
 
@@ -102,7 +105,7 @@
 						//不存在nid，重新导向至写文章页/404
 						this.$router.push({name:'homepage'})
 					}
-				})
+				}).catch(err=>console.warn(err));
 			}
 			if (this.isMobile){
 				this.mdSetting.toolbars.subfield = false;
@@ -111,11 +114,8 @@
 		},
 		computed:{
 			...mapState({
-				pf:'platform',
-				st:'scrollTop',
-				sh:'screenHeight',
-				sw:'screenWidth',
-				isMobile:'isMobile'
+				isMobile:'isMobile',
+				token:state=>state.account.token
 			}),
 		},
         data() {
@@ -141,7 +141,7 @@
 			}
         },
 		beforeRouteLeave(to,from,next){
-			if(to.name==='homepage')next();
+			if(to.name==='space'||to.name==='homepage')next();
 			else{
 				let r = window.confirm('离开会导致未保存的信息丢失，是否继续');
 				if(r)next();
@@ -160,7 +160,8 @@
 			$imgAdd(pos,$file){
 				let param = new FormData();
 				param.append('img',$file);
-				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data[1]))
+				param.append('token',this.token);
+				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
 			},
 			hiAdd(){
 				document.getElementById('hi-add').click();
@@ -194,6 +195,7 @@
 					return ;
 				}
 				let data = {
+					token:this.token,
 					type:'note',
 					title:this.title,
 					preview:this.preview,
@@ -201,9 +203,22 @@
 					tags:this.selectedTags.join(','),
 					inputTags:it,
 					category:this.selectedCat,
-					rawContent:v.replace(/\\/g,'\\\\').replace(/'/g,"\\'"),
+					rawContent:v,
 				};
-				post('/apis/edit/saveTmp.php?nid='+this.nid,data);
+				post('/apis/edit/saveTmp.php?nid='+this.nid,data).then(response=>{
+					if (response.data.code<1)
+						this.$store.commit('infoBox/callInfoBox',{
+							info:'草稿保存成功',
+							ok:true,
+							during:2000
+						});
+					else
+						this.$store.commit('infoBox/callInfoBox',{
+							info:'草稿保存失败',
+							ok:false,
+							during:2000
+						});
+				}).catch(err=>console.warn(err));
 			},
 			launch(){
 
@@ -221,6 +236,7 @@
 						return ;
 					}
 					let data = {
+						token:this.token,
 						type:this.selectedType,
 						title:this.title,
 						preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
@@ -228,19 +244,46 @@
 						tags:this.selectedTags.join(','),
 						newTags:it,
 						category:this.selectedCat,
-						rawContent:this.rawContent.replace(/\\/g,'\\\\').replace(/'/g,"\\'"),
+						rawContent:this.rawContent,
 					};
 					if(typeof this.hi==='object'){
 						let fd = new FormData();
 						fd.append('hi',this.hi);
+						fd.append('token',this.token);
 						post_form('/apis/edit/mdimg.php?nid='+this.nid,fd).then(response=>{
-							data.imgSrc = response.data[1];
-							post('/apis/edit/launch.php?nid='+this.nid,data)
-						});
+			 				if (response.data.code < 1) {
+								data.imgSrc = response.data.imgSrc;
+								post('/apis/edit/launch.php?nid='+this.nid,data).then(re=>{
+									if (re.data.code<1)
+										this.$router.push({name:'space'});
+									else
+										this.$store.commit('infoBox/callInfoBox',{
+											info:'笔记发布失败，bug?',
+											ok:false,
+											during:2000
+										});
+								}).catch(err=>console.warn(err));
+							}
+							else
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'笔记头图片上传失败，终止发布',
+									ok:false,
+									during:2000
+								});
+						}).catch(err=>console.warn(err));
 					}
 					else{
 						data.imgSrc = this.hi;
-						post('/apis/edit/launch.php?nid='+this.nid,data)
+						post('/apis/edit/launch.php?nid='+this.nid,data).then(response=>{
+							if (response.data.code < 1)
+								this.$router.push({name:'space'});
+							else
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'笔记发布失败，bug?',
+									ok:false,
+									during:2000
+								});
+						}).catch(err=>console.warn(err));
 					}
 
 				}

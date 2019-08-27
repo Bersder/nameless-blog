@@ -29,4 +29,10 @@ export const headerTop = {
 	]
 
 };
+export const statusMap = [ //所有状态
+	{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
+	{icon:'icon-focus',des:'不咕鸟',color:'#ff3d44'},
+	{icon:'icon-gezi',des:'咕咕咕',color:'#00a1d6'},
+	{icon:'icon-bxs-smiley-sad',des:'(悲)',color:'#9b9b9b'}
+];
 //前期没时间实现只能export出来先了，后期需要存入数据库提供在线修改

@@ -5,11 +5,11 @@
 			<h3 class="respond-title">{{to_uname|respondTitle}}</h3>
 			<div class="comment-form">
 				<div class="comment-info-input">
-					<input placeholder="昵称(必填)" v-model="nickname" name="nickname">
+					<input placeholder="昵称(必填)" v-model.trim="nickname" name="nickname">
 					<input placeholder="邮箱(必填，保密)" v-model="email" name="email">
 					<input placeholder="网站(选填)" v-model="website" name="website">
 				</div>
-				<textarea placeholder="请在这里输入你的评论..." v-model="content"></textarea>
+				<textarea placeholder="请在这里输入你的评论..." v-model.trim="content"></textarea>
 			</div>
 			<div class="comment-buttons tr">
 				<span><label><input type="checkbox" v-model="notifyMe"> 回复提醒</label></span>
@@ -180,15 +180,15 @@
         		document.getElementById('comments').insertBefore(document.getElementById('respond'),document.getElementById('anchor'))
 			},
 			commentSubmit(){
-        		if (/\d{11}|^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname.replace(/^\s*|\s*$/g,'')&&this.content.replace(/^\s*|\s*$/g,'')){
+        		if (/\d{11}|^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname&&this.content){
         			if (!this.website || (this.website && /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.website))){ //网址验证
 						let data = {
 							id:this.id_,
 							type:this.type,
-							nickname:this.nickname.replace(/^\s*|\s*$/g,''),
+							nickname:this.nickname,
 							email:this.email,
 							website:this.website,
-							content:this.content.replace(/^\s*|\s*$/g,''),
+							content:this.content,
 							to_id:this.to_id,
 							to_uid:this.to_uid,
 							to_uname:this.to_uname,

@@ -161,6 +161,9 @@
 								ok:true,
 								during:2000
 							});
+							this.numSum--;
+							this.pvSum-=this.delTarget.readCount;
+							this.commentSum-=this.delTarget.commentCount;
 							if (this.curIndex)
 								this.notes.splice(this.notes.indexOf(this.delTarget),1);
 							else

@@ -65,7 +65,7 @@
 						<button @click="launch"><i class="fas fa-rocket"></i> Launch</button>
 					</div>
 				</div>
-				<mavon-editor v-model="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
+				<mavon-editor v-model.trim="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
 			</div>
 
 		</div>
@@ -77,25 +77,28 @@
 import {unique} from "../util/util";
 import {post} from "../util/http";
 import {post_form} from "../util/http";
-import {fetch} from "../util/http";
 import {mapState} from 'vuex'
 import {mdSetEdit} from "../util/global";
 export default {
         name: "Write",
 		created(){
         	if(!this.aid){
-				fetch('/apis/edit/initw.php').then(response=>{
-					this.$router.replace({name:'write',query:{aid:response.data.aid}});
-					this.aid=response.data.aid;
-					this.tagOptions = response.data.tagOptions || [];
-					this.seriesOptions = response.data.seriesOptions || [];
-				});
+				post('/apis/edit/initw.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					if (response.data.code < 1) {
+						this.$router.replace({name:'write',query:{aid:response.data.aid}});
+						this.aid=response.data.aid;
+						this.tagOptions = response.data.tagOptions || [];
+						this.seriesOptions = response.data.seriesOptions || [];
+					}
+					else
+						this.$router.push({name:'homepage'});
+				}).catch(err=>console.warn(err));
 				//全新文章获取其adi，添加至后缀
 			}
 			else {//如果有后缀，不申请aid，根据现有aid请求保存的信息
-				fetch('/apis/edit/initw.php',{aid:this.aid}).then(response=>{
-					let art = response.data;
-					if(art.exist){
+				post('/apis/edit/initw.php?aid='+this.aid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					if(response.data.exist>0){
+						let art = response.data;
 						this.rawContent = art.rawContent || '';
 						this.title = art.info.title || '';
 						this.selectedType = art.info.type || 'code';
@@ -112,7 +115,7 @@ export default {
 						//不存在aid，重新导向至写文章页/404
 						this.$router.push({name:'homepage'})
 					}
-				})
+				}).catch(err=>console.warn(err));
 			}
 			if (this.isMobile){
 				this.mdSetting.toolbars.subfield = false;
@@ -121,7 +124,10 @@ export default {
 
 		},
 		computed:{
-        	...mapState(['isMobile'])
+        	...mapState({
+				isMobile:'isMobile',
+				token:state=>state.account.token
+			})
 		},
         data() {
             return {
@@ -147,7 +153,7 @@ export default {
 			}
         },
 		beforeRouteLeave(to,from,next){
-        	if(to.name==='homepage')next();
+        	if(to.name==='space'||to.name==='homepage')next();
         	else{
 				let r = window.confirm('离开会导致未保存的信息丢失，是否继续');
 				if(r)next();
@@ -166,7 +172,8 @@ export default {
 			$imgAdd(pos,$file){
 				let param = new FormData();
 				param.append('img',$file);
-				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data[1]))
+				param.append('token',this.token);
+				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
 			},
 			hiAdd(){
 				document.getElementById('hi-add').click();
@@ -200,6 +207,7 @@ export default {
         			return ;
 				}
 				let data = {
+					token:this.token,
 					type:this.selectedType,
 					title:this.title,
 					preview:this.preview,
@@ -207,9 +215,22 @@ export default {
 					tags:this.selectedTags.join(','),
 					inputTags:it,
 					series:this.selectedSeries,
-					rawContent:v.replace(/\\/g,'\\\\').replace(/'/g,"\\'")
+					rawContent:v
 				};
-        		post('/apis/edit/saveTmp.php?aid='+this.aid,data);
+        		post('/apis/edit/saveTmp.php?aid='+this.aid,data).then(response=>{
+					if (response.data.code<1)
+						this.$store.commit('infoBox/callInfoBox',{
+							info:'草稿保存成功',
+							ok:true,
+							during:2000
+						});
+					else
+						this.$store.commit('infoBox/callInfoBox',{
+							info:'草稿保存失败',
+							ok:false,
+							during:2000
+						});
+				}).catch(err=>console.warn(err));
 			},
 			launch(){
 
@@ -227,6 +248,7 @@ export default {
 						return ;
 					}
 					let data = {
+						token:this.token,
 						type:this.selectedType,
 						title:this.title,
 						preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
@@ -234,19 +256,46 @@ export default {
 						tags:this.selectedTags.join(','),
 						newTags:it,
 						series:this.selectedSeries,
-						rawContent:this.rawContent.replace(/\\/g,'\\\\').replace(/'/g,"\\'"),
+						rawContent:this.rawContent,
 					};
 					if(typeof this.hi==='object'){
 						let fd = new FormData();
 						fd.append('hi',this.hi);
+						fd.append('token',this.token);
 						post_form('/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
-							data.imgSrc = response.data[1];
-							post('/apis/edit/launch.php?aid='+this.aid,data)
-						});
+							if (response.data.code < 1) {
+								data.imgSrc = response.data.imgSrc;
+								post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
+									if (re.data.code<1)
+										this.$router.push({name:'space'});
+									else
+										this.$store.commit('infoBox/callInfoBox',{
+											info:'文章发布失败，bug?',
+											ok:false,
+											during:2000
+										});
+								}).catch(err=>console.warn(err));
+							}
+							else
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'文章头图片上传失败，终止发布',
+									ok:false,
+									during:2000
+								});
+						}).catch(err=>console.warn(err));
 					}
 					else{
 						data.imgSrc = this.hi;
-						post('/apis/edit/launch.php?aid='+this.aid,data)
+						post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
+							if (response.data.code<1)
+								this.$router.push({name:'space'});
+							else
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'文章发布失败，bug?',
+									ok:false,
+									during:2000
+								});
+						}).catch(err=>console.warn(err));
 					}
 
 				}

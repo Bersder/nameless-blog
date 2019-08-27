@@ -24,6 +24,7 @@
 		<div class="space-n-wrap">
 			<div class="n-inner">
 				<div class="n-tab-link">
+					<router-link to="/space" class="n-btn"><span class="iconfont icon-home"></span><span class="n-title">首页</span></router-link>
 					<router-link to="/space/dynamic" class="n-btn"><span class="iconfont icon-dongtai"></span><span class="n-title">动态</span></router-link>
 					<router-link to="/space/launch" class="n-btn"><span class="iconfont icon-launch"></span><span class="n-title">发布</span></router-link>
 					<router-link to="/space/album" class="n-btn"><span class="iconfont icon-album"></span><span class="n-title">相册</span></router-link>
@@ -37,7 +38,12 @@
 		<div class="space-c-wrap">
 			<router-view></router-view>
 			<div class="space-home">
+				<div class="col-1">
 
+				</div>
+				<div class="col-2">
+
+				</div>
 			</div>
 		</div>
 	</div>
@@ -46,6 +52,8 @@
 <script>
 	import {post} from "../util/http";
 	import {mapState} from 'vuex';
+	import {statusMap} from "../util/USER_VAR";
+
 	export default {
         name: "Space",
 		// beforeRouteEnter(to,from,next){
@@ -83,12 +91,7 @@
         	return{
 				signature:'编辑个性签名',
 				status:0,
-				statusMap:[ //移动至用户变量
-					{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
-					{icon:'icon-focus',des:'专注',color:'#ff3d44'},
-					{icon:'icon-gezi',des:'咕咕咕',color:'#00a1d6'},
-					{icon:'icon-bxs-smiley-sad',des:'(悲)',color:'#9b9b9b'}
-				]
+				statusMap:statusMap
 			}
 		},
 		methods:{
@@ -190,9 +193,6 @@
 						border-radius: .04rem;
 						cursor: pointer;
 					}
-						.h-status i{
-							font-size: .12rem;
-						}
 					.h-basic .h-sign{
 						margin-top: .07rem;
 					}
@@ -244,6 +244,9 @@
 					font-size: .2rem;
 					vertical-align: middle;
 					margin-right: .04rem;
+				}
+				.iconfont.icon-home{
+					color: #5abebc;
 				}
 				.iconfont.icon-dongtai{
 					color: #fb7299;
