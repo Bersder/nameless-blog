@@ -101,9 +101,7 @@
 								during:3000
 							});
 							this.account = this.password = '';
-							setTimeout(()=>{
-								this.$router.push({name:'homepage'});
-							},4000)
+							this.$router.push({name:'homepage'});
 
 						}
 					})

@@ -515,6 +515,9 @@
 	}
 }
 @media screen and (max-width: 550px) {
+	.page-content.note{ /*note特有*/
+		padding: 0;
+	}
 	.panel-n-wrap{
 		width: 100%;
 	}

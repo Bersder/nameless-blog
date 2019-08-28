@@ -14,6 +14,7 @@ import Archive from "@/views/Archive"
 import Link from "@/views/Link"
 import Tag from "@/views/Tag"
 import Login from "@/views/Login"
+import About from "@/views/About"
 import Space from "@/views/Space"
 import SpaceLaunch from "@/components/SpaceLaunch";
 import SpaceDynamic from "@/components/SpaceDynamic";
@@ -101,6 +102,11 @@ export default new Router({
 			path: '/note/:id',
 			name: 'article_note',
 			component: Article
+		},
+		{
+			path: '/about',
+			name: 'about',
+			component: About
 		},
 		{
 			path: '/write',
