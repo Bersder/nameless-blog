@@ -19,6 +19,7 @@ import Space from "@/views/Space"
 import SpaceLaunch from "@/components/SpaceLaunch";
 import SpaceDynamic from "@/components/SpaceDynamic";
 import SpaceAlbum from "@/components/SpaceAlbum";
+import SpaceSetting from "@/components/SpaceSetting";
 
 Vue.use(Router);
 
@@ -38,7 +39,8 @@ export default new Router({
 			children: [
 				{path:'launch',name:'space-l',component:SpaceLaunch},
 				{path:'dynamic',name:'space-d',component:SpaceDynamic},
-				{path:'album',name:'space-a',component:SpaceAlbum}
+				{path:'album',name:'space-a',component:SpaceAlbum},
+				{path:'setting',name:'space-s',component:SpaceSetting}
 			]
 		},
 		{

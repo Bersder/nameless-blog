@@ -20,8 +20,8 @@
 		</div>
 
 		<div class="col-2">
-			<div class="section dynamic-launch tl">
-				<h3>发布动态</h3>
+			<div class="section dynamic-launch">
+				<h4>发布动态</h4>
 				<textarea placeholder="要写些什么呢?" v-model="sendContent"></textarea>
 				<div class="type-selector">
 					<div v-for="(item,key) in typeMap" @click="sendType=key" :class="{cur:sendType===key}">{{item}}</div>
@@ -168,19 +168,14 @@
 		background: transparent;
 		overflow: hidden;
 	}
-	.space-dynamic .col-1{
+	.space-dynamic .col-1,.space-home .col-1{
 		float: left;
 		width: 8.35rem;
 	}
-	.space-dynamic .col-2{
+	.space-dynamic .col-2,.space-home .col-2{
 		float: right;
 		width: 3.5rem;
 	}
-		.col-2 .section{ /*多模块使用，可能与space共用*/
-			background: white;
-			border-radius: .05rem;
-			box-shadow: 0 0 0 .01rem #eee;
-		}
 	/*下面可能和comment的样式合并？*/
 	.dynamic-content-wrap{
 		position: relative;
@@ -259,16 +254,17 @@
 			}
 
 	.dynamic-launch{
-		padding: .15rem;
 		position: relative;
 	}
 		.dynamic-launch textarea{
 			display: block;
 			margin: .1rem 0;
 			padding: .1rem;
-			height: 1.2rem;
-			resize: none;
+			height: 1.3rem;
 			width: 100%;
+			resize: none;
+			font-size: .14rem;
+			line-height: .2rem;
 			border: .02rem solid rgba(0,0,0,.1);
 			outline: none;
 			transition: .5s;
@@ -302,7 +298,7 @@
 		.dynamic-launch button{
 			position: absolute;
 			bottom: .15rem;
-			right: .15rem;
+			right: .2rem;
 			border-radius: 1rem;
 			border: .02rem solid rgba(0,0,0,.1);
 			padding: .04rem .15rem;

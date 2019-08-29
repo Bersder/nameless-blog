@@ -26,7 +26,7 @@
 		</div>
 
 		<div class="comments-main">
-			<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论{{this.unique}}</span></h3>
+			<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论</span></h3>
 			<div class="comments-list" v-if="allCount">
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
@@ -137,16 +137,18 @@
 		methods:{
         	fetchComment(offset){
 				post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
-					let data = response.data.data;
-					this.allCount = parseInt(data.allCount);
-					this.pageNum = Math.ceil(data.commentCount/10);
-					console.log(this.allCount,this.pageNum);
-					this.commentWaiting = false;
-					data.comments.forEach(e=>{
-						e['children'] = this.gen_children(e);
-						delete e.replies;
-						this.commentList.push(e)
-					});
+					if (response.data.code < 1) {
+						let data = response.data.data;
+						this.allCount = parseInt(data.allCount);
+						this.pageNum = Math.ceil(data.commentCount/10);
+						console.log(this.allCount,this.pageNum);
+						this.commentWaiting = false;
+						data.comments.forEach(e=>{
+							e['children'] = this.gen_children(e);
+							delete e.replies;
+							this.commentList.push(e)
+						});
+					}
 				})
 			},
         	gen_children(comment){

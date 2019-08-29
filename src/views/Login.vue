@@ -96,7 +96,7 @@
 							let data = response.data.data;
 							this.$store.commit('account/login',data);
 							this.$store.commit('infoBox/callInfoBox',{
-								info:'登录成功，即将返回主页',
+								info:'登录成功，返回主页',
 								ok:true,
 								during:3000
 							});

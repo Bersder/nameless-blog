@@ -11,7 +11,7 @@
 								<span class="h-status" title="点击改变状态" @click="statusChange" :style="{background:statusMap[status].color}"><i class="iconfont" :class="statusMap[status].icon"></i>{{statusMap[status].des}}</span>
 							</p>
 							<div class="h-sign">
-								<input type="text" @change="signChange" v-model="signature">
+								<input type="text" @change="signChange" placeholder="这个人很懒，什么都没写" v-model="signature">
 							</div>
 						</div>
 					</div>
@@ -37,12 +37,24 @@
 		</div>
 		<div class="space-c-wrap">
 			<router-view></router-view>
-			<div class="space-home">
+			<div class="space-home" v-if="$route.name==='space'">
 				<div class="col-1">
-
+					<div class="section">
+						<h3 class="section-title">测试标题</h3>
+						<div class="section-content">
+						</div>
+					</div>
+					<div class="section">
+						<h3 class="section-title">测试标题</h3>
+						<div class="section-content">
+						</div>
+					</div>
 				</div>
 				<div class="col-2">
-
+					<div class="section memo">
+						<h4 class="section-title">便签</h4>
+						<textarea v-model="memo" @change="memoChange" placeholder="编辑我的备忘录"></textarea>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -83,15 +95,17 @@
 		created(){
 			post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 				let info = response.data.data.info;
-				this.signature = info.sign||'这个人很懒，什么都没写';
-				this.status = parseInt(info.status)
+				this.signature = info.sign;
+				this.status = parseInt(info.status);
+				this.memo = info.memo
 			}).catch(err=>console.warn(err))
 		},
 		data(){
         	return{
 				signature:'编辑个性签名',
 				status:0,
-				statusMap:statusMap
+				statusMap:statusMap,
+				memo:''
 			}
 		},
 		methods:{
@@ -111,6 +125,16 @@
 					if (response.data.code < 1)
 						this.status=nextStatus;
 				}).catch(err=>console.warn(err))
+			},
+			memoChange(){
+        		post('/apis/auth/v0api.php',{token:this.token,memo:this.memo}).then(response=>{
+        			if (response.data.code<1)
+						this.$store.commit('infoBox/callInfoBox',{
+							info:'备忘录更新成功',
+							ok:true,
+							during:2000
+						});
+				}).catch(err=>console.warn(err))
 			}
 		}
     }
@@ -125,6 +149,37 @@
 		max-width: 12rem;
 		background: transparent;
 		overflow: hidden;
+	}
+	.space-dynamic .col-1,.space-home .col-1{/*下面两个使用spaceDynamic样式*/
+		float: left;
+		width: 8.35rem;
+	}
+	.space-dynamic .col-2,.space-home .col-2{
+		float: right;
+		width: 3.5rem;
+	}
+	.space-home .col-1{
+		padding: .15rem .2rem;
+		background: white;
+	}
+	.memo textarea{
+		display: block;
+		padding: .1rem;
+		margin-left: -.1rem;
+		height: 1.7rem;
+		width: 100%;
+		resize: none;
+		font-size: .16rem;
+		line-height: .2rem;
+		color: #6d757a;
+		border: .01rem solid transparent;
+		border-radius: .03rem;
+		outline: none;
+		box-sizing: content-box;
+		transition: .5s ease;
+	}
+	.memo textarea:hover,.memo textarea:focus{
+		border-color: #00a1d6;
 	}
 
 
@@ -211,6 +266,9 @@
 							width: 7rem;
 							outline: none;
 							transition: .3s ease;
+						}
+						.h-sign input::-webkit-input-placeholder,.h-sign input:-moz-placeholder,.h-sign input:-ms-input-placeholder{/*这个VUe打包不识别，需要直接插入css中*/
+							color: white;
 						}
 						.h-sign input:hover{
 							background: hsla(0,0%,100%,.2);

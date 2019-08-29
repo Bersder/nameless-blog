@@ -219,7 +219,7 @@ export default {
 	.fa,.fas,.far,.fab{
 		margin-right: .03rem;
 	}
-	.iconfont{margin-right: .03rem}
+	.iconfont{margin-right: .03rem;display: inline-block}
 	.clearm{margin:0}
 	.center{
 		text-align: center;
@@ -294,5 +294,43 @@ export default {
 		color: #939393;
 	}
 
-
+/*-----------------------------------------供spaceAlbumAlbumU和spaceDynamic、space使用*/
+	.section{
+		margin-bottom: .1rem;
+		border-bottom: .01rem solid #eaeaea;
+	}
+	.section:last-child{
+		border-bottom: none;
+	}
+	.section .section-title{
+		font-size: .2rem;
+		text-align: left;
+		padding-bottom: .1rem;
+	}
+	.section-content.empty:before{
+		background-image: url(http://localhost:80/site/images/nodata.png);
+		content:attr(etext);
+		display: block;
+		background-position: center center;
+		background-repeat: no-repeat;
+		color: #6d757a;
+		font-size: .14rem;
+		height: 2.1rem;
+		overflow: hidden;
+		line-height: 3.9rem;
+		text-align: center;
+	}
+	.col-2 .section{ /*多模块使用，可能与space共用*/
+		padding: .15rem .2rem;
+		background: white;
+		border-radius: .05rem;
+		box-shadow: 0 0 0 .01rem #eee;
+		text-align: left;
+	}
+	.col-2 .section .section-title{
+		font-size: .15rem;
+		font-weight: 600;
+		border-bottom: .01rem solid #eaeaea;
+	}
+/*---------------------------------------------------------------------------*/
 </style>

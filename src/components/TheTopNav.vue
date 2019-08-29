@@ -82,17 +82,17 @@
 	import {fetch} from "../util/http";
 	import {statusMap} from "../util/USER_VAR";
 	let navData = [
-		{icon:'fa fa-archive',des:'归档',animate:'rotate-bf',subs:[
-				{icon:'fa fa-film',des:'Anime',href:'/archive/anime'},
-				{icon:'fas fa-code',des:'极客',href:'/archive/code'},
-				{icon:'fa fa-gamepad',des:'游民',href:'/archive/game'},
-				{icon:'fas fa-journal-whills',des:'随写',href:'/archive/trivial'}
+		{icon:'iconfont icon-archive',des:'归档',animate:'rotate-bf',subs:[
+				{icon:'iconfont icon-bilibili',des:'Anime',href:'/archive/anime'},
+				{icon:'iconfont icon-code',des:'极客',href:'/archive/code'},
+				{icon:'iconfont icon-youxi',des:'游民',href:'/archive/game'},
+				{icon:'iconfont icon-coffee',des:'随写',href:'/archive/trivial'}
 			],href:'/archive',isUnfolded:true},
-		{icon:'fa fa-pencil-alt',des:'笔记',animate:'writing',subs:false,href:'/note',isUnfolded:true},//笔记的sub待填充
-		{icon:'fa fa-tags',des:'标签',animate:'fade-bf',subs:false,href:'/tags',isUnfolded:true},
-		{icon:'fa fa-link',des:'友链',animate:'enlarge-abrupt',subs:false,href:'/links',isUnfolded:true},
-		{icon:'fa fa-cogs',des:'实验室',animate:'spin',subs:false,href:'/lab',isUnfolded:true},
-		{icon:'fa fa-leaf',des:'关于',animate:'axis-rotate',subs:false,href:'/about',isUnfolded:true}
+		{icon:'iconfont icon-pen',des:'笔记',animate:'writing',subs:false,href:'/note',isUnfolded:true},//笔记的sub待填充
+		{icon:'iconfont icon-tags',des:'标签',animate:'fade-bf',subs:false,href:'/tags',isUnfolded:true},
+		{icon:'iconfont icon-link',des:'友链',animate:'enlarge-abrupt',subs:false,href:'/links',isUnfolded:true},
+		// {icon:'iconfont icon-gear',des:'实验室',animate:'spin',subs:false,href:'/lab',isUnfolded:true},
+		{icon:'iconfont icon-leaf',des:'关于',animate:'axis-rotate',subs:false,href:'/about',isUnfolded:true}
 	];
     export default {
         name: "TheTopNav",

@@ -38,10 +38,10 @@
 					<div class="friend-list">
 						<ul>
 							<li v-for="(item,index) in FList" :key="index">
-								<a :href="item.href" target="_blank" :title="item.message" rel="noopener">
-									<img :src="item.image">
-									<h5>{{item.name}}</h5>
-									<p>{{item.message}}</p>
+								<a :href="item.ulink" target="_blank" :title="item.message" rel="noopener">
+									<img :src="item.avatar">
+									<h5>{{item.uname}}</h5>
+									<p>{{item.message||'这人很懒，什么都没留下'}}</p>
 								</a>
 							</li>
 						</ul>
@@ -54,9 +54,7 @@
 					</div>
 					<div class="link-list">
 						<ul>
-							<li v-for="(item,index) in TList" :key="index">
-								<a :href="item.href" target="_blank" rel="nofollow">{{item.name}}</a>
-							</li>
+							<li v-for="item in outerLinks['tool']" :key="item.id"><a :href="item.url" target="_blank" rel="nofollow">{{item.name}}</a></li>
 						</ul>
 					</div>
 				</div>
@@ -65,38 +63,54 @@
 						A·C·G
 						<p>肥宅天堂</p>
 					</div>
+					<div class="link-list">
+						<ul>
+							<li v-for="item in outerLinks['acg']" :key="item.id"><a :href="item.url" target="_blank" rel="nofollow">{{item.name}}</a></li>
+						</ul>
+					</div>
 				</div>
 				<div class="link-category">
 					<div class="link_subtitle">
 						森 罗 万 象
-						<p>没事多看看，总有所收获</p>
+						<p>这些都是我所不知道的东西</p>
+					</div>
+					<div class="link-list">
+						<ul>
+							<li v-for="item in outerLinks['kaleidoscope']" :key="item.id"><a :href="item.url" target="_blank" rel="nofollow">{{item.name}}</a></li>
+						</ul>
 					</div>
 				</div>
+				<comment id_="1" type="link" unique="1link"></comment>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-    export default {
+	import {fetch} from "../util/http";
+	import CommentModule from "@/components/CommentModule";
+	export default {
         name: "Link",
 		created(){
-
+			fetch('/apis/apiv11.php').then(response=>{
+				let data = response.data.data;
+				data.FList.forEach(e => this.FList.push(e));
+				this.outerLinks = data.outerLinks;
+			})
 		},
 		data(){
         	return {
-				FList:[
-					{image:'http://localhost:80/static/img/python.png',name:'Oshino',message:'刃下心赛高',href:'https://baidu.com'},
-					{image:'http://localhost:80/static/img/python.png',name:'Oshino',message:'刃下心赛高',href:'https://baidu.com'},
-				],
-				TList:[
-					{name:'萌娘百科',href:'https://baidu.com'},
-					{name:'THB Wiki',href:'https://baidu.com'},
-					{name:'萌娘百科',href:'https://baidu.com'},
-					{name:'THB Wiki',href:'https://baidu.com'}
-				],
-
+				FList:[],
+				outerLinks:{tool:[], acg:[], kaleidoscope:[]},//需要和linkTypeMap同步
+				linkTypeMap:{
+					tool:'四次元工具箱',
+					acg:'A·C·G',
+					kaleidoscope:'森 罗 万 象'
+				}
 			}
+		},
+		components:{
+			comment:CommentModule
 		},
     }
 </script>
@@ -201,6 +215,7 @@
 			.friend-list ul,.link-list ul{
 				overflow: hidden;
 				list-style-type: none;
+				text-align: left;
 			}
 				#mobile-app .friend-list ul li{
 					width: 100%;
@@ -230,17 +245,20 @@
 						top: .15rem;
 						left: .15rem;
 						border-radius: 50%;
-
+						object-fit: cover;
+						object-position: center;
 					}
 					.friend-list ul li a h5{
 						padding-top: .15rem;
-						font-size: .2rem;
+						font-size: .18rem;
+						font-weight: normal;
 					}
 					.friend-list ul li a p{
+						color: #6d757a;
 						font-size: .14rem;
 						margin: .1rem 0;
 					}
-					.friend-list ul li a h5,.fa-mavon-repeat ul li a p{
+					.friend-list ul li a h5,.friend-list ul li a p{
 						white-space: nowrap;
 						text-overflow: ellipsis;
 						overflow: hidden;

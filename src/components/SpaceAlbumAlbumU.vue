@@ -142,34 +142,6 @@
 	.balloon-leave-active{
 		animation: fadeIn .5s ease reverse;
 	}
-	.a-main .section{
-		margin-bottom: .1rem;
-		border-bottom: .01rem solid #eaeaea;
-	}
-	.section:last-child{
-		border-bottom: none;
-	}
-	.a-main .section .section-title{
-		font-size: .2rem;
-		font-weight: normal;
-		text-align: left;
-		padding-bottom: .1rem;
-	}
-	.section-content.empty:before{
-		background-image: url(http://localhost:80/site/images/nodata.png);
-		content:attr(etext);
-		display: block;
-		background-position: center center;
-		background-repeat: no-repeat;
-		color: #6d757a;
-		font-size: .14rem;
-		height: 2.1rem;
-		overflow: hidden;
-		line-height: 3.9rem;
-		text-align: center;
-	}
-
-
 	.upload-box{
 		position: relative;
 	}
