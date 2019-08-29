@@ -49,6 +49,7 @@
 	import {fetch} from "../util/http";
 	import {fast_unique} from "../util/util";
 	import {mapState} from 'vuex'
+	import {tagCloudMixin} from "../util/global";
 	export default {
         name: "Archive",
 		created(){
@@ -78,10 +79,7 @@
 				articles:[],
 				year_ord:[],
 				arch_data:{},
-				tagDict:{},
 				expand_flag:true,
-				manyTags:false,
-				tagExpand:false
 			}
         },
 		computed:{
@@ -112,11 +110,7 @@
 				this.expand_flag = !this.expand_flag
 			}
 		},
-		filters:{
-        	expandStatus(e){
-        		return e?'-':'+'
-			}
-		}
+		mixins:[tagCloudMixin]
 
     }
 </script>
@@ -172,6 +166,9 @@
 	/*-----------------------------------------------*/
 	.tag-cloud h2{
 		margin: .2rem 0 .1rem 0;
+	}
+	.tag-cloud h4{
+		margin: .1rem 0;
 	}
 	.tag-cloud .roll-toggle{
 		display: inline-block;

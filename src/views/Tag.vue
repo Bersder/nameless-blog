@@ -41,6 +41,7 @@
 <script>
 	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
+	import {tagCloudMixin} from "../util/global";
 	export default {
         name: "Tag",
 		created(){
@@ -93,9 +94,6 @@
 				artList:[],
 				noteList:[],
 				curList:[],
-				tagDict:{},
-				manyTags:false,
-				tagExpand:false
 			}
 		},
 		computed:{
@@ -142,9 +140,6 @@
         	toUrl(type,id){
         		return type==='note'?'/note/'+id:'/archive/'+type+'/'+id
 			},
-			expandStatus(e){
-				return e?'-':'+'
-			},
 			headerIntro(flag,tag){
 				if(tag) return flag?'没有找到':'包含标签 “'+tag+'" 的条目';
 				else return '标签'
@@ -153,7 +148,8 @@
 				if (tag) return flag?'没有找到当然是NaN啦':'找到 '+num+' 个';
 				else return '';
 			}
-		}
+		},
+		mixins:[tagCloudMixin]
 	}
 </script>
 
@@ -209,6 +205,9 @@
 	/*-------------------------------------------借用Archive样式*/
 		.tag-cloud h2{
 			margin: .2rem 0 .1rem 0;
+		}
+		.tag-cloud h4{
+			margin: .1rem 0;
 		}
 		.tag-cloud .roll-toggle{
 			display: inline-block;

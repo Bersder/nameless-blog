@@ -36,7 +36,7 @@
 </script>
 
 <style scoped>
-	.space-launch,.space-album{
+	.space-launch,.space-album,.space-setting{
 		margin: 0 auto;
 		max-width: 12rem;
 		background: white;

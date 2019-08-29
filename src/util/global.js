@@ -1,3 +1,17 @@
+export const tagCloudMixin = {
+	data(){
+		return{
+			tagDict:{},
+			manyTags:false,
+			tagExpand:false
+		}
+	},
+	filters:{
+		expandStatus(e){
+			return e?'-':'+'
+		}
+	}
+};
 export const contentAsideMixin = {
 	data(){
 		return{

@@ -89,7 +89,8 @@
 			...mapState({
 				token:state=>state.account.token,
 				avatar:state=>state.account.avatar,
-				name:state=>state.account.name
+				name:state=>state.account.name,
+				isMobile:'isMobile'
 			})
 		},
 		created(){

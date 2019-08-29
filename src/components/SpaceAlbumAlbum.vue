@@ -39,7 +39,7 @@
 			<div class="popup-panel">
 				<h3 class="popup-title tl">删除图片</h3>
 				<div class="popup-content tl">确定要删除此图片?</div>
-				<div class="popup-confirm">
+				<div class="popup-confirm tc">
 					<button class="btn-primary" @click="delConfirm(true)">删除</button><button class="btn-secondary" @click="delConfirm(false)">手抖点错</button>
 				</div>
 				<a class="popup-cancel" @click="popupShow=false"><i class="iconfont icon-cancel"></i></a>
