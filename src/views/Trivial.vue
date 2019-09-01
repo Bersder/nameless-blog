@@ -2,10 +2,10 @@
     <div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/10.jpg')"></div>
+				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}"></div>
 				<div class="page-info">
-					<h2 class="intro">琐事</h2>
-					<p class="tsukkomi">记录单身20年的生活</p>
+					<h2 class="intro">{{headerInfo.title}}</h2>
+					<p class="tsukkomi">{{headerInfo.description}}</p>
 				</div>
 			</div>
 		</div>
@@ -91,6 +91,7 @@
 			fetch('/apis/apiv1.php',{_:'trivial'}).then(response=>{
 				let data = response.data.data;
 				console.log(data);
+				this.headerInfo = data.headerInfo;
 				this.$set(this.arts[0],'1',data.artsNew);
 				this.$set(this.arts[1],'1',data.artsHot);
 				data.artsNew.forEach(e=>{
@@ -108,6 +109,7 @@
 		},
         data() {
             return {
+				headerInfo:{imgSrc:'/site/images/loading.gif',title:'随写',description:''},
 				pageNum:16,
 				curPage:1,
 				orderFlag:0,
@@ -223,6 +225,7 @@
 	}
 	.page-info .intro{
 		font-size: .4rem;
+		letter-spacing: .05rem;
 		margin-bottom: .1rem;
 		transition: .5s;
 	}

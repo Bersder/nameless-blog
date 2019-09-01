@@ -63,7 +63,7 @@
 						<a class="iconfont icon-image clearm" title="修改背景" @click="imgAdd"></a>
 					</div>
 					<div class="bg-title">
-						{{headerMap[item.id]}}
+						{{item.title}}
 						<a class="iconfont icon-save" v-if="item.tmpDes!==item.description||item.file" @click="changeHeader(item)">更改</a>
 					</div>
 				</div>
@@ -178,7 +178,7 @@
 				categoryList:[],
 				newCat:'',
 
-				headerMap: ['Anime', '极客', '游民', '随写', '笔记', '链接', '归档', '关于'],
+				// headerMap: ['Anime', '极客', '游民', '随写', '笔记', '链接', '归档', '关于'],
 				headers:[],
 
 				linkTypeMap:{

@@ -4,7 +4,7 @@
 			<div class="pattern-full-width page-header">
 				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/10.jpg')"></div>
 				<div class="page-info">
-					<h2 class="intro">{{tag404|headerIntro($route.params.tag)}}</h2>
+					<h2 class="intro" style="font-weight: 500">{{tag404|headerIntro($route.params.tag)}}</h2>
 					<p class="tsukkomi">{{tag404|headerTsukkomi($route.params.tag,curList.length)}}</p>
 				</div>
 			</div>

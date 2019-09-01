@@ -2,10 +2,10 @@
 	<div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/10.jpg')"></div>
+				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}"></div>
 				<div class="page-info">
-					<h2 class="intro">笔记页</h2>
-					<p class="tsukkomi">高中时代留下来的“坏习惯”</p>
+					<h2 class="intro">{{headerInfo.title}}</h2>
+					<p class="tsukkomi">{{headerInfo.description}}</p>
 				</div>
 			</div>
 		</div>
@@ -89,6 +89,7 @@
 			fetch('/apis/apiv1.php',{_:'note'}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
+				this.headerInfo = data.headerInfo;
 				this.catMap = data.catMap;
 				// this.catKey = Object.keys(this.catMap);
 				// this.catCount = data.catCount;
@@ -106,6 +107,7 @@
 		},
         data() {
             return {
+				headerInfo:{imgSrc:'/site/images/loading.gif',title:'笔记',description:''},
             	catMap:null,
 				// catKey:[],
 				noteNum:0,
@@ -206,6 +208,7 @@
 	}
 	.page-info .intro{
 		font-size: .4rem;
+		letter-spacing: .05rem;
 		margin-bottom: .1rem;
 		transition: .5s;
 	}

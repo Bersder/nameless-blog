@@ -2,7 +2,7 @@
     <div>
 		<div class="page-header-wrap">
 			<div class="pattern-center page-header">
-				<div class="ph-img" :style="'background-image: url(http://localhost:80'+imgSrc+')'"></div>
+				<div class="ph-img" :style="'background-image: url(http://localhost:80'+headerInfo.imgSrc+')'"></div>
 				<div class="ph-info-about">
 					<h1 style="font-weight: 500">关于</h1>
 				</div>
@@ -52,10 +52,18 @@
 </template>
 
 <script>
-    export default {
+	import {fetch} from "../util/http";
+	export default {
         name: "About",
+		created(){
+			fetch('/apis/apiv12.php').then(response=>{
+				let data = response.data.data;
+				this.headerInfo = data.headerInfo;
+			})
+		},
 		data(){
         	return{
+				headerInfo:{imgSrc:'/site/images/loading.gif',title:'关于',description:''},
         		imgSrc:'/site/header/trivial.jpg'
 			}
 		}

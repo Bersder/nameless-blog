@@ -2,10 +2,10 @@
 	<div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" style="background-image: url('http://127.0.0.1:80/static/img/7.jpg')"></div>
+				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}"></div>
 				<div class="page-info">
-					<h2 class="intro">Code</h2>
-					<p class="tsukkomi">一天快乐的源泉（伪）</p>
+					<h2 class="intro">{{headerInfo.title}}</h2>
+					<p class="tsukkomi">{{headerInfo.description}}</p>
 				</div>
 			</div>
 		</div>
@@ -63,11 +63,10 @@
 				fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
 					let data = response.data.data;
 					console.log(data);
+					this.headerInfo = data.headerInfo;
 					if (data.gossip)
 						this.gossip = data.gossip;
-					data.seriesList.forEach(e=>{
-						this.seriesList.push(e)
-					})
+					data.seriesList.forEach(e=>this.seriesList.push(e));
 				})
 		},
         data() {
@@ -75,7 +74,8 @@
             	ulLeft:0,
 				languageList:languageList,
 				langNum:languageList.length,
-				seriesList:[]
+				seriesList:[],
+				headerInfo:{imgSrc:'/site/images/loading.gif',title:'极客',description:''}
 
 			}
         },
@@ -125,6 +125,7 @@
 	}
 		.page-info .intro{
 			font-size: .4rem;
+			letter-spacing: .05rem;
 			margin-bottom: .1rem;
 			transition: .5s;
 		}
