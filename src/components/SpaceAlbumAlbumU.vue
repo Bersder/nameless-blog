@@ -228,7 +228,7 @@
 		padding: 0 .1rem;
 
 	}
-		.upload-info .type-input ul{
+		.upload-info .type-input ul,.link-add .type-input ul{
 			display: none;
 			position: absolute;
 			width: 100%;
@@ -243,10 +243,10 @@
 			box-shadow: 0 .02rem .04rem rgba(0,0,0,.2);
 			z-index: 1000;
 		}
-		.upload-info .type-input:hover ul{
+		.upload-info .type-input:hover ul,.link-add .type-input:hover ul{
 			display: block;
 		}
-			.upload-info .type-input ul li{
+			.upload-info .type-input ul li,.link-add .type-input ul li{
 				font-size: .14rem;
 				font-weight: bold;
 				overflow: hidden;
@@ -255,7 +255,7 @@
 				transition: .3s ease;
 				cursor: pointer;
 			}
-			.upload-info .type-input ul li:hover{
+			.upload-info .type-input ul li:hover,.link-add .type-input ul li:hover{
 				color: #00a1d6;
 				background-color: #e5e9ef;
 			}

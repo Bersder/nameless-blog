@@ -296,7 +296,7 @@ export default {
 
 /*-----------------------------------------供spaceAlbumAlbumU和spaceDynamic、space使用*/
 	.section{
-		margin-bottom: .1rem;
+		margin-bottom: .15rem;
 		border-bottom: .01rem solid #eaeaea;
 	}
 	.section:last-child{
@@ -321,6 +321,7 @@ export default {
 		text-align: center;
 	}
 	.col-2 .section{ /*多模块使用，可能与space共用*/
+		margin-bottom: .1rem;
 		padding: .15rem .2rem;
 		background: white;
 		border-radius: .05rem;
