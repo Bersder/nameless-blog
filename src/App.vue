@@ -166,6 +166,7 @@ export default {
 		top: 0;
 		left: 50%;
 		height: .7rem;
+		min-width: 1.5rem;
 		color: white;
 		padding: 0 .25rem;
 		line-height: .7rem;
@@ -308,7 +309,7 @@ export default {
 		padding-bottom: .1rem;
 	}
 	.section-content.empty:before{
-		background-image: url(http://localhost:80/site/images/nodata.png);
+		background-image: url(http://localhost:80/site/static/nodata.png);
 		content:attr(etext);
 		display: block;
 		background-position: center center;

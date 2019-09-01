@@ -1,7 +1,7 @@
 <template>
     <div>
 		<h2 class="draft-head">{{this.type==='note'?'笔记':'文章'}}草稿<router-link title="新写一篇" :to="this.type==='note'?'/takenote':'/write'"><i class="iconfont icon-addfriend"></i></router-link> </h2>
-		<div class="draft-content" :class="{empty:!draftFound}" etext="什么草稿都没有，好干净！">
+		<div class="draft-content" :class="{empty:!drafts.length}" etext="什么草稿都没有，好干净！">
 			<div class="waiting" id="anchor" v-show="draftWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
@@ -29,7 +29,6 @@
 				if (response.data.code < 1){
 					let data = response.data.data;
 					this.draftWaiting = false;
-					this.draftFound = Boolean(data.drafts.length);
 					data.drafts.forEach(e=>this.drafts.push(e));
 				}
 			}).catch(err=>console.warn(err))
@@ -37,7 +36,6 @@
 		data(){
         	return {
         		drafts:[],
-				draftFound:true,
 				draftWaiting:true,
 			}
 		},
@@ -57,14 +55,12 @@
 		},
 		watch:{
         	type(cur,pre){
-				this.draftFound = true;
 				this.draftWaiting = true;
         		while(this.drafts.pop()){}
         		post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
         			if (response.data.code<1){
 						let data = response.data.data;
 						this.draftWaiting = false;
-						this.draftFound = Boolean(data.drafts.length);
 						data.drafts.forEach(e=>{this.drafts.push(e)})
 					}
 				}).catch(err=>console.warn(err))
@@ -134,7 +130,7 @@
 		min-height: 4.5rem;
 	}
 	.draft-content.empty:after,.album-content.empty:after{
-		background-image: url(http://localhost:80/site/images/nodata.png);
+		background-image: url(http://localhost:80/site/static/nodata.png);
 		content:attr(etext);
 		display: block;
 		background-position: center center;

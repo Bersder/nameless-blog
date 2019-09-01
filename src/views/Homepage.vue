@@ -548,7 +548,7 @@
 			height: .38rem;
 			font-family: "Comic Sans MS",sans-serif;
 			border-radius: 100%;
-			text-indent: .09rem;
+			text-align: center;
 			margin-right: .1rem;
 			border: .01rem dashed #d5d5d5;
 			float: left;

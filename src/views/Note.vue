@@ -57,7 +57,7 @@
 										<router-link :to="each.nid" append>{{each.title}}</router-link>
 									</div>
 									<div class="category no-select">
-										<span >{{each.category}}</span><div class="cat-icon" style="background-image: url('http://localhost:80/static/img/python.png')"></div>
+										{{catMap[each.category]}}<span> · {{each.category}}</span>
 									</div>
 								</div>
 							</div>
@@ -432,20 +432,10 @@
 			padding: 0 .15rem .1rem;
 			right: 0;
 			bottom: 0;
-			text-align: right;
 		}
 			.panel-n-info .category span{
-				color: #636363;
-				font-size: .14rem;
-			}
-			.panel-n-info .category .cat-icon{
-				display: inline-block;
-				margin-left: .1rem;
-				vertical-align: middle;
-				width: .32rem;
-				height: .32rem;
-				border: .01rem solid #eaeaea;
-				border-radius: 100%;
+				color: #b8c0cc;
+				font-size: .12rem;
 			}
 	/*使用homepage样式覆盖*/
 	.pager{

@@ -2,29 +2,24 @@
     <div>
 		<figure class="htbg" id="htbg" :style="{height:(SH || screenHeight)+'px','background-image':'url('+bgUrl+')'}">
 			<div class="focusinfo no-select">
-				<div class="ht-title">
-					Bersder3000
-				</div>
+				<div class="ht-title">OSHINO-NYA</div>
 				<div class="ht-info">
-					<p>Mind is a terrible thing</p>
+					<p style="line-height: .3rem">Mind is a terrible thing to lose</p>
 					<div class="social-box">
-						<i class="fas fa-chevron-left fa-lg"></i>
+						<i class="iconfont icon-chevronleft"></i>
 						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png">
+							<img width="20" height="20" src="http://localhost:80/site/static/github.png">
 						</a>
-						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png">
+						<a href="https://music.163.com/user/home?id=93044810" target="_blank" title="netease">
+							<img width="20" height="20" src="http://localhost:80/site/static/netease.png">
 						</a>
-						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png">
+						<a href="https://space.bilibili.com/13351138" target="_blank" title="bilibili">
+							<img width="20" height="20" src="http://localhost:80/site/static/bilibili.png">
 						</a>
-						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png">
+						<a href="https://twitter.com/Bersder1" target="_blank" title="twitter">
+							<img width="20" height="20" src="http://localhost:80/site/static/twitter.png">
 						</a>
-						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png">
-						</a>
-						<i class="fas fa-chevron-right fa-lg"></i>
+						<i class="iconfont icon-chevronright"></i>
 					</div>
 				</div>
 
@@ -103,18 +98,24 @@
 			max-width: 5rem;
 			margin: .2rem auto 0;
 			background: rgba(0,0,0,.4);
-			padding: .1rem .15rem;
+			padding: .1rem .2rem;
 			line-height: .2rem;
+			font-size: .2rem;
+			font-weight: 600;
 			border-radius: .1rem;
 		}
 			.social-box{
 				color: #009ccd;
+				margin: .1rem 0;
 			}
+				.social-box i{
+					font-size: .2rem;
+					vertical-align: top;
+				}
 				.social-box a{
-					position: relative;
-					top: .04rem;
 					display: inline-block;
-					margin: .07rem;
+					margin: 0 .1rem;
+					vertical-align: top;
 					height: .2rem;
 				}
 	.htbg-info{

@@ -44,9 +44,6 @@
 	import {mapState} from 'vuex'
     export default {
         name: "LuminousBox",
-		created(){
-        	console.log('creating')
-		},
 		data(){
         	return {
 				LBimgShow:true,
