@@ -1,7 +1,7 @@
 export const friendExchange = [
-	{icon:'fab fa-playstation',description:'PSN',value:'Bersder3000'},
-	{icon:'fab fa-nintendo-switch',description:'PSN',value:'SW-1724-8480-2131'},
-	{icon:'fab fa-steam-symbol',description:'steam',value:'Bersder3000'}
+	{icon:'iconfont icon-playstation',description:'PSN',value:'Bersder3000'},
+	{icon:'iconfont icon-ns',description:'NS',value:'SW-1724-8480-2131'},
+	{icon:'iconfont icon-steam',description:'steam',value:'Bersder3000'}
 ];
 export const languageList=[
 	{imgSrc:'http://127.0.0.1:80/site/images/moe.python.jpg',description:'python是最好的语言'},

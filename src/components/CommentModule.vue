@@ -70,13 +70,13 @@
 			</div>
 		</div>
 		<ol class="c-pager" v-if="pageNum>1">
-			<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
+			<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 			<li v-show="curPage>=4" @click="curPage=1">1</li>
-			<li v-if="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+			<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 			<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
-			<li v-if="curPage<=pageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+			<li v-if="curPage<=pageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 			<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
-			<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="fas fa-caret-right"></i></li>
+			<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
 		</ol>
 	</section>
 </template>
@@ -461,8 +461,16 @@
 		list-style-type: none;
 		color: #bbbbbb;
 	}
+		.c-pager li i{
+			font-size: .2rem;
+			vertical-align: text-bottom;
+			margin: 0;
+		}
+		.c-pager li.ellipses{
+			padding: 0;
+		}
 		.c-pager li{
-			transition: 1s cubic-bezier(.25,.46,.45,.94);
+			transition: .5s cubic-bezier(.25,.46,.45,.94);
 			float: left;
 			line-height: .2rem;
 			padding: 0 .05rem;

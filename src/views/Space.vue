@@ -69,6 +69,7 @@
 	export default {
         name: "Space",
 		beforeRouteEnter(to,from,next){
+			console.log(to);
 			if (!from.name){
 				if (window.localStorage.getItem('BB3000_token')){
 					console.log('//非路由方式进入存在token，让space去验证');
@@ -80,7 +81,7 @@
 				}
 			}
 			else{
-				if (to.meta.loginStatus){
+				if (to.meta.loginStatus||to.matched[0].meta.loginStatus){
 					console.log('路由方式进入，已经登录过');
 					next();
 				}

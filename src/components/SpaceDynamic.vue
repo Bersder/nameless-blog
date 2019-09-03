@@ -374,7 +374,7 @@
 			position: absolute;
 			top: .15rem;
 			right: .15rem;
-			font-size: .13rem;
+			font-size: .2rem;
 			cursor: pointer;
 		}
 		.popup-cancel:hover{

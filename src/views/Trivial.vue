@@ -22,7 +22,7 @@
 					</div><!--文章排序待开发-->
 					<div class="article-list">
 						<div class="panel-t tl" v-for="art in curArts" :key="art.aid">
-							<p class="pt-time"><i class="far fa-clock"></i> {{art.time.substr(0,10)}}</p>
+							<p class="pt-time"><i class="iconfont icon-time"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
 								<router-link :to="art.aid" append>
 									<img :src="'http://127.0.0.1:80'+art.imgSrc">
@@ -32,9 +32,9 @@
 								<h2 class="title"><router-link :to="art.aid" append>{{art.title}}</router-link></h2>
 								<p class="preview">{{art.preview}}</p>
 								<p class="cut-line-d" style="margin: .1rem 0"></p>
-								<span><router-link to="/个人主页" class="author"><i class="fas fa-user"></i> nyanya</router-link></span>
-								<span><i class="far fa-eye"></i> {{art.readCount}}</span>
-								<span><router-link to="评论区" class="comments"><i class="far fa-comments"></i> {{art.commentCount}}</router-link></span>
+								<span><router-link to="/about" class="author"><i class="iconfont icon-geren"></i>oshino</router-link></span>
+								<span><i class="iconfont icon-fire"></i> {{art.readCount}}</span>
+								<span><router-link :to="art.aid+'#comments'" append class="comments"><i class="iconfont icon-comment"></i> {{art.commentCount}}</router-link></span>
 							</div>
 						</div>
 
@@ -42,13 +42,13 @@
 					</div>
 					<div class="paging-box" v-if="pageNum>1">
 						<ol class="pb-original">
-							<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
+							<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 							<li v-show="curPage>=4" @click="curPage=1">1</li>
-							<li v-show="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+							<li v-show="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 							<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
-							<li v-show="curPage<=pageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+							<li v-show="curPage<=pageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 							<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
-							<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="fas fa-caret-right"></i></li>
+							<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
 						</ol>
 						<div class="pb-jump">
 							<span>共{{pageNum}}页，跳至</span>
@@ -66,7 +66,7 @@
 					</div>
 					<div class="ca board">
 						<div class="board-head">
-							<span>日常　</span><i class="fab fa-first-order-alt"></i>
+							<span>日常　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
 						<div class="board-content">
 							{{gossip.content}}
@@ -110,7 +110,7 @@
         data() {
             return {
 				headerInfo:{imgSrc:'/site/images/loading.gif',title:'随写',description:''},
-				pageNum:16,
+				pageNum:1,
 				curPage:1,
 				orderFlag:0,
 				arts:{
@@ -375,7 +375,6 @@
 		list-style-type: none;
 	}
 	.pb-original li{
-		display: block;
 		float: left;
 		height: .25rem;
 		width: .25rem;
@@ -419,7 +418,7 @@
 		border: .01rem solid #ddd;
 		border-radius: .05rem;
 		width: .4rem;
-		height: .3rem;
+		line-height: .23rem;
 		padding: 0 .07rem;
 		color: #6c6c6c;
 		text-align: center;
@@ -476,8 +475,11 @@
 			left: 0;
 			bottom: .2rem;
 			writing-mode: vertical-rl;
-			padding-right: .1rem;
 			border-right: .01rem dashed #c5ccd3;
+		}
+		.board-head span{
+			display: inline-block;
+			padding: 0 .1rem;
 		}
 		.board-content{
 			width: 100%;

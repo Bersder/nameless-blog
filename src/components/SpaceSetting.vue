@@ -528,7 +528,7 @@
 					position: absolute;
 					top: 0;
 					right: .1rem;
-					font-size: .12rem;
+					font-size: .2rem;
 					cursor: pointer;
 					color: white;
 					opacity: 0;
@@ -880,7 +880,7 @@
 		position: absolute;
 		top: .15rem;
 		right: .15rem;
-		font-size: .13rem;
+		font-size: .2rem;
 		cursor: pointer;
 	}
 	.popup-cancel:hover{

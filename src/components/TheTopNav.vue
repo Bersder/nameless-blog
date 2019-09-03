@@ -25,18 +25,18 @@
 
 				<div class="search-box-m"> <!--暂时未实现自定义弹框-->
 					<input v-model.trim="searchKey" type="search" class="text-input pl" @keyup.enter="post_Search" required placeholder="なにをさがしますか">
-					<button @click="post_Search"><i class="fas fa-search fa-lg"></i></button>
+					<button @click="post_Search"><i class="iconfont icon-search"></i></button>
 				</div>
 				<div class="nav-menu">
 					<p >站内导航</p>
 					<ul>
 						<li>
-							<router-link to="/" class="animated"><i class="fab fa-fort-awesome fade-bf"></i> 首页</router-link>
+							<router-link to="/" class="animated"><i class="iconfont icon-home fade-bf"></i> 首页</router-link>
 							<span></span>
 						</li>
 						<li v-for="each in navData">
 							<router-link :to="each.href" class="animated"><i :class="[each.icon,each.animate]"></i> {{each.des}}</router-link>
-							<span  @click="each.isUnfolded=each.subs?!each.isUnfolded:each.isUnfolded"><i v-if="each.subs" class="fa fa-angle-right fa-lg" :class="{unfold:each.isUnfolded}" style="color: grey"></i> </span>
+							<span  @click="each.isUnfolded=each.subs?!each.isUnfolded:each.isUnfolded"><i v-if="each.subs" class="iconfont icon-chevronright" :class="{unfold:each.isUnfolded}" style="color: grey"></i> </span>
 							<ul v-if="each.subs" :class="{'is-collapsible':each.subs,'is-collapsed':!each.isUnfolded}">
 								<li v-for="sub in each.subs">
 									<router-link :to="sub.href"><i :class="sub.icon"></i> {{sub.des}}</router-link>
@@ -51,9 +51,9 @@
 
 		<div class="header-nav no-select" v-show="screenWidth>=1000">
 			<div class="site-brand pl">
-				<router-link to="/">
+				<router-link :to="loginStatus?'/space':'/'">
 					<span class="oshino"><ruby>忍野<rp>(</rp><rt>おしの</rt><rp>)</rp></ruby></span>
-					<span class="nyanya">ニャニャ</span>
+					<span class="nyanya">ニャ</span>
 				</router-link>
 			</div>
 			<div class="snh">
@@ -322,7 +322,7 @@
 				transition: .5s;
 				border-radius: .5rem;
 				color: transparent;
-				background: url("http://127.0.0.1:80/static/img/search.png") no-repeat .05rem .05rem;
+				background: url("http://localhost:80/site/static/search.png") no-repeat .05rem .05rem;
 			}
 			.search-box-t input:focus{
 				color: #425066;
@@ -461,6 +461,10 @@
 			.search-box-m input{
 				font-size: .16rem;
 				width: 80%;
+			}
+			.search-box-m button{
+				vertical-align: top;
+				font-size: .18rem;
 			}
 		.nav-menu{
 			padding: 0.1rem;

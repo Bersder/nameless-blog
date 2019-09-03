@@ -26,7 +26,7 @@
 			</div>
 		</figure>
 		<div class="htbg-info">
-			<div class="author-avatar pl" style="background-image: url('http://127.0.0.1:80/static/img/2.jpg')"></div>
+			<div class="author-avatar pl" style="background-image: url('http://localhost:80/site/bg/2.jpg')"></div>
 			<div class="work-name" style="font-style: italic">
 				<a href="https://www.pixiv.net/member_illust.php?mode=medium&illust_id=51166367" title="作品名" rel="nofollow" target="_blank">佐田ゆう</a>
 			</div>
@@ -36,7 +36,7 @@
 		</div>
 		<div class="ht-down" @click="go_down">
 			<span>
-				<i class="fas fa-sort-down fa-3x"></i>
+				<i class="iconfont icon-down"></i>
 			</span>
 		</div>
 	</div>
@@ -49,7 +49,7 @@
         data() {
             return {
 				SH:'0',
-				bgUrl:'http://127.0.0.1:80/static/img/2.jpg'
+				bgUrl:'http://localhost:80/site/bg/2.jpg'
 			}
         },
         mounted() {
@@ -155,12 +155,13 @@
 		}
 	.ht-down{
 		position: absolute;
-		bottom: .5rem;
+		font-size: .35rem;
+		bottom: .3rem;
 		cursor: pointer;
 		color: #f5f5f0;
 		z-index: 10;
 		left: 50%;
-		text-shadow: 0 0 .02rem #e6e6e1;
+		text-shadow: 0 0 .1rem #e6e6e1;
 		animation: floating 1s infinite alternate;
 	}
 	@keyframes floating {

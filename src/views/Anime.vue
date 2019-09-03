@@ -38,8 +38,7 @@
 
 					<div class="ca board">
 						<div class="board-head">
-							<span>吐槽　</span>
-							<i class="fab fa-first-order-alt"></i>
+							<span>吐槽　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
 						<div class="board-content">
 							{{gossip.content}}
@@ -216,8 +215,11 @@
 			left: 0;
 			bottom: .2rem;
 			writing-mode: vertical-rl;
-			padding-right: .1rem;
 			border-right: .01rem dashed #c5ccd3;
+		}
+		.board-head span{
+			display: inline-block;
+			padding: 0 .1rem;
 		}
 		.board-content{
 			width: 100%;

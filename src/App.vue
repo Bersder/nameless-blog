@@ -7,7 +7,7 @@
 	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>
-	  <site-footer v-if="$route.name!=='login'"></site-footer>
+	  <site-footer v-if="!/login|takenote|write/.test($route.name)"></site-footer>
 	  <luminous-box></luminous-box>
 	  <transition name="fadedown">
 		  <div class="info-box" v-if="infoShow" :style="{background:infoOK?'#3dcaff':'#ff763b'}">
@@ -222,6 +222,7 @@ export default {
 	}
 	.iconfont{margin-right: .03rem;display: inline-block}
 	.clearm{margin:0}
+	.ibold{font-weight: 600}
 	.center{
 		text-align: center;
 	}
@@ -290,7 +291,7 @@ export default {
 	}
 	.notice{
 		margin: .2rem  0;
-		padding: .2rem;
+		padding: .1rem .2rem;
 		border: .01rem dashed #e2e2e2;
 		color: #939393;
 	}

@@ -14,13 +14,13 @@
 		</div>
 		<div class="paging-box" v-if="pageNum>1">
 			<ol class="pb-original">
-				<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
+				<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 				<li v-show="curPage>=4" @click="curPage=1">1</li>
-				<li v-if="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+				<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 				<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
-				<li v-if="curPage<=pageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+				<li v-if="curPage<=pageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 				<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
-				<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="fas fa-caret-right"></i></li>
+				<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
 			</ol>
 			<div class="pb-jump">
 				<span>共{{pageNum}}页，跳至</span>
@@ -33,9 +33,6 @@
 
 <script>
 	import {fetch} from "../util/http";
-	let articles = [
-		{aid:'1',title:'物语系列时间线',preview:'《物语系列》是由日本轻小说作家西尾维新创作、台湾插画家VOFAN（本名戴源亨）负责插画的轻小说系列',imgSrc:'http://127.0.0.1:80/static/img/2.jpg',commentCount:'567',author:'nyanya',time:'2018-12-12',type:'code'},
-	];
 	import BasePanel from '@/components/BasePanel'
     export default {
         name: "ContentPrimaryACG",
@@ -51,7 +48,6 @@
 		},
         data() {
             return {
-            	articles:articles,
 				pageNum:1,
 				curPage:1,
 				orderFlag:0,
@@ -171,7 +167,6 @@
 		list-style-type: none;
 	}
 	.pb-original li{
-		display: block;
 		float: left;
 		height: .25rem;
 		width: .25rem;
@@ -215,7 +210,7 @@
 		border: .01rem solid #ddd;
 		border-radius: .05rem;
 		width: .4rem;
-		height: .3rem;
+		line-height: .23rem;
 		padding: 0 .07rem;
 		color: #6c6c6c;
 		text-align: center;

@@ -3,15 +3,15 @@
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
 				<div class="no-img" v-show="!hi" @click="hiAdd">
-					<i class="far fa-images"></i>
+					<i class="iconfont icon-images clearm" style="font-size: .5rem"></i>
 					<h4>请添加文章头图</h4>
 					<p class="tips">支持5MB内的JPG／JPEG／BMP／PNG格式的高清图片</p>
 					<p class="tips">（建议大于960*540像素）</p>
 				</div>
 				<div class="header-img" id="hi" v-show="hi">
 					<div class="hi-control">
-						<button class="re-add" @click="hiAdd"><i class="fas fa-image"></i> </button>
-						<button class="delete" @click="hi=null"><i class="fas fa-trash-alt"></i> </button>
+						<button class="re-add" @click="hiAdd"><i class="iconfont icon-image clearm"></i> </button>
+						<button class="delete" @click="hi=null"><i class="iconfont icon-trash clearm"></i> </button>
 					</div>
 				</div>
 				<input type="file" @change="hiChange" id="hi-add" hidden>
@@ -20,18 +20,18 @@
 		<div class="page-content-wrap" >
 			<div class="publish-area">
 				<div class="pa-unit">
-					<i class="far fa-file"> :</i>
+					<i class="iconfont icon-title">:</i>
 					<input type="text" class="title-input" placeholder="无题" v-model.trim="title">
 				</div>
 				<div class="pa-unit">
-					<i class="far fa-edit">:</i>
+					<i class="iconfont icon-file">:</i>
 					<input type="text" class="preview-input" placeholder="无介绍则截取文章内容开头代之" v-model.trim="preview">
 				</div>
 				<div class="pa-unit detail-select">
 					<div class="tag-btn-wrap" >
 						<span>标签</span>
 						<div class="tag-btn tl" @click.stop>
-							<span v-if="!isMobile" v-for="each in selectedTags" class="tag-item">{{each}} <i class="fas fa-times" @click="deleteTag(each)"></i></span>
+							<span v-if="!isMobile" v-for="each in selectedTags" class="tag-item">{{each}} <i class="iconfont icon-cancel clearm" @click="deleteTag(each)"></i></span>
 							<span class="tag-num" v-if="selectedTags.length">{{selectedTags.length}}</span>
 							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;seriesExpand=typeExpand=false" >
 							<ul v-show="tiFocus&&tagOptions.length!==0" @mouseover="tiFocus=true">
@@ -43,7 +43,7 @@
 						<span>类别</span>
 						<button @click.stop="typeExpand=!typeExpand;tiFocus=seriesExpand=false" class="tl">
 							<span>{{selectedType}}</span>
-							<i class="fas fa-sort-down fa-lg"></i>
+							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="typeExpand">
 							<li v-for="each in typeOptions" @click="selectedType=each">{{each}}</li>
@@ -53,19 +53,16 @@
 						<span>系列</span>
 						<button @click.stop="seriesExpand=!seriesExpand;tiFocus=typeExpand=false" :title="selectedSeries" class="tl">
 							<span>{{selectedSeries||'不选择分组'}}</span>
-							<i class="fas fa-sort-down fa-lg"></i>
+							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="seriesExpand">
 							<li v-for="each in seriesOptions" @click="selectedSeries=each" :title="each">{{each}}</li>
 							<li @click="selectedSeries=null">不选择分组</li>
 						</ul>
 					</div>
-
-					<div class="pa-submit">
-						<button @click="launch"><i class="fas fa-rocket"></i> Launch</button>
-					</div>
 				</div>
 				<mavon-editor v-model.trim="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
+				<div class="pa-submit"><button @click="launch"><i class="iconfont icon-launch"></i> Launch</button></div>
 			</div>
 
 		</div>
@@ -393,14 +390,15 @@ export default {
 		margin: 0;
 		text-align: left;
 	}
-		.pa-unit .fa-file,.pa-unit .fa-edit{
+		.pa-unit>i{
 			position: absolute;
 			top: 50%;
+			transform: translate(0,-50%);
 			left: .2rem;
-			transform: translate3d(0,-50%,0);
 		}
 		.title-input{
 			height: .4rem;
+			line-height: .4rem;
 			width: 100%;
 			font-size: .2rem;
 			padding-left: .5rem;
@@ -411,6 +409,7 @@ export default {
 		.preview-input{
 			padding-left: .5rem;
 			height: .3rem;
+			line-height: .3rem;
 			width: 100%;
 			outline: none;
 			border: .01rem solid #adadad;
@@ -425,6 +424,7 @@ export default {
 		}
 			.type-btn button,.series-btn button,.cat-btn button{
 				position: relative;
+				vertical-align: top;
 				width: 1.5rem;
 				text-transform: capitalize;
 				padding: 0 .25rem 0 .15rem;
@@ -441,11 +441,13 @@ export default {
 				}
 			.type-btn i,.series-btn i,.cat-btn i{
 				position: absolute;
+				font-size: .16rem;
 				right: .05rem;
-				top: .05rem;
+				top: 50%;
+				transform: translate(0,-50%);
 			}
 			.type-btn ul,.series-btn ul,.cat-btn ul {
-				background: snow;
+				background: white;
 				top: 100%;
 				right: 0;
 				width: 1.5rem;
@@ -463,6 +465,7 @@ export default {
 					text-align: left;
 					padding: 0 .2rem;
 					line-height: .25rem;
+					font-weight: 600;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -471,11 +474,12 @@ export default {
 					background: #eaeaea;
 				}
 		.tag-btn-wrap{
-			max-width: 9rem;
+			max-width: 13rem;
 			width: 100%;
 		}
 			.tag-btn{
 				display: inline-block;
+				vertical-align: top;
 				position: relative;
 				width: calc(100% - .4rem);
 				background: white;
@@ -486,6 +490,7 @@ export default {
 				.tag-input{
 					display: inline-block;
 					height: .3rem;
+					line-height: .3rem;
 					background: transparent;
 					outline: none;
 					border: none;
@@ -495,6 +500,8 @@ export default {
 				.tag-btn .tag-item{
 					display: inline-block;
 					line-height: .2rem;
+					padding: 0 .05rem;
+					border-radius: .02rem;
 					background: #a6f1fb;
 					font-size: .12rem;
 					margin-right: .05rem;
@@ -521,10 +528,10 @@ export default {
 					top: 100%;
 					margin-top: .02rem;
 					left: 0;
-					width: 3rem;
+					width: 3.2rem;
 					font-size: .14rem;
 					color: grey;
-					background: snow;
+					background: white;
 					border-radius: .03rem;
 					box-shadow: 0 .04rem .07rem rgba(0,0,0,.2);
 					padding: .1rem .15rem;
@@ -537,7 +544,6 @@ export default {
 						margin-right: .05rem;
 						margin-bottom: .05rem;
 						border: .01rem solid #d9d9d9;
-						height: .2rem;
 						line-height: .18rem;
 						border-radius: .1rem;
 						cursor: pointer;
@@ -553,8 +559,8 @@ export default {
 						border-color: #00a1d6;
 					}
 	.pa-submit{
-		display: inline-block;
-		margin-bottom: .05rem;
+		text-align: right;
+		margin-top: .1rem;
 	}
 	#mobile-app .pa-submit{
 		display: block;
@@ -567,7 +573,7 @@ export default {
 		line-height: .3rem;
 		padding: 0 .1rem;
 		color: #535a63;
-		background: snow;
+		background: white;
 		border: .01rem solid #ccc;
 		border-radius: .05rem;
 		transition: .5s;

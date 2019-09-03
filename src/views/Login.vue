@@ -207,6 +207,6 @@
 				line-height: .2rem;
 				border-radius: .05rem;
 				border: .01rem solid rgba(0,0,0,.1);
-				background: linear-gradient(top,#00a1d6, #0093c3);
+				background: linear-gradient(to bottom,#00a1d6, #0093c3 90%);
 			}
 </style>

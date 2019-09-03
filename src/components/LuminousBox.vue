@@ -9,14 +9,14 @@
 						<span>{{LBTimes[LBIndex].substr(0,16)}}</span>
 					</div>
 					<div class="toolbar pr">
-						<button @click="LBsidebarShow=!LBsidebarShow"><i class="fas fa-bars"></i></button>
-						<button @click="autoplay"><i :class="interval?'fas fa-stop':'fas fa-play'"></i></button>
-						<button @click="closeLB"><i class="fas fa-times"></i></button>
+						<button @click="LBsidebarShow=!LBsidebarShow"><i class="iconfont icon-liebiao"></i></button>
+						<button @click="autoplay"><i :class="interval?'iconfont icon-stop':'iconfont icon-Play'"></i></button>
+						<button @click="closeLB"><i class="iconfont icon-cancel"></i></button>
 					</div>
 				</div>
 				<div class="luminous-box-nav">
-					<button @click.stop="LBprevious" class="lprev"><i class="fas fa-arrow-left"></i></button>
-					<button @click.stop="LBnext" class="rnext"><i class="fas fa-arrow-right"></i></button>
+					<button @click.stop="LBprevious" class="lprev"><i class="iconfont icon-zuojiantouleftarrow"></i></button>
+					<button @click.stop="LBnext" class="rnext"><i class="iconfont icon-youjiantourightarrowddfiles"></i></button>
 				</div>
 				<div class="luminous-box-stage">
 					<transition name="LBimg">
@@ -151,9 +151,10 @@
 				.luminous-box-topbar button{
 					background: rgba(30,30,30,.8);
 					height: .45rem;
+					line-height: .45rem;
 					width: .45rem;
 					text-align: center;
-					font-size: .18rem;
+					font-size: .2rem;
 					float: right;
 					color: #bbbbbb;
 					transition: 1s cubic-bezier(.25,.46,.45,.94);
@@ -165,7 +166,7 @@
 					position: absolute;
 					background: rgba(30,30,30,.6);
 					height: .8rem;
-					width: .6rem;
+					width: .5rem;
 					font-size: .2rem;
 					top: 50%;
 					transform: translate(0,-50%);
@@ -174,13 +175,15 @@
 					color: #bbbbbb;
 				}
 				.luminous-box-nav button.lprev{
-					padding: .2rem .2rem .2rem 0;
+					padding: .2rem .1rem .2rem 0;
 					margin-left: .1rem;
+					font-weight: 600;
 					left: 0;
 				}
 				.luminous-box-nav button.rnext{
-					padding: .2rem 0 .2rem .2rem;
+					padding: .2rem 0 .2rem .1rem;
 					margin-right: .1rem;
+					font-weight: 600;
 					right: 0;
 				}
 			.luminous-box-stage{

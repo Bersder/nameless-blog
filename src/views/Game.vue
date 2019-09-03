@@ -22,7 +22,7 @@
 					</div>
 					<div class="ca fexchange tl">
 						<div class="fexchange-head">
-							<i class="fas fa-user-friends"></i> 好友交换
+							<i class="iconfont icon-friends"></i> 好友交换
 						</div>
 						<div class="fexchange-content">
 							<p v-for="each in friendExchange"><i :class="each.icon"> {{each.description}}</i>:{{each.value}}</p>
@@ -30,8 +30,7 @@
 					</div>
 					<div class="ca board">
 						<div class="board-head">
-							<span>游言　</span>
-							<i class="fab fa-first-order-alt"></i>
+							<span>游言　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
 						<div class="board-content">
 							{{gossip.content}}
@@ -205,8 +204,11 @@
 				left: 0;
 				bottom: .2rem;
 				writing-mode: vertical-rl;
-				padding-right: .1rem;
 				border-right: .01rem dashed #c5ccd3;
+			}
+			.board-head span{
+				display: inline-block;
+				padding: 0 .1rem;
 			}
 			.board-content{
 				width: 100%;

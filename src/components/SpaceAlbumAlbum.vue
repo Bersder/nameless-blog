@@ -20,13 +20,13 @@
 			</div>
 			<div class="paging-box" v-if="curPageNum>1">
 				<ol class="pb-original">
-					<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="fas fa-caret-left"></i></li>
+					<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 					<li v-show="curPage>=4" @click="curPage=1">1</li>
-					<li v-if="curPage>=5" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+					<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 					<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
-					<li v-if="curPage<=curPageNum-4" class="ellipses"><i class="fas fa-ellipsis-h"></i></li>
+					<li v-if="curPage<=curPageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 					<li v-show="curPage<=curPageNum-3" @click="curPage=curPageNum">{{curPageNum}}</li>
-					<li class="next" @click="curPage++" v-show="curPage!==curPageNum"><i class="fas fa-caret-right"></i></li>
+					<li class="next" @click="curPage++" v-show="curPage!==curPageNum"><i class="iconfont icon-caretright"></i></li>
 				</ol>
 				<div class="pb-jump">
 					<span>共{{curPageNum}}页，跳至</span>
@@ -272,7 +272,6 @@
 		list-style-type: none;
 	}
 	.pb-original li{
-		display: block;
 		float: left;
 		height: .25rem;
 		width: .25rem;
@@ -316,7 +315,7 @@
 		border: .01rem solid #ddd;
 		border-radius: .05rem;
 		width: .4rem;
-		height: .3rem;
+		line-height: .23rem;
 		padding: 0 .07rem;
 		color: #6c6c6c;
 		text-align: center;
@@ -411,7 +410,7 @@
 		position: absolute;
 		top: .15rem;
 		right: .15rem;
-		font-size: .13rem;
+		font-size: .2rem;
 		cursor: pointer;
 	}
 	.popup-cancel:hover{

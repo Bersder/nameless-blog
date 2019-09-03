@@ -21,12 +21,12 @@
 								<p>{{each.description}}</p>
 							</li>
 						</ul>
-						<span class="lprev" style="left: 0"><i class="fas fa-chevron-left fa-2x" @click="ulLeft=ulLeft==0?1-langNum:ulLeft+1"></i></span>
-						<span class="lnext" style="right: 0"><i class="fas fa-chevron-right fa-2x" @click="ulLeft=ulLeft==1-langNum?0:ulLeft-1"></i></span>
+						<span class="lprev" style="left: 0"><i class="iconfont icon-chevronleft" @click="ulLeft=ulLeft==0?1-langNum:ulLeft+1"></i></span>
+						<span class="lnext" style="right: 0"><i class="iconfont icon-chevronright" @click="ulLeft=ulLeft==1-langNum?0:ulLeft-1"></i></span>
 					</div>
 					<div class="ca series tl" v-if="seriesList.length" style="min-height: 1rem;">
 						<div class="series-head">
-							<i class="fas fa-paperclip"></i> 现存系列
+							<i class="iconfont icon-paperclip"></i> 现存系列
 						</div>
 						<div class="series-content">
 							<p v-for="series in seriesList"><router-link :to="'/series/'+series.name" :title="series.name+' | '+series.count+'篇'">{{series.name}}</router-link><span> ({{series.count}}篇)</span></p>
@@ -34,7 +34,7 @@
 					</div>
 					<div class="ca board">
 						<div class="board-head">
-							<span>Error　</span><i class="fab fa-first-order-alt"></i>
+							<span>Error　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
 						<div class="board-content">
 							{{gossip.content}}
@@ -168,7 +168,6 @@
 			top: 0;
 			bottom: 0;
 			opacity: 0;
-			width: .26rem;
 			transition: all .3s;
 		}
 		.language i{
@@ -176,7 +175,8 @@
 			top: 40%;
 			margin: 0;
 			cursor: pointer;
-			transform: scaleY(2);
+			transform: scaleY(2.5);
+			font-size: .24rem;
 			padding: .01rem .03rem;
 			color: #eaeaea;
 			background: black;
@@ -245,8 +245,11 @@
 			left: 0;
 			bottom: .2rem;
 			writing-mode: vertical-rl;
-			padding-right: .1rem;
 			border-right: .01rem dashed #c5ccd3;
+		}
+		.board-head span{
+			display: inline-block;
+			padding: 0 .1rem;
 		}
 		.board-content{
 			width: 100%;

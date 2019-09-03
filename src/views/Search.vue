@@ -4,7 +4,7 @@
 			<div class="page-content">
 				<div class="content-primary-s">
 					<div class="search-box" v-if="!searchFound">
-						<i class="fas fa-search fa-lg"></i>
+						<i class="iconfont icon-search"></i>
 						<input type="search" v-model.trim="searchKey" @keyup.enter="postSearch" name="s" placeholder="搜些其他东西?">
 					</div>
 					<header class="search-header">
@@ -33,8 +33,8 @@
 									<p class="pt-d">{{each.time.substr(8,2)}}</p>
 								</div>
 								<div class="post-meta">
-									<span><i class="fas fa-hashtag"></i><router-link :to="each|typeUrl"> {{each.type|typeEN2CN}}</router-link></span>
-									<span><i class="far fa-comments"></i><router-link :to="each|commentUrl"> {{each.commentCount|commentNum}}</router-link></span>
+									<span><i class="iconfont icon-hash"></i><router-link :to="each|typeUrl"> {{each.type|typeEN2CN}}</router-link></span>
+									<span><i class="iconfont icon-comment"></i><router-link :to="each|commentUrl"> {{each.commentCount|commentNum}}</router-link></span>
 								</div>
 								<div class="post-title">
 									<p><router-link :to="each|artUrl">{{each.title}}</router-link></p>
@@ -156,9 +156,11 @@
 		.search-box i{
 			position: absolute;
 			left: .15rem;
-			font-size: .2rem;
+			font-size: .25rem;
+			font-weight: 600;
 			color: darkgrey;
-			top: .15rem;
+			top: 50%;
+			transform: translate(0,-50%);
 		}
 		.search-box input{
 			outline: none;

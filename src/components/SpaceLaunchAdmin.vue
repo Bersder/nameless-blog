@@ -375,7 +375,7 @@
 			line-height: .15rem;
 		}
 			.box-header a{
-				font-size: .12rem;
+				font-size: .2rem;
 				cursor: pointer;
 				float: right;
 				color: #6d757a;
@@ -412,6 +412,6 @@
 				line-height: .2rem;
 				border-radius: .05rem;
 				border: .01rem solid rgba(0,0,0,.1);
-				background: linear-gradient(top, #2faad6, #0093c3);
+				background: linear-gradient(to bottom, #2faad6, #0093c3 90%);
 			}
 </style>

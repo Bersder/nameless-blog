@@ -1,4 +1,4 @@
-<template><!--接收article格式{aid:'111',type:'类型',title:'标题',preview:'文章概括',imgSrc:'背景链接',author:'作者',time:'时间',commentCount:评论数}-->
+<template>
 	<div class="panel">
 		<div class="panel-img">
 			<router-link :to="article.aid" append>
@@ -10,9 +10,9 @@
 			<p class="preview">{{article.preview}}</p>
 			<p class="cut-line" style="margin: .1rem 0"></p>
 			<div class="meta">
-				<router-link to="/个人主页" class="author"><i class="fas fa-user"></i>{{article.author}}</router-link>
-				<span class="time"><i class="far fa-clock"></i> {{article.time.substr(0,10)|ymd2Mdy}}</span>
-				<router-link to="评论区" class="comments"><i class="far fa-comments"></i> {{article.commentCount}}</router-link>
+				<router-link to="/about" class="author"><i class="iconfont icon-geren"></i>{{article.author}}</router-link>
+				<span class="time"><i class="iconfont icon-time"></i> {{article.time.substr(0,10)|ymd2Mdy}}</span>
+				<router-link :to="article.aid+'#comments'" append class="comments"><i class="iconfont icon-comment"></i> {{article.commentCount}}</router-link>
 			</div>
 			<router-link class="to-article" :to="article.aid" append></router-link>
 		</div>
@@ -89,8 +89,13 @@
 		.meta .author,.meta .time,.meta .comments{
 			margin-right: .2rem;
 			font-size: .14rem;
-			font-weight: 600;
 			color: #98a6ad;
+		}
+		.meta i{
+			font-size: .16rem;
+		}
+		.meta a:hover{
+			color: #ff7d7d;
 		}
 @media screen and (min-width: 800px) {
 	.to-article{

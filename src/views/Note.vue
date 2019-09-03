@@ -11,7 +11,7 @@
 		</div>
 		<div class="page-content-wrap">
 			<div class="page-content note">
-				<div class="notice tl"><i class="fas fa-volume-up"></i> 自用笔记公开，基于个人记忆及思维习惯写成，有不同程度的省略和变形，仅供参考</div>
+				<div class="notice tl"><i class="iconfont icon-notify"></i> 自用笔记公开，基于个人记忆及思维习惯写成，有不同程度的省略和变形，仅供参考</div>
 				<div class="content-primary-n">
 					<div class="note-sort-options">
 						<span class="nso-l" :class="{'nso-selected':!rSelected}" @click="rSelected=false">日期降序</span><span class="nso-r" :class="{'nso-selected':rSelected}" @click="rSelected=true">分类归类</span>
@@ -50,7 +50,7 @@
 								</div>
 								<div class="slant-mask slant-beneath"></div>
 								<div class="slant-mask">
-									<i class="far fa-clock"> {{each.time.substr(0,10)}}</i>
+									<i class="iconfont icon-time"> {{each.time.substr(0,10)}}</i>
 								</div>
 								<div class="panel-n-info">
 									<div class="title">

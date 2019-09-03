@@ -2,10 +2,10 @@
 	<div>
 		<div class="page-content-wrap">
 			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3&&screenWidth>800}">
-				<div class="notice tl" v-if="notice"><i class="fas fa-volume-up"></i> {{notice}}</div>
+				<div class="notice tl" v-if="notice"><i class="iconfont icon-notify"></i> {{notice}}</div>
 				<div class="content-primary-h">
 					<div class="topped-area" v-if="!isMobile">
-						<p class="description tl"><i class="fas fa-anchor"></i> 置顶区</p>
+						<p class="description tl"><i class="iconfont icon-anchor"></i> 置顶区</p>
 						<div class="topped-list tl">
 							<div class="panel-topped" v-for="item in topped" :key="item.aid" :class="{odd:topped.length%2}">
 								<router-link :to="item|artUrl">
@@ -19,7 +19,7 @@
 						</div>
 					</div>
 					<div class="panel-h-list">
-						<p class="description tl"><i class="fas fa-torii-gate"></i> 入る</p>
+						<p class="description tl"><i class="iconfont icon-torii-gate"></i> 入る</p>
 						<div class="panel-h" v-for="each in curArts" :key="each.aid">
 							<div class="panel-h-img">
 								<router-link :to="each|artUrl">
@@ -35,14 +35,14 @@
 									<p class="pt-d">{{each.time.substr(8,2)}}</p>
 								</div>
 								<div class="post-meta">
-									<span><i class="fas fa-hashtag"></i><router-link :to="'/archive/'+each.type"> {{each.type|typeEN2CN}}</router-link></span>
-									<span><i class="far fa-comments"></i><router-link :to="'/archive/'+each.type+'/'+each.aid+'#comments'"> {{each.commentCount|commentNum}}</router-link></span>
+									<span><i class="iconfont icon-hash"></i><router-link :to="'/archive/'+each.type"> {{each.type|typeEN2CN}}</router-link></span>
+									<span><i class="iconfont icon-comment"></i><router-link :to="'/archive/'+each.type+'/'+each.aid+'#comments'"> {{each.commentCount|commentNum}}</router-link></span>
 								</div>
 								<div class="post-title">
 									<p><router-link :to="each|artUrl">{{each.title}}</router-link></p>
 								</div>
 								<div class="post-read">
-									<i class="fas fa-fire"></i> {{each.readCount|readNum}}
+									<i class="iconfont icon-fire"></i> {{each.readCount|readNum}}
 								</div>
 							</div>
 						</div>
@@ -59,7 +59,7 @@
 				<div class="content-aside-h">
 					<div class="cah hit tl">
 						<div class="hit-head">
-							<span><i class="fas fa-fire"></i> 最热</span>
+							<span><i class="iconfont icon-fire"></i> 最热</span>
 						</div>
 						<ul class="hit-content">
 							<li :data-text="item.type[0].toUpperCase()" v-for="item in hits" :key="item.aid">
@@ -72,7 +72,7 @@
 					</div>
 					<div class="cah update tl">
 						<div class="update-head">
-							<i class="far fa-file-alt"> 最近更新</i>
+							<i class="iconfont icon-file"> 最近更新</i>
 						</div>
 						<ul class="update-content">
 							<li v-for="item in latestUpdate" :key="item.aid"><router-link :to="item|artUrl">{{item.title}}</router-link><span> ({{item.lut|updateTime}})</span></li>
@@ -80,8 +80,7 @@
 					</div>
 					<div class="cah board">
 						<div class="board-head">
-							<span>雑談　</span>
-							<i class="fab fa-first-order-alt"></i>
+							<span>雑談　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
 						<div class="board-content">
 							{{gossip.content}}
@@ -505,8 +504,11 @@
 		left: 0;
 		bottom: .2rem;
 		writing-mode: vertical-rl;
-		padding-right: .1rem;
 		border-right: .01rem dashed #c5ccd3;
+	}
+	.board-head span{
+		display: inline-block;
+		padding: 0 .1rem;
 	}
 	.board-content{
 		width: 100%;

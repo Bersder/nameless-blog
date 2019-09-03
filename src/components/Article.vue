@@ -6,7 +6,7 @@
 				<div class="ph-info">
 					<h1 class="entry-title" @click="genNavList">{{title}}</h1>
 					<p class="entry-info">
-						<span><router-link to="/"><img src="http://127.0.0.1:80/static/img/2.jpg">{{author}}</router-link></span>
+						<span><router-link to="/"><img src="http://localhost:80/uploads/avatar/me.png">{{author}}</router-link></span>
 						<span class="isolate">·</span>
 						{{time}}{{readCount|rfilter}}
 					</p>
