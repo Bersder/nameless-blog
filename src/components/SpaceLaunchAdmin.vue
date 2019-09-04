@@ -286,6 +286,7 @@
 			padding: .02rem .05rem;
 			border-radius: .03rem;
 			background: #eaeaea;
+			font-size: .12rem;
 		}
 		.a-table-row .operate button.del{
 			background: #ffd2db;

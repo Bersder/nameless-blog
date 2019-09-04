@@ -106,6 +106,121 @@ export default {
 
 <style>
 	@import "assets/animation.css";
+	/*commentModule marked 渲染使用----------------------------------*/
+	.comment-content ul{
+		padding-left: 1.5em;
+	}
+	.comment-content>ul{
+		margin-bottom: .1rem;
+	}
+	.comment-content pre{
+		position: relative;
+		overflow: auto;
+		padding: 1em 1em 1em 3em;
+		background: #fafafa;
+		margin: .05rem 0;
+		border-radius: .03rem;
+		line-height: 1.2;
+		font-size: 85%;
+		max-height: 2.5rem;
+	}
+	pre .copy-btn{
+		position: absolute;
+		top: .1rem;
+		right: .1rem;
+		opacity: 0;
+		color: #b8c0cc;
+		background: #f8f8f8f0;
+		line-height: 1.4;
+		padding: 0 .03rem;
+		border-radius: .03rem;
+		transition: .3s ease;
+	}
+	pre:hover .copy-btn{
+		opacity: 1;
+	}
+	pre .copy-btn:hover{
+		background: #f0f0f0;
+
+	}
+	.comment-content pre .line-numbers-rows{
+		position: absolute;
+		top: 1em;
+		padding: 0;
+		left: 0;
+		width: 2.5em;
+		text-align: center;
+		border-right: .01rem solid #b8c0cc;
+		list-style-type: none;
+		color: #b8c0cc;
+	}
+	.comment-content pre>code{
+		padding: 0 !important;
+		line-height: inherit;
+		word-spacing: normal;
+		word-wrap: normal;
+		word-break: normal;
+		white-space: pre;
+		background: transparent;
+	}
+	.comment-content blockquote{
+		margin: .1rem .05rem;
+		padding: .05rem .2rem;
+		background: #fafafa;
+		position: relative;
+		border-radius: .05rem;
+		text-align: left;
+		border-left: .04rem solid #ddd;
+		color: rgba(121, 121, 121, .8);
+		font-style: italic;
+		line-height: 1.8;
+	}
+
+
+
+	.comment-content a{
+		color: #5abebc;
+		position: relative;
+	}
+	.comment-content a:hover{
+		color: #00a1d6;
+	}
+	.comment-content a:after{
+		content: '';
+		position: absolute;
+		width: 100%;
+		transform: scaleX(0);
+		height: .02rem;
+		bottom: 0;
+		left: 0;
+		background-color: #00a1d6;
+		transform-origin: bottom right;
+		transition: transform .3s ease-in-out;
+	}
+	.comment-content a:hover:after{
+		transform: scaleX(1);
+		transform-origin: bottom left;
+	}
+	.comment-content del{
+		background: #1e1e1e;
+		color: #1e1e1e;
+		transition: .3s ease;
+		text-decoration: none;
+	}
+	.comment-content del:hover{
+		color: white;
+	}
+	.comment-content p code{
+		padding: .03rem;
+		font-size: 80%;
+		background: #1b1f230d;
+		border-radius: .03rem;
+		color: #ff7d7d;
+	}
+	.comment-content strong{
+		font-weight: bold;
+	}
+	/* -------------------------------------------------------------*/
 	*{
 		box-sizing: border-box;
 		margin: 0;

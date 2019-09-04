@@ -53,7 +53,7 @@ export const panelhMixin = {
 };
 export const mdSetEdit = {
 	tabSize:4,
-	codeStyle:'darcula',
+	codeStyle:'github',//darcula
 	imageFilter:function(file){
 		return (/image\/\w+/.test(file.type)&&file.size<5000000);
 	},
@@ -98,6 +98,6 @@ export const mdSetPreview = {
 	editable:false,
 	toolbarsFlag:false,
 	scrollStyle:true,
-	codeStyle:'darcula'
+	codeStyle:'github'
 };
 

@@ -149,6 +149,7 @@
 			padding: .02rem;
 		}
 		.about-post del{
+			text-decoration: none;
 			background: #1e1e1e;
 			transition: .3s ease;
 		}

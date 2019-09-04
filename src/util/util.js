@@ -24,6 +24,26 @@ export function throttle(func, wait) {
 		}
 	}
 }
+export function copyText(text){
+	let textarea = document.createElement('textarea');
+	let currentFocus = document.activeElement;
+	document.body.appendChild(textarea);
+	textarea.value = text;
+	textarea.focus();
+	if (textarea.setSelectionRange)
+		textarea.setSelectionRange(0,textarea.value.length);
+	else
+		textarea.select();
+	let flag;
+	try{
+		flag = document.execCommand('copy');
+	}catch (e) {
+		flag = false;
+	}
+	document.body.removeChild(textarea);
+	currentFocus.focus();
+	return flag;
+}
 export function unique(arr) {
 	let r = [];
 	for (let i = 0; i < arr.length; i++){

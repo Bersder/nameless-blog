@@ -244,6 +244,18 @@
 				this.titlePosition.push(document.body.offsetHeight);
 				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+100;
 				//console.log(this.titlePosition)
+				let blocks = document.querySelectorAll('.v-show-content pre code');
+				blocks.forEach(e=>{
+					console.log(e);
+					let numberring = document.createElement('ul');
+					numberring.classList.add('line-numbers-rows');
+					for (let i=1;i<=e.innerText.split('\n').length-1;i++){
+						let li = document.createElement('li');
+						li.innerText = i;
+						numberring.appendChild(li)
+					}
+					e.parentElement.appendChild(numberring);
+				})
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{
@@ -381,7 +393,7 @@
 		max-width: 8rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
-		background: snow;
+		background: rgba(255,255,255,.9);
 	}
 		.content-area{
 			padding-top: .5rem;

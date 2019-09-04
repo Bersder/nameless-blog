@@ -9,7 +9,7 @@
 					<input placeholder="邮箱(必填，保密)" v-model="email" name="email">
 					<input placeholder="网站(选填)" v-model="website" name="website">
 				</div>
-				<textarea placeholder="请在这里输入你的评论..." v-model.trim="content"></textarea>
+				<textarea @keydown="textareaTab" placeholder="请在这里输入你的评论..." v-model="content"></textarea>
 			</div>
 			<div class="comment-buttons tr">
 				<span><label><input type="checkbox" v-model="notifyMe"> 回复提醒</label></span>
@@ -37,9 +37,7 @@
 							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a> <span class="comment-id pr">#{{comment.id}}</span></p>
 							<span :title="comment.datetime.substr(0,16)">{{comment.datetime|commentTime}}</span>
 						</div>
-						<div class="comment-content">
-							<p>{{comment.content}}</p>
-
+						<div class="comment-content" v-html="commentRenderer(comment.content)" v-highlight>
 						</div>
 						<div class="comment-reply no-select" @click="replyThis(comment.id,comment.uid,comment.uname)">回复</div>
 					</div>
@@ -54,8 +52,7 @@
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span> <span class="comment-id pr">#{{reply.id}}</span></p>
 										<span :title="comment.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
 									</div>
-									<div class="comment-content">
-										<p>{{reply.content}}</p>
+									<div class="comment-content" v-html="commentRenderer(reply.content)" v-highlight>
 									</div>
 									<div class="comment-reply no-select" @click="replyThis(reply.id,reply.uid,reply.uname)">回复</div>
 								</div>
@@ -83,10 +80,29 @@
 
 <script>
 	import {post} from "../util/http";
-
+	import {copyText} from "../util/util";
+	import marked from 'marked';
+	import hljs from "highlight.js"
 	export default {
         name: "CommentModule",
 		created(){
+			let renderer = new marked.Renderer();
+			renderer.heading = (text, level, raw, slugger) => '<p>'+ text +'</p>';
+			renderer.image = (href, title, text) => '';
+			renderer.hr = () => '';
+			renderer.table = (header, body) => '';
+			renderer.tablerow = content => '';
+			renderer.tablecell = (content, flags) => '';
+			marked.setOptions({
+				renderer: renderer,
+				gfm: true,
+				tables: true,
+				breaks: true, //不开启时，单个换行只会p内\n换行（表现为空格）、多个换行会生成两个p;开启时单个换行会导致p内br换行，多个换行会导致两个p间br换行
+				pedantic: false,
+				sanitize: true,//开启时忽略rawString中的html标签
+				smartLists: true,
+				smartypants: false
+			});
 			this.fetchComment(0);
 		},
 		data(){
@@ -135,6 +151,18 @@
 			}
 		},
 		methods:{
+			commentRenderer(raw){
+				return marked(raw)
+			},
+			textareaTab(e){
+				if (e.keyCode === 9){
+					this.content += '\t';
+					if (e&&e.preventDefault)
+						e.preventDefault();
+					else
+						window.event.returnValue = false;
+				}
+			},
         	fetchComment(offset){
 				post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
 					if (response.data.code < 1) {
@@ -190,7 +218,7 @@
 							nickname:this.nickname,
 							email:this.email,
 							website:this.website,
-							content:this.content,
+							content:this.content.trim(),
 							to_id:this.to_id,
 							to_uid:this.to_uid,
 							to_uname:this.to_uname,
@@ -252,6 +280,34 @@
 			respondTitle(to_uname){
         		return to_uname?' @'+to_uname:'添加新评论'
 			}
+		},
+		directives:{
+        	highlight(e,dir,vm){
+        		let blocks = e.querySelectorAll('pre code');
+        		blocks.forEach(e=>{
+					let copyBtn = document.createElement('button');
+					copyBtn.innerText = 'Copy';
+					copyBtn.classList.add('copy-btn');
+					copyBtn.onclick = (e) => {
+						let flag = copyText(e.target.previousElementSibling.innerText);
+						if (flag)
+							vm.context.$store.commit('infoBox/callInfoBox',{info:'代码拷贝成功', ok:true, during:2000});
+						else
+							vm.context.$store.commit('infoBox/callInfoBox',{info:'代码拷贝失败', ok:false, during:2000});
+					};
+					e.parentElement.appendChild(copyBtn);
+
+        			let numberring = document.createElement('ul');
+        			numberring.classList.add('line-numbers-rows');
+        			for (let i=1;i<=e.innerText.split('\n').length;i++){
+        				let li = document.createElement('li');
+        				li.innerText = i;
+        				numberring.appendChild(li)
+					}
+        			e.parentElement.appendChild(numberring);
+					hljs.highlightBlock(e)
+				})
+			}
 		}
 
     }
@@ -268,6 +324,7 @@
 			padding: .02rem .05rem;
 			border-radius: .02rem;
 			background: rgba(0,0,0,.1);
+			font-size: .14rem;
 		}
 		.respond .respond-title{
 			margin: .2rem 0;
