@@ -50,7 +50,7 @@
 						</ul>
 					</div>
 				</div>
-				<mavon-editor v-model.trim="rawContent" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
+				<mavon-editor v-model.trim="rawContent" :externalLink="mdSetEdit.externalLink" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
 				<div class="pa-submit"><button @click="launch"><i class="iconfont icon-launch"></i> Launch</button></div>
 			</div>
 		</div>
@@ -271,14 +271,12 @@
 					else{
 						data.imgSrc = this.hi;
 						post('/apis/edit/launch.php?nid='+this.nid,data).then(response=>{
-							if (response.data.code < 1)
+							if (response.data.code < 1){
+								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
 								this.$router.push({name:'space'});
+							}
 							else
-								this.$store.commit('infoBox/callInfoBox',{
-									info:'笔记发布失败，bug?',
-									ok:false,
-									during:2000
-								});
+								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布失败，bug?', ok:false, during:2000});
 						}).catch(err=>console.warn(err));
 					}
 

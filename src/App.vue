@@ -155,13 +155,15 @@ export default {
 		color: #b8c0cc;
 	}
 	.comment-content pre>code{
-		padding: 0 !important;
 		line-height: inherit;
 		word-spacing: normal;
 		word-wrap: normal;
 		word-break: normal;
 		white-space: pre;
 		background: transparent;
+	}
+	.hljs{
+		padding: 0!important;
 	}
 	.comment-content blockquote{
 		margin: .1rem .05rem;
@@ -367,7 +369,7 @@ export default {
 		height: 5.5rem;
 	}
 	.publish-area .v-note-wrapper{
-		height: 6.9rem;
+		height: 8rem;
 		clear: both;
 	}
 	.content-area .v-note-wrapper{

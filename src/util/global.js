@@ -88,6 +88,9 @@ export const mdSetEdit = {
 		alignright: true,
 		subfield: true,
 		preview: true,
+	},
+	externalLink: {
+		markdown_css:()=>'http://localhost:80/markdown/github-markdown3.0.css'
 	}
 };
 
@@ -98,6 +101,9 @@ export const mdSetPreview = {
 	editable:false,
 	toolbarsFlag:false,
 	scrollStyle:true,
-	codeStyle:'github'
+	codeStyle:'github',
+	externalLink: {
+		markdown_css:()=>'http://localhost:80/markdown/github-markdown3.0.css'
+	}
 };
 

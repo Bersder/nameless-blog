@@ -19,7 +19,7 @@
 				<div class="content-area">
 					<article :id="'post-'+$route.params.id" class="">
 						<div class="entry-content tl"><!--markdown 渲染区域-->
-							<mavon-editor @change="afterRender" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
+							<mavon-editor @change="afterRender" :externalLink="mdSet.externalLink" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
 						</div>
 						<footer class="post-footer">
 							<div class="post-update"><span>{{lut}} Lsat Update</span></div>
@@ -330,7 +330,7 @@
 		position: relative;
 		margin: 0 auto;
 		overflow: hidden;
-		max-width: 8rem;
+		max-width: 9rem;
 
 	}
 	.ph-img:before{
@@ -390,7 +390,7 @@
 
 
 	.page-content{
-		max-width: 8rem;
+		max-width: 9rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
 		background: rgba(255,255,255,.9);
@@ -584,7 +584,7 @@
 	.toc-wrap{
 		position: absolute;
 		top: 5.5rem;
-		right: calc((100% - 12rem)/2);
+		right: calc((100% - 13rem)/2);
 		width: 2rem;
 		z-index: 99;
 		padding: .1rem 0;
@@ -630,7 +630,7 @@
 			.is-collapsed a:before{
 				height: 0;
 			}
-	@media screen and (max-width: 1150px) {
+	@media screen and (max-width: 1300px) {
 		.toc-wrap{
 			opacity: 0;
 			pointer-events: none;
