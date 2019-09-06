@@ -611,6 +611,7 @@
 				padding-left: .1rem;
 				list-style: none;
 				text-align: left;
+				line-height: .21rem;
 			}
 			.toc-list .toc-list{
 				padding-left: .2rem;
@@ -619,8 +620,6 @@
 				display: inline-block;
 				font-size: .15rem;
 				color: #2c3e50;
-				margin-bottom: .01rem;
-				line-height: .2rem;
 			}
 			.is-active-link{
 				font-weight: bold;
@@ -631,7 +630,7 @@
 				position: absolute;
 				background: #cbcbcb;
 				width: .02rem;
-				height: .21rem;
+				height: .22rem;
 				left: 0;
 				transition: height 1s;
 				pointer-events: none;

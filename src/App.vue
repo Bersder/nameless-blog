@@ -264,16 +264,13 @@ export default {
 	}
 	::-webkit-scrollbar{
 		width: .06rem;
-		height: .07rem;
 	}
 	::-webkit-scrollbar-track{
-		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2);
-		border-radius: .05rem;
+		-webkit-box-shadow: inset 0 0 .01rem #b8c0cc;
+		background: #eee;
 	}
 	::-webkit-scrollbar-thumb{
-
-		border-radius: .05rem;
-		background-color: #ffa7a5;
+		background-color: #5abebc;
 	}
 	.fadedown-enter-active{
 		animation: infobox-fadeDown .5s cubic-bezier(.25,.46,.45,.94);
