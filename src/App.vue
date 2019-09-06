@@ -106,6 +106,12 @@ export default {
 
 <style>
 	@import "assets/animation.css";
+	@font-face {
+		font-family: 'Fira Code VF';
+		src: url('http://localhost:80/fonts/FiraCode-VF.woff') format('woff-variations'), url("http://localhost:80/fonts/FiraCode-VF.ttf") format("truetype");
+		font-weight: 500;
+		font-style: normal;
+	}
 	/*commentModule marked 渲染使用----------------------------------*/
 	.comment-content ul{
 		padding-left: 1.5em;
@@ -114,9 +120,10 @@ export default {
 		margin-bottom: .1rem;
 	}
 	.comment-content pre{
+		font-family: "Fira Code VF",monospace,sans-serif;
 		position: relative;
 		overflow: auto;
-		padding: 1em 1em 1em 3em;
+		padding: 1em 0 0 3em;
 		background: #fafafa;
 		margin: .05rem 0;
 		border-radius: .03rem;
@@ -147,6 +154,7 @@ export default {
 		position: absolute;
 		top: 1em;
 		padding: 0;
+		margin: 0;
 		left: 0;
 		width: 2.5em;
 		text-align: center;
@@ -155,6 +163,7 @@ export default {
 		color: #b8c0cc;
 	}
 	.comment-content pre>code{
+		font-family: inherit;
 		line-height: inherit;
 		word-spacing: normal;
 		word-wrap: normal;
@@ -164,6 +173,9 @@ export default {
 	}
 	.hljs{
 		padding: 0!important;
+		overflow: visible !important;
+		background: #fafafa !important;
+		margin-bottom: 1em;
 	}
 	.comment-content blockquote{
 		margin: .1rem .05rem;
@@ -193,7 +205,7 @@ export default {
 		width: 100%;
 		transform: scaleX(0);
 		height: .02rem;
-		bottom: 0;
+		bottom: -.01rem;
 		left: 0;
 		background-color: #00a1d6;
 		transform-origin: bottom right;
@@ -213,6 +225,7 @@ export default {
 		color: white;
 	}
 	.comment-content p code{
+		font-family: "Fira Code VF",monospace,sans-serif;
 		padding: .03rem;
 		font-size: 80%;
 		background: #1b1f230d;
@@ -234,7 +247,7 @@ export default {
 		scroll-behavior: smooth
 	}
 
-	a{text-decoration: none;transition: .5s ease;color: inherit}
+	a{text-decoration: none;transition: .5s ease;color: inherit;outline: none}
 	p,ul,ol{display: block;}
 	h1{letter-spacing: 2px}
 	button{

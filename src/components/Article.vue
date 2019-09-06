@@ -106,6 +106,7 @@
 
 <script>
 	import {fetch} from "../util/http";
+	import {copyText} from "../util/util";
 	import {mapState} from 'vuex'
 	import {mdSetPreview} from "../util/global";
 	import CommentModule from "@/components/CommentModule";
@@ -244,9 +245,20 @@
 				this.titlePosition.push(document.body.offsetHeight);
 				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+100;
 				//console.log(this.titlePosition)
-				let blocks = document.querySelectorAll('.v-show-content pre code');
+				let blocks = document.querySelectorAll('.v-show-content pre code');//下面是代码块修饰，待markdown渲染完后，添加侧边行数和复制按钮
 				blocks.forEach(e=>{
-					console.log(e);
+					let copyBtn = document.createElement('button');
+					copyBtn.innerText = 'Copy';
+					copyBtn.classList.add('copy-btn');
+					copyBtn.onclick = (e) => {
+						let flag = copyText(e.target.previousElementSibling.innerText);
+						if (flag)
+							this.$store.commit('infoBox/callInfoBox',{info:'代码拷贝成功', ok:true, during:2000});
+						else
+							this.$store.commit('infoBox/callInfoBox',{info:'代码拷贝失败', ok:false, during:2000});
+					};
+					e.parentElement.appendChild(copyBtn);
+
 					let numberring = document.createElement('ul');
 					numberring.classList.add('line-numbers-rows');
 					for (let i=1;i<=e.innerText.split('\n').length-1;i++){
@@ -256,6 +268,7 @@
 					}
 					e.parentElement.appendChild(numberring);
 				})
+
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{
@@ -396,7 +409,6 @@
 		background: rgba(255,255,255,.9);
 	}
 		.content-area{
-			padding-top: .5rem;
 			animation: fadeIn 2s ;
 		}
 			.post-footer{
