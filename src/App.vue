@@ -15,6 +15,7 @@
 			  <h4><i :class="infoOK?'iconfont icon-ok':'iconfont icon-warn'"></i>{{info}}</h4>
 		  </div>
 	  </transition>
+	  <div id="aplayer"></div>
   </div>
 </template>
 
@@ -24,14 +25,17 @@ import TheTopNav from './components/TheTopNav'
 import HeaderTop from './components/HeaderTop'
 import LuminousBox from '@/components/LuminousBox'
 import {mapState} from 'vuex'
+import 'aplayer/dist/APlayer.min.css';
+import APlayer from 'aplayer';
 import {debounce} from "./util/util";
-import {post} from "./util/http";
+import {post,fetch} from "./util/http";
 
 export default {
     name: 'App',
 	data(){
     	return {
-    		st:0
+    		st:0,
+			ap:null,
 		}
 	},
 	created(){
@@ -79,11 +83,44 @@ export default {
 		}
 	},
 	mounted(){
+    	let music = [
+			{
+				name:'雨はりらりら',
+				artist:'坂上なち',
+				url:'http://localhost:80/雨はりらりら.mp3',
+				cover:'http://localhost:80/雨はりらりら.jpg',
+				lrc:'http://localhost:80/雨はりらりら.lrc'
+			},
+			{
+				name:'Awake',
+				artist:'岩崎琢',
+				url:'http://localhost:80/Awake.mp3',
+				cover:'http://localhost:80/Awake.jpg',
+			}
+		];
 		window.onscroll = debounce(()=>this.$store.commit('scrollTopC',window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop),50);
 		window.onresize = debounce(()=>this.$store.commit('screenSizeC',{
 			screenHeight:window.innerHeight || document.documentElement.clientHeight,
 			screenWidth:window.innerWidth || document.body.clientWidth
-		}),50)
+		}),50);
+		this.musicInit();
+
+	},
+	methods:{
+    	async musicInit(){
+			let musicRes= await fetch('/music.json');
+			this.ap= new APlayer({
+				container:document.getElementById('aplayer'),
+				fixed:true,
+				volume:.2,
+				lrcType:3,
+				audio:musicRes.data,
+				listMaxHeight:'3rem',
+				storageName:'ap-setting'
+			});
+			this.ap.on('play',()=>this.ap.lrc.show());
+			this.ap.lrc.hide();
+		}
 	},
 	components:{
     	'site-footer':TheSiteFooter,
@@ -111,6 +148,32 @@ export default {
 		src: url('http://localhost:80/fonts/FiraCode-VF.woff') format('woff-variations'), url("http://localhost:80/fonts/FiraCode-VF.ttf") format("truetype");
 		font-weight: 500;
 		font-style: normal;
+	}
+	#aplayer{
+		z-index: 1700;
+		box-shadow: 0 0 0.1rem #1e1e1e80;
+	}
+	#aplayer.aplayer .aplayer-body{
+		border-radius: 0 .05rem .05rem 0;
+		box-shadow: 0 .1rem .1rem #1e1e1e80;
+		overflow: hidden;
+	}
+	#aplayer.aplayer .aplayer-lrc p.aplayer-lrc-current {
+		text-shadow: none;
+		color: #00a1d6;
+		font-size: .16rem;
+		font-weight: bold;
+	}
+	#aplayer.aplayer .aplayer-lrc p{
+		font-size: .14rem;
+		opacity: .8;
+		font-weight: bold;
+	}
+	#aplayer.aplayer-narrow .aplayer-body{
+		left: -66px;
+	}
+	#aplayer:not(.aplayer-narrow) .aplayer-body,#aplayer.aplayer-narrow:hover .aplayer-body{
+		left: 0;
 	}
 	/*commentModule marked 渲染使用----------------------------------*/
 	.comment-content ul{
@@ -264,6 +327,7 @@ export default {
 	}
 	::-webkit-scrollbar{
 		width: .06rem;
+		height: .06rem;
 	}
 	::-webkit-scrollbar-track{
 		-webkit-box-shadow: inset 0 0 .01rem #b8c0cc;
