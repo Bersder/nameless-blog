@@ -42,7 +42,7 @@
 							<div class="panel-n" >
 								<div class="panel-n-img">
 									<router-link :to="each.nid" append>
-										<img :src="'http://localhost:80'+each.imgSrc">
+										<img :src="'http://localhost:80'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+each.imgSrc">
 										<div class="float-preview tl">
 											{{each.preview}}
 										</div>

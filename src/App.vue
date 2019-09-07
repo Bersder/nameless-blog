@@ -80,6 +80,20 @@ export default {
 		},
 		loginStatus(cur,pre){
 			this.$router.options.routes[1].meta.loginStatus = this.$router.options.routes[2].meta.loginStatus = cur;
+		},
+		scrollTop(cur,pre){//全局图片懒加载监听
+			document.querySelectorAll('.lazyload').forEach(el=>{
+				if (el.attributes['data-src']&&(el.src !== el.attributes['data-src'].nodeValue)){
+					//到时候src和data-src需要不带端口
+					if ((el.getBoundingClientRect().top<this.screenHeight + 50)&&(el.getBoundingClientRect().top>-50)){
+						let img = document.createElement('img');
+						const src = el.src;
+						img.src = el.attributes['data-src'].nodeValue;
+						img.onload = () => el.src = el.attributes['data-src'].nodeValue;
+						img.onerror = () => el.attributes['data=src'].nodeValue = src;
+					}
+				}
+			})
 		}
 	},
 	mounted(){
@@ -108,7 +122,7 @@ export default {
 	},
 	methods:{
     	async musicInit(){
-			let musicRes= await fetch('/music.json');
+			let musicRes= await fetch('/musics/music.json');
 			this.ap= new APlayer({
 				container:document.getElementById('aplayer'),
 				fixed:true,
@@ -129,7 +143,7 @@ export default {
 		'luminous-box':LuminousBox
 	},
 	computed:{
-    	...mapState(['isMobile','isMasked','screenWidth']),
+    	...mapState(['isMobile','isMasked','screenWidth','scrollTop','screenHeight']),
 		...mapState({
 			loginStatus:state=>state.account.loginStatus,
 			infoShow:state=>state.infoBox.infoShow,
@@ -192,7 +206,15 @@ export default {
 		border-radius: .03rem;
 		line-height: 1.2;
 		font-size: 85%;
-		max-height: 2.5rem;
+		max-width: 100%;
+	}
+	#mobile-app pre .copy-btn{
+		opacity: 1;
+		bottom: 0;
+		top: unset;
+		right: unset;
+		left: 0;
+		font-size: .12rem;
 	}
 	pre .copy-btn{
 		position: absolute;
@@ -235,10 +257,8 @@ export default {
 		background: transparent;
 	}
 	.hljs{
-		padding: 0!important;
-		overflow: visible !important;
 		background: #fafafa !important;
-		margin-bottom: 1em;
+		padding: 0 1em 1em 0 !important;
 	}
 	.comment-content blockquote{
 		margin: .1rem .05rem;

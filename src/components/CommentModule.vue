@@ -31,7 +31,7 @@
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
 						<div class="comment-avatar">
-							<img :src="comment.avatar||'http://localhost:80/test/none.png'" width="50" height="50">
+							<img src="http://localhost:80/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'http://localhost/test/none.png'">
 						</div>
 						<div class="comment-meta">
 							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a> <span class="comment-id pr">#{{comment.id}}</span></p>
@@ -46,7 +46,7 @@
 							<div class="comments-list-item" :id="'comment-'+reply.id" v-for="reply in comment.children" :key="reply.id">
 								<div class="comment-content-wrap">
 									<div class="comment-avatar">
-										<img :src="reply.avatar||'http://localhost:80/test/none.png'" width="50" height="50">
+										<img src="http://localhost:80/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'http://localhost/test/none.png'">
 									</div>
 									<div class="comment-meta">
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span> <span class="comment-id pr">#{{reply.id}}</span></p>
@@ -419,6 +419,7 @@
 	.comments-list-title{
 		margin-bottom: .2rem;
 		border-bottom: .01rem dotted #eaeaea;
+		padding-bottom: .05rem;
 	}
 		.comments-list-title span{
 			font-size: .14rem;
@@ -432,7 +433,7 @@
 	.comments-list-item{
 		position: relative;
 		border-bottom: .01rem solid #eaeaea;
-		margin-top: .1rem;
+		margin-top: .15rem;
 	}
 		.comments-list-item .comment-content-wrap{
 			position: relative;
@@ -441,27 +442,38 @@
 		#mobile-app .comments-list-item .comment-children{
 			margin-left: .3rem;
 		}
-		#mobile-app .comment-children .comment-avatar img{
-			height: .4rem;
-			width: .4rem;
-		}
-		#mobile-app .comment-children .comment-meta,#mobile-app .comment-children .comment-content{
-			margin-left: .5rem;
-		}
-		#mobile-app .comment-content{
+		#mobile-app .comment-content-wrap .comment-content{
 			font-size: .14rem;
 			margin-right: .2rem;
-			margin-top: .05rem;
+			margin-left: .2rem;
+		}
+		#mobile-app .comment-reply{
+			opacity: 1;
+		}
+		#mobile-app .comment-avatar{
+			top: .05rem;
+			left: .1rem;
+		}
+		#mobile-app .comment-avatar img{
+			height: .3rem;
+			width: .3rem;
+			border-radius: .03rem;
+		}
+		#mobile-app .comment-meta>span{
+			font-size: .12rem;
 		}
 		.comments-list-item .comment-children{
-			margin-left: .65rem;
+			margin-left: .5rem;
 		}
 			.comment-content-wrap .comment-avatar{
+				font-size: 0;
 				position: absolute;
 				top: 0;
 				left: 0;
 			}
 				.comment-avatar img{
+					height: .4rem;
+					width: .4rem;
 					border-radius: 50%;
 					transition: .3s cubic-bezier(.25,.46,.45,.94);
 				}
@@ -469,10 +481,9 @@
 					transform: scale(1.05);
 				}
 			.comment-content-wrap .comment-meta{
-				margin-left: .65rem;
+				margin-left: .5rem;
 			}
 				.comment-meta .uname{
-					margin-bottom: .03rem;
 					font-weight: bold;
 					font-size: .15rem;
 				}
@@ -486,13 +497,14 @@
 					font-size: .14rem;
 				}
 			.comment-content-wrap .comment-content{
-				margin: .1rem .5rem 0 .65rem;
+				margin: .1rem .2rem 0 .5rem;
 			}
 			.comment-content-wrap .comment-reply{
 				position: absolute;
 				font-size: .12rem;
 				padding: 0 .1rem;
 				line-height: .2rem;
+				border-radius: .03rem;
 				top: .15rem;
 				right: .2rem;
 				background: #9dd9ff;

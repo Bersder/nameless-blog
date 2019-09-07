@@ -263,8 +263,10 @@ export default {
 							if (response.data.code < 1) {
 								data.imgSrc = response.data.imgSrc;
 								post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
-									if (re.data.code<1)
-										this.$router.push({name:'space'});
+									if (re.data.code<1){
+										this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
+										this.$router.push({name:'space-l'});
+									}
 									else
 										this.$store.commit('infoBox/callInfoBox',{
 											info:'文章发布失败，bug?',
@@ -286,7 +288,7 @@ export default {
 						post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
 							if (response.data.code<1){
 								this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
-								this.$router.push({name:'space'});
+								this.$router.push({name:'space-l'});
 							}
 							else
 								this.$store.commit('infoBox/callInfoBox',{info:'文章发布失败，bug?', ok:false, during:2000});

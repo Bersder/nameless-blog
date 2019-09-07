@@ -602,7 +602,7 @@
 	border-radius: .03rem;
 	line-height: 1.2;
 	font-size: 85%;
-	max-height: 5rem;
+	max-width: 100%;
 }
 
 .markdown-body pre code {

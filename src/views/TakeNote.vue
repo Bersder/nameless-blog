@@ -250,8 +250,10 @@
 			 				if (response.data.code < 1) {
 								data.imgSrc = response.data.imgSrc;
 								post('/apis/edit/launch.php?nid='+this.nid,data).then(re=>{
-									if (re.data.code<1)
-										this.$router.push({name:'space'});
+									if (re.data.code<1){
+										this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
+										this.$router.push({name:'space-l'});
+									}
 									else
 										this.$store.commit('infoBox/callInfoBox',{
 											info:'笔记发布失败，bug?',
@@ -273,7 +275,7 @@
 						post('/apis/edit/launch.php?nid='+this.nid,data).then(response=>{
 							if (response.data.code < 1){
 								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
-								this.$router.push({name:'space'});
+								this.$router.push({name:'space-l'});
 							}
 							else
 								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布失败，bug?', ok:false, during:2000});
