@@ -64,7 +64,9 @@
 					<div class="post-prev">
 						<div class="previous tl" v-if="pre" :class="{half:pre&&next}">
 							<router-link :to="pre|toUrl">
-								<div class="background" :style="{backgroundImage:'url(http://localhost:80'+pre.imgSrc+')'}"></div>
+								<div class="background">
+									<img src="http://localhost/site/static/strip-placeholder.svg" class="lazyload"  :data-src="'http://localhost'+pre.imgSrc">
+								</div>
 								<span class="label">PREVIOUS</span>
 								<div class="info">
 									<h3>{{pre.title}}</h3>
@@ -73,7 +75,9 @@
 						</div>
 						<div class="next tr" v-if="next" :class="{half:pre&&next}">
 							<router-link :to="next|toUrl">
-								<div class="background" :style="{backgroundImage:'url(http://localhost:80'+next.imgSrc+')'}"></div>
+								<div class="background">
+									<img src="http://localhost/site/static/strip-placeholder.svg"  class="lazyload" :data-src="'http://localhost'+next.imgSrc">
+								</div>
 								<span class="label">NEXT</span>
 								<div class="info">
 									<h3>{{next.title}}</h3>
@@ -128,7 +132,7 @@
 				xtype:null,
 
 				title:'',
-				imgSrc:'/site/images/loading.gif',
+				imgSrc:'/site/static/loading.gif',
 				author:'oshino',
 				time:'6666-66-66',
 				lut:'6666-66-66 66:66:66',
@@ -192,7 +196,7 @@
 				else return this.scrollTop>this.titlePosition[subs[subs.length-1].index+1];
 			},
 			initData(){
-				this.imgSrc = '/site/images/loading.gif';
+				this.imgSrc = '/site/static/loading.gif';
 				this.title = '';
 				this.time = '6666-66-66';
 				this.lut = '6666-66-66 66:66:66';
@@ -547,13 +551,17 @@
 				float: left;
 			}
 			.post-prev .background{
-				background: no-repeat center center;
-				background-size: cover;
-				background-origin: border-box;
 				width: 100%;
-				opacity: .5;
+				font-size: 0;
+				opacity: .6;
 				height: 1.5rem;
 				transition: opacity .5s;
+			}
+			.post-prev .background img{
+				object-fit: cover;
+				object-position: center;
+				width: 100%;
+				height: 100%;
 			}
 		.previous:hover .background,.next:hover .background{
 			opacity: .8;

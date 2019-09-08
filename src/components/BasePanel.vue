@@ -2,7 +2,7 @@
 	<div class="panel">
 		<div class="panel-img">
 			<router-link :to="article.aid" append>
-				<div class="img lazy" :style="{'background-image':'url(http://localhost:80'+article.imgSrc+')'}"></div>
+				<img class="img lazyload" :src="'http://localhost:80'+article.imgSrc+'.thumb'" :data-src="'http://localhost'+article.imgSrc">
 			</router-link>
 		</div>
 		<div class="panel-info">
@@ -49,13 +49,15 @@
 		transition: .4s;
 	}
 	.panel-img{
+		font-size: 0;
 		overflow: hidden;
 		border-top-right-radius: .1rem;
 		border-top-left-radius: .1rem;
 	}
 		.panel-img .img{
-			background: no-repeat center center;
-			background-size: cover;
+			width: 100%;
+			object-fit: cover;
+			object-position: center;
 			border-top-left-radius: .1rem;
 			border-top-right-radius: .1rem;
 			transition: .4s;
@@ -161,15 +163,14 @@
 		border-top-right-radius: .05rem ;
 	}
 	.panel-img .img{
-		min-height: 1.8rem;
-		height: auto;
+		height: 1.8rem;
 		border-top-left-radius: .05rem;
 		border-top-right-radius: .05rem ;
 	}
 }
 @media screen and (max-width: 600px) {
 	.panel-img .img{
-		min-height: 2rem;
+		height: 2rem;
 	}
 	.panel-info{
 		padding: .15rem;
@@ -183,7 +184,7 @@
 	}
 }@media screen and (max-width: 400px) {
 	.panel-img .img{
-		min-height: 1.7rem;
+		height: 1.7rem;
 	}
 }
 </style>

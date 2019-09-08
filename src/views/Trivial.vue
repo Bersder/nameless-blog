@@ -25,7 +25,7 @@
 							<p class="pt-time"><i class="iconfont icon-time"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
 								<router-link :to="art.aid" append>
-									<img :src="'http://127.0.0.1:80'+art.imgSrc">
+									<img :src="'http://localhost:80'+art.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+art.imgSrc">
 								</router-link>
 							</div>
 							<div class="panel-t-info ">
@@ -105,11 +105,12 @@
 				}
 				if (data.gossip)
 					this.gossip = data.gossip;
+				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 			})
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'随写',description:''},
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'随写',description:''},
 				pageNum:1,
 				curPage:1,
 				orderFlag:0,
@@ -148,26 +149,23 @@
 			orderFlag(cur,pre){
 				if(this.curPage===1){
 					this.curArts.length = 0;
-					this.arts[cur][1].forEach(e=>{
-						this.curArts.push(e);
-					});
+					this.arts[cur][1].forEach(e=>this.curArts.push(e));
+					setTimeout(()=>this.$store.commit('lazyCheck'),100);
 				}
 				else this.curPage = 1;
 			},
 			curPage(cur,pre){
 				if(this.arts[this.orderFlag][cur]){
 					this.curArts.length = 0;
-					this.arts[this.orderFlag][cur].forEach(e=>{
-						this.curArts.push(e)
-					})
+					this.arts[this.orderFlag][cur].forEach(e=>this.curArts.push(e));
+					setTimeout(()=>this.$store.commit('lazyCheck'),100);
 				}
 				else{
 					fetch('/apis/apiv2.php',{_:'trivial',pn:cur,order:this.orderFlag}).then(response=>{
 						this.$set(this.arts[this.orderFlag],cur,response.data.data.arts);
 						this.curArts.length = 0;
-						this.arts[this.orderFlag][cur].forEach(e=>{
-							this.curArts.push(e)
-						})
+						this.arts[this.orderFlag][cur].forEach(e=>this.curArts.push(e));
+						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					})
 				}
 			}
@@ -277,14 +275,14 @@
 		content: "";
 		position: absolute;
 		left: 50%;
-		margin-left: -3px;
+		margin-left: -.03rem;
 		bottom: 0;
 		width: 0;
 		height: 0;
-		border-bottom: 3px solid #00a1d6;
+		border-bottom: .03rem solid #00a1d6;
 		border-top: 0;
-		border-left: 3px dashed transparent;
-		border-right: 3px dashed transparent;
+		border-left: .03rem dashed transparent;
+		border-right: .03rem dashed transparent;
 	}
 
 		.panel-t{
@@ -301,10 +299,9 @@
 		}
 			.pt-time{
 				padding-left: .1rem;
-				border-left: 6px solid darkgrey;
-				line-height: 20px;
-				font-size: 12px;
-
+				border-left: .07rem solid #5abebc;
+				line-height: .2rem;
+				font-size: .12rem;
 			}
 			#mobile-app .panel-t-img{
 				position: unset;
@@ -314,6 +311,7 @@
 				position: absolute;
 				top: .25rem;
 				left: .15rem;
+				font-size: 0;
 			}
 				#mobile-app .panel-t-img a{
 					display: block;
@@ -354,6 +352,9 @@
 					font-size: .2rem;
 					line-height: .4rem;
 				}
+					.panel-t-info .title a:hover{
+						color: #5abebc;
+					}
 				#mobile-app .panel-t-info .preview{
 					font-size: .14rem;
 					line-height: .2rem;

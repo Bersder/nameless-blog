@@ -39,7 +39,7 @@
 						<ul>
 							<li v-for="(item,index) in FList" :key="index">
 								<a :href="item.ulink" target="_blank" :title="item.message" rel="noopener">
-									<img :src="item.avatar">
+									<img src="http://localhost/site/static/spinner-preloader.svg" class="lazyload" :data-src="item.avatar">
 									<h5>{{item.uname}}</h5>
 									<p>{{item.message||'这人很懒，什么都没留下'}}</p>
 								</a>
@@ -101,7 +101,7 @@
 		},
 		data(){
         	return {
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'友链',description:''},
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'友链',description:''},
 				FList:[],
 				outerLinks:{tool:[], acg:[], kaleidoscope:[]},//需要和linkTypeMap同步
 				linkTypeMap:{
@@ -259,7 +259,7 @@
 					.friend-list ul li a p{
 						color: #6d757a;
 						font-size: .14rem;
-						margin: .1rem 0;
+						margin: .05rem 0;
 					}
 					.friend-list ul li a h5,.friend-list ul li a p{
 						white-space: nowrap;

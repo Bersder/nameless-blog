@@ -82,18 +82,7 @@ export default {
 			this.$router.options.routes[1].meta.loginStatus = this.$router.options.routes[2].meta.loginStatus = cur;
 		},
 		scrollTop(cur,pre){//全局图片懒加载监听
-			document.querySelectorAll('.lazyload').forEach(el=>{
-				if (el.attributes['data-src']&&(el.src !== el.attributes['data-src'].nodeValue)){
-					//到时候src和data-src需要不带端口
-					if ((el.getBoundingClientRect().top<this.screenHeight + 50)&&(el.getBoundingClientRect().top>-50)){
-						let img = document.createElement('img');
-						const src = el.src;
-						img.src = el.attributes['data-src'].nodeValue;
-						img.onload = () => el.src = el.attributes['data-src'].nodeValue;
-						img.onerror = () => el.attributes['data=src'].nodeValue = src;
-					}
-				}
-			})
+			this.$store.commit('lazyCheck');
 		}
 	},
 	mounted(){

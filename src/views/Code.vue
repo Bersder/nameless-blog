@@ -75,7 +75,7 @@
 				languageList:languageList,
 				langNum:languageList.length,
 				seriesList:[],
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'极客',description:''}
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'极客',description:''}
 
 			}
         },

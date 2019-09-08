@@ -16,11 +16,7 @@
 					<div class="note-sort-options">
 						<span class="nso-l" :class="{'nso-selected':!rSelected}" @click="rSelected=false">日期降序</span><span class="nso-r" :class="{'nso-selected':rSelected}" @click="rSelected=true">分类归类</span>
 					</div>
-<!--					<div class="note-filters tl">-->
-<!--						<p style="font-size: .2rem">Filters</p>-->
-<!--						<div class="filter-box no-select" v-for="each in catKey" @click="curFilter=each"><img src="http://127.0.0.1:80/static/img/python.png" width="20" height="20"><span>{{catMap[each]}}</span></div>-->
-<!--					</div>-->
-					<div class="list-container tl" v-if="rSelected">
+					<div class="list-container tl" v-show="rSelected">
 						<div class="category-list" v-for="(item,key,index) in catMap" :key="index">
 							<div class="category-title">
 								{{item}} <span> · {{key}}</span>
@@ -36,13 +32,13 @@
 					</div>
 
 
-					<div class="note-list tl" v-if="!rSelected">
+					<div class="note-list tl" v-show="!rSelected">
 
 						<div class="panel-n-wrap" v-for="each in curNotes"><!--需要：时间o，标题o，预览o，图片o，分类，nido-->
 							<div class="panel-n" >
 								<div class="panel-n-img">
 									<router-link :to="each.nid" append>
-										<img :src="'http://localhost:80'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+each.imgSrc">
+										<img :src="'http://localhost'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+each.imgSrc">
 										<div class="float-preview tl">
 											{{each.preview}}
 										</div>
@@ -101,13 +97,14 @@
 				this.curNotes = this.notes.slice(0,this.noteNum<6?this.noteNum:6);
 				for(let i in this.catMap)
 					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.category===i));
+				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 				// response.data.data.forEach((e)=>this.notes.all.push(e));
 				// this.curNotes = this.notes.all
 			})
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'笔记',description:''},
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'笔记',description:''},
             	catMap:null,
 				// catKey:[],
 				noteNum:0,
@@ -151,6 +148,7 @@
 					for(let i=0;i<6;i++)this.curNotes.push(this.notes[this.curNotes.length]);
 				else
 					for(let i=this.curNotes.length;i<this.noteNum;i++)this.curNotes.push(this.notes[i]);
+				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 			}
 		},
 		filters:{
@@ -316,22 +314,6 @@
 				color: #888888;
 			}
 
-	.note-filters{
-		width: 100%;
-		padding:.1rem;
-		border-bottom: .01rem solid #eaeaea;
-	}
-	.filter-box{
-		display: inline-block;
-		margin-right: .1rem;
-		margin-top: .05rem;
-		cursor: pointer;
-		border-radius: .02rem;
-		border: .02rem solid transparent;
-	}
-	.filter-box:hover{
-		animation: borderShine .7s alternate infinite;
-	}
 	@keyframes borderShine {
 		from{border-color: lightskyblue}
 		to{border-color: #00a1d6}

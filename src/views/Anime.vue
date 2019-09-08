@@ -79,7 +79,7 @@
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'Anime',description:''}
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'Anime',description:''}
 			}
         },
         computed:{

@@ -43,7 +43,7 @@
 				this.curArts = this.arts[0][1] = data.artsNew;
 				this.arts[1][1] = data.artsHot;
 				this.pageNum = Math.ceil(parseInt(data.artNum) / 6);
-				//侧边栏初始化
+				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 			})
 		},
         data() {
@@ -60,14 +60,21 @@
         },
 		watch:{
         	orderFlag(cur,pre){
-        		if(this.curPage===1)this.curArts = this.arts[cur][1];
+        		if(this.curPage===1){
+					this.curArts = this.arts[cur][1];
+					setTimeout(()=>this.$store.commit('lazyCheck'),100);
+				}
         		else this.curPage = 1;
 			},
 			curPage(cur,pre){
-        		if(this.arts[this.orderFlag][cur])this.curArts = this.arts[this.orderFlag][cur];
+        		if(this.arts[this.orderFlag][cur]){
+					this.curArts = this.arts[this.orderFlag][cur];
+					setTimeout(()=>this.$store.commit('lazyCheck'),100);
+				}
         		else{
 					fetch('/apis/apiv2.php',{_:this.type,pn:cur,order:this.orderFlag}).then(response=>{
 						this.curArts = this.arts[this.orderFlag][cur] = response.data.data.arts;
+						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					})
 				}
 			}

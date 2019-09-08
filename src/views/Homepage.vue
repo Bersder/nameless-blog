@@ -114,6 +114,7 @@
 				if (data.gossip)
 					this.gossip = data.gossip;
 				this.notice = data.notice;
+				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 			})
 		},
         data() {
@@ -143,7 +144,8 @@
         	loadMore(){
 				if (this.curArts.length<this.artNum)
 					fetch('/apis/apiv9.php',{more:Math.floor(this.curArts.length/8)}).then(response=>{
-						response.data.data.arts.forEach(e=>this.curArts.push(e))
+						response.data.data.arts.forEach(e=>this.curArts.push(e));
+						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					});
 			}
 		},

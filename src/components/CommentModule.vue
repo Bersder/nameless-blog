@@ -31,7 +31,7 @@
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
 						<div class="comment-avatar">
-							<img src="http://localhost:80/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'http://localhost/test/none.png'">
+							<img src="http://localhost/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'http://localhost/test/none.png'">
 						</div>
 						<div class="comment-meta">
 							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a> <span class="comment-id pr">#{{comment.id}}</span></p>
@@ -46,7 +46,7 @@
 							<div class="comments-list-item" :id="'comment-'+reply.id" v-for="reply in comment.children" :key="reply.id">
 								<div class="comment-content-wrap">
 									<div class="comment-avatar">
-										<img src="http://localhost:80/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'http://localhost/test/none.png'">
+										<img src="http://localhost/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'http://localhost/test/none.png'">
 									</div>
 									<div class="comment-meta">
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span> <span class="comment-id pr">#{{reply.id}}</span></p>
@@ -132,7 +132,7 @@
 				if (this.newing)//被unique叫去更新
 					this.newing = false;
 				else//页内跳转
-					document.getElementById('comments').scrollIntoView(true);
+					setTimeout(()=>document.getElementById('comments').scrollIntoView(true),100);
 			},
 			unique(cur,pre){//文章发生更新，评论跟着更新
 				this.allCount = '??';

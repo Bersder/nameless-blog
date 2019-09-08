@@ -15,7 +15,7 @@ export const tagCloudMixin = {
 export const contentAsideMixin = {
 	data(){
 		return{
-			firstImg:'/test/placeholder.jpg',
+			firstImg:'/site/static/nodata.png',
 			firstDes:'数据正在赶路中',
 			gossip:{content:'这里什么都没有',time:'2333-06-06 23:33:33'},
 		}

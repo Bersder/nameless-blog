@@ -104,6 +104,21 @@ export default new Vuex.Store({
 		},
 		lbShowC(state,cur){
 			state.LBshow = cur
+		},
+		lazyCheck(state){
+			document.querySelectorAll('.lazyload').forEach(el=>{
+				if (el.attributes['data-src']&&(el.src !== el.attributes['data-src'].nodeValue)){
+					//到时候src和data-src需要不带端口
+					//console.log(el.src,el.attributes['data-src'].nodeValue);
+					if ((el.getBoundingClientRect().top<state.screenHeight + 50)&&(el.getBoundingClientRect().top>-50)){
+						let img = document.createElement('img');
+						const src = el.src;
+						img.src = el.attributes['data-src'].nodeValue;
+						img.onload = () => el.src = el.attributes['data-src'].nodeValue;
+						img.onerror = () => el.attributes['data=src'].nodeValue = src;
+					}
+				}
+			})
 		}
 	},
 	getters:{

@@ -73,7 +73,7 @@
         data() {
             return {
 				friendExchange:friendExchange,
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'游民',description:''}
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'游民',description:''}
 			}
         },
 		computed:{

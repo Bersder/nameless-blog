@@ -63,8 +63,7 @@
 		},
 		data(){
         	return{
-				headerInfo:{imgSrc:'/site/images/loading.gif',title:'关于',description:''},
-        		imgSrc:'/site/header/trivial.jpg'
+				headerInfo:{imgSrc:'/site/static/loading.gif',title:'关于',description:''},
 			}
 		}
     }
