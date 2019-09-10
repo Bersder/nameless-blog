@@ -24,6 +24,9 @@ export function throttle(func, wait) {
 		}
 	}
 }
+export function randInt(s,e){
+	return Math.floor(Math.random()*(e-s)+s);
+}
 export function copyText(text){
 	let textarea = document.createElement('textarea');
 	let currentFocus = document.activeElement;

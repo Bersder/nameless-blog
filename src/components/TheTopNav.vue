@@ -340,7 +340,7 @@
 		animation: fadeBF 2s infinite;
 	}
 	.animated:hover .axis-rotate{
-		animation: rotateXY 5s infinite;
+		animation: rotateXY 5s linear infinite;
 	}
 	.animated:hover .enlarge-abrupt{
 		animation: enlargeA 3s infinite;

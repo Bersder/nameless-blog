@@ -1,5 +1,5 @@
 <template>
-  <div :id="isMobile?'mobile-app':'app'" >
+  <div :id="isMobile?'mobile-app':'app'" :class="{DDF:darken}" >
 	  <top-nav></top-nav>
 	  <keep-alive>
 		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
@@ -15,6 +15,34 @@
 			  <h4><i :class="infoOK?'iconfont icon-ok':'iconfont icon-warn'"></i>{{info}}</h4>
 		  </div>
 	  </transition>
+	  <!--回到顶部-->
+	  <a class="back2top" :class="{visible:scrollTop>500}" target="_self" @click="back2top"><img src="http://localhost/site/images/back2top7.png" width="100"></a>
+	  <!--控制按钮-->
+	  <aside class="ctrl-panel" :class="{visible:scrollTop>100}" @click="setPanelShow=!setPanelShow"><span>SETTING | <i class="iconfont icon-gear clearm"></i></span></aside>
+	  <!--设置面板-->
+	  <transition name="miniFadeUD">
+		  <aside class="setting-panel" v-show="setPanelShow">
+			  <section>
+				  <div class="toggle-mode" id="toggle-mode" title="暂未实装"><button @click="darkModeC"><i class="iconfont clearm" :class="darken?'icon-moono':'icon-suno'"></i></button></div>
+				  <div class="theme-switch">
+					  <ul class="theme-list">
+						  <li><i class="iconfont icon-Pixiv"></i></li>
+						  <li><i class="iconfont icon-Pixiv"></i></li>
+						  <li><i class="iconfont icon-Pixiv"></i></li>
+						  <li><i class="iconfont icon-Pixiv"></i></li>
+					  </ul>
+					  <div class="font-family-setting"><button @click="fontFamilyC(0)" :class="{selected:!fontFamily}">Serif</button><button @click="fontFamilyC(1)" :class="{selected:fontFamily}">Sans</button></div>
+				  </div>
+			  </section>
+			  <section class="links">
+				  <router-link to="/login" title="Sign In">ᚺ</router-link>
+				  <a target="_blank" href="https://github.com/Bersder" title="Github"><i class="iconfont icon-github"></i></a>
+				  <a target="_blank" href="https://space.bilibili.com/13351138" title="Bilibili"><i class="iconfont icon-bilibili"></i></a>
+				  <a target="_blank" href="https://music.163.com/user/home?id=93044810" title="网易云"><i class="iconfont icon-neteaseMusic"></i></a>
+				  <a target="_blank" href="https://twitter.com/Bersder1" title="Twitter"><i class="iconfont icon-twitter"></i></a>
+			  </section>
+		  </aside>
+	  </transition>
 	  <div id="aplayer"></div>
   </div>
 </template>
@@ -27,7 +55,7 @@ import LuminousBox from '@/components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
-import {debounce} from "./util/util";
+import {debounce,randInt} from "./util/util";
 import {post,fetch} from "./util/http";
 
 export default {
@@ -36,6 +64,11 @@ export default {
     	return {
     		st:0,
 			ap:null,
+			setPanelShow:false,
+			fontFamily:0,
+			darken:0,
+			blocking:0,
+			randNum:0,//随机数用于获取随机背景
 		}
 	},
 	created(){
@@ -45,6 +78,7 @@ export default {
 				this.$store.commit('platformInit',{platform:agents[i],isMobile:true});
 				break;
 			}
+		this.randNum = randInt(1,6);
 		if (window.localStorage.getItem('BB3000_token')){//尝试自动登录
 			let token = window.localStorage.getItem('BB3000_token');
 			post('/apis/auth/aLogin.php',{token:token}).then(response=>{
@@ -60,9 +94,7 @@ export default {
 					data.token = token;
 					this.$store.commit('account/alogin',data);
 				}
-
 			})
-
 		}
 	},
 	watch:{
@@ -81,8 +113,11 @@ export default {
 		loginStatus(cur,pre){
 			this.$router.options.routes[1].meta.loginStatus = this.$router.options.routes[2].meta.loginStatus = cur;
 		},
-		scrollTop(cur,pre){//全局图片懒加载监听
+		scrollTop(cur,pre){
+			//全局图片懒加载监听
 			this.$store.commit('lazyCheck');
+			if (cur<=150&&this.$route.name==='homepage')//首页靠近顶部时强制关闭控制面板
+				this.setPanelShow = false;
 		}
 	},
 	mounted(){
@@ -90,15 +125,15 @@ export default {
 			{
 				name:'雨はりらりら',
 				artist:'坂上なち',
-				url:'http://localhost:80/雨はりらりら.mp3',
-				cover:'http://localhost:80/雨はりらりら.jpg',
-				lrc:'http://localhost:80/雨はりらりら.lrc'
+				url:'http://localhost/music/songs/雨はりらりら.mp3',
+				cover:'http://localhost/music/covers/雨はりらりら.jpg',
+				lrc:'http://localhost/music/lrcs/雨はりらりら.lrc'
 			},
 			{
 				name:'Awake',
 				artist:'岩崎琢',
-				url:'http://localhost:80/Awake.mp3',
-				cover:'http://localhost:80/Awake.jpg',
+				url:'http://localhost/music/songs/Awake.mp3',
+				cover:'http://localhost/music/covers/Awake.jpg',
 			}
 		];
 		window.onscroll = debounce(()=>this.$store.commit('scrollTopC',window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop),50);
@@ -111,7 +146,7 @@ export default {
 	},
 	methods:{
     	async musicInit(){
-			let musicRes= await fetch('/musics/music.json');
+			let musicRes= await fetch('/music/music.json');
 			this.ap= new APlayer({
 				container:document.getElementById('aplayer'),
 				fixed:true,
@@ -123,6 +158,23 @@ export default {
 			});
 			this.ap.on('play',()=>this.ap.lrc.show());
 			this.ap.lrc.hide();
+		},
+		back2top(){
+    		window.scrollTo(0,0)
+		},
+		fontFamilyC(type){
+    		this.fontFamily = type
+		},
+		darkModeC(){
+    		if (!this.blocking){//用于防止频繁转换
+				this.blocking ^= 1;
+				document.getElementById('toggle-mode').classList.add('switching');
+				setTimeout(()=>this.darken ^= 1,600);
+				setTimeout(()=>{
+					document.getElementById('toggle-mode').classList.remove('switching');
+					this.blocking ^= 1;
+				},1200);
+			}
 		}
 	},
 	components:{
@@ -152,8 +204,155 @@ export default {
 		font-weight: 500;
 		font-style: normal;
 	}
+	.miniFadeUD-enter-active{
+		animation: mini-fadeInUp .3s cubic-bezier(.25,.46,.45,.94);
+	}
+	.miniFadeUD-leave-active{
+		animation: mini-fadeInUp .3s cubic-bezier(.25,.46,.45,.94) reverse;
+	}
+	.setting-panel{
+		position: fixed;
+		right: .2rem;
+		bottom: .3rem;
+		color: #2e2e2e;
+		background: #fafafa;
+		border: .06rem solid #5abebc15;
+		border-radius: .05rem;
+		width: 2.5rem;
+		box-shadow: 0 0 .2rem #5abebc20;
+		z-index: 2000;
+	}
+		.setting-panel section{
+			display: flex;
+			padding: .1rem .05rem;
+		}
+
+		.setting-panel .toggle-mode{
+			padding-right: .05rem;
+			border-right: .01rem solid #eaeaea;
+			text-align: center;
+		}
+			.toggle-mode.switching button{
+				animation:switch 1.2s cubic-bezier(.25,.46,.45,.94);
+			}
+			.setting-panel .toggle-mode button{
+				height: .66rem;
+				width: .66rem;
+				border-radius: 50%;
+				line-height: .66rem;
+				font-size: .5rem;
+				color: orange;
+			}
+			.setting-panel .toggle-mode button:hover{
+				background: #5abebc10;
+			}
+
+		.setting-panel .theme-switch{
+			display: flex;
+			flex-flow: column wrap;
+			justify-content: space-between;
+			flex: 1;
+			padding-left: .05rem;
+		}
+			.setting-panel .theme-switch .theme-list{
+				flex: 1;
+				font-size: 0;
+				list-style-type: none;
+				margin-bottom: .04rem;
+			}
+				.theme-list li{
+					display: inline-block;
+					background: #5abebc10;
+					margin-right: .05rem;
+					width: .3rem;
+					height: .3rem;
+					line-height: .3rem;
+					border-radius: 50%;
+					cursor: pointer;
+				}
+				.theme-list li:hover{
+					background: #5abebc;
+					color: white;
+				}
+					.theme-list li i{
+						margin: 0;
+						font-size: .16rem;
+					}
+
+			.setting-panel .font-family-setting{
+				flex: 1;
+			}
+				.setting-panel .font-family-setting button{
+					height: 100%;
+					font-size: .16rem;
+					background: #5abebc10;
+					color: #2e2e2e;
+					margin: 0 .05rem;
+					border-radius: .04rem;
+					width: calc(50% - .1rem);
+					transition: .3s ease;
+				}
+				.setting-panel .font-family-setting button.selected{
+					background: #5abebc;
+					color: white;
+				}
+		.setting-panel section.links{
+			border-top: .01rem solid #eaeaea;
+			justify-content: space-between;
+			flex-flow: row wrap;
+			font-size: .2rem;
+			line-height: .2rem;
+			padding: .1rem;
+		}
+		.setting-panel section.links i{
+			margin: 0;
+		}
+		.setting-panel section.links a[title^=Sign]{
+			font-weight: bold;
+		}
+
+
+	.ctrl-panel{
+		position: fixed;
+		display: none;
+		bottom: 0;
+		right: 0;
+		color: #8b8e99;
+		margin-right: .1rem;
+		line-height: .3rem;
+		user-select: none;
+		animation: frontFlip .6s ease-in-out both;
+		cursor: pointer;
+	}
+	.ctrl-panel.visible{
+		display: block;
+
+	}
+		.ctrl-panel i{
+			font-size: .2rem;
+			animation: spin 3s linear infinite;
+		}
+	.back2top{
+		position: fixed;
+		transform: translate(1.3rem,0);
+		font-size: 0;
+		bottom: .4rem;
+		right: .2rem;
+		z-index: 1900;
+		cursor: pointer;
+		user-select: none;
+		transition: .3s ease-in-out;
+	}
+	.back2top.visible{
+		transform: translate(0,0);
+	}
+	@media screen and (max-width: 900px){
+		.back2top{
+			display: none;
+		}
+	}
 	#aplayer{
-		z-index: 1700;
+		z-index: 1900;
 		box-shadow: 0 0 0.1rem #1e1e1e80;
 	}
 	#aplayer.aplayer .aplayer-body{
@@ -320,6 +519,10 @@ export default {
 	}
 
 	a{text-decoration: none;transition: .5s ease;color: inherit;outline: none}
+	a:focus{outline:none}
+	button::-moz-focus-inner, input[type="reset"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="file"] > input[type="button"]::-moz-focus-inner {
+		border:none
+	}
 	p,ul,ol{display: block;}
 	h1{letter-spacing: 2px}
 	button{

@@ -69,12 +69,19 @@
 	}
 }
 @keyframes spin {
-	from{
+	0%{
+		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
-	to{
+	100%{
+		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
+}
+@keyframes switch{
+	0%{-webkit-transform:rotate(0);transform:rotate(0);opacity:1}
+	50%{-webkit-transform:rotate(180deg);transform:rotate(180deg);opacity:0}
+	100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);opacity:1}
 }
 @keyframes rotateBF {
 	0%,50%{transform: scale(1)}
