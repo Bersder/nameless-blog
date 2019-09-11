@@ -10,7 +10,11 @@ import 'mavon-editor/dist/css/index.css'
 Vue.config.productionTip = false;
 Vue.use(mavonEditor);
 Vue.prototype.baseURL = process.env.API_ROOT;
-
+router.beforeEach((to,from,next)=>{
+	if (to.meta.title)
+		document.title = to.meta.title;
+	next();
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

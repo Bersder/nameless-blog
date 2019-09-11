@@ -35,7 +35,8 @@
 				  </div>
 			  </section>
 			  <section class="links">
-				  <router-link to="/login" title="Sign In">ᚺ</router-link>
+				  <router-link to="/login" title="Sign In">ᛁ</router-link>
+				  <a href="javascript:void(0);" @click="signOut" title="Sign Out" v-if="loginStatus">ᛟ</a>
 				  <a target="_blank" href="https://github.com/Bersder" title="Github"><i class="iconfont icon-github"></i></a>
 				  <a target="_blank" href="https://space.bilibili.com/13351138" title="Bilibili"><i class="iconfont icon-bilibili"></i></a>
 				  <a target="_blank" href="https://music.163.com/user/home?id=93044810" title="网易云"><i class="iconfont icon-neteaseMusic"></i></a>
@@ -98,6 +99,9 @@ export default {
 		}
 	},
 	watch:{
+    	$route(cur,pre){
+    		this.setPanelShow = false;//页面发生变化强制关闭控制面板
+		},
     	isMasked(cur,pre){
 			//弹窗屏蔽底层滑动
     		if (cur){
@@ -135,6 +139,32 @@ export default {
 				url:'http://localhost/music/songs/Awake.mp3',
 				cover:'http://localhost/music/covers/Awake.jpg',
 			}
+		];
+    	let bg = [
+			{
+				imgSrc:'http://localhost/site/bg/bg1.jpg',
+				workName:'吸血怪異接吻打',
+				workLink:'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=69767294',
+				authorName:'荻pote',
+				authorLink:'https://www.pixiv.net/member.php?id=2131660',
+				avatar:'http://localhost/site/bg/au1.gif'
+			},
+			{
+				imgSrc:'http://localhost/site/bg/bg2.jpg',
+				workName:'円卓の騎士',
+				workLink:'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=76683552',
+				authorName:'河CY',
+				authorLink:'https://www.pixiv.net/member.php?id=3869665',
+				avatar:'http://localhost/site/bg/au2.jpg'
+			},
+			{
+				imgSrc:'http://localhost/site/bg/bg3.jpg',
+				workName:'新田の夕暮れ',
+				workLink:'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=76672182',
+				authorName:'ぺい@夏コミ3日目西O-45a',
+				authorLink:'https://www.pixiv.net/member.php?id=1883190',
+				avatar:'http://localhost/site/bg/au3.jpg'
+			},
 		];
 		window.onscroll = debounce(()=>this.$store.commit('scrollTopC',window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop),50);
 		window.onresize = debounce(()=>this.$store.commit('screenSizeC',{
@@ -175,6 +205,9 @@ export default {
 					this.blocking ^= 1;
 				},1200);
 			}
+		},
+		signOut(){
+    		this.$store.commit('account/logout')
 		}
 	},
 	components:{
@@ -209,6 +242,9 @@ export default {
 	}
 	.miniFadeUD-leave-active{
 		animation: mini-fadeInUp .3s cubic-bezier(.25,.46,.45,.94) reverse;
+	}
+	#mobile-app .setting-panel,#mobile-app .ctrl-panel{
+		display: none;
 	}
 	.setting-panel{
 		position: fixed;

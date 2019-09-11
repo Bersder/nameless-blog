@@ -74,6 +74,7 @@
 import {unique} from "../util/util";
 import {post} from "../util/http";
 import {post_form} from "../util/http";
+import {siteTitle} from "../util/USER_VAR";
 import {mapState} from 'vuex'
 import {mdSetEdit} from "../util/global";
 export default {
@@ -98,6 +99,7 @@ export default {
 						let art = response.data;
 						this.rawContent = art.rawContent || '';
 						this.title = art.info.title || '';
+						document.title = this.title?this.title:'标题未定'+siteTitle.title_;
 						this.selectedType = art.info.type || 'code';
 						this.preview = art.info.preview || '';
 						this.selectedSeries = art.info.series || null;
@@ -155,7 +157,6 @@ export default {
 				let r = window.confirm('离开会导致未保存的信息丢失，是否继续');
 				if(r)next();
 			}
-
 		},
         methods:{
         	selectTag(t){
@@ -265,7 +266,7 @@ export default {
 								post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
 									if (re.data.code<1){
 										this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
-										this.$router.push({name:'space-l'});
+										this.$router.push({name:'space'});
 									}
 									else
 										this.$store.commit('infoBox/callInfoBox',{
@@ -288,7 +289,7 @@ export default {
 						post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
 							if (response.data.code<1){
 								this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
-								this.$router.push({name:'space-l'});
+								this.$router.push({name:'space'});
 							}
 							else
 								this.$store.commit('infoBox/callInfoBox',{info:'文章发布失败，bug?', ok:false, during:2000});

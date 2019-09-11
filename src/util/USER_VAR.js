@@ -16,10 +16,6 @@ export const headerTop = {
 
 	],
 	motto:'谢谢你，那个一直努力到了现在的自己',
-	bgs:[
-		{imgSrc:'http://127.0.0.1:80/site/header/anime.jpg',author:'Satom',authorLink:'',workName:'',workLink:'',avatar:''}
-	]
-
 };
 export const statusMap = [ //所有状态
 	{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
@@ -27,4 +23,9 @@ export const statusMap = [ //所有状态
 	{icon:'icon-gezi',des:'咕咕咕',color:'#00a1d6'},
 	{icon:'icon-bxs-smiley-sad',des:'(悲)',color:'#9b9b9b'}
 ];
+export const siteTitle = {
+	title:'忍野喵',
+	title_:' | 忍野喵',
+	subTitle:'おしの · にゃ'
+};
 //前期没时间实现只能export出来先了，后期需要存入数据库提供在线修改

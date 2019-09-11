@@ -59,15 +59,16 @@
 	export default {
         name: "Code",
 		created(){
-			if (!this.isMobile)
-				fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
-					let data = response.data.data;
-					console.log(data);
-					this.headerInfo = data.headerInfo;
+			fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
+				let data = response.data.data;
+				console.log(data);
+				this.headerInfo = data.headerInfo;
+				if (!this.isMobile){
 					if (data.gossip)
 						this.gossip = data.gossip;
 					data.seriesList.forEach(e=>this.seriesList.push(e));
-				})
+				}
+			})
 		},
         data() {
             return {

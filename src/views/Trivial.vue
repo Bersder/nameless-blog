@@ -98,13 +98,15 @@
 					this.curArts.push(e)
 				});
 				this.pageNum = Math.ceil(parseInt(data.artNum)/8);
-				this.$store.commit('lbImgsC',data.album);
-				if (data.album.length){
-					this.firstImg = data.album[0].imgSrc;
-					this.firstDes = data.album[0].description;
+				if (!this.isMobile){
+					this.$store.commit('lbImgsC',data.album);
+					if (data.album.length){
+						this.firstImg = data.album[0].imgSrc;
+						this.firstDes = data.album[0].description;
+					}
+					if (data.gossip)
+						this.gossip = data.gossip;
 				}
-				if (data.gossip)
-					this.gossip = data.gossip;
 				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 			})
 		},

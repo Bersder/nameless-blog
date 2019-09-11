@@ -64,9 +64,11 @@
 <script>
 	import {fetch} from "../util/http";
 	import {panelhMixin} from "../util/global";
+	import {siteTitle} from "../util/USER_VAR";
 	export default {
         name: "Search",
 		created(){
+        	document.title = '搜索：'+this.$route.params.key+siteTitle.title_;
 			fetch('/apis/apiv10.php',{s:this.$route.params.key}).then(response=>{
 				let data = response.data.data;
 				console.log(data);
@@ -92,7 +94,7 @@
         },
 		watch:{
         	$route(cur,pre){
-				console.log(cur,pre);
+        		document.title = '搜索：'+cur.params.key+siteTitle.title_;
 				this.curResults.length = this.resultNum = 0;
 				this.searchWaiting = true;
 				this.searchFound = true;

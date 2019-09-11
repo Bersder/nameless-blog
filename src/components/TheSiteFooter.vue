@@ -49,7 +49,7 @@
 
 <style scoped>
 	.site-footer{
-		padding: .2rem;
+		padding: .15rem .2rem;
 		width: 100%;
 		background: rgba(255,255,255,0.8);
 		animation: holdFadeIn 2s linear forwards;

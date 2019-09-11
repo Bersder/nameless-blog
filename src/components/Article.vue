@@ -65,7 +65,7 @@
 						<div class="previous tl" v-if="pre" :class="{half:pre&&next}">
 							<router-link :to="pre|toUrl">
 								<div class="background">
-									<img src="http://localhost/site/static/strip-placeholder.svg" class="lazyload"  :data-src="'http://localhost'+pre.imgSrc">
+									<img :src="'http://localhost'+pre.imgSrc+'.thumb'" class="lazyload"  :data-src="'http://localhost'+pre.imgSrc">
 								</div>
 								<span class="label">PREVIOUS</span>
 								<div class="info">
@@ -76,7 +76,7 @@
 						<div class="next tr" v-if="next" :class="{half:pre&&next}">
 							<router-link :to="next|toUrl">
 								<div class="background">
-									<img src="http://localhost/site/static/strip-placeholder.svg"  class="lazyload" :data-src="'http://localhost'+next.imgSrc">
+									<img :src="'http://localhost'+next.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+next.imgSrc">
 								</div>
 								<span class="label">NEXT</span>
 								<div class="info">
@@ -113,11 +113,16 @@
 	import {copyText} from "../util/util";
 	import {mapState} from 'vuex'
 	import {mdSetPreview} from "../util/global";
+	import {siteTitle} from "../util/USER_VAR";
 	import CommentModule from "@/components/CommentModule";
 
 	export default {
         name: "Article",
 		beforeRouteEnter(to,from,next){
+        	if (to.name==='article_note')
+				document.title = '笔记XXX'+siteTitle.title_;
+        	else
+				document.title = '文章XXX'+siteTitle.title_;
         	if(/\d+/.test(to.params.id)&&(!to.params.type||['anime','code','game','trivial'].indexOf(to.params.type)!==-1))next();
 			else next('/')
 		},
@@ -280,6 +285,7 @@
 						let data = response.data.data;
 						this.rawContent = data.rawContent || '';
 						this.title = data.info.title;
+						document.title = this.title+siteTitle.title_;
 						this.imgSrc = data.info.imgSrc;
 						this.author = data.info.author;
 						this.time = data.info.time.substr(0,10);

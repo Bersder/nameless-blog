@@ -20,8 +20,11 @@ import SpaceLaunch from "@/components/SpaceLaunch";
 import SpaceDynamic from "@/components/SpaceDynamic";
 import SpaceAlbum from "@/components/SpaceAlbum";
 import SpaceSetting from "@/components/SpaceSetting";
-
+import {siteTitle} from "../util/USER_VAR";
 Vue.use(Router);
+const title = siteTitle.title;
+const title_ = siteTitle.title_;
+const subTitle = siteTitle.subTitle;
 
 export default new Router({
 	mode:'history',
@@ -29,25 +32,26 @@ export default new Router({
 		{
 			path: '/',
 			name: 'homepage',
-			component:Homepage
+			component:Homepage,
+			meta:{title:title+' | '+subTitle}
 		},
 		{
 			path:'/space',
 			name: 'space',
 			component:Space,
-			meta:{loginStatus:false},
+			meta:{loginStatus:false,title:title+'的空间'},
 			children: [
-				{path:'launch',name:'space-l',component:SpaceLaunch},
-				{path:'dynamic',name:'space-d',component:SpaceDynamic},
-				{path:'album',name:'space-a',component:SpaceAlbum},
-				{path:'setting',name:'space-s',component:SpaceSetting}
+				{path:'launch',name:'space-l',component:SpaceLaunch,meta:{title:'空间·发布'+title_}},
+				{path:'dynamic',name:'space-d',component:SpaceDynamic,meta:{title:'空间·动态'+title_}},
+				{path:'album',name:'space-a',component:SpaceAlbum,meta:{title:'空间·相册'+title_}},
+				{path:'setting',name:'space-s',component:SpaceSetting,meta:{title:'空间·设置'+title_}}
 			]
 		},
 		{
 			path: '/login',
 			name: 'login',
 			component:Login,
-			meta:{loginStatus:false}
+			meta:{loginStatus:false,title:'Sign In'+title_}
 		},
 		{
 			path: '/search/:key',
@@ -63,7 +67,8 @@ export default new Router({
 		{
 			path: '/archive',
 			name: 'archive',
-			component: Archive
+			component: Archive,
+			meta:{title:'归档'+title_}
 		},
 		{
 			path: '/archive/:type/:id',
@@ -73,32 +78,38 @@ export default new Router({
 		{
 			path: '/links',
 			name: 'link',
-			component: Link
+			component: Link,
+			meta:{title:'友链'+title_}
 		},
 		{
 			path: '/archive/anime',
 			name: 'anime',
-			component: Anime
+			component: Anime,
+			meta:{title:'Anime'+title_}
 		},
 		{
 			path: '/archive/code',
 			name: 'code',
-			component: Code
+			component: Code,
+			meta:{title:'猴子敲代码'+title_}
 		},
 		{
 			path: '/archive/game',
 			name: 'game',
-			component: Game
+			component: Game,
+			meta:{title:'努力学习，拼命玩'+title_}
 		},
 		{
 			path: '/archive/trivial',
 			name: 'trivial',
-			component: Trivial
+			component: Trivial,
+			meta:{title:'什么都有'+title_}
 		},
 		{
 			path: '/note',
 			name: 'note',
-			component: Note
+			component: Note,
+			meta:{title:'笔记'+title_}
 		},
 		{
 			path: '/note/:id',
@@ -108,17 +119,20 @@ export default new Router({
 		{
 			path: '/about',
 			name: 'about',
-			component: About
+			component: About,
+			meta:{title:'关于'+title_}
 		},
 		{
 			path: '/write',
 			name: 'write',
-			component: Write
+			component: Write,
+			meta:{title:'文章草稿'}
 		},
 		{
 			path: '/takenote',
 			name: 'takenote',
-			component: TakeNote
+			component: TakeNote,
+			meta:{title:'笔记草稿'}
 		},
 	]
 })

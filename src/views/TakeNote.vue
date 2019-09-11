@@ -61,6 +61,7 @@
 	import {unique} from "../util/util";
 	import {post} from "../util/http";
 	import {post_form} from "../util/http";
+	import {siteTitle} from "../util/USER_VAR";
 	import {mapState} from 'vuex'
 	import {mdSetEdit} from "../util/global";
 
@@ -86,7 +87,7 @@
 						let note = response.data;
 						this.rawContent = note.rawContent || '';
 						this.title = note.info.title || '';
-
+						document.title = this.title?this.title:'标题未定'+siteTitle.title_;
 						this.preview = note.info.preview || '';
 						this.selectedCat = note.info.category || 'zatsu';
 						this.selectedTags = note.info.tags || [];
@@ -142,7 +143,6 @@
 				let r = window.confirm('离开会导致未保存的信息丢失，是否继续');
 				if(r)next();
 			}
-
 		},
         methods:{
 			selectTag(t){
@@ -252,7 +252,7 @@
 								post('/apis/edit/launch.php?nid='+this.nid,data).then(re=>{
 									if (re.data.code<1){
 										this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
-										this.$router.push({name:'space-l'});
+										this.$router.push({name:'space'});
 									}
 									else
 										this.$store.commit('infoBox/callInfoBox',{
@@ -275,7 +275,7 @@
 						post('/apis/edit/launch.php?nid='+this.nid,data).then(response=>{
 							if (response.data.code < 1){
 								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
-								this.$router.push({name:'space-l'});
+								this.$router.push({name:'space'});
 							}
 							else
 								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布失败，bug?', ok:false, during:2000});

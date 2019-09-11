@@ -255,6 +255,7 @@
 
 	.page-content.homepage{
 		max-width: 9.3rem;
+		min-height: 9rem;
 		overflow: hidden;/*解决子元素浮动撑不开父元素*/
 		height: 100%;
 		transition: 1s cubic-bezier(.25,.46,.45,.94);

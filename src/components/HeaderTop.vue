@@ -1,10 +1,10 @@
 <template>
     <div>
-		<figure class="htbg" id="htbg" :style="{height:(SH || screenHeight)+'px','background-image':'url('+bgUrl+')'}">
+		<figure class="htbg" id="htbg" :style="{height:(SH || screenHeight)+'px',backgroundImage:'url('+bgInfo.imgSrc+')'}">
 			<div class="focusinfo no-select">
 				<div class="ht-title">OSHINO-NYA</div>
 				<div class="ht-info">
-					<p style="line-height: .3rem">Mind is a terrible thing to lose</p>
+					<p style="line-height: .3rem">谢谢你，那个一直努力到了现在的自己</p>
 					<div class="social-box">
 						<i class="iconfont icon-chevronleft"></i>
 						<a href="https://github.com/Bersder" target="_blank" title="github">
@@ -26,35 +26,37 @@
 			</div>
 		</figure>
 		<div class="htbg-info">
-			<div class="author-avatar pl" style="background-image: url('http://localhost:80/site/bg/2.jpg')"></div>
-			<div class="work-name" style="font-style: italic">
-				<a href="https://www.pixiv.net/member_illust.php?mode=medium&illust_id=51166367" title="作品名" rel="nofollow" target="_blank">佐田ゆう</a>
-			</div>
-			<div class="author-name">
-				<a href="https://www.pixiv.net/member_illust.php?mode=medium&illust_id=51166367" title="作者" rel="nofollow" target="_blank">Satom</a>
-			</div>
+			<div class="author-avatar pl" :style="{backgroundImage:'url('+bgInfo.avatar+')'}"></div>
+			<a class="work-name" :href="bgInfo.workLink" :title="'作品:'+bgInfo.workName" rel="nofollow" target="_blank">{{bgInfo.workName}}</a>
+			<a class="author-name" :href="bgInfo.authorLink" :title="'作者:'+bgInfo.authorName" rel="nofollow" target="_blank">{{bgInfo.authorName}}</a>
 		</div>
-		<div class="ht-down" @click="go_down">
-			<span>
-				<i class="iconfont icon-down"></i>
-			</span>
-		</div>
+		<div class="ht-down" @click="go_down"><span><i class="iconfont icon-down"></i></span></div>
 	</div>
 </template>
 
 <script>
-	import {mapState} from 'vuex'
+	import {mapState} from 'vuex';
+	import {fetch} from "../util/http";
 	export default {
-        name: "",
+        name: "HeaderTop",
+		created(){
+        	fetch('/apis/apiv13.php').then(response=>{
+				this.bgInfo = response.data;
+				setTimeout(()=>this.SH=false,1000)
+			})
+		},
         data() {
             return {
 				SH:'0',
-				bgUrl:'http://localhost:80/site/bg/2.jpg'
+				bgInfo:{
+					imgSrc:'',
+					workName:'',
+					workLink:'',
+					authorName:'',
+					authorLink:'',
+					avatar:''
+				},
 			}
-        },
-        mounted() {
-        	setTimeout(()=>this.SH=window.innerHeight || document.documentElement.clientHeight,500);
-        	setTimeout(()=>this.SH=false,1000)
         },
         computed:{
         	...mapState(['screenHeight'])
@@ -120,11 +122,11 @@
 				}
 	.htbg-info{
 		position: absolute;
-		bottom: .4rem;
+		bottom: .3rem;
 		right: .2rem;
 		height: .5rem;
-		max-width: 1.3rem;
-		padding-right: .1rem;
+		width: 1.3rem;
+		padding-right: .05rem;
 		background: rgba(25,25,25,.3);
 		border-radius: .03rem;
 		z-index: 10;
@@ -139,20 +141,18 @@
 		}
 		.work-name,.author-name{
 			float: left;
-			font-size: .15rem;
-			width: .7rem;
-			line-height: .15rem;
-			margin-top: .06rem;
-		}
-		.htbg-info a{
+			font-size: .14rem;
+			font-weight: 600;
+			line-height: .2rem;
 			display: inline-block;
 			text-align: left;
-			width: .7rem;
+			max-width: .75rem;
+			min-width: .4rem;
 			color: #f5f5f0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-		}
+		}.work-name{margin-top: .05rem;}.author-name{margin-bottom: .05rem;}
 	.ht-down{
 		position: absolute;
 		font-size: .35rem;

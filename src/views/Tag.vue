@@ -42,10 +42,12 @@
 	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
 	import {tagCloudMixin} from "../util/global";
+	import {siteTitle} from "../util/USER_VAR";
 	export default {
         name: "Tag",
 		created(){
 			if(this.$route.params.tag){ //直接进入/tags/xxx的情况，一次性获取list和tag
+				document.title = '标签：'+this.$route.params.tag+siteTitle.title_;
 				fetch('/apis/apiv5.php',{tag:this.$route.params.tag,init:''}).then(response=>{
 					let data = response.data.data;
 					this.artList = data.artInfos;
@@ -68,6 +70,7 @@
 				})
 			}
 			else {
+				document.title = '标签'+siteTitle.title_;
 				fetch('/apis/apiv5.php').then(response=>{
 					console.log(response.data.data);
 					let data = response.data.data;
@@ -103,6 +106,7 @@
         	tagClick(tag){
         		if(tag!==this.$route.params.tag){
 					this.$router.replace('/tags/'+tag);
+					document.title = '标签：'+tag+siteTitle.title_;
         			fetch('/apis/apiv5.php',{tag:tag}).then(response=>{
         				this.tag404 = response.data.exist<1;
         				let data = response.data.data;

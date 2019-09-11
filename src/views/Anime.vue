@@ -62,11 +62,11 @@
 	export default {
         name: "Anime",
 		created(){
-			if (!this.isMobile)
-				fetch('/apis/apiv8.php',{_:'anime'}).then(response=>{
-					let data = response.data.data;
-					console.log(data);
-					this.headerInfo = data.headerInfo;
+			fetch('/apis/apiv8.php',{_:'anime'}).then(response=>{
+				let data = response.data.data;
+				console.log(data);
+				this.headerInfo = data.headerInfo;
+				if (!this.isMobile){
 					this.$store.commit('lbImgsC',data.album);
 					if (data.album.length){
 						this.firstImg = data.album[0].imgSrc;
@@ -74,8 +74,8 @@
 					}
 					if (data.gossip)
 						this.gossip = data.gossip;
-
-				})
+				}
+			})
 		},
         data() {
             return {

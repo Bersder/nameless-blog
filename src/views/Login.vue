@@ -12,7 +12,7 @@
 				<p>
 					<label>
 						Password
-						<input type="password" v-model="password">
+						<input type="password" v-model="password" @keyup.enter="loginSubmit">
 					</label>
 				</p>
 				<p class="remember" style="line-height: .2rem">
