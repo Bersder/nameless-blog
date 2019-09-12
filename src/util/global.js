@@ -90,7 +90,7 @@ export const mdSetEdit = {
 		preview: true,
 	},
 	externalLink: {
-		markdown_css:()=>'http://localhost:80/markdown/github-markdown3.0.css'
+		markdown_css:()=>'/root/markdown/github-markdown3.0.css'
 	}
 };
 
@@ -103,7 +103,7 @@ export const mdSetPreview = {
 	scrollStyle:true,
 	codeStyle:'github',
 	externalLink: {
-		markdown_css:()=>'http://localhost:80/markdown/github-markdown3.0.css'
+		markdown_css:()=>'/root/markdown/github-markdown3.0.css'
 	}
 };
 

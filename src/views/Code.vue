@@ -2,7 +2,7 @@
 	<div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}"></div>
+				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
 				<div class="page-info">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 					<p class="tsukkomi">{{headerInfo.description}}</p>

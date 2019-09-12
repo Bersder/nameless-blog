@@ -2,7 +2,7 @@
     <div>
 		<div class="page-header-wrap">
 			<div class="pattern-center page-header">
-				<div class="ph-img" :style="'background-image: url(http://localhost:80'+headerInfo.imgSrc+')'"></div>
+				<div class="ph-img" :style="'background-image: url(/root'+headerInfo.imgSrc+')'"></div>
 				<div class="ph-info-about">
 					<h1 style="font-weight: 500">关于</h1>
 				</div>

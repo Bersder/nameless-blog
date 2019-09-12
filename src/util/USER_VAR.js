@@ -4,10 +4,10 @@ export const friendExchange = [
 	{icon:'iconfont icon-steam',description:'steam',value:'Bersder3000'}
 ];
 export const languageList=[
-	{imgSrc:'http://localhost/site/images/moe.python.jpg',description:'python是最好的语言'},
-	{imgSrc:'http://localhost/site/images/moe.c.png',description:'这是什么，我有学过吗(滑稽)'},
-	{imgSrc:'http://localhost/site/images/moe.php.jpg',description:'本站后端支持'},
-	{imgSrc:'http://localhost/site/images/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
+	{imgSrc:'/root/site/images/moe.python.jpg',description:'python是最好的语言'},
+	{imgSrc:'/root/site/images/moe.c.png',description:'这是什么，我有学过吗(滑稽)'},
+	{imgSrc:'/root/site/images/moe.php.jpg',description:'本站后端支持'},
+	{imgSrc:'/root/site/images/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
 ];
 export const headerTop = {
 	logo:'Bersder3000',

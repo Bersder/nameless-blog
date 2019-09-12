@@ -36,7 +36,7 @@
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
 						<div class="comment-avatar">
-							<img src="http://localhost/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'http://localhost/test/none.png'">
+							<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'/root/test/none.png'">
 						</div>
 						<div class="comment-meta">
 							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a> <span class="comment-id pr">#{{comment.id}}</span></p>
@@ -51,7 +51,7 @@
 							<div class="comments-list-item" :id="'comment-'+reply.id" v-for="reply in comment.children" :key="reply.id">
 								<div class="comment-content-wrap">
 									<div class="comment-avatar">
-										<img src="http://localhost/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'http://localhost/test/none.png'">
+										<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'/root/test/none.png'">
 									</div>
 									<div class="comment-meta">
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span> <span class="comment-id pr">#{{reply.id}}</span></p>
@@ -368,7 +368,7 @@
 					bottom: .02rem;
 					left: 0;
 					right: .02rem;
-					background-image: url("http://localhost/site/static/amiya.gif");
+					background-image: url("/root/site/static/amiya.gif");
 					background-size: contain;
 					background-repeat: no-repeat;
 					background-position: right bottom;

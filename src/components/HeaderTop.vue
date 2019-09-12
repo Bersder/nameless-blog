@@ -8,16 +8,16 @@
 					<div class="social-box">
 						<i class="iconfont icon-chevronleft"></i>
 						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="http://localhost:80/site/static/github.png">
+							<img width="20" height="20" src="/root/site/static/github.png">
 						</a>
 						<a href="https://music.163.com/user/home?id=93044810" target="_blank" title="netease">
-							<img width="20" height="20" src="http://localhost:80/site/static/netease.png">
+							<img width="20" height="20" src="/root/site/static/netease.png">
 						</a>
 						<a href="https://space.bilibili.com/13351138" target="_blank" title="bilibili">
-							<img width="20" height="20" src="http://localhost:80/site/static/bilibili.png">
+							<img width="20" height="20" src="/root/site/static/bilibili.png">
 						</a>
 						<a href="https://twitter.com/Bersder1" target="_blank" title="twitter">
-							<img width="20" height="20" src="http://localhost:80/site/static/twitter.png">
+							<img width="20" height="20" src="/root/site/static/twitter.png">
 						</a>
 						<i class="iconfont icon-chevronright"></i>
 					</div>

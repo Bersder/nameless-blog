@@ -16,7 +16,7 @@
 		  </div>
 	  </transition>
 	  <!--回到顶部-->
-	  <a class="back2top" :class="{visible:scrollTop>500}" target="_self" @click="back2top"><img src="http://localhost/site/images/back2top7.png" width="100"></a>
+	  <a class="back2top" :class="{visible:scrollTop>500}" target="_self" @click="back2top"><img src="/root/site/images/back2top4.png" width="100"></a>
 	  <!--控制按钮-->
 	  <aside class="ctrl-panel" :class="{visible:scrollTop>100}" @click="setPanelShow=!setPanelShow"><span>SETTING | <i class="iconfont icon-gear clearm"></i></span></aside>
 	  <!--设置面板-->
@@ -125,47 +125,6 @@ export default {
 		}
 	},
 	mounted(){
-    	let music = [
-			{
-				name:'雨はりらりら',
-				artist:'坂上なち',
-				url:'http://localhost/music/songs/雨はりらりら.mp3',
-				cover:'http://localhost/music/covers/雨はりらりら.jpg',
-				lrc:'http://localhost/music/lrcs/雨はりらりら.lrc'
-			},
-			{
-				name:'Awake',
-				artist:'岩崎琢',
-				url:'http://localhost/music/songs/Awake.mp3',
-				cover:'http://localhost/music/covers/Awake.jpg',
-			}
-		];
-    	let bg = [
-			{
-				imgSrc:'http://localhost/site/bg/bg1.jpg',
-				workName:'吸血怪異接吻打',
-				workLink:'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=69767294',
-				authorName:'荻pote',
-				authorLink:'https://www.pixiv.net/member.php?id=2131660',
-				avatar:'http://localhost/site/bg/au1.gif'
-			},
-			{
-				imgSrc:'http://localhost/site/bg/bg2.jpg',
-				workName:'円卓の騎士',
-				workLink:'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=76683552',
-				authorName:'河CY',
-				authorLink:'https://www.pixiv.net/member.php?id=3869665',
-				avatar:'http://localhost/site/bg/au2.jpg'
-			},
-			{
-				imgSrc:'http://localhost/site/bg/bg3.jpg',
-				workName:'新田の夕暮れ',
-				workLink:'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=76672182',
-				authorName:'ぺい@夏コミ3日目西O-45a',
-				authorLink:'https://www.pixiv.net/member.php?id=1883190',
-				avatar:'http://localhost/site/bg/au3.jpg'
-			},
-		];
 		window.onscroll = debounce(()=>this.$store.commit('scrollTopC',window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop),50);
 		window.onresize = debounce(()=>this.$store.commit('screenSizeC',{
 			screenHeight:window.innerHeight || document.documentElement.clientHeight,
@@ -233,7 +192,7 @@ export default {
 	@import "assets/animation.css";
 	@font-face {
 		font-family: 'Fira Code VF';
-		src: url('http://localhost:80/fonts/FiraCode-VF.woff') format('woff-variations'), url("http://localhost:80/fonts/FiraCode-VF.ttf") format("truetype");
+		src: url('/root/fonts/FiraCode-VF.woff') format('woff-variations'), url("/root/fonts/FiraCode-VF.ttf") format("truetype");
 		font-weight: 500;
 		font-style: normal;
 	}
@@ -749,7 +708,7 @@ export default {
 		padding-bottom: .1rem;
 	}
 	.section-content.empty:before{
-		background-image: url(http://localhost:80/site/static/nodata.png);
+		background-image: url(/root/site/static/nodata.png);
 		content:attr(etext);
 		display: block;
 		background-position: center center;

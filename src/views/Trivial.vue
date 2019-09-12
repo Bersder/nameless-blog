@@ -2,7 +2,7 @@
     <div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}"></div>
+				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
 				<div class="page-info">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 					<p class="tsukkomi">{{headerInfo.description}}</p>
@@ -25,7 +25,7 @@
 							<p class="pt-time"><i class="iconfont icon-time"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
 								<router-link :to="art.aid" append>
-									<img :src="'http://localhost:80'+art.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+art.imgSrc">
+									<img :src="'/root'+art.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+art.imgSrc">
 								</router-link>
 							</div>
 							<div class="panel-t-info ">
@@ -60,7 +60,7 @@
 				<div class="content-aside">
 					<div class="ca album" >
 						<div class="album-img-wrap">
-							<img class="album-img" @click="openLB" :src="'http://localhost:80'+firstImg">
+							<img class="album-img" @click="openLB" :src="'/root'+firstImg">
 							<p>{{firstDes}}</p>
 						</div>
 					</div>

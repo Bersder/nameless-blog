@@ -21,7 +21,7 @@
 				<div class="luminous-box-stage">
 					<transition name="LBimg">
 						<div class="luminous-box-img-wrap" v-if="LBimgShow">
-							<img :src="'http://localhost:80'+LBImgs[LBIndex]">
+							<img :src="'/root'+LBImgs[LBIndex]">
 						</div>
 					</transition>
 
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			<div class="luminous-box-sidebar" v-show="LBsidebarShow" >
-				<a v-for="(each,index) in LBImgs" @click="jumpto(index)" :class="{active:index===LBIndex}" :style="{backgroundImage:'url(http://localhost:80'+each+')'}" :title="LBDescriptions[index]"></a>
+				<a v-for="(each,index) in LBImgs" @click="jumpto(index)" :class="{active:index===LBIndex}" :style="{backgroundImage:'url(/root'+each+')'}" :title="LBDescriptions[index]"></a>
 			</div>
 		</div>
 	</transition>

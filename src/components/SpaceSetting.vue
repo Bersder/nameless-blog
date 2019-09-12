@@ -154,7 +154,7 @@
 				data.headers.forEach(e=>{
 					e.file = undefined;
 					e.tmpDes = e.description;
-					e.imgSrc = 'http://localhost:80'+e.imgSrc;
+					e.imgSrc = '/root'+e.imgSrc;
 					this.headers.push(e);
 				});
 				this.outerLinks = data.outerLinks;

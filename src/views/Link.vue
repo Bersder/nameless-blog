@@ -2,7 +2,7 @@
     <div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}">
+				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}">
 					<div class="page-info">
 						<h2 class="intro">{{headerInfo.title}}</h2>
 						<p class="tsukkomi">{{headerInfo.description}}</p>
@@ -39,7 +39,7 @@
 						<ul>
 							<li v-for="(item,index) in FList" :key="index">
 								<a :href="item.ulink" target="_blank" :title="item.message" rel="noopener">
-									<img src="http://localhost/site/static/spinner-preloader.svg" class="lazyload" :data-src="item.avatar">
+									<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="item.avatar">
 									<h5>{{item.uname}}</h5>
 									<p>{{item.message||'这人很懒，什么都没留下'}}</p>
 								</a>

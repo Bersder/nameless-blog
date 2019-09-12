@@ -2,11 +2,11 @@
 	<div>
 		<div class="page-header-wrap">
 			<div class="pattern-center page-header">
-				<div class="ph-img" :style="'background-image: url(http://localhost:80'+imgSrc+')'"></div>
+				<div class="ph-img" :style="'background-image: url(/root'+imgSrc+')'"></div>
 				<div class="ph-info">
 					<h1 class="entry-title" @click="genNavList">{{title}}</h1>
 					<p class="entry-info">
-						<span><router-link to="/"><img src="http://localhost:80/uploads/avatar/me.png">{{author}}</router-link></span>
+						<span><router-link to="/"><img src="/root/uploads/avatar/me.png">{{author}}</router-link></span>
 						<span class="isolate">·</span>
 						{{time}}{{readCount|rfilter}}
 					</p>
@@ -65,7 +65,7 @@
 						<div class="previous tl" v-if="pre" :class="{half:pre&&next}">
 							<router-link :to="pre|toUrl">
 								<div class="background">
-									<img :src="'http://localhost'+pre.imgSrc+'.thumb'" class="lazyload"  :data-src="'http://localhost'+pre.imgSrc">
+									<img :src="'/root'+pre.imgSrc+'.thumb'" class="lazyload"  :data-src="'/root'+pre.imgSrc">
 								</div>
 								<span class="label">PREVIOUS</span>
 								<div class="info">
@@ -76,7 +76,7 @@
 						<div class="next tr" v-if="next" :class="{half:pre&&next}">
 							<router-link :to="next|toUrl">
 								<div class="background">
-									<img :src="'http://localhost'+next.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+next.imgSrc">
+									<img :src="'/root'+next.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+next.imgSrc">
 								</div>
 								<span class="label">NEXT</span>
 								<div class="info">

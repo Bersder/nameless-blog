@@ -197,7 +197,7 @@
 		padding-top: 1.2rem;
 		max-width: 12rem;
 		margin: .7rem auto 0;
-		background-image: url(http://localhost:80/site/bg/spacebg.png);
+		background-image: url(/root/site/bg/spacebg.png);
 		background-position: center center;
 		background-size: cover;
 		transition: .5s ease;

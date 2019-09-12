@@ -96,7 +96,7 @@
 						this.catOptions = Object.keys(this.catMap)|| [];
 						this.inputTags = note.info.inputTags || '';
 						this.hi = note.info.imgSrc || null;
-						document.getElementById('hi').style.backgroundImage='url(http://localhost:80'+note.info.imgSrc+')'
+						document.getElementById('hi').style.backgroundImage='url(/root'+note.info.imgSrc+')'
 					}
 					else{
 						//不存在nid，重新导向至写文章页/404

@@ -2,7 +2,7 @@
 	<div class="panel">
 		<div class="panel-img">
 			<router-link :to="article.aid" append>
-				<img class="img lazyload" :src="'http://localhost:80'+article.imgSrc+'.thumb'" :data-src="'http://localhost'+article.imgSrc">
+				<img class="img lazyload" :src="'/root'+article.imgSrc+'.thumb'" :data-src="'/root'+article.imgSrc">
 			</router-link>
 		</div>
 		<div class="panel-info">

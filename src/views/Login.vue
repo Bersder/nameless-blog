@@ -121,7 +121,7 @@
 	.login-wrap:before{
 		content: '';
 		position: absolute;
-		background-image: url(http://localhost:80/site/bg/loginbg.jpg);
+		background-image: url(/root/site/bg/loginbg.jpg);
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;

@@ -14,7 +14,7 @@
 			</div>
 			<div class="album-list tl">
 				<div class="album-card" v-for="(item,index) in curAlbums" :key="item.id">
-					<a class="picture" :style="{backgroundImage:'url(http://localhost:80'+item.imgSrc+')'}" @click="openLB(index)"><a @click.stop="delPicture(item)" class="iconfont icon-trash clearm"></a></a>
+					<a class="picture" :style="{backgroundImage:'url(/root'+item.imgSrc+')'}" @click="openLB(index)"><a @click.stop="delPicture(item)" class="iconfont icon-trash clearm"></a></a>
 					<a class="title">{{item.description}}</a>
 				</div>
 			</div>
@@ -181,7 +181,7 @@
 		min-height: 4.5rem;
 	}
 	.draft-content.empty:after,.album-content.empty:after{
-		background-image: url(http://localhost:80/site/static/nodata.png);
+		background-image: url(/root/site/static/nodata.png);
 		content:attr(etext);
 		display: block;
 		background-position: center center;

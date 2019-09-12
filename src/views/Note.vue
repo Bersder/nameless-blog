@@ -2,7 +2,7 @@
 	<div>
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
-				<div class="page-img" :style="{backgroundImage:'url(http://localhost:80'+headerInfo.imgSrc+')'}"></div>
+				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
 				<div class="page-info">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 					<p class="tsukkomi">{{headerInfo.description}}</p>
@@ -38,7 +38,7 @@
 							<div class="panel-n" >
 								<div class="panel-n-img">
 									<router-link :to="each.nid" append>
-										<img :src="'http://localhost'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'http://localhost'+each.imgSrc">
+										<img :src="'/root'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+each.imgSrc">
 										<div class="float-preview tl">
 											{{each.preview}}
 										</div>

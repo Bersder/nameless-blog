@@ -108,7 +108,7 @@ export default {
 						this.seriesOptions = art.seriesOptions || [];
 						this.inputTags = art.info.inputTags || '';
 						this.hi = art.info.imgSrc || null;
-						document.getElementById('hi').style.backgroundImage='url(http://localhost:80'+art.info.imgSrc+')'
+						document.getElementById('hi').style.backgroundImage='url(/root'+art.info.imgSrc+')'
 					}
 					else{
 						//不存在aid，重新导向至写文章页/404
