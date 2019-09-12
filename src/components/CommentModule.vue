@@ -9,11 +9,16 @@
 					<input placeholder="邮箱(必填，保密)" v-model="email" name="email">
 					<input placeholder="网站(选填)" v-model="website" name="website">
 				</div>
-				<textarea @keydown="textareaTab" placeholder="请在这里输入你的评论..." v-model="content"></textarea>
+				<div class="comment-content-input">
+					<textarea @keydown="textareaTab" placeholder="支持markdown语法除了标题、分割线、表格、图片、下划线、标记、上下标" v-model="content"></textarea>
+				</div>
 			</div>
 			<div class="comment-buttons tr">
+<!--				<span class="emotion-toggle"></span>表情区未支持-->
 				<span><label><input type="checkbox" v-model="notifyMe"> 回复提醒</label></span>
 				<button @click="commentSubmit" >提交评论</button>
+			</div>
+			<div class="emotion-box no-select">
 			</div>
 		</div>
 
@@ -348,24 +353,42 @@
 					margin: .05rem 0;
 					transition: .5s;
 				}
-				.comment-info-input input:focus,.comment-form textarea:focus{
+				.comment-info-input input:focus,.comment-content-input textarea:focus{
 					border-color: rgba(0,0,0,.3);
 				}
-			.comment-form textarea{
-				display: block;
-				margin-top: .1rem;
-				padding: .1rem;
-				height: 1.5rem;
-				resize: none;
-				width: 100%;
-				border: .02rem solid rgba(0,0,0,.1);
-				outline: none;
-				background: transparent;
-				transition: .5s;
+
+			.comment-form .comment-content-input{
+				position: relative;
 			}
+				.comment-content-input:before{
+					content: '';
+					opacity: .6;
+					position: absolute;
+					top: .02rem;
+					bottom: .02rem;
+					left: 0;
+					right: .02rem;
+					background-image: url("http://localhost/site/static/amiya.gif");
+					background-size: contain;
+					background-repeat: no-repeat;
+					background-position: right bottom;
+				}
+				.comment-content-input textarea{
+					position: relative;
+					display: block;
+					margin-top: .1rem;
+					padding: .1rem;
+					height: 1.6rem;
+					resize: none;
+					width: 100%;
+					border: .02rem solid rgba(0,0,0,.1);
+					outline: none;
+					background: transparent;
+					transition: .5s;
+				}
+
 		.respond .comment-buttons{
 			margin: .2rem 0;
-
 		}
 			.comment-buttons span{
 				margin-right: .1rem;

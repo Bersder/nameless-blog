@@ -484,7 +484,7 @@ export default {
 		background: #fafafa !important;
 		padding: 0 1em 1em 0 !important;
 	}
-	.comment-content blockquote{
+	.comment-content blockquote,.link-description blockquote{
 		margin: .1rem .05rem;
 		padding: .05rem .2rem;
 		background: #fafafa;

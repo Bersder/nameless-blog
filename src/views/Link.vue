@@ -167,24 +167,13 @@
 		font-size: .2rem;
 	}
 	/*-----------------------------------------------*/
-	#mobile-app .link-description{
-		padding: .2rem;
-	}
 	.link-description{
-		padding: .2rem .4rem;
+		padding: .2rem;
 	}
 	.link-description h2{
 		font-size: .2rem;
 		letter-spacing: .02cm;
 		margin: .25rem 0 .1rem;
-
-	}
-	.link-description blockquote{
-		font-size: .14rem;
-		border-left: .05rem solid #bbbbbb;
-		padding: .05rem 0 0 .1rem;
-		margin: .15rem 0 .15rem .2rem;
-		color: #6a737d;
 	}
 		.link-description ul{
 			margin: .1rem 0;
