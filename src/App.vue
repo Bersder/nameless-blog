@@ -16,9 +16,9 @@
 		  </div>
 	  </transition>
 	  <!--回到顶部-->
-	  <a class="back2top" :class="{visible:scrollTop>500}" target="_self" @click="back2top"><img src="/root/site/images/back2top4.png" width="100"></a>
+	  <a class="back2top" :class="{visible:scrollTop>500&&!/takenote|write/.test($route.name)}" target="_self" @click="back2top"><img src="/root/site/images/back2top4.png" width="100"></a>
 	  <!--控制按钮-->
-	  <aside class="ctrl-panel" :class="{visible:scrollTop>100}" @click="setPanelShow=!setPanelShow"><span>SETTING | <i class="iconfont icon-gear clearm"></i></span></aside>
+	  <aside class="ctrl-panel" :class="{visible:scrollTop>100&&!/takenote|write/.test($route.name)}" @click="setPanelShow=!setPanelShow"><span>SETTING | <i class="iconfont icon-gear clearm"></i></span></aside>
 	  <!--设置面板-->
 	  <transition name="miniFadeUD">
 		  <aside class="setting-panel" v-show="setPanelShow">

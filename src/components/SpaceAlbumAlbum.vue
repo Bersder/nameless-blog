@@ -79,7 +79,7 @@
 				curPage:1,
 				curPageNum:1,
 				typeMap:{all:'所有',anime:'Anime',game:'游民',trivial:'日常'},
-				typeCount:{all:-1,anime:0,game:0,trivial:0},
+				typeCount:{all:2333,anime:233,game:233,trivial:233},
 
 			}
 		},

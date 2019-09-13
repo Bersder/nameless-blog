@@ -422,7 +422,7 @@
 		}
 			.type-btn button,.series-btn button,.cat-btn button{
 				position: relative;
-				vertical-align: top;
+				vertical-align: middle;
 				width: 1.5rem;
 				text-transform: capitalize;
 				padding: 0 .25rem 0 .15rem;
@@ -477,7 +477,7 @@
 		}
 			.tag-btn{
 				display: inline-block;
-				vertical-align: top;
+				vertical-align: middle;
 				position: relative;
 				width: calc(100% - .4rem);
 				background: white;

@@ -576,7 +576,7 @@
     max-width: 100%;
 }
 
-.markdown-body p code{
+.markdown-body p code,.markdown-body li code{
 	 padding: .01rem .03rem;
 	 font-size: 80%;
 	 background: #1b1f230d;

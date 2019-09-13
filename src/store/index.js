@@ -7,7 +7,7 @@ const account={//默认未登录状态
 	state:{
 		uid:0,
 		name:'???',//暂时这些信息
-		avatar:'/root/test/none.png',
+		avatar:'/root/site/static/passerby.png',
 		token:'',
 		loginStatus:false
 	},
@@ -33,7 +33,7 @@ const account={//默认未登录状态
 			state.token = '';
 			state.uid = 0;
 			state.name = '???';
-			state.avatar = '/root/test/none.png';
+			state.avatar = '/root/site/static/passerby.png';
 			state.loginStatus = false;
 		}
 	}
@@ -115,7 +115,7 @@ export default new Vuex.Store({
 						const src = el.src;
 						img.src = el.attributes['data-src'].nodeValue;
 						img.onload = () => el.src = el.attributes['data-src'].nodeValue;
-						img.onerror = () => el.attributes['data=src'].nodeValue = src;
+						img.onerror = () => el.attributes['data-src'].nodeValue = src;
 					}
 				}
 			})

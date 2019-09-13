@@ -9,34 +9,31 @@
 					<span></span>
 					<span></span>
 				</div>
-				<p class="nav-title"><router-link to="/">Oshino·Nya</router-link></p>
+				<router-link class="nav-title" to="/">Oshino·Nya</router-link>
 <!--				<div class="nav-login pr"><router-link to="/"><i class="far fa-user-circle"></i></router-link></div>-->
 			</div>
 			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight-50+'px'}"></div>
-			<div class="nav-aside" :class="{open:!isOpened}" :style="{height:screenHeight-50+'px'}">
+			<div class="nav-aside" :class="{open:isOpened}" :style="{height:screenHeight-50+'px'}">
 				<div class="nav-avatar">
 					<router-link :to="loginStatus?'/space':'/about'"><img src="/root/uploads/avatar/me.png"></router-link>
 					<span class="me-status" :title="'STATUS:'+statusMap[meStatus].des" :style="{background:statusMap[meStatus].color}"><i class="iconfont" :class="statusMap[meStatus].icon"></i></span>
 				</div>
 				<p style="color: #333;font-weight: 700;">忍野喵</p>
-				<p style="color: #8b8e99;font-size: .12rem;margin-top: .05rem;padding: 0 .2rem">{{meSign}}</p>
+				<p class="me-sign">{{meSign}}</p>
 				<p class="cut-line"></p>
 
 
 				<div class="search-box-m"> <!--暂时未实现自定义弹框-->
 					<input v-model.trim="searchKey" type="search" class="text-input pl" @keyup.enter="post_Search" required placeholder="なにをさがしますか">
-					<button @click="post_Search"><i class="iconfont icon-search"></i></button>
+					<button @click="post_Search"><i class="iconfont icon-search clearm"></i></button>
 				</div>
 				<div class="nav-menu">
 					<p >站内导航</p>
 					<ul>
-						<li>
-							<router-link to="/" class="animated"><i class="iconfont icon-home fade-bf"></i> 首页</router-link>
-							<span></span>
-						</li>
+						<li><router-link to="/" class="animated"><i class="iconfont icon-home fade-bf"></i> 首页</router-link></li>
 						<li v-for="each in navData">
 							<router-link :to="each.href" class="animated"><i :class="[each.icon,each.animate]"></i> {{each.des}}</router-link>
-							<span  @click="each.isUnfolded=each.subs?!each.isUnfolded:each.isUnfolded"><i v-if="each.subs" class="iconfont icon-chevronright" :class="{unfold:each.isUnfolded}" style="color: grey"></i> </span>
+							<span  @click="each.isUnfolded=each.subs?!each.isUnfolded:each.isUnfolded"><i v-if="each.subs" class="iconfont icon-chevronright clearm" :class="{unfold:each.isUnfolded}" style="color: grey"></i> </span>
 							<ul v-if="each.subs" :class="{'is-collapsible':each.subs,'is-collapsed':!each.isUnfolded}">
 								<li v-for="sub in each.subs">
 									<router-link :to="sub.href"><i :class="sub.icon"></i> {{sub.des}}</router-link>
@@ -122,6 +119,10 @@
 			},
 			screenWidth(cur,pre){
         		if (cur > 1000 && this.isOpened) this.isOpened = false;
+			},
+			$route(cur,pre){
+        		if (this.isOpened)
+					this.isOpened = false;
 			}
 		},
         // mounted() {
@@ -154,7 +155,6 @@
 					this.searchKey = '';
 					this.isOpened = false;
 				}
-
 			}
 		}
     }
@@ -176,9 +176,9 @@
 		position: fixed;
 		top: 0;
 		width: 100%;
-		background: rgba(255,255,255,.8);
+		background: rgba(255,255,255,.9);
 		z-index: 1000;
-		transition: all .4s;
+		transition: .5s ease;
 		box-shadow: 0 .01rem .4rem -.08rem rgba(0,0,0,.5);
 		transform: translateY(-.75rem);
 	}
@@ -203,13 +203,15 @@
 			height: .67rem;
 			animation: fadeInLeft 1.5s;
 		}
+			.reachTop .site-brand a{
+				color: white;
+			}
 			.site-brand a{
-				color: #464646;
+				color: #666;
 				font-size: .2rem;
 				font-weight: 800;
 				line-height: .8rem;
 				margin: 0 .3rem;
-
 			}
 			.oshino{
 				padding-top: .13rem;
@@ -283,7 +285,7 @@
 					top: .42rem;
 					right: -.12rem;
 					padding: .1rem 0;
-					background: white;
+					background: #ffffffe0;
 					width: .8rem;
 					text-align: center;
 					border-radius: .06rem;
@@ -297,7 +299,7 @@
 					top: -.2rem;
 					left: 50%;
 					border: .1rem solid;
-					border-color: transparent transparent white transparent;
+					border-color: transparent transparent #ffffffe0 transparent;
 				}
 				.menu li:hover .sub-menu{
 					display: block;
@@ -382,15 +384,14 @@
 			.nav-icon.open span:nth-child(2){opacity: 0;transform: translateX(-.6rem);}
 			.nav-icon.open span:nth-child(3){top: .09rem;transform: rotate(-135deg)}
 		.nav-title{
-			height: .47rem;
-			display: inline-block;
-			line-height: .47rem;
 			font-size: .25rem;
+			line-height: .47rem;
 			font-weight: 600;
+			color: #4d4e56;
 		}
-			.nav-title a{
-				color: #464646;
-			}
+		.reachTop .nav-title{
+			color: white;
+		}
 		.nav-login{
 			position: relative;
 			margin-top: .1rem;
@@ -403,24 +404,43 @@
 		position: fixed;
 		top: .5rem;
 		bottom: 0;
-		width: 2.4rem;
+		transform: translateX(-2.2rem);
+		opacity: 0;
+		width: 2.2rem;
 		border-right: .01rem solid #ddd;
 		border-top: .01rem solid #ddd;
-		background: rgba(252,252,252,.9);
-		transition: .5s;
+		background: rgba(255,255,255,.9);
+		transition: .5s ease;
 		overflow-y: auto;
+	}
+	#mobile-app .nav-aside{
+		width: 2rem;
+		transform: translateX(-2rem);
 	}
 	.nav-aside::-webkit-scrollbar{
 		display: none;
 	}
-	.nav-aside.open{
-		transform: translateX(-2.4rem);
+	#mobile-app .nav-aside.open,.nav-aside.open{
+		transform: translateX(0);
+		opacity: 1;
 	}
+	#mobile-app .nav-aside .me-status{
+		right: .55rem;
+	}
+		.nav-aside .me-sign{
+			color: #8b8e99;
+			font-size: .12rem;
+			margin-top: .05rem;
+			padding: 0 .15rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 		.nav-aside .me-status{
 			display: block;
 			position: absolute;
 			bottom: .2rem;
-			right: .8rem;
+			right: .65rem;
 			font-size: .16rem;
 			border-radius: 50%;
 			height: .24rem;
@@ -459,44 +479,49 @@
 			padding: .1rem .15rem;
 		}
 			.search-box-m input{
-				font-size: .16rem;
+				font-size: .14rem;
+				line-height: .2rem;
 				width: 80%;
 			}
 			.search-box-m button{
 				vertical-align: top;
-				font-size: .18rem;
+				font-size: .2rem;
+				line-height: .2rem;
+				height: .2rem;
 			}
 		.nav-menu{
-			padding: 0.1rem;
+			font-size: .15rem;
+			text-align: left;
 		}
 			.nav-menu ul{
 				list-style-type: none;
+				font-size: .16rem;
 			}
 
-			.nav-menu p{font-size: .15rem;text-align: left;margin-bottom: .1rem}
+			.nav-menu p{margin-bottom: .1rem;padding: 0 .1rem}
 			.nav-menu span{
 				float: right;
-				height: .32rem;
 				width: 25%;
-				padding: .08rem 0;
 				text-align: center;
 			}
 			.nav-menu span i{transition: .3s ease-in-out;}
 			.nav-menu span i.unfold{transform: rotate(90deg);}
 			.nav-menu a{
 				display: inline-block;
-				padding: .06rem .35rem;
-				font-size: .16rem;
+				padding: 0 .3rem;
 				color: #42b983;
 				width: 75%;
-				text-align: left;
 			}
 			.nav-menu li li a{
 				width: 100%;
-				padding-left: .55rem;
+				padding-left: .5rem;
+			}
+			.nav-menu>li:first-child a{
+				width: 100%;
 			}
 			.nav-menu li{
-				transition: all 1s ease;
+				transition: .5s ease;
+				line-height: .35rem;
 			}
 			.nav-menu li:hover{
 				background: rgba(225,225,225,.8);

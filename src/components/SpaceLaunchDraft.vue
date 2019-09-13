@@ -1,7 +1,7 @@
 <template>
     <div>
 		<h2 class="draft-head">{{this.type==='note'?'笔记':'文章'}}草稿<router-link title="新写一篇" :to="this.type==='note'?'/takenote':'/write'"><i class="iconfont icon-addfriend"></i></router-link> </h2>
-		<div class="draft-content" :class="{empty:!drafts.length}" etext="什么草稿都没有，好干净！">
+		<div class="draft-content" :class="{empty:!draftExist}" etext="什么草稿都没有，好干净！">
 			<div class="waiting" id="anchor" v-show="draftWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
@@ -30,6 +30,7 @@
 					let data = response.data.data;
 					this.draftWaiting = false;
 					data.drafts.forEach(e=>this.drafts.push(e));
+					this.draftExist = Boolean(this.drafts.length);
 				}
 			}).catch(err=>console.warn(err))
 		},
@@ -37,6 +38,7 @@
         	return {
         		drafts:[],
 				draftWaiting:true,
+				draftExist:true
 			}
 		},
 		computed:{
@@ -48,20 +50,23 @@
         	dropDraft(draft){
         		if(window.confirm('确认舍弃该草稿？'))
 					post('/apis/auth/v2api.php',{token:this.token,type:this.type,id:draft.id}).then(response=>{
-						if (response.data.code < 1)
+						if (response.data.code < 1){
 							this.drafts.splice(this.drafts.indexOf(draft),1);
+							this.draftExist = Boolean(this.drafts.length);
+						}
 					}).catch(err=>console.warn(err))
 			}
 		},
 		watch:{
         	type(cur,pre){
-				this.draftWaiting = true;
+				this.draftExist = this.draftWaiting = true;
         		while(this.drafts.pop()){}
         		post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
         			if (response.data.code<1){
 						let data = response.data.data;
 						this.draftWaiting = false;
-						data.drafts.forEach(e=>{this.drafts.push(e)})
+						data.drafts.forEach(e=>{this.drafts.push(e)});
+						this.draftExist = Boolean(this.drafts.length);
 					}
 				}).catch(err=>console.warn(err))
 			}
