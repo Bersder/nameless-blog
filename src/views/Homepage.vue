@@ -266,6 +266,7 @@
 	}
 	.content-primary-h{
 		max-width: 6rem;
+		width: 100%;
 		margin: 0 auto;
 		float: left;
 		transition: .1s;

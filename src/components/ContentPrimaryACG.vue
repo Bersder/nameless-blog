@@ -8,7 +8,7 @@
 
 			</ul>
 		</div><!--文章排序待开发-->
-		<div class="article-list">
+		<div class="article-list" etext="如果你看到了这个，说明我在搬砖" :class="{empty:noContent}">
 
 			<panel v-for="article in curArts" :key="article.aid" :article="article"></panel>
 		</div>
@@ -40,6 +40,7 @@
 			fetch('/apis/apiv1.php?',{_:this.type}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
+				this.noContent = !Boolean(parseInt(data.artNum));
 				this.curArts = this.arts[0][1] = data.artsNew;
 				this.arts[1][1] = data.artsHot;
 				this.pageNum = Math.ceil(parseInt(data.artNum) / 6);
@@ -48,6 +49,7 @@
 		},
         data() {
             return {
+            	noContent:false,
 				pageNum:1,
 				curPage:1,
 				orderFlag:0,
@@ -160,7 +162,7 @@
 		border-left: 3px dashed transparent;
 		border-right: 3px dashed transparent;
 	}
-	.article-list,.trivial-list{
+	.article-list{
 		clear: both;
 	}
 	.paging-box{

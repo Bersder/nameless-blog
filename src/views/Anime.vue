@@ -246,12 +246,17 @@
 		display: none;
 	}
 }
-@media screen and (max-width: 1005px){
+@media screen and (max-width: 1005px){/*使用Code组件覆盖*/
 	.page-img{
 		height: 3rem;
 	}
 	.page-info .intro{
 		font-size: .3rem;
+	}
+}
+@media screen and (max-width: 800px) {/*使用Code组件覆盖*/
+	.page-img{
+		height: 2.5rem;
 	}
 }
 </style>

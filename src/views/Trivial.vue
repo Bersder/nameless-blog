@@ -20,7 +20,7 @@
 							<li :class="{'o-selected':orderFlag===1}" @click="orderFlag=1">按热度</li>
 						</ul>
 					</div><!--文章排序待开发-->
-					<div class="article-list">
+					<div class="article-list" etext="如果你看到了这个，说明我在搬砖" :class="{empty:noContent}">
 						<div class="panel-t tl" v-for="art in curArts" :key="art.aid">
 							<p class="pt-time"><i class="iconfont icon-time"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
@@ -97,6 +97,7 @@
 				data.artsNew.forEach(e=>{
 					this.curArts.push(e)
 				});
+				this.noContent = !Boolean(parseInt(data.artNum));
 				this.pageNum = Math.ceil(parseInt(data.artNum)/8);
 				if (!this.isMobile){
 					this.$store.commit('lbImgsC',data.album);
@@ -113,6 +114,7 @@
         data() {
             return {
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'随写',description:''},
+				noContent:false,
 				pageNum:1,
 				curPage:1,
 				orderFlag:0,
@@ -510,12 +512,17 @@
 		display: none;
 	}
 }
-@media screen and (max-width: 1005px){
+@media screen and (max-width: 1005px){/*使用Code组件覆盖*/
 	.page-img{
 		height: 3rem;
 	}
 	.page-info .intro{
 		font-size: .3rem;
+	}
+}
+@media screen and (max-width: 800px) {/*使用Code组件覆盖*/
+	.page-img{
+		height: 2.5rem;
 	}
 }
 </style>

@@ -285,4 +285,9 @@
 		font-size: .3rem;
 	}
 }
+@media screen and (max-width: 800px) {
+	.page-img{
+		height: 2.5rem;
+	}
+}
 </style>

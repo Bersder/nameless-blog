@@ -16,7 +16,7 @@
 		  </div>
 	  </transition>
 	  <!--回到顶部-->
-	  <a class="back2top" :class="{visible:scrollTop>500&&!/takenote|write/.test($route.name)}" target="_self" @click="back2top"><img src="/root/site/images/back2top4.png" width="100"></a>
+	  <a class="back2top" :class="{visible:scrollTop>500&&!/takenote|write/.test($route.name)}" target="_self" @click="back2top"><img :src="back2topImg" width="100"></a>
 	  <!--控制按钮-->
 	  <aside class="ctrl-panel" :class="{visible:scrollTop>100&&!/takenote|write/.test($route.name)}" @click="setPanelShow=!setPanelShow"><span>SETTING | <i class="iconfont icon-gear clearm"></i></span></aside>
 	  <!--设置面板-->
@@ -69,7 +69,7 @@ export default {
 			fontFamily:0,
 			darken:0,
 			blocking:0,
-			randNum:0,//随机数用于获取随机背景
+			back2topImg:''
 		}
 	},
 	created(){
@@ -79,7 +79,7 @@ export default {
 				this.$store.commit('platformInit',{platform:agents[i],isMobile:true});
 				break;
 			}
-		this.randNum = randInt(1,6);
+		this.back2topImg = "/root/site/images/back2top"+randInt(1,5)+".png";
 		if (window.localStorage.getItem('BB3000_token')){//尝试自动登录
 			let token = window.localStorage.getItem('BB3000_token');
 			post('/apis/auth/aLogin.php',{token:token}).then(response=>{
@@ -329,10 +329,10 @@ export default {
 		}
 	.back2top{
 		position: fixed;
-		transform: translate(1.3rem,0);
+		transform: translate(1.1rem,0);
 		font-size: 0;
 		bottom: .4rem;
-		right: .2rem;
+		right: .05rem;
 		z-index: 1900;
 		cursor: pointer;
 		user-select: none;
@@ -692,6 +692,22 @@ export default {
 		padding: .1rem .2rem;
 		border: .01rem dashed #e2e2e2;
 		color: #939393;
+	}
+	.article-list.empty:before{ /*用于acgt空页面*/
+		background-image: url(/root/site/static/noart.png);
+		content:attr(etext);
+		display: block;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: auto 80%;
+		color: #1e1e1e;
+		opacity: .6;
+		font-size: .2rem;
+		font-weight: 600;
+		height: 4rem;
+		line-height: 7.2rem;
+		width: 100%;
+		overflow: hidden;
 	}
 
 /*-----------------------------------------供spaceAlbumAlbumU和spaceDynamic、space使用*/

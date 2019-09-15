@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div class="page-content-wrap">
-			<div class="page-content" style="padding: .2rem .1rem">
+			<div class="page-content" style="padding: .1rem">
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
@@ -175,7 +175,7 @@
 	}
 	/*-----------------------------------------------*/
 	.tag-cloud h2{
-		margin: .2rem 0 .1rem 0;
+		margin: .1rem 0;
 	}
 	.tag-cloud h4{
 		margin: .1rem 0;
@@ -322,6 +322,11 @@
 	}
 	.page-info .intro{
 		font-size: .3rem;
+	}
+}
+@media screen and (max-width: 800px) {/*使用Code组件覆盖*/
+	.page-img{
+		height: 2.5rem;
 	}
 }
 </style>
