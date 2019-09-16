@@ -179,7 +179,7 @@
 			background: white;
 		}
 		.search-box input:focus{
-			color: #2c3e50;
+			color: #1e1e1e;
 		}
 	.search-header{
 		margin: .3rem 0;
@@ -211,7 +211,7 @@
 			padding: .1rem 0;
 		}
 		.search-404 a:hover{
-			color: #FF7D7D;
+			color: #00a1d6;
 		}
 
 

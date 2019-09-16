@@ -272,7 +272,7 @@
 		outline: none;
 	}
 	.upload-info .description-input:focus{
-		color: #2c3e50;
+		color: #1e1e1e;
 	}
 
 

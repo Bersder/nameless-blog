@@ -211,8 +211,9 @@
 	}
 	/*-----------------------------------------------*/
 	/*-------------------------------------------借用Archive样式*/
-		.tag-cloud h2{
+		.tag-cloud h2,.tag-query-result h2{
 			margin: .1rem 0;
+			font-size: .2rem;
 		}
 		.tag-cloud h4{
 			margin: .1rem 0;

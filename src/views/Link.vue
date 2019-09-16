@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="page-content-wrap">
-			<div class="page-content">
+			<div class="page-content link">
 				<div class="link-description tl">
 					<h2>壹 · 关于友链</h2>
 					<p>作为半个肥宅 + 半个技术宅，每访问一个船新的博客，我总会不自觉地去点开 关于&链接，想着会不会又见到一个技术dalao或者和我志趣相投的人。这是一种非常神奇的体验，遇到同类、发现新事物让我欣喜雀跃（或许也只是我的怪癖而已）。<br><br>不管怎样，现在拥有了自己博客之后，我也能参与到这条链的传递当中了，请多多指教</p>
@@ -118,6 +118,9 @@
 </script>
 
 <style scoped>
+	.page-content.link{
+		overflow: hidden;
+	}
 	/*-----------------------------------------------暂时重复 请使用article组件覆盖*/
 	.page-content{
 		max-width: 8rem;
@@ -167,9 +170,6 @@
 		font-size: .2rem;
 	}
 	/*-----------------------------------------------*/
-	.link-description{
-		padding: .2rem;
-	}
 	.link-description h2{
 		font-size: .2rem;
 		letter-spacing: .02cm;
@@ -225,7 +225,6 @@
 				}
 					.friend-list ul li a{
 						display: block;
-						color: #2c3e50;
 						height: .9rem;
 						padding: 0 .1rem 0 .9rem;
 						text-align: left;

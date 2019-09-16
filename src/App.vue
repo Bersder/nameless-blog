@@ -604,11 +604,12 @@ export default {
 		width: 100%;
 	}
 	#app,#mobile-app {
-	    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	    font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","WenQuanYi Micro Hei",sans-serif;
 	    -webkit-font-smoothing: antialiased;
 	    -moz-osx-font-smoothing: grayscale;
 	    text-align: center;
-	    color: #2c3e50;
+	    color: #1e1e1e;
+	    /*color: #2c3e50;*/
 		font-size: .16rem;
 		background: #f1f4f7;/*测试*/
 	}

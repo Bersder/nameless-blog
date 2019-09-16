@@ -26,3 +26,10 @@
 - [X] 在移动端下Note、Tag、Link页头图片高度调小，移动端Tag页面头部字体大小调小
 - [X] About,Link部分样式和CommentModule合并
 - [X] Note、Tag页面的列表css优化
+
+### Fix04
+- [X] search页面随机推荐字体颜色更改
+- [X] Tag-cloud的title和随机推荐的title字体大小减小
+- [X] topNav 配色更改
+- [X] Link、About页面margin调整
+- [X] 全局字体颜色更改为#1e1e1e

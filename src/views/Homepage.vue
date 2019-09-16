@@ -540,7 +540,7 @@
 	}
 		.update-content li:before{
 			content: '❁';
-			color: #ff6052;
+			color: #5abebc;
 			margin-right: .05rem;
 		}
 

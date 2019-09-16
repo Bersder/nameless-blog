@@ -166,7 +166,7 @@
 		}
 			.fexchange-content i{
 				width: .6rem;
-				color: #2c3e50;
+				color: #1e1e1e;
 			}
 			.fexchange-content p{
 				color: #afafaf;

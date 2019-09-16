@@ -165,7 +165,7 @@
 		}
 		.login input:focus{
 			border-color: #00a1d6;
-			color: #2c3e50;
+			color: #1e1e1e;
 		}
 			.login .remember span{
 				float: right;

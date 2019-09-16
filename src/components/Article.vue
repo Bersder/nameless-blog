@@ -633,7 +633,6 @@
 			a.toc-link{
 				display: inline-block;
 				font-size: .15rem;
-				color: #2c3e50;
 			}
 			.is-active-link{
 				font-weight: bold;

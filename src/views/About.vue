@@ -124,10 +124,12 @@
 		margin: 0 auto;
 		/*background: rgba(55,55,55,.5);*/
 	}
+	.page-content.about{
+		padding: .2rem .1rem;
+		overflow: hidden;
+	}
 	.content-area{
-		padding: .5rem 0;
 		animation: fadeIn 2s ;
-		color: #1e1e1e;
 	}
 	.about-post{
 		margin-bottom: .25rem;

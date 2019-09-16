@@ -191,7 +191,7 @@
 	}
 	.header-scrollbar{
 		height: .03rem;
-		background: orange;
+		background: #5abebc;
 		transition: 1s ease-in-out;
 	}
 	.header-nav{
@@ -222,11 +222,11 @@
 				border-radius: .05rem;
 			}
 			.site-brand a:hover .oshino{
-				color: goldenrod;
+				color: #5abebc;
 			}
 			.site-brand a:hover .nyanya{
 				color: white;
-				background: goldenrod;
+				background: #5abebc;
 			}
 		.snh{
 			position: absolute;
@@ -260,7 +260,7 @@
 						bottom: -.14rem;
 						height: .05rem;
 						width: 0;
-						background: goldenrod;
+						background: #5abebc;
 						transition: width .5s ease-in-out;
 					}
 					.menu>li>a:hover:after{
@@ -276,7 +276,7 @@
 					display: inline-block;
 				}
 				.menu li a:hover{
-					color: goldenrod;
+					color: #5abebc;
 				}
 				.sub-menu{
 					display: none;
@@ -330,7 +330,7 @@
 				color: #425066;
 				width: 2rem;
 				padding: .07rem .07rem .07rem .3rem;
-				border-color: #00a1d6;
+				border-color: #5abebc;
 			}
 	.animated:hover .spin{
 		animation: spin 2s linear infinite forwards;
