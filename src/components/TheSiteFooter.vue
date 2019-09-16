@@ -13,7 +13,7 @@
 				<div class="foot-block2">
 					<span>朝循以始 夜继以终</span>
 					<p>· 单身为狗 20 年</p>
-					<p><a href="mailto:B1747322151@outlook.com">· oshinoNya@outlook.com</a></p>
+					<p><a href="mailto:oshinoNya@outlook.com">· oshinoNya@outlook.com</a></p>
 				</div>
 				<div class="foot-support">
 					<a href="https://www.vultr.com/?ref=7572602" target="_blank" rel="nofollow" >

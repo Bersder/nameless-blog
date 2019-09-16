@@ -4,13 +4,13 @@
 			<div class="pattern-full-width page-header">
 				<div class="page-img" style="background-image: url('/root/site/header/tag.jpg')"></div>
 				<div class="page-info">
-					<h2 class="intro" style="font-weight: 500">{{tag404|headerIntro($route.params.tag)}}</h2>
-					<p class="tsukkomi">{{tag404|headerTsukkomi($route.params.tag,curList.length)}}</p>
+					<h2 class="intro tag">{{tag404|headerIntro($route.params.tag)}}</h2>
+					<p class="tsukkomi tag">{{tag404|headerTsukkomi($route.params.tag,curList.length)}}</p>
 				</div>
 			</div>
 		</div>
 		<div class="page-content-wrap">
-			<div class="page-content">
+			<div class="page-content tag">
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
@@ -165,6 +165,10 @@
 		margin: 0 auto;
 		background: snow;
 	}
+	.page-content.tag{
+		overflow: hidden;
+		padding: .1rem;
+	}
 	.pattern-full-width{ /*使用Code组件覆盖*/
 		position: relative;
 		width: 100%;
@@ -282,7 +286,7 @@
 		.category-list-item .item-num,.tag-query-result ul li .item-type{
 			display: inline-block;
 			vertical-align: top;
-			font-size: .14rem;
+			font-size: .12rem;
 			margin-right: .05rem;
 			padding:  0 .05rem;
 			border-radius: .1rem;
@@ -293,11 +297,10 @@
 		}
 		.category-list-item .item-name,.tag-query-result ul li .item-name{
 			display: inline-block;
-			max-width: 60%;
-
+			max-width: 65%;
 		}
 		.item-name .item-link{
-			font-size: .16rem;
+			font-size: .15rem;
 			margin-right: .1rem;
 			transition: .5s;
 		}
@@ -306,8 +309,6 @@
 			font-size: .12rem;
 			background: #eaeaea;
 			padding: 0 .05rem;
-			line-height: .18rem;
-			vertical-align: top;
 			border-radius: .1rem;
 			margin-right: .05rem;
 		}
@@ -335,12 +336,21 @@
 		.not-find a{
 			color: #888888;
 		}
-@media screen and (max-width: 1005px){/*使用Code组件覆盖*/
+@media screen and (max-width: 1005px){
 	.page-img{
 		height: 3rem;
 	}
-	.page-info .intro{
-		font-size: .3rem;
+	.page-info .intro.tag{/*下面两个和Code组件合并*/
+		font-size: .2rem;
+		font-weight: bold;
+	}
+	.page-info .tsukkomi.tag{
+		font-size: .16rem;
+	}
+}
+@media screen and (max-width: 800px) {/*使用Code组件覆盖*/
+	.page-img{
+		height: 2.5rem;
 	}
 }
 </style>

@@ -419,12 +419,12 @@
 		position: relative;
 		height: .4rem;
 		width: 1.2rem;
-		margin: .2rem auto 0;
+		margin: .2rem auto;
 		cursor: pointer;
 	}
 		.previous-more{
 			position: relative;
-			color: #00a1d6;
+			color: #5abebc;
 			text-shadow: 0 .01rem .01rem #00a1d6;
 			line-height: .4rem;
 			background: rgba(255,255,255,.8);
@@ -460,7 +460,7 @@
 			width: 1.2rem;
 			top: .05rem;
 			left: .05rem;
-			border: .02rem solid pink;
+			border: .02rem solid #5abebc;
 			transition: .25s ease-out;
 		}
 		.pager:hover .dec{

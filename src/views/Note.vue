@@ -275,7 +275,7 @@
 			.category-list-item .item-num,.tag-query-result ul li .item-type{
 				display: inline-block;
 				vertical-align: top;
-				font-size: .14rem;
+				font-size: .12rem;
 				margin-right: .05rem;
 				padding:  0 .05rem;
 				border-radius: .1rem;
@@ -286,11 +286,10 @@
 			}
 			.category-list-item .item-name,.tag-query-result ul li .item-name{
 				display: inline-block;
-				max-width: 60%;
-
+				max-width: 65%;
 			}
 				.item-name .item-link{
-					font-size: .16rem;
+					font-size: .15rem;
 					margin-right: .1rem;
 					transition: .5s;
 				}
@@ -299,8 +298,6 @@
 					font-size: .12rem;
 					background: #eaeaea;
 					padding: 0 .05rem;
-					line-height: .18rem;
-					vertical-align: top;
 					border-radius: .1rem;
 					margin-right: .05rem;
 				}
@@ -322,14 +319,10 @@
 
 	.note-list{
 		overflow: hidden;
-		padding-top: .1rem;
 		position: relative;
 	}
 	.note-list>div,.list-container>div{
 		animation: mini-fadeInDown 1s cubic-bezier(.25,.46,.45,.94) forwards;
-	}
-	#mobile-app .panel-n-wrap{
-		padding: .1rem 0;
 	}
 	.panel-n-wrap{
 		display: inline-block;
@@ -424,14 +417,14 @@
 		position: relative;
 		height: .4rem;
 		width: 1.2rem;
-		margin: .2rem auto 0;
+		margin: .2rem auto;
 		cursor: pointer;
 		text-align: center;
 		clear: both;
 	}
 		.previous-more{
 			position: relative;
-			color: #00a1d6;
+			color: #5abebc;
 			text-shadow: 0 .01rem .01rem #00a1d6;
 			line-height: .4rem;
 			background: rgba(255,255,255,.8);
@@ -467,7 +460,7 @@
 			width: 1.2rem;
 			top: .05rem;
 			left: .05rem;
-			border: .02rem solid pink;
+			border: .02rem solid #5abebc;
 			transition: .25s ease-out;
 		}
 		.pager:hover .dec{
@@ -487,6 +480,11 @@
 	}
 	.page-info .intro{
 		font-size: .3rem;
+	}
+}
+@media screen and (max-width: 800px) {/*使用Code组件覆盖*/
+	.page-img{
+		height: 2.5rem;
 	}
 }
 @media screen and (max-width: 550px) {

@@ -24,7 +24,7 @@
 						<li>第一点是硬性要求，不满足直接否决</li>
 					</ul>
 					<h2>叁 · 交易方式</h2>
-					<p>通过评论 or 邮箱留下 <strong>名称，链接，简介，头像</strong> 即可如</p>
+					<p>通过评论 OR <a href="mailto:oshinoNya@outlook.com">邮箱</a>留下 <strong>名称，链接，简介，头像</strong> 即可如</p>
 					<blockquote>
 						<p>Name：忍野喵<br>Link：https://www.bilibili.com<br>Bio：今天喝了典明粥了吗<br>Avatar：https://www.bilibili.com</p>
 					</blockquote>
@@ -279,6 +279,11 @@
 	}
 	.page-info .intro{
 		font-size: .3rem;
+	}
+}
+@media screen and (max-width: 800px) {/*使用Code组件覆盖*/
+	.page-img{
+		height: 2.5rem;
 	}
 }
 </style>

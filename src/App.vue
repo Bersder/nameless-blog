@@ -458,14 +458,14 @@ export default {
 
 
 
-	.comment-content a{
+	.comment-content a,.about-post a,.link-description a{
 		color: #5abebc;
 		position: relative;
 	}
-	.comment-content a:hover{
+	.comment-content a:hover,.about-post a:hover,.link-description a:hover{
 		color: #00a1d6;
 	}
-	.comment-content a:after{
+	.comment-content a:after,.about-post a:after,.link-description a:after{
 		content: '';
 		position: absolute;
 		width: 100%;
@@ -477,17 +477,17 @@ export default {
 		transform-origin: bottom right;
 		transition: transform .3s ease-in-out;
 	}
-	.comment-content a:hover:after{
+	.comment-content a:hover:after,.about-post a:hover:after,.link-description a:hover:after{
 		transform: scaleX(1);
 		transform-origin: bottom left;
 	}
-	.comment-content del{
+	.comment-content del,.about-post del{
 		background: #1e1e1e;
 		color: #1e1e1e;
 		transition: .3s ease;
 		text-decoration: none;
 	}
-	.comment-content del:hover{
+	.comment-content del:hover,.about-post del:hover{
 		color: white;
 	}
 	.comment-content p code{

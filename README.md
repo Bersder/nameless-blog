@@ -19,3 +19,10 @@
 - [X] homepage修服无内容时没占满宽度的问题
 - [X] 在移动端下ACGT等页头图片高度调小，ACGT页面空时，显示空信息
 - [X] back2top图片随机化
+
+### Fix03
+- [X] Note页面移动端css优化，取消贴边
+- [X] .pager 配色、margin更改
+- [X] 在移动端下Note、Tag、Link页头图片高度调小，移动端Tag页面头部字体大小调小
+- [X] About,Link部分样式和CommentModule合并
+- [X] Note、Tag页面的列表css优化

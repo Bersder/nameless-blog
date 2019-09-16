@@ -136,24 +136,10 @@
 		.about-post time{
 			font-weight: 600;
 		}
-		.about-post a{
-			color: #00a1d6;
-		}
-		.about-post a:hover{
-			color: #5abebc;
-		}
 		.about-post code{
 			background: #b8c0cc30;
 			border-radius: .03rem;
 			padding: .02rem;
-		}
-		.about-post del{
-			text-decoration: none;
-			background: #1e1e1e;
-			transition: .3s ease;
-		}
-		.about-post del:hover{
-			color: white;
 		}
 		.about-post rt{
 			background: #b8c0cc30;
