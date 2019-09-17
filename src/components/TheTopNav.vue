@@ -439,7 +439,7 @@
 		.nav-aside .me-status{
 			display: block;
 			position: absolute;
-			bottom: .2rem;
+			bottom: .15rem;
 			right: .65rem;
 			font-size: .16rem;
 			border-radius: 50%;
@@ -457,6 +457,7 @@
 		}
 		.nav-avatar{
 			padding: .15rem .2rem;
+			font-size: 0;
 			position: relative;
 		}
 			.nav-avatar a{
@@ -475,7 +476,7 @@
 					width: 100%;
 				}
 		.search-box-m{
-			margin: .2rem 0;
+			margin: .1rem 0;
 			padding: .1rem .15rem;
 		}
 			.search-box-m input{
@@ -498,7 +499,7 @@
 				font-size: .16rem;
 			}
 
-			.nav-menu p{margin-bottom: .1rem;padding: 0 .1rem}
+			.nav-menu p{padding: 0 .1rem}
 			.nav-menu span{
 				float: right;
 				width: 25%;

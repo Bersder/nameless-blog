@@ -155,6 +155,7 @@
 	}
 	.content-primary-s{
 		padding: 1rem 0 .5rem 0;
+		min-height: 6.3rem;
 	}
 	/*------------------------------------------------*/
 	.search-box{

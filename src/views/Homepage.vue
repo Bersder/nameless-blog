@@ -252,7 +252,9 @@
 	}
 	/*-----------------------------------------------*/
 
-
+	#mobile-app .page-content.homepage{
+		min-height: 5rem;
+	}
 	.page-content.homepage{
 		max-width: 9.3rem;
 		min-height: 9rem;

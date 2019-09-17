@@ -35,7 +35,7 @@
 				  </div>
 			  </section>
 			  <section class="links">
-				  <router-link to="/login" title="Sign In">ᛁ</router-link>
+				  <router-link to="/login" title="Sign In" v-if="!loginStatus">ᛁ</router-link>
 				  <a href="javascript:void(0);" @click="signOut" title="Sign Out" v-if="loginStatus">ᛟ</a>
 				  <a target="_blank" href="https://github.com/Bersder" title="Github"><i class="iconfont icon-github"></i></a>
 				  <a target="_blank" href="https://space.bilibili.com/13351138" title="Bilibili"><i class="iconfont icon-bilibili"></i></a>
@@ -116,6 +116,10 @@ export default {
 		},
 		loginStatus(cur,pre){
 			this.$router.options.routes[1].meta.loginStatus = this.$router.options.routes[2].meta.loginStatus = cur;
+			if (!cur&&/^space.*/.test(this.$route.name)){//当在个人空间进行注销时，退出个人空间返回主页
+				this.$router.push({name:'homepage'});
+				window.scrollTo(0,0);
+			}
 		},
 		scrollTop(cur,pre){
 			//全局图片懒加载监听

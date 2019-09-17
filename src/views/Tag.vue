@@ -344,17 +344,28 @@
 	.page-img{
 		height: 3rem;
 	}
-	.page-info .intro.tag{/*下面两个和Code组件合并*/
+	.page-info .intro.tag{/*下面三个和Code组件合并*/
 		font-size: .2rem;
 		font-weight: bold;
 	}
 	.page-info .tsukkomi.tag{
 		font-size: .16rem;
 	}
+	.page-content.tag{ /*tag特有*/
+		min-height: 4.9rem;
+	}
 }
 @media screen and (max-width: 800px) {/*使用Code组件覆盖*/
 	.page-img{
 		height: 2.5rem;
+	}
+	.page-content.tag{ /*tag特有*/
+		min-height: 5.4rem;
+	}
+}
+@media screen and (max-width: 550px) {
+	.page-content.tag{ /*tag特有*/
+		min-height: 3.9rem;
 	}
 }
 </style>

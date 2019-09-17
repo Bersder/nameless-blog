@@ -523,17 +523,25 @@
 	.page-info .intro{
 		font-size: .3rem;
 	}
+	.page-content.note{ /*note特有*/
+		padding: 0;
+		min-height: 4.9rem;
+	}
 }
 @media screen and (max-width: 800px) {/*使用Code组件覆盖*/
 	.page-img{
 		height: 2.5rem;
 	}
+	.page-content.note{ /*note特有*/
+		min-height: 5.4rem;
+	}
 }
 @media screen and (max-width: 550px) {
 	.page-content.note{ /*note特有*/
-		padding: 0;
+		/*padding: 0;*/
+		min-height: 3.9rem;
 	}
-	.panel-n-wrap{
+	.panel-n-wrap{/*note特有*/
 		width: 100%;
 	}
 

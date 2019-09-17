@@ -52,6 +52,7 @@
 		padding: .15rem .2rem;
 		width: 100%;
 		background: rgba(255,255,255,0.8);
+		box-shadow: 0 -.01rem .05rem #1e1e1e20;
 		animation: holdFadeIn 2s linear forwards;
 	}
 	.site-info{

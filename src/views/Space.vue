@@ -100,12 +100,24 @@
 			})
 		},
 		created(){
-			post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
-				let info = response.data.data.info;
-				this.signature = info.sign;
-				this.status = parseInt(info.status);
-				this.memo = info.memo
-			}).catch(err=>console.warn(err))
+        	if (this.isMobile){
+        		if (window.confirm('个人空间并没适配移动端，是否进入?'))
+					post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+						let info = response.data.data.info;
+						this.signature = info.sign;
+						this.status = parseInt(info.status);
+						this.memo = info.memo
+					}).catch(err=>console.warn(err));
+				else
+					this.$router.push({name:'homepage'})
+			}
+        	else
+				post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					let info = response.data.data.info;
+					this.signature = info.sign;
+					this.status = parseInt(info.status);
+					this.memo = info.memo
+				}).catch(err=>console.warn(err))
 		},
 		data(){
         	return{
