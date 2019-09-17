@@ -573,6 +573,12 @@ export default {
 		transform: translateX(-50%);
 		z-index: 2000;
 	}
+	.info-box h4{
+		white-space: nowrap;
+	}
+	#mobile-app .paging-box .pb-original{
+		margin: 0;
+	}
 
 	/*测试*/
 	.site-wrapper{

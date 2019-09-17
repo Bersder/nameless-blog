@@ -33,3 +33,11 @@
 - [X] topNav 配色更改
 - [X] Link、About页面margin调整
 - [X] 全局字体颜色更改为#1e1e1e
+
+### Fix05
+- [X] Tag页面结果列表margin调整
+- [X] CommentModule 等待过渡动画位置摆正
+- [X] Search页面搜索栏常驻，并允许点击搜索图标;设置搜索冲突（上次搜索结果未来之前不允许下次搜索）
+- [X] 修复移动端下info-box内容会换行导致缺失的问题（white-space不允许换行）
+- [X] ACGT页面及Note页面增加等待过渡动画
+

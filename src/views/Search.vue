@@ -3,8 +3,8 @@
 		<div class="page-content-wrap">
 			<div class="page-content">
 				<div class="content-primary-s">
-					<div class="search-box" v-if="!searchFound">
-						<i class="iconfont icon-search"></i>
+					<div class="search-box">
+						<i class="iconfont icon-search" @click="postSearch"></i>
 						<input type="search" v-model.trim="searchKey" @keyup.enter="postSearch" name="s" placeholder="搜些其他东西?">
 					</div>
 					<header class="search-header">
@@ -111,9 +111,13 @@
 		},
        	methods:{
         	postSearch(){
-				if (this.searchKey){
-					this.$router.push({name:'search',params:{key:this.searchKey}});
-					this.searchKey = '';
+        		if (this.searchKey){
+					if (!this.searchWaiting){
+						this.$router.push({name:'search',params:{key:this.searchKey}});
+						this.searchKey = '';
+					}
+					else
+						this.$store.commit('infoBox/callInfoBox',{info:'操作频繁，请稍等', ok:false, during:2000});
 				}
 			},
 			loadMore(){
@@ -164,6 +168,7 @@
 			color: darkgrey;
 			top: 50%;
 			transform: translate(0,-50%);
+			cursor: pointer;
 		}
 		.search-box input{
 			outline: none;
@@ -182,7 +187,7 @@
 			color: #1e1e1e;
 		}
 	.search-header{
-		margin: .3rem 0;
+		margin: .2rem 0;
 		color: #6d757a;
 	}
 		.search-header h1{

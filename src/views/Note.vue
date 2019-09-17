@@ -16,6 +16,13 @@
 					<div class="note-sort-options">
 						<span class="nso-l" :class="{'nso-selected':!rSelected}" @click="rSelected=false">日期降序</span><span class="nso-r" :class="{'nso-selected':rSelected}" @click="rSelected=true">分类归类</span>
 					</div>
+					<div class="waiting" id="anchor" v-show="noteWaiting">
+						<div class="rect1"></div>
+						<div class="rect2"></div>
+						<div class="rect3"></div>
+						<div class="rect4"></div>
+						<div class="rect5"></div>
+					</div>
 					<div class="list-container tl" v-show="rSelected">
 						<div class="category-list" v-for="(item,key,index) in catMap" :key="index">
 							<div class="category-title">
@@ -64,7 +71,7 @@
 								<span>More</span>
 							</div>
 						</div>
-						<div class="pager-no-more" v-if="curNotes.length>=noteNum">没有更多啦( *・ω・)✄╰ひ╯</div>
+						<div class="pager-no-more" v-if="curNotes.length>=noteNum&&!noteWaiting">没有更多啦( *・ω・)✄╰ひ╯</div>
 
 					</div>
 
@@ -85,6 +92,7 @@
 			fetch('/apis/apiv1.php',{_:'note'}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
+				this.noteWaiting = false;
 				this.headerInfo = data.headerInfo;
 				this.catMap = data.catMap;
 				// this.catKey = Object.keys(this.catMap);
@@ -107,6 +115,7 @@
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'笔记',description:''},
             	catMap:null,
 				// catKey:[],
+				noteWaiting:true,
 				noteNum:0,
 				// catCount:{},
 				rSelected:false,
@@ -263,14 +272,18 @@
 				color: #bbbbbb;
 				font-size: .12rem;
 			}
-		#mobile-app .category-list-item,.tag-query-result ul li{
+		#mobile-app .category-list .category-list-item{
 			margin: 0 .1rem;
+		}
+		#mobile-app .tag-query-result ul li{
+			margin: 0;
 		}
 		.category-list .category-list-item,.tag-query-result ul li{
 			margin: 0 .5rem;
 			padding: .1rem 0;
 			line-height: .2rem;
 			border-bottom: .01rem dotted #eaeaea;
+			animation: mini-fadeInDown 1s cubic-bezier(.25,.46,.45,.94) forwards;
 		}
 			.category-list-item .item-num,.tag-query-result ul li .item-type{
 				display: inline-block;
@@ -473,6 +486,35 @@
 		text-align: center;
 		padding: .1rem;
 		clear: both;
+	}
+
+	/*下面使用commentModule样式*/
+	.waiting{
+		margin: 0 auto;
+		text-align: center;
+		height: 2.35rem;
+		padding: 1rem 0;
+		width: .5rem;
+		font-size: .1rem;
+	}
+	.waiting>div{
+		display: inline-block;
+		height: 100%;
+		width: .05rem;
+		background: #00a1d6;
+		animation: stretchdelay 1.2s infinite ease-in-out;
+	}
+	.waiting .rect2{
+		animation-delay: -1.1s;
+	}
+	.waiting .rect3{
+		animation-delay: -1s
+	}
+	.waiting .rect4{
+		animation-delay: -.9s;
+	}
+	.waiting .rect5{
+		animation-delay: -.8s;
 	}
 @media screen and (max-width: 1005px){/*使用Code组件覆盖*/
 	.page-img{

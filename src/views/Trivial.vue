@@ -21,6 +21,13 @@
 						</ul>
 					</div><!--文章排序待开发-->
 					<div class="article-list" etext="如果你看到了这个，说明我在搬砖" :class="{empty:noContent}">
+						<div class="waiting" id="anchor" v-show="artWaiting">
+							<div class="rect1"></div>
+							<div class="rect2"></div>
+							<div class="rect3"></div>
+							<div class="rect4"></div>
+							<div class="rect5"></div>
+						</div>
 						<div class="panel-t tl" v-for="art in curArts" :key="art.aid">
 							<p class="pt-time"><i class="iconfont icon-time"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
@@ -97,6 +104,7 @@
 				data.artsNew.forEach(e=>{
 					this.curArts.push(e)
 				});
+				this.artWaiting = false;
 				this.noContent = !Boolean(parseInt(data.artNum));
 				this.pageNum = Math.ceil(parseInt(data.artNum)/8);
 				if (!this.isMobile){
@@ -114,6 +122,7 @@
         data() {
             return {
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'随写',description:''},
+				artWaiting:true,
 				noContent:false,
 				pageNum:1,
 				curPage:1,
@@ -165,9 +174,11 @@
 					setTimeout(()=>this.$store.commit('lazyCheck'),100);
 				}
 				else{
+					while (this.curArts.pop()){}
+					this.artWaiting = true;
 					fetch('/apis/apiv2.php',{_:'trivial',pn:cur,order:this.orderFlag}).then(response=>{
 						this.$set(this.arts[this.orderFlag],cur,response.data.data.arts);
-						this.curArts.length = 0;
+						this.artWaiting = false;
 						this.arts[this.orderFlag][cur].forEach(e=>this.curArts.push(e));
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					})
@@ -288,7 +299,10 @@
 		border-left: .03rem dashed transparent;
 		border-right: .03rem dashed transparent;
 	}
-
+	.article-list{
+		clear: both;
+		min-height: 4rem;
+	}
 		.panel-t{
 			border-radius: .03rem;
 			box-shadow: 0 .01rem .02rem rgba(0,0,0,0.15), 0 .02rem .04rem rgba(0,0,0,0.10);
@@ -503,7 +517,34 @@
 			color: #c5ccd3;
 			font-size: .12rem;
 		}
-
+	/*下面使用commentModule样式*/
+	.waiting{
+		margin: 0 auto;
+		text-align: center;
+		height: 2.35rem;
+		padding: 1rem 0;
+		width: .5rem;
+		font-size: .1rem;
+	}
+	.waiting>div{
+		display: inline-block;
+		height: 100%;
+		width: .05rem;
+		background: #00a1d6;
+		animation: stretchdelay 1.2s infinite ease-in-out;
+	}
+	.waiting .rect2{
+		animation-delay: -1.1s;
+	}
+	.waiting .rect3{
+		animation-delay: -1s
+	}
+	.waiting .rect4{
+		animation-delay: -.9s;
+	}
+	.waiting .rect5{
+		animation-delay: -.8s;
+	}
 @media screen and (max-width: 1050px) {
 	.content-primary{
 		float: none;

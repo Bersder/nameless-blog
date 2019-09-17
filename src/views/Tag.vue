@@ -274,8 +274,11 @@
 		list-style-type: none;
 	}
 	/*----------------------------------------------借用Note样式*/
-		#mobile-app .category-list-item,.tag-query-result ul li{
-			margin: 0 .1rem !important;
+		#mobile-app .category-list .category-list-item{
+			margin: 0 .1rem;
+		}
+		#mobile-app .tag-query-result ul li{
+			margin: 0;
 		}
 		.category-list .category-list-item,.tag-query-result ul li{
 			margin: 0 .5rem;

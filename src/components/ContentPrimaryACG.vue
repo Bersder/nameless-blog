@@ -9,7 +9,13 @@
 			</ul>
 		</div><!--文章排序待开发-->
 		<div class="article-list" etext="如果你看到了这个，说明我在搬砖" :class="{empty:noContent}">
-
+			<div class="waiting" id="anchor" v-show="artWaiting">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
 			<panel v-for="article in curArts" :key="article.aid" :article="article"></panel>
 		</div>
 		<div class="paging-box" v-if="pageNum>1">
@@ -40,6 +46,7 @@
 			fetch('/apis/apiv1.php?',{_:this.type}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
+				this.artWaiting = false;
 				this.noContent = !Boolean(parseInt(data.artNum));
 				this.curArts = this.arts[0][1] = data.artsNew;
 				this.arts[1][1] = data.artsHot;
@@ -49,6 +56,7 @@
 		},
         data() {
             return {
+            	artWaiting:true,
             	noContent:false,
 				pageNum:1,
 				curPage:1,
@@ -74,7 +82,10 @@
 					setTimeout(()=>this.$store.commit('lazyCheck'),100);
 				}
         		else{
+        			this.curArts = [];
+        			this.artWaiting = true;
 					fetch('/apis/apiv2.php',{_:this.type,pn:cur,order:this.orderFlag}).then(response=>{
+						this.artWaiting = false;
 						this.curArts = this.arts[this.orderFlag][cur] = response.data.data.arts;
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					})
@@ -164,6 +175,7 @@
 	}
 	.article-list{
 		clear: both;
+		min-height: 4rem;
 	}
 	.paging-box{
 		margin: .3rem 0;
@@ -227,6 +239,35 @@
 	}
 	.pb-jump input:focus{
 		border-color: #009ccd;
+	}
+
+	/*下面使用commentModule样式*/
+	.waiting{
+		margin: 0 auto;
+		text-align: center;
+		height: 2.35rem;
+		padding: 1rem 0;
+		width: .5rem;
+		font-size: .1rem;
+	}
+	.waiting>div{
+		display: inline-block;
+		height: 100%;
+		width: .05rem;
+		background: #00a1d6;
+		animation: stretchdelay 1.2s infinite ease-in-out;
+	}
+	.waiting .rect2{
+		animation-delay: -1.1s;
+	}
+	.waiting .rect3{
+		animation-delay: -1s
+	}
+	.waiting .rect4{
+		animation-delay: -.9s;
+	}
+	.waiting .rect5{
+		animation-delay: -.8s;
 	}
 	@media screen and (max-width: 1050px) {
 		.content-primary{
