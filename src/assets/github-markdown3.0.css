@@ -228,11 +228,6 @@
 	transform-origin: bottom left;
 }
 
-.markdown-body strong {
-  font-weight: inherit;
-  font-weight: bolder;
-}
-
 .markdown-body code,
 .markdown-body pre {
   font-family: "Fira Code VF",monospace,sans-serif;

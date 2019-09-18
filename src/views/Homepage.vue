@@ -248,7 +248,6 @@
 		max-width: 8rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
-		background: snow;
 	}
 	/*-----------------------------------------------*/
 
@@ -433,8 +432,8 @@
 			transition: all	.25s ease;
 		}
 		.pager:hover .previous-more{
-			color: snow;
-			text-shadow: 0 .01rem .01rem snow;
+			color: white;
+			text-shadow: 0 0 .05rem white;
 			transform: translate(.02rem,.02rem);
 		}
 			.previous-more span{

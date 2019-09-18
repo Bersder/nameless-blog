@@ -179,7 +179,6 @@
 		max-width: 8rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
-		background: snow;
 	}
 	.pattern-full-width{ /*使用Code组件覆盖*/
 		position: relative;
@@ -378,7 +377,7 @@
 			position: absolute;
 			padding: 0 .2rem;
 			text-indent: .2rem;
-			color: snow;
+			color: white;
 			font-size: .15rem;
 			opacity: 0;
 			transition: .5s ease;
@@ -444,8 +443,8 @@
 			transition: all	.25s ease;
 		}
 		.pager:hover .previous-more{
-			color: snow;
-			text-shadow: 0 .01rem .01rem snow;
+			color: white;
+			text-shadow: 0 0 .05rem white;
 			transform: translate(.02rem,.02rem);
 		}
 			.previous-more span{

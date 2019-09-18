@@ -377,6 +377,9 @@
 		margin-top: 1.5rem;
 		transition: all .3s;
 	}
+	#mobile-app .ph-info{
+		padding: 0 .3rem;
+	}
 	.ph-info{
 		position: absolute;
 		left: 0;
@@ -387,9 +390,12 @@
 		padding: 0 .5rem;
 		text-shadow: .02rem .02rem .1rem black;
 	}
+		#mobile-app .ph-info .entry-title{
+			font-size: .28rem;
+		}
 		.ph-info .entry-title{
 			font-weight: 500;
-			color: snow;
+			color: white;
 			margin-left: -.1rem;
 		}
 		.ph-info .entry-info{

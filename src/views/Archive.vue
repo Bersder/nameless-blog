@@ -242,6 +242,7 @@
 	}
 	.archives{
 		text-align: left;
+		margin-bottom: .2rem;
 	}
 	.archives li{position: relative;line-height: .26rem}
 	#mobile-app .archives h3{

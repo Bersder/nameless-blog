@@ -138,7 +138,6 @@
 		max-width: 8rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
-		background: snow;
 	}
 	/*-----------------------------------------------*/
 	.page-content.acg{

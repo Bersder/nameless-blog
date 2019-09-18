@@ -1,5 +1,5 @@
 <template>
-  <div :id="isMobile?'mobile-app':'app'" :class="{DDF:darken}" >
+  <div :id="isMobile?'mobile-app':'app'" :class="{DDF:darken,serif:fontFamily}" >
 	  <top-nav></top-nav>
 	  <keep-alive>
 		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
@@ -31,7 +31,7 @@
 						  <li><i class="iconfont icon-Pixiv"></i></li>
 						  <li><i class="iconfont icon-Pixiv"></i></li>
 					  </ul>
-					  <div class="font-family-setting"><button @click="fontFamilyC(0)" :class="{selected:!fontFamily}">Serif</button><button @click="fontFamilyC(1)" :class="{selected:fontFamily}">Sans</button></div>
+					  <div class="font-family-setting"><button @click="fontFamilyC(1)" :class="{selected:fontFamily}">Serif</button><button @click="fontFamilyC(0)" :class="{selected:!fontFamily}">Sans</button></div>
 				  </div>
 			  </section>
 			  <section class="links">
@@ -97,6 +97,8 @@ export default {
 				}
 			})
 		}
+		let FF = window.localStorage.getItem('BB3000_fontType');//尝试获取历史设置记录
+		if (FF)this.fontFamily = parseInt(FF);
 	},
 	watch:{
     	$route(cur,pre){
@@ -156,7 +158,10 @@ export default {
     		window.scrollTo(0,0)
 		},
 		fontFamilyC(type){
-    		this.fontFamily = type
+			if (type !== this.fontFamily) {
+				this.fontFamily = type;
+				window.localStorage.setItem('BB3000_fontType',type.toString())
+			}
 		},
 		darkModeC(){
     		if (!this.blocking){//用于防止频繁转换
@@ -199,6 +204,9 @@ export default {
 		src: url('/root/fonts/FiraCode-VF.woff') format('woff-variations'), url("/root/fonts/FiraCode-VF.ttf") format("truetype");
 		font-weight: 500;
 		font-style: normal;
+	}
+	.serif .markdown-body,.serif .comment-content{
+		font-family: 'Noto Serif SC',sans-serif;
 	}
 	.miniFadeUD-enter-active{
 		animation: mini-fadeInUp .3s cubic-bezier(.25,.46,.45,.94);
@@ -322,6 +330,7 @@ export default {
 		user-select: none;
 		animation: frontFlip .6s ease-in-out both;
 		cursor: pointer;
+		z-index: 1900;
 	}
 	.ctrl-panel.visible{
 		display: block;
