@@ -3,13 +3,13 @@
 		<div class="page-header-wrap">
 			<div class="pattern-center page-header">
 				<div class="ph-img" :style="'background-image: url(/root'+headerInfo.imgSrc+')'"></div>
-				<div class="ph-info-about">
+				<div class="ph-info-about fc">
 					<h1 style="font-weight: 500">关于</h1>
 				</div>
 			</div>
 		</div>
 		<div class="page-content-wrap">
-			<div class="page-content about">
+			<div class="page-content about fc">
 				<div class="content-area">
 					<blockquote>
 						<p>自分の世界を変えるのは自分。 —— モルガナ</p>

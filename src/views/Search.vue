@@ -5,9 +5,9 @@
 				<div class="content-primary-s">
 					<div class="search-box">
 						<i class="iconfont icon-search" @click="postSearch"></i>
-						<input type="search" v-model.trim="searchKey" @keyup.enter="postSearch" name="s" placeholder="搜些其他东西?">
+						<input type="search" v-model.trim="searchKey" class="fc" @keyup.enter="postSearch" name="s" placeholder="搜些其他东西?">
 					</div>
-					<header class="search-header">
+					<header class="search-header fc">
 						<h1>搜索结果：{{$route.params.key}}</h1>
 					</header>
 					<div class="waiting" id="anchor" v-show="searchWaiting">
@@ -22,7 +22,7 @@
 							<div class="panel-h-img">
 								<router-link :to="each|artUrl">
 									<img :src="'/root'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+each.imgSrc">
-									<div class="float-preview tl">
+									<div class="float-preview fc tl">
 										{{each.preview}}
 									</div>
 								</router-link>
@@ -47,8 +47,9 @@
 								<span>More</span>
 							</div>
 						</div>
+						<div class="pager-no-more fc" v-if="curResults.length>=resultNum&&!searchWaiting">没有更多啦( *・ω・)✄╰ひ╯</div>
 					</div>
-					<div class="search-404" v-if="!searchFound">
+					<div class="search-404 fc" v-if="!searchFound">
 						<h3>没有找到任何东西！看看其他文章吧</h3>
 						<ul>
 							<li v-for="each in searchResults" :key="each.id+each.type"><router-link :to="each|artUrl">{{each.title}}</router-link></li>
@@ -353,9 +354,10 @@
 		position: relative;
 		height: .9rem;
 		font-size: .14rem;
-		text-indent: .2rem;
+		line-height: .2rem;
+		text-indent: 2em;
 		overflow: hidden;
-		padding: .1rem .15rem;
+		padding: .1rem .15rem 0;
 		color: #f5f5f0;
 		background: rgba(0,0,0,.5);
 		transition: .5s ease;

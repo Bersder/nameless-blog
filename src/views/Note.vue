@@ -3,14 +3,14 @@
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
 				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
-				<div class="page-info">
+				<div class="page-info fc">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 					<p class="tsukkomi">{{headerInfo.description}}</p>
 				</div>
 			</div>
 		</div>
 		<div class="page-content-wrap">
-			<div class="page-content note">
+			<div class="page-content note fc">
 				<div class="notice tl"><i class="iconfont icon-notify"></i> 自用笔记公开，基于个人记忆及思维习惯写成，有不同程度的省略和变形，仅供参考</div>
 				<div class="content-primary-n">
 					<div class="note-sort-options">
@@ -231,7 +231,8 @@
 		margin: .3rem 0;
 	}
 	.note-sort-options span{
-		line-height: .25rem;
+		display: inline-block;
+		line-height: .28rem;
 		border: .01rem solid #9dd9ff;
 		color: #9dd9ff;
 		cursor: pointer;
@@ -239,12 +240,12 @@
 	}
 		.note-sort-options .nso-l{
 			border-radius: 1rem 0 0 1rem;
-			padding:  .04rem .07rem .04rem .1rem;
+			padding:  0 .07rem 0 .1rem;
 			border-right: none;
 		}
 		.note-sort-options .nso-r{
 			border-radius: 0 1rem 1rem 0;
-			padding:  .04rem .1rem .04rem .07rem;
+			padding:  0 .1rem 0 .07rem;
 			border-left: none;
 
 		}
@@ -479,13 +480,6 @@
 			border-color: #00a1d6;
 			transform: translate(.02rem,.02rem);
 		}
-	.pager-no-more{
-		color: grey;
-		margin: .2rem 0;
-		text-align: center;
-		padding: .1rem;
-		clear: both;
-	}
 
 	/*下面使用commentModule样式*/
 	.waiting{

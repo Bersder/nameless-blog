@@ -205,6 +205,9 @@ export default {
 		font-weight: 500;
 		font-style: normal;
 	}
+	.serif .fc,.serif .comment-content,.serif .markdown-body{
+		font-family: 'Noto Serif SC',sans-serif;
+	}
 	.miniFadeUD-enter-active{
 		animation: mini-fadeInUp .3s cubic-bezier(.25,.46,.45,.94);
 	}
@@ -725,6 +728,14 @@ export default {
 		line-height: 7.2rem;
 		width: 100%;
 		overflow: hidden;
+	}
+
+	.pager-no-more{
+		color: grey;
+		margin: .2rem 0;
+		text-align: center;
+		padding: .1rem;
+		clear: both;
 	}
 
 /*-----------------------------------------供spaceAlbumAlbumU和spaceDynamic、space使用*/

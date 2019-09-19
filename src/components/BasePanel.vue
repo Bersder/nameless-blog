@@ -83,13 +83,13 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			font-size: .18rem;
+			font-size: .16rem;
 		}
 		.panel-info .title:hover{
 			color: #FF7D7D;
 		}
 		.meta .author,.meta .time,.meta .comments{
-			margin-right: .2rem;
+			margin-right: .1rem;
 			font-size: .14rem;
 			color: #98a6ad;
 		}
@@ -138,7 +138,7 @@
 		}
 		.panel:hover h2{
 			display: block;
-			transform: translateY(-.1rem);
+			transform: translateY(-.15rem);
 			text-shadow: 0 0 .03rem white;
 		}
 		.panel-info .preview,.panel-info .cut-line,.panel-info .meta{
@@ -147,7 +147,7 @@
 		}
 		.panel:hover .preview,.panel:hover .cut-line,.panel:hover .meta{
 			opacity: 1;
-			transform: translateY(.25rem);
+			transform: translateY(.35rem);
 		}
 		.meta .author,.meta .time,.meta .comments{
 			color: white;

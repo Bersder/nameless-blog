@@ -3,13 +3,13 @@
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
 				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
-				<div class="page-info">
+				<div class="page-info fc">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 				</div>
 			</div>
 		</div>
 		<div class="page-content-wrap">
-			<div class="page-content" style="padding: .1rem">
+			<div class="page-content fc" style="padding: .1rem">
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">

@@ -3,14 +3,14 @@
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
 				<div class="page-img" style="background-image: url('/root/site/header/tag.jpg')"></div>
-				<div class="page-info">
+				<div class="page-info fc">
 					<h2 class="intro tag">{{tag404|headerIntro($route.params.tag)}}</h2>
 					<p class="tsukkomi tag">{{tag404|headerTsukkomi($route.params.tag,curList.length)}}</p>
 				</div>
 			</div>
 		</div>
 		<div class="page-content-wrap">
-			<div class="page-content tag">
+			<div class="page-content tag fc">
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">

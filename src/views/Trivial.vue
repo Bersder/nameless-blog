@@ -3,7 +3,7 @@
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
 				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
-				<div class="page-info">
+				<div class="page-info fc">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 					<p class="tsukkomi">{{headerInfo.description}}</p>
 				</div>
@@ -11,7 +11,7 @@
 		</div>
 
 		<div class="page-content-wrap">
-			<div class="page-content acg">
+			<div class="page-content acg fc">
 				<div class="content-primary">
 					<div class="article-order no-select">
 						<span>排序</span>
@@ -63,6 +63,7 @@
 							页
 						</div>
 					</div>
+					<div class="pager-no-more" v-if="pageNum===curPage&&!artWaiting">已经到达底部啦</div>
 				</div>
 				<div class="content-aside">
 					<div class="ca album" >
@@ -489,7 +490,7 @@
 		}
 		.board-head{
 			position: absolute;
-			top: .2rem;
+			top: .15rem;
 			left: 0;
 			bottom: .2rem;
 			writing-mode: vertical-rl;

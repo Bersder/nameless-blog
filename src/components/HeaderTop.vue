@@ -4,7 +4,7 @@
 			<div class="focusinfo no-select">
 				<div class="ht-title">OSHINO-NYA</div>
 				<div class="ht-info">
-					<p style="line-height: .3rem">谢谢你，那个一直努力到了现在的自己</p>
+					<p style="line-height: .3rem" class="fc">谢谢你，那个一直努力到了现在的自己</p>
 					<div class="social-box">
 						<i class="iconfont icon-chevronleft"></i>
 						<a href="https://github.com/Bersder" target="_blank" title="github">
@@ -25,7 +25,7 @@
 
 			</div>
 		</figure>
-		<div class="htbg-info">
+		<div class="htbg-info fc">
 			<div class="author-avatar pl" :style="{backgroundImage:'url('+bgInfo.avatar+')'}"></div>
 			<a class="work-name" :href="bgInfo.workLink" :title="'作品:'+bgInfo.workName" rel="nofollow" target="_blank">{{bgInfo.workName}}</a>
 			<a class="author-name" :href="bgInfo.authorLink" :title="'作者:'+bgInfo.authorName" rel="nofollow" target="_blank">{{bgInfo.authorName}}</a>

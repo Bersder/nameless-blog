@@ -2,7 +2,7 @@
 	<div>
 		<div class="page-content-wrap">
 			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3&&screenWidth>800}">
-				<div class="notice tl" v-if="notice"><i class="iconfont icon-notify"></i> {{notice}}</div>
+				<div class="notice fc tl" v-if="notice"><i class="iconfont icon-notify"></i> {{notice}}</div>
 				<div class="content-primary-h">
 					<div class="topped-area" v-if="!isMobile">
 						<p class="description tl"><i class="iconfont icon-anchor"></i> 置顶区</p>
@@ -10,7 +10,7 @@
 							<div class="panel-topped" v-for="item in topped" :key="item.aid" :class="{odd:topped.length%2}">
 								<router-link :to="item|artUrl">
 									<img :src="'/root'+item.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+item.imgSrc">
-									<div class="float-preview tl">
+									<div class="float-preview fc tl">
 										<h3 :title="item.title">{{item.title}}</h3>
 										{{item.preview}}
 									</div>
@@ -24,7 +24,7 @@
 							<div class="panel-h-img">
 								<router-link :to="each|artUrl">
 									<img :src="'/root'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+each.imgSrc">
-									<div class="float-preview tl">
+									<div class="float-preview fc tl">
 										{{each.preview}}
 									</div>
 								</router-link>
@@ -53,10 +53,10 @@
 							<span>Previous</span>
 						</div>
 					</div>
-					<div class="pager-no-more" v-if="curArts.length>=artNum">没有更多啦( *・ω・)✄╰ひ╯</div>
+					<div class="pager-no-more fc" v-if="curArts.length>=artNum">没有更多啦( *・ω・)✄╰ひ╯</div>
 
 				</div>
-				<div class="content-aside-h">
+				<div class="content-aside-h fc">
 					<div class="cah hit tl">
 						<div class="hit-head">
 							<span><i class="iconfont icon-fire"></i> 最热</span>
@@ -316,9 +316,10 @@
 		position: relative;
 		height: .9rem;
 		font-size: .14rem;
-		text-indent: .2rem;
+		text-indent: 2em;
+		line-height: .2rem;
 		overflow: hidden;
-		padding: .1rem .15rem;
+		padding: .1rem .15rem 0;
 		color: #f5f5f0;
 		background: rgba(0,0,0,.5);
 		transition: .5s ease;
@@ -468,13 +469,6 @@
 			border-color: #00a1d6;
 			transform: translate(.02rem,.02rem);
 		}
-	.pager-no-more{
-		color: grey;
-		margin: .2rem 0;
-		text-align: center;
-		padding: .1rem;
-		clear: both;
-	}
 
 
 
@@ -504,7 +498,7 @@
 	}
 	.board-head{
 		position: absolute;
-		top: .2rem;
+		top: .15rem;
 		left: 0;
 		bottom: .2rem;
 		writing-mode: vertical-rl;

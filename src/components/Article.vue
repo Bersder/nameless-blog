@@ -3,8 +3,8 @@
 		<div class="page-header-wrap">
 			<div class="pattern-center page-header">
 				<div class="ph-img" :style="'background-image: url(/root'+imgSrc+')'"></div>
-				<div class="ph-info">
-					<h1 class="entry-title" @click="genNavList">{{title}}</h1>
+				<div class="ph-info fc">
+					<h1 class="entry-title">{{title}}</h1>
 					<p class="entry-info">
 						<span><router-link to="/"><img src="/root/uploads/avatar/me.png">{{author}}</router-link></span>
 						<span class="isolate">·</span>
@@ -16,7 +16,7 @@
 
 		<div class="page-content-wrap">
 			<div class="page-content">
-				<div class="content-area">
+				<div class="content-area fc">
 					<article :id="'post-'+$route.params.id" class="">
 						<div class="entry-content tl"><!--markdown 渲染区域-->
 							<mavon-editor @change="afterRender" :externalLink="mdSet.externalLink" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
@@ -90,10 +90,10 @@
 						<div class="toc">
 							<ol class="toc-list">
 								<li class="toc-list-item" v-for="each in titleList" :key="each.index">
-									<a :href="'#'+each.id" class="toc-link" :class="{'is-active-link':scrollTop>titlePosition[each.index]&&scrollTop<titlePosition[each.index+1]}"> {{each.des}}</a>
+									<a :href="'#'+each.id" class="toc-link" :title="each.des" :class="{'is-active-link':scrollTop>titlePosition[each.index]&&scrollTop<titlePosition[each.index+1]}">{{each.des}}</a>
 									<ol v-if="each.subs.length" class="toc-list is-collapsible" :class="{'is-collapsed':isCollapsed(each.subs)}">
 										<li class="toc-list-item" v-for="sub in each.subs" :key="sub.index">
-											<a :href="'#'+sub.id" class="toc-link" :class="{'is-active-link':scrollTop>titlePosition[sub.index]&&scrollTop<titlePosition[sub.index+1]}"> {{sub.des}}</a>
+											<a :href="'#'+sub.id" class="toc-link" :title="sub.des" :class="{'is-active-link':scrollTop>titlePosition[sub.index]&&scrollTop<titlePosition[sub.index+1]}">{{sub.des}}</a>
 										</li>
 									</ol>
 								</li>
@@ -616,8 +616,8 @@
 	.toc-wrap{
 		position: absolute;
 		top: 5.5rem;
-		right: calc((100% - 13rem)/2);
-		width: 2rem;
+		right: calc((100% - 14rem)/2);
+		width: 2.5rem;
 		z-index: 99;
 		padding: .1rem 0;
 		animation: holdFadeIn 3s linear;
@@ -639,6 +639,7 @@
 			a.toc-link{
 				display: inline-block;
 				font-size: .15rem;
+				white-space: nowrap;
 			}
 			.is-active-link{
 				font-weight: bold;

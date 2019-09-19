@@ -34,6 +34,7 @@
 				页
 			</div>
 		</div>
+		<div class="pager-no-more" v-if="pageNum===curPage&&!artWaiting">已经到达底部啦</div>
 	</div>
 </template>
 

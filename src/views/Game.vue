@@ -3,7 +3,7 @@
 		<div class="page-header-wrap">
 			<div class="pattern-full-width page-header">
 				<div class="page-img" :style="{backgroundImage:'url(/root'+headerInfo.imgSrc+')'}"></div>
-				<div class="page-info">
+				<div class="page-info fc">
 					<h2 class="intro">{{headerInfo.title}}</h2>
 					<p class="tsukkomi">{{headerInfo.description}}</p>
 				</div>
@@ -11,7 +11,7 @@
 		</div>
 
 		<div class="page-content-wrap">
-			<div class="page-content acg">
+			<div class="page-content acg fc">
 				<pc-acg type="game"></pc-acg>
 				<div class="content-aside"><!--侧边栏待开发-->
 					<div class="ca album">
@@ -200,7 +200,7 @@
 		}
 			.board-head{
 				position: absolute;
-				top: .2rem;
+				top: .15rem;
 				left: 0;
 				bottom: .2rem;
 				writing-mode: vertical-rl;
