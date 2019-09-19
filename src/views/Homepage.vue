@@ -72,7 +72,7 @@
 					</div>
 					<div class="cah update tl">
 						<div class="update-head">
-							<i class="iconfont icon-file"> 最近更新</i>
+							<span><i class="iconfont icon-file"></i> 最近更新</span>
 						</div>
 						<ul class="update-content">
 							<li v-for="item in latestUpdate" :key="item.aid"><router-link :to="item|artUrl">{{item.title}}</router-link><span> ({{item.lut|updateTime}})</span></li>
@@ -363,7 +363,7 @@
 		padding-bottom: .1rem;
 	}
 	.pt-d{
-		font-family: "Comic Sans MS",sans-serif;
+		font-weight: 100;
 		font-size: .55rem;
 		font-style: italic;
 		line-height: .3rem;
@@ -552,7 +552,6 @@
 			line-height: .38rem;
 			width: .38rem;
 			height: .38rem;
-			font-family: "Comic Sans MS",sans-serif;
 			border-radius: 100%;
 			text-align: center;
 			margin-right: .1rem;

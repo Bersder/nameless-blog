@@ -205,9 +205,6 @@ export default {
 		font-weight: 500;
 		font-style: normal;
 	}
-	.serif .markdown-body,.serif .comment-content{
-		font-family: 'Noto Serif SC',sans-serif;
-	}
 	.miniFadeUD-enter-active{
 		animation: mini-fadeInUp .3s cubic-bezier(.25,.46,.45,.94);
 	}
@@ -623,7 +620,7 @@ export default {
 		width: 100%;
 	}
 	#app,#mobile-app {
-	    font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","WenQuanYi Micro Hei",sans-serif;
+	    font-family: Ubuntu,"Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","WenQuanYi Micro Hei",sans-serif;
 	    -webkit-font-smoothing: antialiased;
 	    -moz-osx-font-smoothing: grayscale;
 	    text-align: center;

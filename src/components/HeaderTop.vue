@@ -94,7 +94,6 @@
 	}
 		.ht-title{
 			font-size: .7rem;
-			font-family: "Comic Sans MS",sans-serif;
 		}
 		.ht-info{
 			max-width: 5rem;

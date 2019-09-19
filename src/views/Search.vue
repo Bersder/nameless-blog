@@ -383,7 +383,7 @@
 		padding-bottom: .1rem;
 	}
 	.pt-d{
-		font-family: "Comic Sans MS",sans-serif;
+		font-weight: 100;
 		font-size: .55rem;
 		font-style: italic;
 		line-height: .3rem;

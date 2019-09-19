@@ -434,7 +434,7 @@
 				overflow: hidden;
 			}
 				.post-update{
-					font-family: 'Comic Sans MS',sans-serif;
+					font-family: 'Fira Code VF',Ubuntu,sans-serif;
 				}
 				.post-copyright{
 					padding: .1rem;
