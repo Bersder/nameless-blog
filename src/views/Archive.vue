@@ -296,7 +296,7 @@
 		}
 			.days-list a{
 				position: absolute;
-				left: .35rem;
+				left: .4rem;
 				right: 0;
 				overflow: hidden;
 				text-overflow: ellipsis;

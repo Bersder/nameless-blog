@@ -128,7 +128,6 @@
 		max-width: 8rem;
 		padding: 0 .1rem;
 		margin: 0 auto;
-		background: white;
 	}
 	.pattern-full-width{ /*使用Code组件覆盖*/
 		position: relative;
@@ -185,14 +184,14 @@
 
 	.link-category .link_subtitle.friends{
 		color: #FF7D7D;
-		background: linear-gradient(90deg, #ffffff, #fff3f3, #ffffff);
+		background: linear-gradient(90deg, transparent, #fff3f3, transparent);
 	}
 	.link-category .link_subtitle {
 		margin: .2rem 0;
 		padding: .1rem 0;
 		font-weight: bold;
 		color: #00a1d6;
-		background: linear-gradient(90deg, #ffffff, #f0faff, #ffffff);
+		background: linear-gradient(90deg, transparent, #f0faff, transparent);
 	}
 		.link_subtitle p{
 			font-weight: normal;

@@ -10,7 +10,7 @@
 					<header class="search-header fc">
 						<h1>搜索结果：{{$route.params.key}}</h1>
 					</header>
-					<div class="waiting" id="anchor" v-show="searchWaiting">
+					<div class="waiting" v-show="searchWaiting">
 						<div class="rect1"></div>
 						<div class="rect2"></div>
 						<div class="rect3"></div>

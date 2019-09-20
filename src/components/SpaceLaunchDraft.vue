@@ -2,7 +2,7 @@
     <div>
 		<h2 class="draft-head">{{this.type==='note'?'笔记':'文章'}}草稿<router-link title="新写一篇" :to="this.type==='note'?'/takenote':'/write'"><i class="iconfont icon-addfriend"></i></router-link> </h2>
 		<div class="draft-content" :class="{empty:!draftExist}" etext="什么草稿都没有，好干净！">
-			<div class="waiting" id="anchor" v-show="draftWaiting">
+			<div class="waiting" v-show="draftWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
 				<div class="rect3"></div>

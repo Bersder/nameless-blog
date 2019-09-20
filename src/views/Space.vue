@@ -109,7 +109,7 @@
 						this.memo = info.memo
 					}).catch(err=>console.warn(err));
 				else
-					this.$router.push({name:'homepage'})
+					this.$router.go(-1)
 			}
         	else
 				post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
@@ -188,7 +188,7 @@
 		height: 1.7rem;
 		width: 100%;
 		resize: none;
-		font-size: .16rem;
+		font-size: .14rem;
 		line-height: .2rem;
 		color: #6d757a;
 		border: .01rem solid transparent;

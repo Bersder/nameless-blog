@@ -21,9 +21,9 @@
 			<div class="emotion-box no-select">
 			</div>
 		</div>
-		<div class="comments-main">
+		<div class="comments-main" id="anchor">
 			<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论</span></h3>
-			<div class="waiting" id="anchor" v-show="commentWaiting">
+			<div class="waiting" v-show="commentWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
 				<div class="rect3"></div>
@@ -70,13 +70,13 @@
 			</div>
 		</div>
 		<ol class="c-pager" v-if="pageNum>1">
-			<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
+			<li class="prev" @click="curPage--" v-if="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 			<li v-show="curPage>=4" @click="curPage=1">1</li>
 			<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 			<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
 			<li v-if="curPage<=pageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 			<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
-			<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
+			<li class="next" @click="curPage++" v-if="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
 		</ol>
 	</section>
 </template>
@@ -451,6 +451,12 @@
 	.comment-children .comments-list .comments-list-item{
 		border-bottom: none;
 	}
+	.comments-list .comments-list-item:last-child{
+		margin-bottom: .3rem;
+	}
+	.comment-children .comments-list .comments-list-item:last-child{
+			margin-bottom: 0;
+	}
 	.comments-list-item{
 		position: relative;
 		border-bottom: .01rem solid #eaeaea;
@@ -547,7 +553,7 @@
 
 	.c-pager{
 		display: inline-block;
-		margin: .2rem 0;
+		margin-bottom: .2rem;
 		list-style-type: none;
 		color: #bbbbbb;
 	}

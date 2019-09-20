@@ -16,7 +16,7 @@
 					<div class="note-sort-options">
 						<span class="nso-l" :class="{'nso-selected':!rSelected}" @click="rSelected=false">日期降序</span><span class="nso-r" :class="{'nso-selected':rSelected}" @click="rSelected=true">分类归类</span>
 					</div>
-					<div class="waiting" id="anchor" v-show="noteWaiting">
+					<div class="waiting" v-show="noteWaiting">
 						<div class="rect1"></div>
 						<div class="rect2"></div>
 						<div class="rect3"></div>
@@ -380,6 +380,7 @@
 			text-indent: .2rem;
 			color: white;
 			font-size: .15rem;
+			line-height: .2rem;
 			opacity: 0;
 			transition: .5s ease;
 		}

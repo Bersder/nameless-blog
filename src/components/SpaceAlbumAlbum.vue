@@ -5,7 +5,7 @@
 			<div class="tab-list">
 				<span class="tab" v-for="(item,key) in typeMap" @click="curType=key" :class="{cur:curType===key}"><span class="name">{{item}}</span><span class="count">{{typeCount[key]}}</span></span>
 			</div>
-			<div class="waiting" id="anchor" v-show="albumWaiting">
+			<div class="waiting" v-show="albumWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
 				<div class="rect3"></div>
@@ -20,13 +20,13 @@
 			</div>
 			<div class="paging-box" v-if="curPageNum>1">
 				<ol class="pb-original">
-					<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
+					<li class="prev" @click="curPage--" v-if="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 					<li v-show="curPage>=4" @click="curPage=1">1</li>
 					<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 					<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
 					<li v-if="curPage<=curPageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 					<li v-show="curPage<=curPageNum-3" @click="curPage=curPageNum">{{curPageNum}}</li>
-					<li class="next" @click="curPage++" v-show="curPage!==curPageNum"><i class="iconfont icon-caretright"></i></li>
+					<li class="next" @click="curPage++" v-if="curPage!==curPageNum"><i class="iconfont icon-caretright"></i></li>
 				</ol>
 				<div class="pb-jump">
 					<span>共{{curPageNum}}页，跳至</span>

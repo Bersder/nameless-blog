@@ -185,10 +185,9 @@
 		overflow: hidden;
 	}
 		.panel-topped.odd:last-child{
-			width: 100%;
+			width: calc(100% - .1rem);
 		}
 		.panel-topped{
-/*			display: inline-block;*/
 			margin: 0 .05rem .1rem .05rem;
 			height: 1.5rem;
 			width: calc(50% - .1rem);
@@ -255,7 +254,7 @@
 		min-height: 5rem;
 	}
 	.page-content.homepage{
-		max-width: 9.3rem;
+		max-width: 10.5rem;
 		min-height: 9rem;
 		overflow: hidden;/*解决子元素浮动撑不开父元素*/
 		height: 100%;
@@ -266,7 +265,7 @@
 		opacity: 0;
 	}
 	.content-primary-h{
-		max-width: 6rem;
+		max-width: 7rem;
 		width: 100%;
 		margin: 0 auto;
 		float: left;
@@ -566,7 +565,7 @@
 		.rc-item{
 			width: 1.9rem;
 		}
-	@media screen and (max-width: 920px){
+	@media screen and (max-width: 1050px){
 		.content-primary-h{
 			float: none;
 		}
@@ -575,6 +574,11 @@
 		}
 	}
 	@media screen and (max-width: 500px) {
+		.panel-topped,.panel-topped.odd:last-child{
+			float: none;
+			width: 100%;
+			margin: .1rem 0;
+		}
 		.panel-h{ /*如果不行加important*/
 			height: 3.5rem;
 			padding: .05rem;

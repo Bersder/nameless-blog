@@ -189,6 +189,13 @@
 		box-shadow: none;
 		background: transparent;
 	}
+	.site-header.reachTop .snh,.site-header.reachTop .search-box-t{
+		opacity: .3;
+		transition: .5s ease;
+	}
+	.site-header.reachTop:hover .snh,.site-header.reachTop:hover .search-box-t{
+		opacity: 1;
+	}
 	.header-scrollbar{
 		height: .03rem;
 		background: #5abebc;

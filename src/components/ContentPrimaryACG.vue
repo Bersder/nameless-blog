@@ -9,7 +9,7 @@
 			</ul>
 		</div><!--文章排序待开发-->
 		<div class="article-list" etext="如果你看到了这个，说明我在搬砖" :class="{empty:noContent}">
-			<div class="waiting" id="anchor" v-show="artWaiting">
+			<div class="waiting" v-show="artWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
 				<div class="rect3"></div>
@@ -20,13 +20,13 @@
 		</div>
 		<div class="paging-box" v-if="pageNum>1">
 			<ol class="pb-original">
-				<li class="prev" @click="curPage--" v-show="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
+				<li class="prev" @click="curPage--" v-if="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 				<li v-show="curPage>=4" @click="curPage=1">1</li>
 				<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 				<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
 				<li v-if="curPage<=pageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
 				<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
-				<li class="next" @click="curPage++" v-show="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
+				<li class="next" @click="curPage++" v-if="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
 			</ol>
 			<div class="pb-jump">
 				<span>共{{pageNum}}页，跳至</span>

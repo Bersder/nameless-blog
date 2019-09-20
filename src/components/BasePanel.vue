@@ -86,7 +86,7 @@
 			font-size: .16rem;
 		}
 		.panel-info .title:hover{
-			color: #FF7D7D;
+			color: #5abebc;
 		}
 		.meta .author,.meta .time,.meta .comments{
 			margin-right: .1rem;
