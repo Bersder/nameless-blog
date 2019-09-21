@@ -49,7 +49,7 @@
 
 <style scoped>
 	.site-footer{
-		padding: .15rem .2rem;
+		padding: .3rem .2rem;
 		width: 100%;
 		background: rgba(255,255,255,0.8);
 		box-shadow: 0 -.01rem .05rem #1e1e1e10;

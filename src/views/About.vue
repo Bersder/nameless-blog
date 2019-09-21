@@ -25,19 +25,19 @@
 					<div class="about-post">
 						<h2><span>貳</span>一些喜好</h2>
 						<p>科学爱好者，喜欢了解自己不清楚的科学原理</p>
-						<p>茶叶上瘾者，特别是绿茶花茶这类的茶</p>
+						<p>茶叶上瘾者，最喜绿茶</p>
 						<p>jo厨、物语厨、车万厨</p>
 						<p>无音乐不欢，偏向于纯音乐及东方音乐</p>
 						<p>游戏方面ARPG、JRPG最爱，另外P5天下第一</p>
 						<p>为自己的兴趣瞎折腾，并付出巨大代价</p>
-						<p>linux!!(震声)</p>
+						<p>linux忠实粉丝</p>
 						<p>··· ···</p>
 					</div>
 					<div class="about-post">
 						<h2><span>叁</span>关于破站</h2>
 						<p>能在茫茫网络中找到我这个破站(而且是不利于SEO的这种)，真是缘，妙不可言啊。很高兴你能看到这里</p>
-						<p>破站用于记录技术文章、日常琐事、吐槽及一些乱七八糟的东西。主要是为了单纯地记录，扩散出去什么的随缘了</p>
-						<p>可以的话考虑下 <router-link to="/links">交换友链</router-link> (py交易)</p>
+						<p>破站用于记录和分享技术文章、日常琐事、吐槽及一些乱七八糟的东西。主要是为了单纯地记录来防止失忆，随缘扩散</p>
+						<p>但可以的话也请考虑下 <router-link to="/links">交换友链</router-link> (py交易)</p>
 <!--						<p>推荐使用 <code>Chrome</code> 或 <code>Firefox</code> 以获得最佳体验</p>-->
 						<h4>破站黑历史</h4>
 						<div class="history">
@@ -136,7 +136,7 @@
 		text-align: left;
 	}
 		.about-post time{
-			font-weight: 600;
+			font-weight: bold;
 		}
 		.about-post code{
 			background: #b8c0cc30;

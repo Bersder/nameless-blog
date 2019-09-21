@@ -479,11 +479,11 @@
 		width: 2.8rem;
 		float: right;
 	}
-	.cah{
+	.cah,.ca{
 		width: 100%;
 		border-radius: .05rem;
 		background: rgba(252,250,242,.7);
-		box-shadow: 0 .01rem .03rem rgba(26,26,26,.5);
+		box-shadow: 0 0.02rem 0.05rem rgba(0,0,0,.3);
 		margin-bottom: .2rem;
 	}
 	.cah.hit{
@@ -532,10 +532,13 @@
 		font-size: .14rem;
 		list-style-type: none;
 	}
+		.update-content a:hover{
+			color: #00a1d6;
+		}
 		.update-content li:before{
 			content: '❁';
 			color: #5abebc;
-			margin-right: .05rem;
+			margin-right: .07rem;
 		}
 
 
@@ -565,6 +568,9 @@
 		.rc-item{
 			width: 1.9rem;
 		}
+			.rc-item a:hover{
+				color: #00a1d6;
+			}
 	@media screen and (max-width: 1050px){
 		.content-primary-h{
 			float: none;

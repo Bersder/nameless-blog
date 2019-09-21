@@ -172,6 +172,10 @@
 		height: 2.5rem !important;
 		background-attachment: scroll;
 	}
+	.htbg-info{
+		bottom: .1rem;
+		right: .1rem;
+	}
 	.focusinfo,.ht-down{
 		display: none;
 	}

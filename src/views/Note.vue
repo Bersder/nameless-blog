@@ -11,7 +11,7 @@
 		</div>
 		<div class="page-content-wrap">
 			<div class="page-content note fc">
-				<div class="notice tl"><i class="iconfont icon-notify"></i> 自用笔记公开，基于个人记忆及思维习惯写成，有不同程度的省略和变形，仅供参考</div>
+				<div class="notice tl" v-if="notice"><i class="iconfont icon-notify"></i> {{notice}}</div>
 				<div class="content-primary-n">
 					<div class="note-sort-options">
 						<span class="nso-l" :class="{'nso-selected':!rSelected}" @click="rSelected=false">日期降序</span><span class="nso-r" :class="{'nso-selected':rSelected}" @click="rSelected=true">分类归类</span>
@@ -103,6 +103,7 @@
 				});
 				this.noteNum = data.notes.length;
 				this.curNotes = this.notes.slice(0,this.noteNum<6?this.noteNum:6);
+				this.notice = data.notice;
 				for(let i in this.catMap)
 					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.category===i));
 				setTimeout(()=>this.$store.commit('lazyCheck'),100);
@@ -120,6 +121,7 @@
 				// catCount:{},
 				rSelected:false,
 
+				notice:null,
             	// curFilter:'all',
 				notes:[],
 				sortedNotes:{},

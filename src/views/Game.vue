@@ -148,11 +148,11 @@
 		margin-top: .5rem;
 		float: right;
 	}
-		.ca{ /*以Game为标准*/
+		.cah,.ca{ /*请使用Homepage*/
 			width: 100%;
 			border-radius: .05rem;
 			background: rgba(252,250,242,.7);
-			box-shadow: 0 0.01rem 0.03rem rgba(26,26,26,.5);
+			box-shadow: 0 0.02rem 0.05rem rgba(0,0,0,.3);
 			margin-bottom: .2rem;
 		}
 		.fexchange-head,.series-head{

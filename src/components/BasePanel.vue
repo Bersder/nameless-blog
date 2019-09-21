@@ -11,8 +11,9 @@
 			<p class="cut-line" style="margin: .1rem 0"></p>
 			<div class="meta">
 				<router-link to="/about" class="author"><i class="iconfont icon-geren"></i>{{article.author}}</router-link>
-				<span class="time"><i class="iconfont icon-time"></i> {{article.time.substr(0,10)|ymd2Mdy}}</span>
-				<router-link :to="article.aid+'#comments'" append class="comments"><i class="iconfont icon-comment"></i> {{article.commentCount}}</router-link>
+				<span class="time"><i class="iconfont icon-time"></i>{{article.time.substr(0,10)|ymd2Mdy}}</span>
+				<span class="hit"><i class="iconfont icon-fire"></i>{{article.readCount}}</span>
+				<router-link :to="article.aid+'#comments'" append class="comments"><i class="iconfont icon-comment"></i>{{article.commentCount}}</router-link>
 			</div>
 			<router-link class="to-article" :to="article.aid" append></router-link>
 		</div>
@@ -88,13 +89,10 @@
 		.panel-info .title:hover{
 			color: #5abebc;
 		}
-		.meta .author,.meta .time,.meta .comments{
+		.meta .author,.meta .time,.meta .hit,.meta .comments{
 			margin-right: .1rem;
 			font-size: .14rem;
 			color: #98a6ad;
-		}
-		.meta i{
-			font-size: .16rem;
 		}
 		.meta a:hover{
 			color: #ff7d7d;
@@ -149,7 +147,7 @@
 			opacity: 1;
 			transform: translateY(.35rem);
 		}
-		.meta .author,.meta .time,.meta .comments{
+		.meta .author,.meta .time,.meta .hit,.meta .comments{
 			color: white;
 			pointer-events: auto;
 		}
@@ -183,6 +181,9 @@
 		font-size: .14rem;
 	}
 }@media screen and (max-width: 400px) {
+	.panel-info{
+		padding: .1rem;
+	}
 	.panel-img .img{
 		height: 1.7rem;
 	}

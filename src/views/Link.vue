@@ -226,7 +226,7 @@
 				}
 					.friend-list ul li a{
 						display: block;
-						height: .9rem;
+						height: .8rem;
 						padding: 0 .1rem 0 .9rem;
 						text-align: left;
 					}
@@ -234,9 +234,9 @@
 						position: absolute;
 						width: .6rem;
 						height: .6rem;
-						top: .15rem;
-						left: .15rem;
-						border-radius: 50%;
+						top: .1rem;
+						left: .1rem;
+						border-radius: .1rem;
 						object-fit: cover;
 						object-position: center;
 					}

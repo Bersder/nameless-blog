@@ -40,8 +40,8 @@
 								<p class="preview">{{art.preview}}</p>
 								<p class="cut-line-d" style="margin: .1rem 0"></p>
 								<span><router-link to="/about" class="author"><i class="iconfont icon-geren"></i>oshino</router-link></span>
-								<span><i class="iconfont icon-fire"></i> {{art.readCount}}</span>
-								<span><router-link :to="art.aid+'#comments'" append class="comments"><i class="iconfont icon-comment"></i> {{art.commentCount}}</router-link></span>
+								<span><i class="iconfont icon-fire"></i>{{art.readCount}}</span>
+								<span><router-link :to="art.aid+'#comments'" append class="comments"><i class="iconfont icon-comment"></i>{{art.commentCount}}</router-link></span>
 							</div>
 						</div>
 
@@ -353,11 +353,14 @@
 				padding: 0 .1rem .1rem .1rem;
 				height: 1.65rem;
 			}
-
+			.panel-t-info a:hover{
+				color: #ff7d7d;
+			}
 			.panel-t-info span{
 				margin-right: .15rem;
 				font-size: .14rem;
-				color: #9e9e9e;
+				color: #98a6ad;
+				user-select: none;
 			}
 				#mobile-app .panel-t-info .title{
 					line-height: .3rem;
@@ -451,11 +454,11 @@
 		margin-top: .5rem;
 		float: right;
 	}
-		.ca{ /*以Game为标准*/
+		.cah,.ca{ /*请使用Homepage*/
 			width: 100%;
 			border-radius: .05rem;
 			background: rgba(252,250,242,.7);
-			box-shadow: 0 0.01rem 0.03rem rgba(26,26,26,.5);
+			box-shadow: 0 0.02rem 0.05rem rgba(0,0,0,.3);
 			margin-bottom: .2rem;
 		}
 		.album{
