@@ -64,6 +64,16 @@
 - [X] 为最后一条评论添加底部margin（防止过度贴近Footer）
 - [X] 首页内容区域扩宽，首页置顶文章自适应优化
 
+### Fix10
+- [X] spaceLaunchAdmin中的操作按钮css优化
+- [X] Article中document.title变化逻辑修正
+- [X] Article头部去除作者名字与头像，取而代之的是文章类型链接
+- [X] Article数据初始化修正及补充
+- [X] Article增加系列信息的显示，并因此调整genNavList()逻辑
+- [X] Article目录只在PC端渲染
+
+###Fix 11
+- [ ] 为Homepage和Note页面添加公告信息，并连接后端
 
 ## 功能添加
 

@@ -174,6 +174,7 @@
 	}
 	.space-dynamic .col-2,.space-home .col-2{
 		float: right;
+		border-radius: .03rem;
 		width: 3.5rem;
 	}
 	/*下面可能和comment的样式合并？*/

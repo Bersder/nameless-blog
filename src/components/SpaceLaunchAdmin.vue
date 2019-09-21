@@ -283,10 +283,13 @@
 			width: 1rem;
 		}
 		.a-table-row .operate button{
-			padding: .02rem .05rem;
+			padding: 0 .05rem;
 			border-radius: .03rem;
 			background: #eaeaea;
 			font-size: .12rem;
+			line-height: .2rem;
+			margin: .01rem 0;
+			white-space: nowrap;
 		}
 		.a-table-row .operate button.del{
 			background: #ffd2db;

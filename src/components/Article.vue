@@ -6,9 +6,8 @@
 				<div class="ph-info fc">
 					<h1 class="entry-title">{{title}}</h1>
 					<p class="entry-info">
-						<span><router-link to="/"><img src="/root/uploads/avatar/me.png">{{author}}</router-link></span>
-						<span class="isolate">·</span>
-						{{time}}{{readCount|rfilter}}
+						<router-link :to="xtype|typeUrl">{{xtype|typeEN2CN}}</router-link>
+						<span class="isolate">·</span><span>{{time}}</span><span class="isolate">·</span><span>{{readCount|readNum}}阅读</span>
 					</p>
 				</div>
 			</div>
@@ -17,6 +16,9 @@
 		<div class="page-content-wrap">
 			<div class="page-content">
 				<div class="content-area fc">
+					<div class="entry-series" id="entry-series" v-if="series">
+						<p>本文属于系列<router-link to="/">《{{series}}》</router-link></p>
+					</div>
 					<article :id="'post-'+$route.params.id" class="">
 						<div class="entry-content tl"><!--markdown 渲染区域-->
 							<mavon-editor @change="afterRender" :externalLink="mdSet.externalLink" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
@@ -86,7 +88,7 @@
 						</div>
 					</div>
 
-					<div class="toc-wrap" :style="{height:articleHeight+'px'}" >
+					<div class="toc-wrap" :style="{height:articleHeight+'px'}" v-if="!isMobile">
 						<div class="toc">
 							<ol class="toc-list">
 								<li class="toc-list-item" v-for="each in titleList" :key="each.index">
@@ -119,16 +121,13 @@
 	export default {
         name: "Article",
 		beforeRouteEnter(to,from,next){
-        	if (to.name==='article_note')
-				document.title = '笔记XXX'+siteTitle.title_;
-        	else
-				document.title = '文章XXX'+siteTitle.title_;
         	if(/\d+/.test(to.params.id)&&(!to.params.type||['anime','code','game','trivial'].indexOf(to.params.type)!==-1))next();
 			else next('/')
 		},
 		created(){
 			this.xid = this.$route.params.id;
-			this.xtype = this.$route.name === 'article_note'?'note':this.$route.params.type;
+			this.xtype = this.$route.name==='article_note'?'note':this.$route.params.type;
+			document.title = this.xtype==='article_note'?'笔记XXX'+siteTitle.title_:'文章XXX'+siteTitle.title_;
 			this.fetchData({xid:this.xid,_:this.xtype[0]});
 		},
         data() {
@@ -139,8 +138,8 @@
 				title:'',
 				imgSrc:'/site/static/loading.gif',
 				author:'oshino',
-				time:'6666-66-66',
-				lut:'6666-66-66 66:66:66',
+				time:'1111-11-11',
+				lut:'1111-11-11 11:11:11',
 				tags:[],
 				commentCount:0,
 				liked:0,
@@ -165,11 +164,13 @@
 						console.log('changing');
 						this.xid = cur.params.id;
 						this.xtype = type;
+						document.title = this.xtype==='article_note'?'笔记XXX'+siteTitle.title_:'文章XXX'+siteTitle.title_;
 						this.initData();
 						this.fetchData({xid:this.xid,_:this.xtype[0]});
 					}
 					else{//直接使用缓存，不用等待渲染
 						console.log('reuse');
+						document.title = this.title;
 						if (!cur.hash)
 							document.body.scrollIntoView(true);
 						else{
@@ -184,7 +185,7 @@
 			}
 		},
 		computed:{
-        	...mapState(['scrollTop'])
+        	...mapState(['scrollTop','isMobile'])
 		},
         methods:{
         	afterRender(raw,render){
@@ -194,7 +195,8 @@
         		else{
         			setTimeout(()=>document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true),250);
 				}
-				setTimeout(()=>this.genNavList(),500);
+        		if (!this.isMobile)
+					setTimeout(()=>this.genNavList(),500);
 			},
 			isCollapsed(subs) {
 				if(!subs.length) return false;
@@ -203,14 +205,18 @@
 			initData(){
 				this.imgSrc = '/site/static/loading.gif';
 				this.title = '';
-				this.time = '6666-66-66';
-				this.lut = '6666-66-66 66:66:66';
+				this.time = '1111-11-11';
+				this.lut = '1111-11-11 11:11:11';
 				this.tags = [];
 				this.commentCount = 0;
 				this.readCount = undefined;
 				this.series = undefined;
+				this.pre = null;
+				this.next = null;
 			},
 			genNavList(){
+        		let ESNode = document.getElementById('entry-series');
+				let ESHeight = ESNode?ESNode.offsetHeight:0;
         		while (this.titleList.pop()){}
 				let hs = document.querySelectorAll('.v-show-content h2,.v-show-content h3');
 				let H2indexs =[];
@@ -246,11 +252,11 @@
 				this.titlePosition = [];
 				this.titlePosition.push(0);
 				this.titleList.forEach((v1)=>{
-					this.titlePosition.push(document.getElementById(v1.id).offsetTop+550);
+					this.titlePosition.push(document.getElementById(v1.id).offsetTop+550+ESHeight);
 					if(v1.subs.length)
-						v1.subs.forEach((v2)=>this.titlePosition.push(document.getElementById(v2.id).offsetTop+550))
+						v1.subs.forEach((v2)=>this.titlePosition.push(document.getElementById(v2.id).offsetTop+550+ESHeight))
 				});
-				this.titlePosition[this.titlePosition.length-1] -= 600;
+				this.titlePosition[this.titlePosition.length-1] -= 600+ESHeight;
 				this.titlePosition.push(document.body.offsetHeight);
 				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+100;
 				//console.log(this.titlePosition)
@@ -316,10 +322,24 @@
 			artUrl(type,id){
 				return type==='note'?'/note/'+id:'/archive/'+type+'/'+id
 			},
-        	rfilter(f){
-        		if(f)return ' · ' + f + '阅读';
-				else return null;
-			}
+			typeUrl(type){
+        		if (type)
+					return type==='note'?'/note':'/archive/'+type;
+        		else
+        			return ''
+			},
+			typeEN2CN(type){
+        		if (type)
+					if (type==='anime')return 'Anime';
+					else if (type==='code')return '极客';
+					else if (type==='game')return '游民';
+					else return type==='trivial'?'随写':'笔记';
+				else
+					return '???'
+			},
+			readNum(count){
+				return count?count.replace(/(\d)(?=(?:\d{3})+$)/g,'$1,'):'???'
+			},
 		},
 		components:{
         	comment:CommentModule
@@ -363,7 +383,7 @@
 		left: 0;right: 0;bottom: 0;
 		border-top-right-radius: .05rem;
 		border-top-left-radius: .05rem;
-		background-color: rgba(0,0,0,.2);
+		background-color: rgba(0,0,0,.3);
 	}
 
 	.ph-img{
@@ -379,6 +399,7 @@
 	}
 	#mobile-app .ph-info{
 		padding: 0 .3rem;
+		bottom: .5rem;
 	}
 	.ph-info{
 		position: absolute;
@@ -386,7 +407,7 @@
 		right: 0;
 		color: white;
 		text-align: left;
-		bottom: .5rem;
+		bottom: 20%;
 		padding: 0 .5rem;
 		text-shadow: .02rem .02rem .1rem black;
 	}
@@ -400,19 +421,24 @@
 		}
 		.ph-info .entry-info{
 			font-size: .15rem;
-			line-height: .4rem;
-			padding-top: .2rem;
+			line-height: .2rem;
+			padding-top: .1rem;
 
 		}
-		.ph-info .entry-info img{
-			width: .35rem;
-			height: .35rem;
-			border-radius: 100%;
-			float: left;
-			margin-right: .15rem;
-		}
 		.ph-info .entry-info a{
-			color: white;
+			position: relative;
+			opacity: .7;
+		}
+		.ph-info .entry-info a:after{
+			position: absolute;
+			content: "";
+			display: block;
+			left: 0;
+			bottom: -.05rem;
+			width: 100%;
+			height: .01rem;
+			background: currentColor;
+			opacity: .7;
 		}
 
 
@@ -427,6 +453,19 @@
 		.content-area{
 			animation: fadeIn 2s ;
 		}
+			.entry-series{
+				overflow: hidden;
+			}
+			.entry-series p{
+				margin-top: .1rem;
+				color: #8b8e99;
+				font-size: .14rem;
+				border: .01rem dashed #eaeaea;
+				padding: .1rem;
+			}
+				.entry-series p a{
+					color: #5abebc;
+				}
 			.post-footer{
 				border-top: .01rem dashed #ddd;
 				border-bottom: .01rem dashed #ddd;

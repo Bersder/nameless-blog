@@ -40,12 +40,13 @@
 			<div class="space-home" v-if="$route.name==='space'">
 				<div class="col-1">
 					<div class="section">
-						<h3 class="section-title">测试标题</h3>
+						<h3 class="section-title">网站公告</h3>
 						<div class="section-content">
+
 						</div>
 					</div>
 					<div class="section">
-						<h3 class="section-title">测试标题</h3>
+						<h3 class="section-title">站点访问</h3>
 						<div class="section-content">
 						</div>
 					</div>
@@ -171,6 +172,7 @@
 	}
 	.space-dynamic .col-1,.space-home .col-1{/*下面两个使用spaceDynamic样式*/
 		float: left;
+		border-radius: .03rem;
 		width: 8.35rem;
 	}
 	.space-dynamic .col-2,.space-home .col-2{
