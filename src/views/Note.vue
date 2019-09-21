@@ -395,7 +395,7 @@
 		width: 110%;
 		top: 1rem;
 		min-height: .5rem;
-		padding: .1rem .2rem;
+		padding: .05rem .2rem;
 		transform-origin: left top;
 		transform: rotate(8deg);
 		background: white;
@@ -406,17 +406,23 @@
 		background: rgba(0,0,0,.2);
 	}
 	.panel-n-info{
-		padding: .1rem .2rem;
+		padding: 0 .2rem;
 		position: relative;
 		height: .8rem;
 		background-color: white;
 	}
+		#mobile-app .panel-n-info .title a{
+			font-size: .16rem;
+		}
 		.panel-n-info .title a{
 			font-weight: bold;
-			font-size: .19rem;
+			font-size: .18rem;
 		}
 		.panel-n-info .title a:hover{
 			color: #00a1d6;
+		}
+		#mobile-app .panel-n-info .category{
+			font-size: .14rem;
 		}
 		.panel-n-info .category{
 			position: absolute;
