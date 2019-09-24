@@ -102,6 +102,7 @@ export const mdSetPreview = {
 	toolbarsFlag:false,
 	scrollStyle:true,
 	codeStyle:'github',
+	shortCut:false,
 	externalLink: {
 		markdown_css:()=>'/root/markdown/github-markdown3.0.css'
 	}

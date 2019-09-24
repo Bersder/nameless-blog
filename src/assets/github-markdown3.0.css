@@ -49,6 +49,9 @@
   visibility: visible;
 }
 
+#mobile-app .markdown-body{
+	font-size: .15rem;
+}
 .markdown-body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -443,7 +446,7 @@
 }
 
 .markdown-body blockquote {
-  	padding: 0 1em;
+  	padding: .5em 1em;
 	margin-left: .5em;
 	margin-right: .5em;
 	background: #f9f9f9;
@@ -454,6 +457,9 @@
 	color: rgba(121, 121, 121, .8);
 	font-style: italic;
 
+}
+.markdown-body blockquote blockquote{
+	padding: 0 1em;
 }
 
 .markdown-body blockquote>:first-child {

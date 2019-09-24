@@ -14,14 +14,14 @@
 		</div>
 
 		<div class="page-content-wrap">
-			<div class="page-content">
+			<div class="page-content article">
 				<div class="content-area fc">
 					<div class="entry-series" id="entry-series" v-if="series">
 						<p>本文属于系列<router-link to="/">《{{series}}》</router-link></p>
 					</div>
 					<article :id="'post-'+$route.params.id" class="">
 						<div class="entry-content tl"><!--markdown 渲染区域-->
-							<mavon-editor @change="afterRender" :externalLink="mdSet.externalLink" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" ></mavon-editor>
+							<mavon-editor @change="afterRender" :externalLink="mdSet.externalLink" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" :shortCut="mdSet.shortCut"></mavon-editor>
 						</div>
 						<footer class="post-footer">
 							<div class="post-update"><span>{{lut}} Lsat Update</span></div>
@@ -197,6 +197,7 @@
 				}
         		if (!this.isMobile)
 					setTimeout(()=>this.genNavList(),500);
+				setTimeout(()=>this.codeDecorate(),500);
 			},
 			isCollapsed(subs) {
 				if(!subs.length) return false;
@@ -260,6 +261,8 @@
 				this.titlePosition.push(document.body.offsetHeight);
 				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+100;
 				//console.log(this.titlePosition)
+			},
+			codeDecorate(){
 				let blocks = document.querySelectorAll('.v-show-content pre code');//下面是代码块修饰，待markdown渲染完后，添加侧边行数和复制按钮
 				blocks.forEach(e=>{
 					let copyBtn = document.createElement('button');
@@ -283,7 +286,6 @@
 					}
 					e.parentElement.appendChild(numberring);
 				})
-
 			},
 			fetchData(data){
 				fetch('/apis/apiv3.php',data).then(response=>{
@@ -368,359 +370,5 @@
 	}
 </script>
 
-<style scoped>
-	.pattern-center{
-		position: relative;
-		margin: 0 auto;
-		overflow: hidden;
-		max-width: 9rem;
-
-	}
-	.ph-img:before{
-		content: '';
-		position: absolute;
-		top: 1.5rem;
-		left: 0;right: 0;bottom: 0;
-		border-top-right-radius: .05rem;
-		border-top-left-radius: .05rem;
-		background-color: rgba(0,0,0,.3);
-	}
-
-	.ph-img{
-		border-top-right-radius: .05rem;
-		border-top-left-radius: .05rem;
-		background: no-repeat center center;
-		background-size: cover;
-		background-origin: border-box;
-		width: 100%;
-		height: 4rem;
-		margin-top: 1.5rem;
-		transition: all .3s;
-	}
-	#mobile-app .ph-info{
-		padding: 0 .3rem;
-		bottom: .5rem;
-	}
-	.ph-info{
-		position: absolute;
-		left: 0;
-		right: 0;
-		color: white;
-		text-align: left;
-		bottom: 20%;
-		padding: 0 .5rem;
-		text-shadow: .02rem .02rem .1rem black;
-	}
-		#mobile-app .ph-info .entry-title{
-			font-size: .28rem;
-		}
-		.ph-info .entry-title{
-			font-weight: 500;
-			color: white;
-			margin-left: -.1rem;
-		}
-		.ph-info .entry-info{
-			font-size: .15rem;
-			line-height: .2rem;
-			padding-top: .1rem;
-
-		}
-		.ph-info .entry-info a{
-			position: relative;
-			opacity: .7;
-		}
-		.ph-info .entry-info a:after{
-			position: absolute;
-			content: "";
-			display: block;
-			left: 0;
-			bottom: -.05rem;
-			width: 100%;
-			height: .01rem;
-			background: currentColor;
-			opacity: .7;
-		}
-
-
-
-
-	.page-content{
-		max-width: 9rem;
-		padding: 0 .1rem;
-		margin: 0 auto;
-		background: rgba(255,255,255,.9);
-	}
-		.content-area{
-			animation: fadeIn 2s ;
-		}
-			.entry-series{
-				overflow: hidden;
-			}
-			.entry-series p{
-				margin-top: .1rem;
-				color: #8b8e99;
-				font-size: .14rem;
-				border: .01rem dashed #eaeaea;
-				padding: .1rem;
-			}
-				.entry-series p a{
-					color: #5abebc;
-				}
-			.post-footer{
-				border-top: .01rem dashed #ddd;
-				border-bottom: .01rem dashed #ddd;
-				padding: .1rem;
-				overflow: hidden;
-			}
-				.post-update{
-					font-family: 'Fira Code VF',Ubuntu,sans-serif;
-				}
-				.post-copyright{
-					padding: .1rem;
-					margin: .15rem 0;
-					font-size: .14rem;
-					border-radius: .03rem;
-					border: .01rem solid #eaeaea;
-				}.pck{color: #7d7d7d;font-weight: bold}.pcv{color: #b3b3b3;text-decoration: underline}a.pcv:hover{color: #FF7D7D}
-				.post-tags{
-					color: grey;
-					text-transform: uppercase;
-					position: relative;
-				}
-					.post-tags i{position: absolute;top:0;left:0;font-size:.18rem}
-					.post-tags ul{
-						list-style-type: none;
-						margin-left: .25rem;
-						overflow: hidden;
-					}
-					.post-tags .tag{
-						float: left;
-						padding: 0 .1rem;
-						font-size: .14rem;
-						margin-right: .05rem;
-						margin-bottom: .03rem;
-						border: .01rem solid #e5e9ef;
-						line-height: .2rem;
-						border-radius: .2rem;
-						transition: all .5s ease;
-					}
-					.post-tags .tag:hover{
-						border-color: #00a1d6;
-					}
-					.post-tags .tag:hover a{
-						color: #00a1d6;
-					}
-					.post-like .like{
-						color: #ff4646;
-					}
-				.post-share{
-					margin-right: .1rem;
-					color: #ff4646;
-				}
-					.share-option{
-						display: none;
-						float: left;
-						margin-right: .1rem;
-						animation: mini-fadeInUp .5s;
-					}
-					.post-share:hover .share-option{
-						display: inline-block;
-					}
-						.share-option a{
-							margin-right: .05rem;
-							border-radius: 20%;
-						}
-						a.icon-wechat{
-							 color: #00c500;
-							 border: .01rem solid #00c500;
-						 }
-						a.icon-weibo{
-							color:#ff3d36;
-							border: .01rem solid #ff3d36;
-						}
-						a.icon-qq{
-							color: lightskyblue;
-							border: .01rem solid lightskyblue;
-							height: .18rem;
-							width: .19rem;
-						}
-						a.icon-facebook{
-							color: white;
-							background: cornflowerblue;
-							border: .01rem solid cornflowerblue;
-						}
-						a.icon-twitter{
-							color: white;
-							background: lightskyblue;
-							border: .01rem solid lightskyblue;
-						}
-						a.icon-wechat:hover{
-							background: #00c500;
-							color: white;
-							box-shadow: 0 0 .3rem #00c500;
-						}
-						a.icon-facebook:hover{
-							color: cornflowerblue;
-							background: white;
-							border-color: white;
-							box-shadow: 0 0 .3rem cornflowerblue;
-						}
-						a.icon-twitter:hover{
-							color: lightskyblue;
-							background: white;
-							border-color: white;
-							box-shadow: 0 0 .3rem lightskyblue;
-						}
-						a.icon-qq:hover{
-							background: lightskyblue;
-							color: white;
-							box-shadow: 0 0 .3rem lightskyblue;
-						}
-						a.icon-weibo:hover{
-							background: #ff3d36;
-							color: white;
-							box-shadow: 0 0 .3rem #ff3d3680;
-						}
-
-
-
-			.post-prev{
-				width: 100%;
-				margin: .5rem 0;
-				overflow: hidden;
-				background: #1e1e1e
-			}
-			.post-prev .half{
-				width: 50%;
-				float: left;
-			}
-			.post-prev a{
-				display: inline-block;
-				position: relative;
-				width: 100%;
-				height: 1.5rem;
-				float: left;
-			}
-			.post-prev .background{
-				width: 100%;
-				font-size: 0;
-				opacity: .6;
-				height: 1.5rem;
-				transition: opacity .5s;
-			}
-			.post-prev .background img{
-				object-fit: cover;
-				object-position: center;
-				width: 100%;
-				height: 100%;
-			}
-		.previous:hover .background,.next:hover .background{
-			opacity: .8;
-		}
-			.post-prev .label{
-				position: absolute;
-				display: block;
-				font-size: .14rem;
-				color: rgba(255,255,255,.8);
-				letter-spacing: .01rem;
-				z-index: 100;
-			}
-			.post-prev .info{
-				position: absolute;
-				z-index: 98;
-			}
-			.post-prev h3{
-				font-size: .16rem;
-				color: white;
-				margin: .2rem;
-			}
-			.previous .label{
-				top: .4rem;
-				left: .4rem;
-			}
-			.previous .info{
-				bottom: .4rem;
-				left: .4rem;
-			}
-			.next .label{
-				top: .4rem;
-				right: .4rem;
-			}
-			.next .info{
-				bottom: .4rem;
-				right: .4rem;
-			}
-
-
-	.toc-wrap{
-		position: absolute;
-		top: 5.5rem;
-		right: calc((100% - 14rem)/2);
-		width: 2.5rem;
-		z-index: 99;
-		padding: .1rem 0;
-		animation: holdFadeIn 3s linear;
-		transition: opacity 1s ease-in;
-	}
-		.toc{
-			position: sticky;
-			top: 1rem;
-		}
-			.toc-list{
-				padding-left: .1rem;
-				list-style: none;
-				text-align: left;
-				line-height: .21rem;
-			}
-			.toc-list .toc-list{
-				padding-left: .2rem;
-			}
-			a.toc-link{
-				display: inline-block;
-				font-size: .15rem;
-				white-space: nowrap;
-			}
-			.is-active-link{
-				font-weight: bold;
-			}
-			.toc-link:before{
-				content: '';
-				display: inline-block;
-				position: absolute;
-				background: #cbcbcb;
-				width: .02rem;
-				height: .22rem;
-				left: 0;
-				transition: height 1s;
-				pointer-events: none;
-			}
-			.is-active-link:before{
-				background: #FF6052;
-			}
-			.is-collapsed a:before{
-				height: 0;
-			}
-	@media screen and (max-width: 1300px) {
-		.toc-wrap{
-			opacity: 0;
-			pointer-events: none;
-			display: none;
-		}
-	}
-	@media screen and (max-width: 800px) {
-		.ph-img{
-			margin-top: .5rem;
-			height: 2.5rem;
-		}
-		.ph-img:before{
-			top: .5rem;
-		}
-	}
-	@media screen and (max-width: 650px) {
-		.post-prev .half{
-			float: none;
-			width: 100%;
-		}
-	}
-
+<style>
 </style>
