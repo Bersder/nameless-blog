@@ -10,7 +10,7 @@
 @import "Login.css";
 @import "Note.css";
 @import "Tag.css";
-@import "Space.css";
+@import "Space/Space.css";
 @import "TakeNote_Write.css";
 @import "BasePanel.css";
 @import "HeaderTop_SiteFooter.css";

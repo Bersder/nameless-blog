@@ -9,14 +9,6 @@ export const languageList=[
 	{imgSrc:'/root/site/images/moe.php.jpg',description:'本站后端支持'},
 	{imgSrc:'/root/site/images/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
 ];
-export const headerTop = {
-	logo:'Bersder3000',
-	socials:[
-		{url:'https://bilibili.com',iconSrc:'https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png'}
-
-	],
-	motto:'谢谢你，那个一直努力到了现在的自己',
-};
 export const statusMap = [ //所有状态
 	{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
 	{icon:'icon-focus',des:'不咕鸟',color:'#ff3d44'},
@@ -28,4 +20,3 @@ export const siteTitle = {
 	title_:' | 忍野喵',
 	subTitle:'おしの · にゃ'
 };
-//前期没时间实现只能export出来先了，后期需要存入数据库提供在线修改
