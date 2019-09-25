@@ -65,7 +65,7 @@
 <script>
 	import {post} from "../util/http";
 	import {mapState} from 'vuex';
-	import {statusMap} from "../util/USER_VAR";
+	import UCONF from "../config/user.conf";
 
 	export default {
         name: "Space",
@@ -124,7 +124,7 @@
         	return{
 				signature:'编辑个性签名',
 				status:0,
-				statusMap:statusMap,
+				statusMap:UCONF.statusMap,
 				memo:''
 			}
 		},

@@ -55,7 +55,7 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-	import {contentAsideMixin} from "../util/global";
+	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
 	import {fetch} from "../util/http";
 

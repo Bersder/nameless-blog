@@ -31,7 +31,7 @@
 <script>
 	import {mapState} from 'vuex'
 	import {post} from "../util/http";
-	import {aesEncrypt} from "../util/util";
+	import {aesEncrypt} from "../util/lib";
 
 	export default {
         name: "Login",

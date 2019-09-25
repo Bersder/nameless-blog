@@ -77,20 +77,8 @@
 <script>
 	import {mapState} from 'vuex'
 	import {fetch} from "../util/http";
-	import {statusMap} from "../util/USER_VAR";
-	let navData = [
-		{icon:'iconfont icon-archive',des:'归档',animate:'rotate-bf',subs:[
-				{icon:'iconfont icon-bilibili',des:'Anime',href:'/archive/anime'},
-				{icon:'iconfont icon-code',des:'极客',href:'/archive/code'},
-				{icon:'iconfont icon-youxi',des:'游民',href:'/archive/game'},
-				{icon:'iconfont icon-coffee',des:'随写',href:'/archive/trivial'}
-			],href:'/archive',isUnfolded:true},
-		{icon:'iconfont icon-pen',des:'笔记',animate:'writing',subs:false,href:'/note',isUnfolded:true},//笔记的sub待填充
-		{icon:'iconfont icon-tags',des:'标签',animate:'fade-bf',subs:false,href:'/tags',isUnfolded:true},
-		{icon:'iconfont icon-link',des:'友链',animate:'enlarge-abrupt',subs:false,href:'/links',isUnfolded:true},
-		// {icon:'iconfont icon-gear',des:'实验室',animate:'spin',subs:false,href:'/lab',isUnfolded:true},
-		{icon:'iconfont icon-leaf',des:'关于',animate:'axis-rotate',subs:false,href:'/about',isUnfolded:true}
-	];
+	import UCONF from "../config/user.conf";
+	import PCONF from "../config/project.conf"
     export default {
         name: "TheTopNav",
 		created(){
@@ -102,7 +90,7 @@
 		},
         data() {
             return {
-            	navData:navData,
+            	navData:PCONF.navList,
 				// scrollTop:window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
 				// screenWidth:window.innerWidth || document.body.clientWidth,
 				// screenHeight:window.innerHeight || document.documentElement.clientHeight,
@@ -110,7 +98,7 @@
 				searchKey:null,
 				meSign:'如果你看到了这个，提醒我今晚吃烤鸽子',
 				meStatus:0,
-				statusMap:statusMap
+				statusMap:UCONF.statusMap
 			}
         },
 		watch:{

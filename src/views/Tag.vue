@@ -41,8 +41,9 @@
 <script>
 	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
-	import {tagCloudMixin} from "../util/global";
-	import {siteTitle} from "../util/USER_VAR";
+	import tagCloudMixin from "../mixins/Mixin-TagCloud";
+	import UCONF from "../config/user.conf";
+	const siteTitle = UCONF.siteTitle;
 	export default {
         name: "Tag",
 		created(){

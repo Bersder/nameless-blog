@@ -49,9 +49,9 @@
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
 	import {fetch} from "../util/http";
-	import {contentAsideMixin} from "../util/global";
+	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
-	import {friendExchange} from "../util/USER_VAR";
+	import UCONF from "../config/user.conf";
 
 	export default {
         name: "Game",
@@ -73,7 +73,7 @@
 		},
         data() {
             return {
-				friendExchange:friendExchange,
+				friendExchange:UCONF.friendExchange,
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'游民',description:''}
 			}
         },

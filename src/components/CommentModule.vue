@@ -83,7 +83,7 @@
 
 <script>
 	import {post} from "../util/http";
-	import {copyText} from "../util/util";
+	import {copyText} from "../util/lib";
 	import marked from 'marked';
 	import hljs from "highlight.js"
 	export default {

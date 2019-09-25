@@ -64,8 +64,9 @@
 
 <script>
 	import {fetch} from "../util/http";
-	import {panelhMixin} from "../util/global";
-	import {siteTitle} from "../util/USER_VAR";
+	import panelHMixin from	"../mixins/Mixin-PanelH";
+	import UCONF from "../config/user.conf";
+	const siteTitle = UCONF.siteTitle;
 	export default {
         name: "Search",
 		created(){
@@ -142,7 +143,7 @@
 				return url + '#comments';
 			}
 		},
-		mixins:[panelhMixin]
+		mixins:[panelHMixin]
     }
 </script>
 

@@ -51,8 +51,8 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-	import {languageList} from "../util/USER_VAR";
-	import {contentAsideMixin} from "../util/global";
+	import UCONF from "../config/user.conf";
+	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
 	import {fetch} from "../util/http";
 
@@ -73,8 +73,8 @@
         data() {
             return {
             	ulLeft:0,
-				languageList:languageList,
-				langNum:languageList.length,
+				languageList:UCONF.languageList,
+				langNum:UCONF.languageList.length,
 				seriesList:[],
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'极客',description:''}
 

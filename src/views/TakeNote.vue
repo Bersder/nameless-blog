@@ -58,13 +58,13 @@
 </template>
 
 <script>
-	import {unique} from "../util/util";
+	import {unique} from "../util/lib";
 	import {post} from "../util/http";
 	import {post_form} from "../util/http";
-	import {siteTitle} from "../util/USER_VAR";
+	import UCONF from "../config/user.conf";
 	import {mapState} from 'vuex'
-	import {mdSetEdit} from "../util/global";
-
+	import PCONF from "../config/project.conf"
+	const siteTitle = UCONF.siteTitle;
 	export default {
         name: "TakeNote",
 		created(){
@@ -117,7 +117,7 @@
 		},
         data() {
             return {
-            	mdSetting:mdSetEdit,
+            	mdSetting:PCONF.MDEditMode,
             	catOptions:[],
 				tagOptions:[],
 				catMap:{zatsu:'雑モツ'},

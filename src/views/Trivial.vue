@@ -91,7 +91,7 @@
 
 <script>
 	import {fetch} from "../util/http";
-	import {contentAsideMixin} from "../util/global";
+	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
 	export default {
         name: "Trivial",

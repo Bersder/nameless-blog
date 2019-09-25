@@ -20,11 +20,11 @@ import SpaceLaunch from "@/components/SpaceLaunch";
 import SpaceDynamic from "@/components/SpaceDynamic";
 import SpaceAlbum from "@/components/SpaceAlbum";
 import SpaceSetting from "@/components/SpaceSetting";
-import {siteTitle} from "../util/USER_VAR";
+import UCONF from "../config/user.conf";
 Vue.use(Router);
-const title = siteTitle.title;
-const title_ = siteTitle.title_;
-const subTitle = siteTitle.subTitle;
+const title = UCONF.siteTitle.title;
+const title_ = UCONF.siteTitle.title_;
+const subTitle = UCONF.siteTitle.subTitle;
 
 export default new Router({
 	mode:'history',

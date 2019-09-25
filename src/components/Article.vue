@@ -112,12 +112,12 @@
 
 <script>
 	import {fetch} from "../util/http";
-	import {copyText} from "../util/util";
+	import {copyText} from "../util/lib";
 	import {mapState} from 'vuex'
-	import {mdSetPreview} from "../util/global";
-	import {siteTitle} from "../util/USER_VAR";
+	import PCONF from "../config/project.conf";
+	import UCONF from "../config/user.conf";
 	import CommentModule from "@/components/CommentModule";
-
+	const siteTitle = UCONF.siteTitle;
 	export default {
         name: "Article",
 		beforeRouteEnter(to,from,next){
@@ -148,7 +148,7 @@
 				rawContent:'',
 				pre:null,
 				next:null,
-				mdSet:mdSetPreview,
+				mdSet:PCONF.MDPreviewMode,
 
 				titleList:[],
 				titlePosition:[],

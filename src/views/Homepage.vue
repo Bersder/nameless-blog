@@ -99,7 +99,8 @@
 	import {fetch} from "../util/http";
 	import {mapGetters} from 'vuex'
 	import {mapState} from 'vuex'
-	import {contentAsideMixin,panelhMixin} from "../util/global";
+	import contentAsideMixin from "../mixins/Mixin-ContentAside";
+	import panelHMixin from	"../mixins/Mixin-PanelH";
 
 	export default {
         name: "Homepage",
@@ -171,7 +172,7 @@
 				}
 			}
 		},
-		mixins:[contentAsideMixin,panelhMixin]
+		mixins:[contentAsideMixin,panelHMixin]
     }
 </script>
 

@@ -127,8 +127,8 @@
 	import {post} from "../util/http";
 	import {post_form} from "../util/http";
 	import {mapState} from 'vuex'
-	import {tagCloudMixin} from "../util/global";
-	import {aesEncrypt} from "../util/util";
+	import tagCloudMixin from "../mixins/Mixin-TagCloud";
+	import {aesEncrypt} from "../util/lib";
 
 	export default {
         name: "SpaceSetting",

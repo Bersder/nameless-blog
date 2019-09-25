@@ -56,7 +56,7 @@ import LuminousBox from '@/components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
-import {debounce,randInt} from "./util/util";
+import {debounce,randInt} from "./util/lib";
 import {post,fetch} from "./util/http";
 
 export default {

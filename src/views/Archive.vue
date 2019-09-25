@@ -46,9 +46,8 @@
 
 <script>
 	import {fetch} from "../util/http";
-	import {fast_unique} from "../util/util";
 	import {mapState} from 'vuex'
-	import {tagCloudMixin} from "../util/global";
+	import tagCloudMixin from "../mixins/Mixin-TagCloud";
 	export default {
         name: "Archive",
 		created(){
