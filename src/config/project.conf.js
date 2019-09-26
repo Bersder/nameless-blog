@@ -14,26 +14,27 @@ export default {
 	],
 
 	MDPreviewMode:{
-		tabSize:4,
+		scrollStyle:false,
+		boxShadow:false,
 		subfield:false,
 		defaultOpen:'preview',
 		editable:false,
-		toolbarsFlag:false,
-		scrollStyle:true,
 		codeStyle:'github',
+		toolbarsFlag:false,
 		shortCut:false,
+		tabSize:4,
 		externalLink: {
 			markdown_css:()=>'/root/markdown/github-markdown3.0.css'
 		}
 	},
 
 	MDEditMode:{
-		tabSize:4,
+		placeholder:'开始烤鸽子...',
 		codeStyle:'github',//darcula
 		imageFilter:function(file){
 			return (/image\/\w+/.test(file.type)&&file.size<5000000);
 		},
-		subfield:true,
+		tabSize:4,
 		toolbars:{
 			bold: true,
 			italic: true,
@@ -53,7 +54,7 @@ export default {
 			fullscreen: false,
 			readmodel: true,
 			htmlcode: false,
-			help: true,
+			help: false,//markdown 帮助
 			undo: true,
 			redo: true,
 			trash: false,

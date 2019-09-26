@@ -54,10 +54,38 @@ const infoBox={
 		}
 	}
 };
+const lumiBox = {
+	namespaced:true,
+	state:{
+		imgs:[],
+		descriptions:[],
+		times:[],
+		index:0,
+		show:false
+	},
+	mutations:{
+		imgsC(state,IDTs){
+			state.imgs.length = state.descriptions.length = state.times.length = 0;
+			IDTs.forEach(e=>{
+				state.imgs.push(e.imgSrc);
+				state.descriptions.push(e.description);
+				e.time?state.times.push(e.time):state.times.push('Unknown Time');
+			});
+			state.index = 0;
+		},
+		indexC(state,index){
+			state.index = index;
+		},
+		showC(state,cur){
+			state.show = cur;
+		}
+	}
+};
 export default new Vuex.Store({
 	modules: {
 		account:account,
-		infoBox:infoBox
+		infoBox:infoBox,
+		lumiBox:lumiBox
 	},
 	state:{
 		platform:'',
@@ -67,12 +95,6 @@ export default new Vuex.Store({
 		screenHeight:window.innerHeight || document.documentElement.clientHeight,
 		screenWidth:window.innerWidth || document.body.clientWidth,
 		isMasked:false,
-
-		LBImgs:[],
-		LBDescriptions:[],
-		LBTimes:[],
-		LBIndex:0,
-		LBshow:false
 	},
 	mutations:{
 		platformInit(state,payload){
@@ -89,21 +111,6 @@ export default new Vuex.Store({
 		},
 		isMaskedC(state,cur){
 			state.isMasked = cur;
-		},
-		lbImgsC(state,img_des_list){
-			state.LBDescriptions.length = state.LBImgs.length = state.LBTimes.length = 0;
-			img_des_list.forEach(e=>{
-				state.LBImgs.push(e.imgSrc);
-				state.LBDescriptions.push(e.description);
-				e.time?state.LBTimes.push(e.time):state.LBTimes.push('')
-			});
-			state.LBIndex = 0;
-		},
-		lbIndexC(state,index){
-			state.LBIndex = index;
-		},
-		lbShowC(state,cur){
-			state.LBshow = cur
 		},
 		lazyCheck(state){
 			document.querySelectorAll('.lazyload').forEach(el=>{

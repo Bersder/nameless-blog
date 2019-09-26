@@ -60,7 +60,7 @@
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
 				if (!this.isMobile){
-					this.$store.commit('lbImgsC',data.album);
+					this.$store.commit('lumiBox/imgsC',data.album);
 					if (data.album.length){
 						this.firstImg = data.album[0].imgSrc;
 						this.firstDes = data.album[0].description;

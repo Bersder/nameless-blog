@@ -33,6 +33,7 @@
 	position: relative;
 	width: 100%;
 	overflow: hidden;
+	box-shadow: 0 .03rem .05rem #1e1e1e50;
 }
 .pattern-full-width:before{
 	content: "";
@@ -829,8 +830,8 @@ blockquote{
 	background: transparent !important;
 	padding: 0 !important;
 }
-.content-area .v-note-panel.shadow{
-	box-shadow: none !important;
+.content-area .v-note-wrapper .v-note-panel{
+	border: none;
 }
 .publish-area .v-note-wrapper,.publish-area .v-note-op{
 	background: rgba(255,255,255,.8) !important;

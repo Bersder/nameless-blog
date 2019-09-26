@@ -63,7 +63,7 @@
 				this.$set(this.typeCount, 'all', sum);
 				this.curPageNum = Math.ceil(sum/20);
 				this.albumWaiting = false;
-				this.$store.commit('lbImgsC',data.pictures);
+				this.$store.commit('lumiBox/imgsC',data.pictures);
 				this.curAlbums = data.pictures;
 			}).catch(err=>console.warn(err))
 		},
@@ -109,7 +109,7 @@
 					this.$post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
 						let data = response.data.data;
 						this.albumWaiting = false;
-						this.$store.commit('lbImgsC',data.pictures);
+						this.$store.commit('lumiBox/imgsC',data.pictures);
 						this.curAlbums = data.pictures;
 					})
 				}
@@ -125,7 +125,7 @@
 					let data = response.data.data;
 					this.albumWaiting = false;
 					console.log(data);
-					this.$store.commit('lbImgsC',data.pictures);
+					this.$store.commit('lumiBox/imgsC',data.pictures);
 					this.curAlbums = data.pictures;
 				})
 			}
@@ -159,8 +159,8 @@
 					this.popupShow = false
 			},
 			openLB(index){
-				this.$store.commit('lbIndexC',index);
-				this.$store.commit('lbShowC',true);
+				this.$store.commit('lumiBox/indexC',index);
+				this.$store.commit('lumiBox/showC',true);
 			},
 		},
 

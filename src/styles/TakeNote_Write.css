@@ -8,6 +8,7 @@
 	background-color: rgba(0, 0, 0, 0.1);
 }
 .no-img{
+	position: relative;
 	color: #99a2aa;
 	padding-top: 2rem;
 	height: 5rem;

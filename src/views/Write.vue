@@ -61,7 +61,18 @@
 						</ul>
 					</div>
 				</div>
-				<mavon-editor v-model.trim="rawContent" :externalLink="mdSetting.externalLink" :codeStyle="mdSetting.codeStyle" :tabSize="mdSetting.tabSize" :toolbars="mdSetting.toolbars" :imageFilter="mdSetting.imageFilter" :subfield="mdSetting.subfield" @imgAdd="$imgAdd" @save="saveTmp" ref=md />
+				<mavon-editor v-model.trim="rawContent"
+							  :imageClick="imageClick"
+							  :placeholder="mdSetting.placeholder"
+							  :imageFilter="mdSetting.imageFilter"
+							  :tabSize="mdSetting.tabSize"
+							  :toolbars="mdSetting.toolbars"
+							  :externalLink="mdSetting.externalLink"
+							  @imgAdd="imgAdd"
+							  @imgDel="imgDel"
+							  @save="saveTmp"
+							  ref=md>
+				</mavon-editor>
 				<div class="pa-submit"><button @click="launch"><i class="iconfont icon-launch"></i> Launch</button></div>
 			</div>
 
@@ -74,7 +85,7 @@
 import {unique} from "../utils/lib";
 import UCONF from "../config/user.conf";
 import {mapState} from 'vuex'
-import PCONF from "../config/project.conf"
+import writingMixin from "../mixins/Mixin-Writing"
 const siteTitle = UCONF.siteTitle;
 export default {
         name: "Write",
@@ -107,7 +118,8 @@ export default {
 						this.seriesOptions = art.seriesOptions || [];
 						this.inputTags = art.info.inputTags || '';
 						this.hi = art.info.imgSrc || null;
-						document.getElementById('hi').style.backgroundImage='url(/root'+art.info.imgSrc+')'
+						document.getElementById('hi').style.backgroundImage='url(/root'+art.info.imgSrc+')';
+						setTimeout(()=>this.loadImgs(),500);
 					}
 					else{
 						//不存在aid，重新导向至写文章页/404
@@ -129,67 +141,27 @@ export default {
 		},
         data() {
             return {
-				mdSetting:PCONF.MDEditMode,
             	typeOptions:['anime','code','game','trivial'],
 				seriesOptions:[],
-				tagOptions:[],
+				// tagOptions:[],
 
 				aid:this.$route.query.aid,
-				title:'',
-				author:'oshino',
+				// title:'',
+				// author:'oshino',
             	selectedType:'code',
-				preview:'',
-				rawContent:'',
+				// preview:'',
+				// rawContent:'',
 				selectedSeries:null,
-				selectedTags:[],
-				inputTags:'',
-				hi:null,
+				// selectedTags:[],
+				// inputTags:'',
+				// hi:null,
 
 				typeExpand:false,
 				seriesExpand:false,
-				tiFocus:false,
+				// tiFocus:false,
 			}
         },
-		beforeRouteLeave(to,from,next){
-        	if(to.name==='space'||to.name==='homepage')next();
-        	else{
-				let r = window.confirm('离开会导致未保存的信息丢失，是否继续');
-				if(r)next();
-			}
-		},
         methods:{
-        	selectTag(t){
-        		if(this.selectedTags.indexOf(t)===-1)
-        			this.selectedTags.push(t);
-				else this.selectedTags.splice(this.selectedTags.indexOf(t),1)
-			},
-			deleteTag(t){
-				this.selectedTags.splice(this.selectedTags.indexOf(t),1)
-			},
-			$imgAdd(pos,$file){
-				let param = new FormData();
-				param.append('img',$file);
-				param.append('token',this.token);
-				this.$post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
-			},
-			hiAdd(){
-				document.getElementById('hi-add').click();
-			},
-			hiChange(e){
-        		let file = e.target.files[0];
-        		if (file) {
-					if(file&&/image\/\w+/.test(file.type))
-						if(file.size<5000000){
-							let fr = new FileReader();
-							fr.onload = function(){document.getElementById('hi').style.backgroundImage='url('+fr.result+')'};
-							fr.readAsDataURL(file);
-							this.hi = file;
-						}
-						else
-							window.alert('文件过大');
-					else window.alert('请选择正确的文件类型')
-				}
-			},
 			saveTmp(v,r){
 				let it;
 				if(!this.title){//标题非空
@@ -301,7 +273,8 @@ export default {
 				}
 
 			},
-		}
+		},
+	mixins:[writingMixin]
 
     }
 </script>

@@ -108,7 +108,7 @@
 				this.noContent = !Boolean(parseInt(data.artNum));
 				this.pageNum = Math.ceil(parseInt(data.artNum)/8);
 				if (!this.isMobile){
-					this.$store.commit('lbImgsC',data.album);
+					this.$store.commit('lumiBox/imgsC',data.album);
 					if (data.album.length){
 						this.firstImg = data.album[0].imgSrc;
 						this.firstDes = data.album[0].description;
@@ -135,9 +135,6 @@
 			}
         },
         methods:{
-        	openLB(){
-        		this.$store.commit('lbShowC',true);
-			},
 			pageJump(e){
 				let page = parseInt(e.target.value);
 				if(isNaN(page)){}

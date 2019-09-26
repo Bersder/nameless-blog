@@ -21,7 +21,19 @@
 					</div>
 					<article :id="'post-'+$route.params.id" class="">
 						<div class="entry-content tl"><!--markdown 渲染区域-->
-							<mavon-editor @change="afterRender" :externalLink="mdSet.externalLink" v-model="rawContent" :codeStyle="mdSet.codeStyle" :subfield="mdSet.subfield" :defaultOpen="mdSet.defaultOpen" :editable="mdSet.editable" :toolbarsFlag="mdSet.toolbarsFlag" :shortCut="mdSet.shortCut"></mavon-editor>
+							<mavon-editor v-model="rawContent"
+										  :imageClick="imageClick"
+										  :scrollStyle="mdSet.scrollStyle"
+										  :boxShadow="mdSet.boxShadow"
+										  :subfield="mdSet.subfield"
+										  :defaultOpen="mdSet.defaultOpen"
+										  :editable="mdSet.editable"
+										  :toolbarsFlag="mdSet.toolbarsFlag"
+										  :shortCut="mdSet.shortCut"
+										  :tabSize="mdSet.tabSize"
+										  :externalLink="mdSet.externalLink"
+										  @change="afterRender">
+							</mavon-editor>
 						</div>
 						<footer class="post-footer">
 							<div class="post-update"><span>{{lut}} Lsat Update</span></div>
@@ -152,7 +164,16 @@
 				titleList:[],
 				titlePosition:[],
 				articleHeight:null,
-
+				imageClick: (e)=>{
+            		let imgs = document.querySelectorAll('.v-show-content img');
+            		let index = 0;
+					for (; index < imgs.length; index++) {
+						if(imgs[index]===e)
+							break
+					}
+					this.$store.commit('lumiBox/indexC',index);
+					this.$store.commit('lumiBox/showC',true);
+				}
 			}
         },
 		watch:{
@@ -197,6 +218,7 @@
         		if (!this.isMobile)
 					setTimeout(()=>this.genNavList(),500);
 				setTimeout(()=>this.codeDecorate(),500);
+				setTimeout(()=>this.loadImgs(),500)
 			},
 			isCollapsed(subs) {
 				if(!subs.length) return false;
@@ -285,6 +307,14 @@
 					}
 					e.parentElement.appendChild(numberring);
 				})
+			},
+			loadImgs(){
+				let imgs = document.querySelectorAll('.v-show-content img');
+				let IDTs = [];
+				imgs.forEach(e=>{
+					IDTs.push({imgSrc:e.src,description:e.alt})
+				});
+				this.$store.commit('lumiBox/imgsC',IDTs)
 			},
 			fetchData(data){
 				this.$fetch('/apis/apiv3.php',data).then(response=>{

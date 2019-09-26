@@ -60,7 +60,7 @@
 			LBnext(){
 				if (this.LBIndex<this.LBImgs.length-1){
 					this.LBimgShow = false;
-					this.$store.commit('lbIndexC',this.LBIndex+1);
+					this.$store.commit('lumiBox/indexC',this.LBIndex+1);
 					setTimeout(()=>this.LBimgShow = true,200)
 
 
@@ -69,19 +69,20 @@
 			LBprevious(){
 				if (this.LBIndex>0){
 					this.LBimgShow = false;
-					this.$store.commit('lbIndexC',this.LBIndex-1);
+					this.$store.commit('lumiBox/indexC',this.LBIndex-1);
 					setTimeout(()=>this.LBimgShow = true,200)
 				}
 			},
 			jumpto(index){
 				if (this.LBIndex!==index){
 					this.LBimgShow = false;
-					this.$store.commit('lbIndexC',index);
+					this.$store.commit('lumiBox/indexC',index);
 					setTimeout(()=>this.LBimgShow = true,200);
 				}
 			},
 			closeLB(){
-				this.$store.commit('lbShowC',false);
+				this.$store.commit('lumiBox/showC',false);
+				this.LBsidebarShow = false;
 				if (this.interval)
 					clearInterval(this.interval);
 					this.interval = null;
@@ -96,7 +97,14 @@
 			}
 		},
 		computed:{
-        	...mapState(['LBImgs','LBDescriptions','LBTimes','LBIndex','LBshow'])
+        	...mapState('lumiBox',{
+        		LBImgs: state => state.imgs,
+				LBDescriptions: state => state.descriptions,
+				LBTimes: state => state.times,
+				LBIndex: state => state.index,
+				LBshow: state => state.show,
+
+			})
 		}
     }
 </script>

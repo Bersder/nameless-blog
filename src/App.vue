@@ -52,7 +52,7 @@
 import TheSiteFooter from './components/TheSiteFooter'
 import TheTopNav from './components/TheTopNav'
 import HeaderTop from './components/HeaderTop'
-import LuminousBox from '@/components/LuminousBox'
+import LuminousBox from './components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';

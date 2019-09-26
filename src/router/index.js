@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Article from '@/components/Article'
+import Article from '@/views/Article'
 import Anime from '@/views/Anime'
 import Code from '@/views/Code'
 import Game from '@/views/Game'

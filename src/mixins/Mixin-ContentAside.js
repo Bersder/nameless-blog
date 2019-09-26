@@ -8,7 +8,7 @@ export default {
 	},
 	methods:{
 		openLB(){
-			this.$store.commit('lbShowC',true);
+			this.$store.commit('lumiBox/showC',true);
 		},
 	},
 	filters:{
