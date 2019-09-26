@@ -58,9 +58,7 @@
 </template>
 
 <script>
-	import {unique} from "../util/lib";
-	import {post} from "../util/http";
-	import {post_form} from "../util/http";
+	import {unique} from "../utils/lib";
 	import UCONF from "../config/user.conf";
 	import {mapState} from 'vuex'
 	import PCONF from "../config/project.conf"
@@ -69,7 +67,7 @@
         name: "TakeNote",
 		created(){
 			if(!this.nid){
-				post('/apis/edit/initn.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initn.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 					if (response.data.code < 1) {
 						this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
 						this.nid = response.data.nid;
@@ -82,7 +80,7 @@
 				}).catch(err=>console.warn(err));
 			}
 			else{
-				post('/apis/edit/initn.php?nid='+this.nid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initn.php?nid='+this.nid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 					if(response.data.exist>0){
 						let note = response.data;
 						this.rawContent = note.rawContent || '';
@@ -157,7 +155,7 @@
 				let param = new FormData();
 				param.append('img',$file);
 				param.append('token',this.token);
-				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
+				this.$post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
 			},
 			hiAdd(){
 				document.getElementById('hi-add').click();
@@ -201,7 +199,7 @@
 					category:this.selectedCat,
 					rawContent:v,
 				};
-				post('/apis/edit/saveTmp.php?nid='+this.nid,data).then(response=>{
+				this.$post('/apis/edit/saveTmp.php?nid='+this.nid,data).then(response=>{
 					if (response.data.code<1)
 						this.$store.commit('infoBox/callInfoBox',{
 							info:'草稿保存成功',
@@ -246,10 +244,10 @@
 						let fd = new FormData();
 						fd.append('hi',this.hi);
 						fd.append('token',this.token);
-						post_form('/apis/edit/mdimg.php?nid='+this.nid,fd).then(response=>{
+						this.$post_form('/apis/edit/mdimg.php?nid='+this.nid,fd).then(response=>{
 			 				if (response.data.code < 1) {
 								data.imgSrc = response.data.imgSrc;
-								post('/apis/edit/launch.php?nid='+this.nid,data).then(re=>{
+								this.$post('/apis/edit/launch.php?nid='+this.nid,data).then(re=>{
 									if (re.data.code<1){
 										this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
 										this.$router.push({name:'space'});
@@ -272,7 +270,7 @@
 					}
 					else{
 						data.imgSrc = this.hi;
-						post('/apis/edit/launch.php?nid='+this.nid,data).then(response=>{
+						this.$post('/apis/edit/launch.php?nid='+this.nid,data).then(response=>{
 							if (response.data.code < 1){
 								this.$store.commit('infoBox/callInfoBox',{info:'笔记发布成功', ok:true, during:2000});
 								this.$router.push({name:'space'});

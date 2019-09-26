@@ -56,8 +56,7 @@ import LuminousBox from '@/components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
-import {debounce,randInt} from "./util/lib";
-import {post,fetch} from "./util/http";
+import {debounce,randInt} from "./utils/lib";
 
 export default {
     name: 'App',
@@ -82,7 +81,7 @@ export default {
 		this.back2topImg = "/root/site/images/back2top"+randInt(1,5)+".png";
 		if (window.localStorage.getItem('BB3000_token')){//尝试自动登录
 			let token = window.localStorage.getItem('BB3000_token');
-			post('/apis/auth/aLogin.php',{token:token}).then(response=>{
+			this.$post('/apis/auth/aLogin.php',{token:token}).then(response=>{
 				if (response.data.code>0){
 					//token过期或非法,清除token
 					window.localStorage.removeItem('BB3000_token');
@@ -141,7 +140,7 @@ export default {
 	},
 	methods:{
     	async musicInit(){
-			let musicRes= await fetch('/music/music.json');
+			let musicRes= await this.$fetch('/music/music.json');
 			this.ap= new APlayer({
 				container:document.getElementById('aplayer'),
 				fixed:true,
@@ -199,7 +198,7 @@ export default {
 
 <style>
 	@import "styles/index.css";
-	@import "assets/animation.css";
+	@import "styles/animation.css";
 	@font-face {
 		font-family: 'Fira Code VF';
 		src: url('/root/fonts/FiraCode-VF.woff') format('woff-variations'), url("/root/fonts/FiraCode-VF.ttf") format("truetype");

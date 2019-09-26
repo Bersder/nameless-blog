@@ -52,11 +52,10 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	export default {
         name: "About",
 		created(){
-			fetch('/apis/apiv12.php').then(response=>{
+			this.$fetch('/apis/apiv12.php').then(response=>{
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
 			})

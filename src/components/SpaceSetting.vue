@@ -124,16 +124,14 @@
 </template>
 
 <script>
-	import {post} from "../util/http";
-	import {post_form} from "../util/http";
 	import {mapState} from 'vuex'
 	import tagCloudMixin from "../mixins/Mixin-TagCloud";
-	import {aesEncrypt} from "../util/lib";
+	import {aesEncrypt} from "../utils/lib";
 
 	export default {
         name: "SpaceSetting",
 		created(){
-			post('/apis/auth/v10api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+			this.$post('/apis/auth/v10api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 				let data = response.data.data;
 				//console.log(data);
 				data.tags.forEach(e=>{
@@ -208,7 +206,7 @@
         	addTag(){
 				if (this.newTag&&!/,/.test(this.newTag)) {
 					let data = {newTag:this.newTag};
-					post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code < 1){
 							if (response.data.tagExist > 0)
 								this.$store.commit('infoBox/callInfoBox',{info:'标签已存在', ok:false, during:2000});
@@ -229,7 +227,7 @@
 			addSeries(){
 				if (this.newSeries){
 					let data = {newSeries:this.newSeries};
-					post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code<1){
 							if (response.data.seriesExist > 0)
 								this.$store.commit('infoBox/callInfoBox',{info:'系列已存在', ok:false, during:2000});
@@ -253,7 +251,7 @@
 					let EN = CNEN[1].trim();
 					if (CN&&EN){
 						let data = {newCatCN:CN,newCatEN:EN};
-						post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+						this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
 							if (response.data.code < 1) {
 								if (response.data.catExist > 0)
 									this.$store.commit('infoBox/callInfoBox',{info:'笔记类别已存在', ok:false, during:2000});
@@ -276,7 +274,7 @@
 			addLink(){
 				if (/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.newLinkUrl)&&this.newLinkName) {
 					let data = {newLinkUrl:this.newLinkUrl,newLinkName:this.newLinkName,newLinkType:this.newLinkType};
-					post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code < 1) {
 							if (response.data.linkExist>0)
 								this.$store.commit('infoBox/callInfoBox',{info:'该链接已存在', ok:false, during:2000});
@@ -340,7 +338,7 @@
 			delConfirm(bool){
 				if (bool){
 					this.delWaiting = true;
-					post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(this.delTarget))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(this.delTarget))}).then(response=>{
 						if (response.data.code < 1){
 							if (this.delTarget.delTag){
 								this.searchKey = '';
@@ -393,7 +391,7 @@
 					if (item.file){
 						fd.append('bg',item.file)
 					}
-					post_form('/apis/auth/v10api.php',fd).then(response=>{
+					this.$post_form('/apis/auth/v10api.php',fd).then(response=>{
 						if (response.data.code < 1){
 							item.file = undefined;
 							item.description = item.tmpDes = response.data.data.des;

@@ -76,13 +76,12 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import {fetch} from "../util/http";
 	import UCONF from "../config/user.conf";
 	import PCONF from "../config/project.conf"
     export default {
         name: "TheTopNav",
 		created(){
-        	fetch('/apis/apiv0.php').then(response=>{
+        	this.$fetch('/apis/apiv0.php').then(response=>{
         		let data = response.data.data;
 				this.meSign = data.info.sign;
         		this.meStatus = data.info.status

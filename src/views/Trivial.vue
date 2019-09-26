@@ -90,13 +90,12 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
 	export default {
         name: "Trivial",
 		created(){
-			fetch('/apis/apiv1.php',{_:'trivial'}).then(response=>{
+			this.$fetch('/apis/apiv1.php',{_:'trivial'}).then(response=>{
 				let data = response.data.data;
 				console.log(data);
 				this.headerInfo = data.headerInfo;
@@ -177,7 +176,7 @@
 				else{
 					while (this.curArts.pop()){}
 					this.artWaiting = true;
-					fetch('/apis/apiv2.php',{_:'trivial',pn:cur,order:this.orderFlag}).then(response=>{
+					this.$fetch('/apis/apiv2.php',{_:'trivial',pn:cur,order:this.orderFlag}).then(response=>{
 						this.$set(this.arts[this.orderFlag],cur,response.data.data.arts);
 						this.artWaiting = false;
 						this.arts[this.orderFlag][cur].forEach(e=>this.curArts.push(e));

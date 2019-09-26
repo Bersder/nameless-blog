@@ -71,9 +71,7 @@
 </template>
 
 <script>
-import {unique} from "../util/lib";
-import {post} from "../util/http";
-import {post_form} from "../util/http";
+import {unique} from "../utils/lib";
 import UCONF from "../config/user.conf";
 import {mapState} from 'vuex'
 import PCONF from "../config/project.conf"
@@ -82,7 +80,7 @@ export default {
         name: "Write",
 		created(){
         	if(!this.aid){
-				post('/apis/edit/initw.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initw.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 					if (response.data.code < 1) {
 						this.$router.replace({name:'write',query:{aid:response.data.aid}});
 						this.aid=response.data.aid;
@@ -95,7 +93,7 @@ export default {
 				//全新文章获取其adi，添加至后缀
 			}
 			else {//如果有后缀，不申请aid，根据现有aid请求保存的信息
-				post('/apis/edit/initw.php?aid='+this.aid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initw.php?aid='+this.aid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 					if(response.data.exist>0){
 						let art = response.data;
 						this.rawContent = art.rawContent || '';
@@ -172,7 +170,7 @@ export default {
 				let param = new FormData();
 				param.append('img',$file);
 				param.append('token',this.token);
-				post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
+				this.$post_form('/apis/edit/mdimg.php',param).then(response=>this.$refs.md.$img2Url(pos,'http://localhost:80'+response.data.imgSrc)).catch(err=>console.warn(err));
 			},
 			hiAdd(){
 				document.getElementById('hi-add').click();
@@ -216,7 +214,7 @@ export default {
 					series:this.selectedSeries,
 					rawContent:v
 				};
-        		post('/apis/edit/saveTmp.php?aid='+this.aid,data).then(response=>{
+        		this.$post('/apis/edit/saveTmp.php?aid='+this.aid,data).then(response=>{
 					if (response.data.code<1)
 						this.$store.commit('infoBox/callInfoBox',{
 							info:'草稿保存成功',
@@ -261,10 +259,10 @@ export default {
 						let fd = new FormData();
 						fd.append('hi',this.hi);
 						fd.append('token',this.token);
-						post_form('/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
+						this.$post_form('/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
 							if (response.data.code < 1) {
 								data.imgSrc = response.data.imgSrc;
-								post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
+								this.$post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
 									if (re.data.code<1){
 										this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
 										this.$router.push({name:'space'});
@@ -287,7 +285,7 @@ export default {
 					}
 					else{
 						data.imgSrc = this.hi;
-						post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
+						this.$post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
 							if (response.data.code<1){
 								this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
 								this.$router.push({name:'space'});

@@ -63,7 +63,6 @@
 </template>
 
 <script>
-	import {post} from "../util/http";
 	import {mapState} from 'vuex';
 	import UCONF from "../config/user.conf";
 
@@ -103,7 +102,7 @@
 		created(){
         	if (this.isMobile){
         		if (window.confirm('个人空间并没适配移动端，是否进入?'))
-					post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					this.$post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 						let info = response.data.data.info;
 						this.signature = info.sign;
 						this.status = parseInt(info.status);
@@ -113,7 +112,7 @@
 					this.$router.go(-1)
 			}
         	else
-				post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 					let info = response.data.data.info;
 					this.signature = info.sign;
 					this.status = parseInt(info.status);
@@ -130,7 +129,7 @@
 		},
 		methods:{
         	signChange(){
-        		post('/apis/auth/v0api.php',{token:this.token,sign:this.signature}).then(response=>{
+        		this.$post('/apis/auth/v0api.php',{token:this.token,sign:this.signature}).then(response=>{
         			if (response.data.code < 1)
 						this.$store.commit('infoBox/callInfoBox',{
 							info:'个人签名更新成功',
@@ -141,13 +140,13 @@
 			},
 			statusChange(){
         		let nextStatus = (this.status+1)%this.statusMap.length;
-				post('/apis/auth/v0api.php',{token:this.token,status:nextStatus}).then(response=>{
+				this.$post('/apis/auth/v0api.php',{token:this.token,status:nextStatus}).then(response=>{
 					if (response.data.code < 1)
 						this.status=nextStatus;
 				}).catch(err=>console.warn(err))
 			},
 			memoChange(){
-        		post('/apis/auth/v0api.php',{token:this.token,memo:this.memo}).then(response=>{
+        		this.$post('/apis/auth/v0api.php',{token:this.token,memo:this.memo}).then(response=>{
         			if (response.data.code<1)
 						this.$store.commit('infoBox/callInfoBox',{
 							info:'备忘录更新成功',

@@ -49,12 +49,11 @@
 </template>
 
 <script>
-	import {post} from "../util/http";
 	import {mapState} from 'vuex'
 	export default {
         name: "SpaceAlbumAlbum",
 		created(){
-        	post('/apis/auth/v8api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
+        	this.$post('/apis/auth/v8api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
 				let data = response.data.data;
 				let sum = 0;
 				for(let i in data.counts){
@@ -107,7 +106,7 @@
 					this.curAlbums = [];
 					this.albumWaiting = true;
 					let query = '?pn=1&type='+cur;
-					post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
+					this.$post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
 						let data = response.data.data;
 						this.albumWaiting = false;
 						this.$store.commit('lbImgsC',data.pictures);
@@ -122,7 +121,7 @@
 				this.curAlbums = [];
 				this.albumWaiting = true;
 				let query = '?pn='+cur+'&type='+this.curType;
-				post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
+				this.$post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
 					let data = response.data.data;
 					this.albumWaiting = false;
 					console.log(data);
@@ -144,7 +143,7 @@
 			},
 			delConfirm(bool){
 				if (bool) //确认删除
-					post('/apis/auth/v9api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
+					this.$post('/apis/auth/v9api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
 						if (response.data.code < 1) {
 							this.popupShow = false;
 							location.reload()

@@ -111,8 +111,7 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
-	import {copyText} from "../util/lib";
+	import {copyText} from "../utils/lib";
 	import {mapState} from 'vuex'
 	import PCONF from "../config/project.conf";
 	import UCONF from "../config/user.conf";
@@ -288,7 +287,7 @@
 				})
 			},
 			fetchData(data){
-				fetch('/apis/apiv3.php',data).then(response=>{
+				this.$fetch('/apis/apiv3.php',data).then(response=>{
 					if (response.data.code < 1) {
 						let data = response.data.data;
 						this.rawContent = data.rawContent || '';

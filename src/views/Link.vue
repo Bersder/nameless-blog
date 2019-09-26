@@ -89,12 +89,11 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import CommentModule from "@/components/CommentModule";
 	export default {
         name: "Link",
 		created(){
-			fetch('/apis/apiv11.php').then(response=>{
+			this.$fetch('/apis/apiv11.php').then(response=>{
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
 				data.FList.forEach(e => this.FList.push(e));

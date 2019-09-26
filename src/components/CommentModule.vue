@@ -82,8 +82,7 @@
 </template>
 
 <script>
-	import {post} from "../util/http";
-	import {copyText} from "../util/lib";
+	import {copyText} from "../utils/lib";
 	import marked from 'marked';
 	import hljs from "highlight.js"
 	export default {
@@ -167,7 +166,7 @@
 				}
 			},
         	fetchComment(offset){
-				post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
+				this.$post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
 					if (response.data.code < 1) {
 						let data = response.data.data;
 						this.allCount = parseInt(data.allCount);
@@ -228,7 +227,7 @@
 							notifyMe:this.notifyMe
 						};
 						if(window.confirm('即将提交评论，是否确认')){
-							post('/apis/apiv7.php',data).then(response=>{
+							this.$post('/apis/apiv7.php',data).then(response=>{
 								console.log(response);
 								if (response.data.code<1)
 									location.reload();

@@ -45,13 +45,12 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import {mapState} from 'vuex'
 	import tagCloudMixin from "../mixins/Mixin-TagCloud";
 	export default {
         name: "Archive",
 		created(){
-			fetch('/apis/apiv4.php').then(response=>{
+			this.$fetch('/apis/apiv4.php').then(response=>{
 				let data = response.data.data;
 				this.articles = data.articles;
 				this.headerInfo = data.headerInfo;

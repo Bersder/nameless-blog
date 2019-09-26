@@ -96,7 +96,6 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import {mapGetters} from 'vuex'
 	import {mapState} from 'vuex'
 	import contentAsideMixin from "../mixins/Mixin-ContentAside";
@@ -105,7 +104,7 @@
 	export default {
         name: "Homepage",
 		created(){
-        	fetch('/apis/apiv9.php').then(response=>{
+        	this.$fetch('/apis/apiv9.php').then(response=>{
         		let data = response.data.data;
         		this.artNum = parseInt(data.artNum);
 				data.arts.forEach(e=>this.curArts.push(e));
@@ -144,7 +143,7 @@
         methods:{
         	loadMore(){
 				if (this.curArts.length<this.artNum)
-					fetch('/apis/apiv9.php',{more:Math.floor(this.curArts.length/8)}).then(response=>{
+					this.$fetch('/apis/apiv9.php',{more:Math.floor(this.curArts.length/8)}).then(response=>{
 						response.data.data.arts.forEach(e=>this.curArts.push(e));
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					});

@@ -36,11 +36,10 @@
 
 <script>
 	import {mapState} from 'vuex';
-	import {fetch} from "../util/http";
 	export default {
         name: "HeaderTop",
 		created(){
-        	fetch('/apis/apiv13.php').then(response=>{
+        	this.$fetch('/apis/apiv13.php').then(response=>{
 				this.bgInfo = response.data;
 				setTimeout(()=>this.SH=false,1000)
 			})

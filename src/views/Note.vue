@@ -85,12 +85,11 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import {mapGetters} from 'vuex'
     export default {
         name: "Note",
 		created(){
-			fetch('/apis/apiv1.php',{_:'note'}).then(response=>{
+			this.$fetch('/apis/apiv1.php',{_:'note'}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
 				this.noteWaiting = false;
@@ -140,7 +139,7 @@
 			// curFilter(cur,pre){ //监视filter变化并切换到对应note列表
 			// 	if(this.notes[cur])this.curNotes = this.notes[cur];
 			// 	else{
-			// 		fetch('/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
+			// 		this.$fetch('/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
 			// 			console.log(response.data);
 			// 			this.curNotes = this.notes[cur] = response.data.data;
 			// 		})
@@ -152,7 +151,7 @@
         	// 	console.log(cur);
         	// 	if(this.curNotes.length<parseInt(this.catCount[cur])){
         	// 		console.log(this.curNotes.length,parseInt(this.catCount[cur]));
-			// 		fetch('/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
+			// 		this.$fetch('/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
 			// 			response.data.data.forEach(e=>this.notes[cur].push(e))
 			// 		})
 			// 	}

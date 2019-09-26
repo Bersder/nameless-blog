@@ -48,7 +48,6 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-	import {fetch} from "../util/http";
 	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
 	import UCONF from "../config/user.conf";
@@ -56,7 +55,7 @@
 	export default {
         name: "Game",
 		created(){
-			fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
+			this.$fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
 				console.log(response.data.data);
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;

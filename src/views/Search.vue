@@ -63,7 +63,6 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import panelHMixin from	"../mixins/Mixin-PanelH";
 	import UCONF from "../config/user.conf";
 	const siteTitle = UCONF.siteTitle;
@@ -71,7 +70,7 @@
         name: "Search",
 		created(){
         	document.title = '搜索：'+this.$route.params.key+siteTitle.title_;
-			fetch('/apis/apiv10.php',{s:this.$route.params.key}).then(response=>{
+			this.$fetch('/apis/apiv10.php',{s:this.$route.params.key}).then(response=>{
 				let data = response.data.data;
 				console.log(data);
 				this.searchWaiting = false;
@@ -100,7 +99,7 @@
 				this.curResults.length = this.resultNum = 0;
 				this.searchWaiting = true;
 				this.searchFound = true;
-				fetch('/apis/apiv10.php',{s:cur.params.key}).then(response=>{
+				this.$fetch('/apis/apiv10.php',{s:cur.params.key}).then(response=>{
 					let data = response.data.data;
 					this.searchWaiting = false;
 					this.searchFound = Boolean(data.found);

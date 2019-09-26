@@ -21,11 +21,10 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import {post} from "../util/http";
 	export default {
         name: "SpaceLaunchDraft",
 		created(){
-			post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
+			this.$post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
 				if (response.data.code < 1){
 					let data = response.data.data;
 					this.draftWaiting = false;
@@ -49,7 +48,7 @@
 		methods:{
         	dropDraft(draft){
         		if(window.confirm('确认舍弃该草稿？'))
-					post('/apis/auth/v2api.php',{token:this.token,type:this.type,id:draft.id}).then(response=>{
+					this.$post('/apis/auth/v2api.php',{token:this.token,type:this.type,id:draft.id}).then(response=>{
 						if (response.data.code < 1){
 							this.drafts.splice(this.drafts.indexOf(draft),1);
 							this.draftExist = Boolean(this.drafts.length);
@@ -61,7 +60,7 @@
         	type(cur,pre){
 				this.draftExist = this.draftWaiting = true;
         		while(this.drafts.pop()){}
-        		post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
+        		this.$post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
         			if (response.data.code<1){
 						let data = response.data.data;
 						this.draftWaiting = false;

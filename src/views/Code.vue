@@ -54,12 +54,11 @@
 	import UCONF from "../config/user.conf";
 	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
-	import {fetch} from "../util/http";
 
 	export default {
         name: "Code",
 		created(){
-			fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
+			this.$fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
 				let data = response.data.data;
 				console.log(data);
 				this.headerInfo = data.headerInfo;

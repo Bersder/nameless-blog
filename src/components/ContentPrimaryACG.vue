@@ -39,12 +39,11 @@
 </template>
 
 <script>
-	import {fetch} from "../util/http";
 	import BasePanel from '@/components/BasePanel'
     export default {
         name: "ContentPrimaryACG",
 		created(){
-			fetch('/apis/apiv1.php?',{_:this.type}).then(response=>{
+			this.$fetch('/apis/apiv1.php?',{_:this.type}).then(response=>{
 				console.log(response.data);
 				let data = response.data.data;
 				this.artWaiting = false;
@@ -85,7 +84,7 @@
         		else{
         			this.curArts = [];
         			this.artWaiting = true;
-					fetch('/apis/apiv2.php',{_:this.type,pn:cur,order:this.orderFlag}).then(response=>{
+					this.$fetch('/apis/apiv2.php',{_:this.type,pn:cur,order:this.orderFlag}).then(response=>{
 						this.artWaiting = false;
 						this.curArts = this.arts[this.orderFlag][cur] = response.data.data.arts;
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);

@@ -30,8 +30,7 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import {post} from "../util/http";
-	import {aesEncrypt} from "../util/lib";
+	import {aesEncrypt} from "../utils/lib";
 
 	export default {
         name: "Login",
@@ -83,7 +82,7 @@
 						psw:this.password,
 						remember: this.remember?1:0
 					};
-					post('/apis/auth/login.php',aesEncrypt(JSON.stringify(data))).then(response=>{
+					this.$post('/apis/auth/login.php',aesEncrypt(JSON.stringify(data))).then(response=>{
 						if (response.data.code > 0){
 							//信息错误
 							this.$store.commit('infoBox/callInfoBox',{

@@ -57,12 +57,11 @@
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
 	import contentAsideMixin from "../mixins/Mixin-ContentAside";
 	import {mapState} from 'vuex'
-	import {fetch} from "../util/http";
 
 	export default {
         name: "Anime",
 		created(){
-			fetch('/apis/apiv8.php',{_:'anime'}).then(response=>{
+			this.$fetch('/apis/apiv8.php',{_:'anime'}).then(response=>{
 				let data = response.data.data;
 				console.log(data);
 				this.headerInfo = data.headerInfo;

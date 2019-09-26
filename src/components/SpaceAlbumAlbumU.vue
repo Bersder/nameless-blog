@@ -50,7 +50,6 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import {post_form} from "../util/http";
 
 	export default {
         name: "SpaceAlbumAlbumU",
@@ -110,7 +109,7 @@
 					fd.append('type',e.type);
 					fd.append('des',e.des);
 					fd.append('img',e.img);
-					post_form('/apis/auth/v9api.php',fd).then(response=>{
+					this.$post_form('/apis/auth/v9api.php',fd).then(response=>{
 						if (response.data.code < 1)
 							this.imgs.splice(this.imgs.indexOf(e),1);
 						else{

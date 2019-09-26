@@ -59,13 +59,12 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import {post} from "../util/http";
-	import {aesEncrypt} from "../util/lib";
+	import {aesEncrypt} from "../utils/lib";
 
 	export default {
         name: "SpaceLaunchContent",
 		created(){
-        	post('/apis/auth/v3api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+        	this.$post('/apis/auth/v3api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
         		if (response.data.code < 1){
 					let data = response.data.data;
 					console.log(data);
@@ -111,7 +110,7 @@
 		},
 		methods:{
         	editItem(item){
-				post('/apis/auth/v2api.php?create',{token:this.token,id:item.id,type:item.type}).then(response=>{
+				this.$post('/apis/auth/v2api.php?create',{token:this.token,id:item.id,type:item.type}).then(response=>{
 					if (response.data.code < 1){
 						let to = item.type==='note'?'/takenote?nid='+item.id:'/write?aid='+item.id;
 						this.$router.push(to)
@@ -120,7 +119,7 @@
 			},
 			topItem(item){
 					let query = parseInt(item.topped)?'':'?topped';
-					post('/apis/auth/v4api.php'+query,{token:this.token,id:item.id}).then(response=>{
+					this.$post('/apis/auth/v4api.php'+query,{token:this.token,id:item.id}).then(response=>{
 						if (response.data.code < 1){
 							//置顶或取消置顶成功
 							this.$store.commit('infoBox/callInfoBox',{
@@ -152,7 +151,7 @@
 						id:this.delTarget.id,
 						type:this.delTarget.type
 					};
-					post('/apis/auth/v5api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v5api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code < 1){//授权成功删除
 							this.password = '';
 							this.authBoxShow = false;

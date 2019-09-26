@@ -44,13 +44,12 @@
 </template>
 
 <script>
-	import {post} from "../util/http";
 	import {mapGetters} from 'vuex';
 	import {mapState} from 'vuex';
 	export default {
         name: "SpaceDynamic",
 		created(){
-			post('/apis/auth/v6api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+			this.$post('/apis/auth/v6api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 				let data = response.data.data;
 				data.dynamics.forEach(e=>this.curDynamics.push(e));
 				this.dynamicNum = parseInt(data.dNum);
@@ -80,7 +79,7 @@
 						content:this.sendContent.replace(/^\s*|\s*$/g,''),
 						type:this.sendType
 					};
-        			post('/apis/auth/v7api.php',data).then(response=>{
+        			this.$post('/apis/auth/v7api.php',data).then(response=>{
 						if (response.data.code<1){
 							this.sendContent = '';
 							this.$store.commit('infoBox/callInfoBox',{
@@ -102,7 +101,7 @@
 			},
 			delConfirm(bool){
 				if (bool) //确认删除
-					post('/apis/auth/v7api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
+					this.$post('/apis/auth/v7api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
 						if (response.data.code<1){//删除成功，总数-1,
 							this.dynamicNum--;
 							this.curDynamics.splice(this.curDynamics.indexOf(this.delTarget),1);
@@ -119,7 +118,7 @@
 			},
         	loadMore(){
 				if (this.curDynamics.length < this.dynamicNum) {
-					post('/apis/auth/v6api.php?more='+Math.floor(this.curDynamics.length/10),{token:this.token}).then(response=>{
+					this.$post('/apis/auth/v6api.php?more='+Math.floor(this.curDynamics.length/10),{token:this.token}).then(response=>{
 						response.data.data.dynamics.forEach(e=>this.curDynamics.push(e))
 					}).catch(err=>console.warn(err))
 				}
