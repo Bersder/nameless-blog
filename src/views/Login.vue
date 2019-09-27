@@ -49,26 +49,21 @@
 			...mapState(['screenHeight']),
 		},
 		beforeRouteEnter(to,from,next){
-        	console.log(to,from);
         	if (!from.name){ //非路由方式进入
         		if (window.localStorage.getItem('BB3000_token')){
-        			console.log('//非路由方式进入,存在token，回去主页等待验证');
 					next('/');
 				}//存在token，回去主页等待验证
 
 				else{
-					console.log('//非路由方式进入,没有token，允许进行登录');
 					next()
 				}//没有token，允许进行登录
 
 			}
 			else{//路由方式进入
 				if (to.meta.loginStatus){
-					console.log('路由方式进入，已经登录过');
 					next('/');
 				} //已经登录过
 				else{
-					console.log('路由方式进入，没登录');
 					next();
 				}
 

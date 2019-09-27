@@ -56,7 +56,6 @@
         name: "Game",
 		created(){
 			this.$fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
-				console.log(response.data.data);
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
 				if (!this.isMobile){

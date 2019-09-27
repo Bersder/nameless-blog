@@ -10,7 +10,6 @@ axios.interceptors.response.use(
 		if (err.response) {
 			switch (err.response.status) {
 				case 401:
-					console.log('401拦截');
 					store.commit('account/logout');
 					router.push('/');
 			}

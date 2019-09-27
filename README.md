@@ -3,16 +3,22 @@
 
 ## 重大保存点
 - 2019.9.12 4f9a606 网站开发基本完成，进入生产环境调试前的最后保存
-- 2019.9.12 a3d0950 为了方便调试，vue设置了代理，统一转发/root开头的请求，共64个，剩下3个localhost(上线前请使用`'/root'\+|/root`正则替换成空字符串)
+- 2019.9.12 a3d0950 为了方便调试，vue设置了代理，**统一转发/root开头的请求，共64个**(上线前请使用`'/root'\+|/root`在src中正则替换成空字符串)
 - 2019.9.22(fix11_) b2bc824 调试修复基本完成，进行css重组前的最后保存
-- 2019.9.24 4e19690 css重组完成(确保Space部分没有问题，其他不保证)，**/root个数下降至63个**
+- 2019.9.24 4e19690 css重组完成(确保Space部分没有问题，其他不保证)
 - 2019.9.25 b7b470d 项目结构重组1：将global.js和USER_VAR.js解构，并新增config和mixins目录用于容纳
 - 2019.9.26 3f8994e 项目结构重组2：将请求接口挂载在Vue原型上，大量减少其import
-- 2019.9.26  项目结构重组3：vuex重组，将LuminousBox部分独立成模块;并实现了LuminousBox和markdown图片的对接
+- 2019.9.26 315bdf5 项目结构重组3：vuex重组，将LuminousBox部分独立成模块;并实现了LuminousBox和markdown图片的对接
+- 2019.9.27 fix12&v1.0.0：暂时‘放弃治疗’并休息，发布版本v1.0.0
 
+## 任务列表
+### Task01
+- [ ] Series页面
+- [ ] 评论区表情支持，评论区机器人排查
+- [ ] Anime页面的追番板
+- [ ] Space主页面
 
 ## 修复记录
-
 ### Fix01(Mainly for TheTopNav.vue)
 - [X] 修复LaunchDraft nodata.png在waiting前显示
 - [X] 取消ctrlPanel和back2top在编辑页面的出现
@@ -80,6 +86,10 @@
 - [X] 为Homepage和Note页面添加公告信息，并连接后端
 - [X] 各种css优化
 
-## 功能添加
+### Fix12
+- [X] 对Footer进行了重制，并且填充了逻辑
+- [X] panelH样式优化
+- [X] 添加404页面
+- [X] 为编辑页面路由设置loginStatus，编辑页面进入前会判断登录状态
+- [X] 去除Note旧代码和console.log
 
-### Add01

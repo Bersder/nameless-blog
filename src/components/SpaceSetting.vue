@@ -133,7 +133,6 @@
 		created(){
 			this.$post('/apis/auth/v10api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 				let data = response.data.data;
-				//console.log(data);
 				data.tags.forEach(e=>{
 					this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length + e.relateNote.split(',').length - 4)
 				});

@@ -20,6 +20,7 @@ import SpaceLaunch from "@/components/SpaceLaunch";
 import SpaceDynamic from "@/components/SpaceDynamic";
 import SpaceAlbum from "@/components/SpaceAlbum";
 import SpaceSetting from "@/components/SpaceSetting";
+import NotFind404 from "@/components/_404";
 import UCONF from "../config/user.conf";
 Vue.use(Router);
 const title = UCONF.siteTitle.title;
@@ -46,6 +47,18 @@ export default new Router({
 				{path:'album',name:'space-a',component:SpaceAlbum,meta:{title:'空间·相册'+title_}},
 				{path:'setting',name:'space-s',component:SpaceSetting,meta:{title:'空间·设置'+title_}}
 			]
+		},
+		{
+			path: '/write',
+			name: 'write',
+			component: Write,
+			meta:{loginStatus:false,title:'文章草稿'}
+		},
+		{
+			path: '/takenote',
+			name: 'takenote',
+			component: TakeNote,
+			meta:{loginStatus:false,title:'笔记草稿'}
 		},
 		{
 			path: '/login',
@@ -123,16 +136,10 @@ export default new Router({
 			meta:{title:'关于'+title_}
 		},
 		{
-			path: '/write',
-			name: 'write',
-			component: Write,
-			meta:{title:'文章草稿'}
-		},
-		{
-			path: '/takenote',
-			name: 'takenote',
-			component: TakeNote,
-			meta:{title:'笔记草稿'}
+			path: '*',
+			name: 'NotFind404',
+			component:NotFind404,
+			meta:{title:'页面没找到'}
 		},
 	]
 })

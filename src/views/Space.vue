@@ -69,24 +69,24 @@
 	export default {
         name: "Space",
 		beforeRouteEnter(to,from,next){
-			console.log(to);
+        	// 下面4种情况分别是
+			// 1.非路由方式进入存在token，去验证
+			// 2.非路由方式进入不存在token，驳回访问
+			// 3.路由方式进入，已经登录过
+			// 4.(非法)路由方式进入，驳回访问
 			if (!from.name){
 				if (window.localStorage.getItem('BB3000_token')){
-					console.log('//非路由方式进入存在token，让space去验证');
 					next();
 				}
 				else{
-					console.log('//非路由方式进入不存在token，驳回访问');
 					next('/');
 				}
 			}
 			else{
 				if (to.meta.loginStatus||to.matched[0].meta.loginStatus){
-					console.log('路由方式进入，已经登录过');
 					next();
 				}
 				else{
-					console.log('(非法)路由方式进入，驳回访问');
 					next('/');
 				}
 			}

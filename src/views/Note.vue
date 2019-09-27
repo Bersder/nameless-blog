@@ -90,13 +90,10 @@
         name: "Note",
 		created(){
 			this.$fetch('/apis/apiv1.php',{_:'note'}).then(response=>{
-				console.log(response.data);
 				let data = response.data.data;
 				this.noteWaiting = false;
 				this.headerInfo = data.headerInfo;
 				this.catMap = data.catMap;
-				// this.catKey = Object.keys(this.catMap);
-				// this.catCount = data.catCount;
 				data.notes.forEach(e=>{
 					if (e.tags) e.tags = e.tags.split(',');
 					this.notes.push(e);
@@ -107,22 +104,17 @@
 				for(let i in this.catMap)
 					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.category===i));
 				setTimeout(()=>this.$store.commit('lazyCheck'),100);
-				// response.data.data.forEach((e)=>this.notes.all.push(e));
-				// this.curNotes = this.notes.all
 			})
 		},
         data() {
             return {
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'笔记',description:''},
             	catMap:null,
-				// catKey:[],
 				noteWaiting:true,
 				noteNum:0,
-				// catCount:{},
 				rSelected:false,
 
 				notice:null,
-            	// curFilter:'all',
 				notes:[],
 				sortedNotes:{},
 				curNotes:[]
@@ -136,29 +128,8 @@
 			reachBottom(cur,pre){
 				if (cur)this.loadMore();
 			}
-			// curFilter(cur,pre){ //监视filter变化并切换到对应note列表
-			// 	if(this.notes[cur])this.curNotes = this.notes[cur];
-			// 	else{
-			// 		this.$fetch('/apis/apiv2.php',{_:'n',f:cur}).then(response=>{
-			// 			console.log(response.data);
-			// 			this.curNotes = this.notes[cur] = response.data.data;
-			// 		})
-			// 	}
-			// }
 		},
 		methods:{
-        	// loadMore(cur){ //加载更多，当前filter长度小于上限时发起请求，否则无作为
-        	// 	console.log(cur);
-        	// 	if(this.curNotes.length<parseInt(this.catCount[cur])){
-        	// 		console.log(this.curNotes.length,parseInt(this.catCount[cur]));
-			// 		this.$fetch('/apis/apiv2.php',{_:'n',f:cur,o:this.curNotes.length}).then(response=>{
-			// 			response.data.data.forEach(e=>this.notes[cur].push(e))
-			// 		})
-			// 	}
-        	// 	else console.log(this.curNotes.length,parseInt(this.catCount[cur]));
-			//
-			//
-			// },
 			loadMore(){
 				if(this.curNotes.length===this.noteNum){}
 				else if(this.curNotes.length+6<this.noteNum)
@@ -174,10 +145,6 @@
         		return data<10?'0'+data:data
 			}
 		},
-
-        mounted() {
-        },
-
     }
 </script>
 

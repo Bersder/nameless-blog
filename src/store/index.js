@@ -28,7 +28,6 @@ const account={//默认未登录状态
 			state.loginStatus = true;
 		},
 		logout(state){
-			console.log('logout');
 			window.localStorage.removeItem('BB3000_token');
 			state.token = '';
 			state.uid = 0;

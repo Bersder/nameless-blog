@@ -375,7 +375,6 @@
 		top: .15rem;
 		right: -1.75rem;
 		font-size: .13rem;
-		font-weight: 300;
 		width: 1.8rem;
 		color: #c5ccd3;
 	}
@@ -939,6 +938,23 @@ input::-webkit-search-cancel-button{
 }
 
 /*==================================================================*/
+/*404-not-find*/
+.not-find-404{
+	background: radial-gradient(ellipse at center, #0a2e38 0%, #000000 70%);
+}
+.container-404{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	color: #daf6ff;
+	text-shadow: 0 0 .15rem #0aafe6;
+}
+.container-404 section{
+	margin: .1rem 0;
+}
+
+/*==================================================================*/
 /*other*/
 .masked{
 	-webkit-overflow-scrolling:touch;
@@ -997,6 +1013,7 @@ input::-webkit-search-cancel-button{
 	position: fixed;
 	transform: translate(1.1rem,0);
 	font-size: 0;
+	opacity: .66;
 	bottom: .4rem;
 	right: .05rem;
 	z-index: 1900;

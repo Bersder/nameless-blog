@@ -32,7 +32,7 @@
 									<p class="pt-ym">{{each.time|ym}}</p>
 									<p class="pt-d">{{each.time.substr(8,2)}}</p>
 								</div>
-								<div class="post-meta">
+								<div class="post-meta tl">
 									<span><i class="iconfont icon-hash"></i><router-link :to="each|typeUrl"> {{each.type|typeEN2CN}}</router-link></span>
 									<span><i class="iconfont icon-comment"></i><router-link :to="each|commentUrl"> {{each.commentCount|commentNum}}</router-link></span>
 								</div>
@@ -72,7 +72,6 @@
         	document.title = '搜索：'+this.$route.params.key+siteTitle.title_;
 			this.$fetch('/apis/apiv10.php',{s:this.$route.params.key}).then(response=>{
 				let data = response.data.data;
-				console.log(data);
 				this.searchWaiting = false;
 				this.searchFound = Boolean(data.found);
 				this.searchResults = data.result;

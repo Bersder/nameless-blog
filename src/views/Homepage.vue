@@ -34,9 +34,9 @@
 									<p class="pt-ym">{{each.time|ym}}</p>
 									<p class="pt-d">{{each.time.substr(8,2)}}</p>
 								</div>
-								<div class="post-meta">
-									<span><i class="iconfont icon-hash"></i><router-link :to="'/archive/'+each.type"> {{each.type|typeEN2CN}}</router-link></span>
-									<span><i class="iconfont icon-comment"></i><router-link :to="'/archive/'+each.type+'/'+each.aid+'#comments'"> {{each.commentCount|commentNum}}</router-link></span>
+								<div class="post-meta tl">
+									<span><i class="iconfont icon-hash"></i><router-link :to="'/archive/'+each.type">{{each.type|typeEN2CN}}</router-link></span>
+									<span><i class="iconfont icon-comment"></i><router-link :to="'/archive/'+each.type+'/'+each.aid+'#comments'">{{each.commentCount|commentNum}}</router-link></span>
 								</div>
 								<div class="post-title">
 									<p><router-link :to="each|artUrl">{{each.title}}</router-link></p>

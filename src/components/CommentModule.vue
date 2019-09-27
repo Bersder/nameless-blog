@@ -171,7 +171,7 @@
 						let data = response.data.data;
 						this.allCount = parseInt(data.allCount);
 						this.pageNum = Math.ceil(data.commentCount/10);
-						console.log(this.allCount,this.pageNum);
+						//console.log(this.allCount,this.pageNum);
 						this.commentWaiting = false;
 						data.comments.forEach(e=>{
 							e['children'] = this.gen_children(e);
@@ -228,7 +228,6 @@
 						};
 						if(window.confirm('即将提交评论，是否确认')){
 							this.$post('/apis/apiv7.php',data).then(response=>{
-								console.log(response);
 								if (response.data.code<1)
 									location.reload();
 								else

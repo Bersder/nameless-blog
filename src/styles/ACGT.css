@@ -120,6 +120,9 @@
 
 /*==================================================================*/
 /*Anime*/
+.broadcast{
+	display: none;
+}
 .broadcast-head{
 	padding: .05rem .1rem;
 	font-size: .15rem;

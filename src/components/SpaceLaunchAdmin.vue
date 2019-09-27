@@ -67,7 +67,6 @@
         	this.$post('/apis/auth/v3api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
         		if (response.data.code < 1){
 					let data = response.data.data;
-					console.log(data);
 					this.notes = data.notes;
 					this.curList =  this.articles = data.articles;
 					this.numSum = data.notes.length + data.articles.length;

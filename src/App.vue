@@ -1,13 +1,13 @@
 <template>
   <div :id="isMobile?'mobile-app':'app'" :class="{DDF:darken,serif:fontFamily}" @click="setPanelShow=false">
-	  <top-nav></top-nav>
+	  <top-nav v-if="!/login|NotFind404/.test($route.name)"></top-nav>
 	  <keep-alive>
 		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
 	  </keep-alive>
 	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>
-	  <site-footer v-if="!/login|takenote|write/.test($route.name)"></site-footer>
+	  <site-footer v-if="!/login|takenote|write|NotFind404/.test($route.name)"></site-footer>
 	  <luminous-box></luminous-box>
 	  <transition name="fadedown">
 		  <div class="info-box fc" v-if="infoShow" :style="{background:infoOK?'#3dcaff':'#ff763b'}">
@@ -85,11 +85,9 @@ export default {
 				if (response.data.code>0){
 					//token过期或非法,清除token
 					window.localStorage.removeItem('BB3000_token');
-					console.log('自动登录失败，过期/非法');
 				}
 				else{
-					//vuex用户信息注入
-					console.log('自动登录成功，开始信息注入');
+					//自动登录成功、vuex用户信息注入
 					let data = response.data.data;
 					data.token = token;
 					this.$store.commit('account/alogin',data);
@@ -116,7 +114,8 @@ export default {
 			}
 		},
 		loginStatus(cur,pre){
-			this.$router.options.routes[1].meta.loginStatus = this.$router.options.routes[2].meta.loginStatus = cur;
+    		for(let i=1;i<=4;i++)//需要路由meta同步
+				this.$router.options.routes[i].meta.loginStatus = cur;
 			if (!cur&&/^space.*/.test(this.$route.name)){//当在个人空间进行注销时，退出个人空间返回主页
 				this.$router.push({name:'homepage'});
 				window.scrollTo(0,0);
@@ -148,9 +147,9 @@ export default {
 				lrcType:3,
 				audio:musicRes.data,
 				listMaxHeight:'3rem',
-				storageName:'ap-setting'
+				storageName:'BB3000_ap-setting'
 			});
-			this.ap.on('play',()=>this.ap.lrc.show());
+			//this.ap.on('play',()=>this.ap.lrc.show());
 			this.ap.lrc.hide();
 		},
 		back2top(){

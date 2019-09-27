@@ -45,7 +45,7 @@
 								</div>
 								<div class="post-copyright-link tl">
 									<span class="pck">文章链接：</span>
-									<span class="pcv">http://localhost:80{{xtype|artUrl(xid)}}</span>
+									<span class="pcv">{{xurl}}</span>
 								</div>
 								<div class="post-copyright-license tl">
 									<span class="pck">版权声明：</span>
@@ -133,11 +133,12 @@
         name: "Article",
 		beforeRouteEnter(to,from,next){
         	if(/\d+/.test(to.params.id)&&(!to.params.type||['anime','code','game','trivial'].indexOf(to.params.type)!==-1))next();
-			else next('/')
+			else next('/404')
 		},
 		created(){
 			this.xid = this.$route.params.id;
 			this.xtype = this.$route.name==='article_note'?'note':this.$route.params.type;
+			this.xurl = document.location.href;
 			document.title = this.xtype==='article_note'?'笔记XXX'+siteTitle.title_:'文章XXX'+siteTitle.title_;
 			this.fetchData({xid:this.xid,_:this.xtype[0]});
 		},
@@ -145,7 +146,7 @@
             return {
             	xid:null,
 				xtype:null,
-
+				xurl:'',
 				title:'',
 				imgSrc:'/site/static/loading.gif',
 				author:'oshino',
@@ -181,15 +182,14 @@
 				if (/article.*/.test(cur.name)) {
 					let type = cur.name === 'article_note'?'note':cur.params.type;
 					if(this.xid!==cur.params.id||this.xtype!==type){//如果文章变更放弃缓存重新请求数据
-						console.log('changing');
 						this.xid = cur.params.id;
 						this.xtype = type;
+						this.xurl = document.location.href;
 						document.title = this.xtype==='article_note'?'笔记XXX'+siteTitle.title_:'文章XXX'+siteTitle.title_;
 						this.initData();
 						this.fetchData({xid:this.xid,_:this.xtype[0]});
 					}
 					else{//直接使用缓存，不用等待渲染
-						console.log('reuse');
 						document.title = this.title;
 						if (!cur.hash)
 							document.body.scrollIntoView(true);
@@ -337,7 +337,7 @@
 					}
 					else{
 						//不存在该文章
-						this.$router.go(-1);
+						this.$router.push('/404');
 					}
 				})
 			}
@@ -349,9 +349,6 @@
 					return item.type==='note'?'/note/'+item.id:'/archive/'+item.type+'/'+item.id;
         		else
 					return '';
-			},
-			artUrl(type,id){
-				return type==='note'?'/note/'+id:'/archive/'+type+'/'+id
 			},
 			typeUrl(type){
         		if (type)

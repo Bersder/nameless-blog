@@ -1,47 +1,55 @@
 <template>
 	<footer class="site-footer">
-			<div class="site-info">
-				<div class="foot-banner">
-					<h2>ᛟᛊᚺᛁᚾᛟ</h2>
-					<p>© 2019-2019</p>
-				</div>
-				<div class="foot-block1">
-					<span>Alive: 233.23.23.23</span>
-					<p>· Craft with <a href="https://github.com/Bersder" target="_blank">Bersder</a></p>
-					<p><router-link to="/login">· signIn</router-link>&nbsp;&nbsp;&nbsp;<router-link to="/statistics">· statistics</router-link></p>
-				</div>
-				<div class="foot-block2">
-					<span>朝循以始 夜继以终</span>
-					<p>· 单身为狗 20 年</p>
-					<p><a href="mailto:oshinoNya@outlook.com">· oshinoNya@outlook.com</a></p>
-				</div>
-				<div class="foot-support">
-					<a href="https://www.vultr.com/?ref=7572602" target="_blank" rel="nofollow" >
-						<img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.0.8/img/logo/logo_onwhite.png" height="16" alt="server">
-					</a>
-					<a href="https://cn.vuejs.org/" target="_blank" rel="nofollow" >
-						<img src="../assets/logo.png" height="16" alt="frame">
-					</a>
-				</div>
-			</div>
+		<div class="site-info">
+			<section>
+				<p>· Alive: {{day}} 天 {{hour}} 小时 {{min}} 分 {{sec}} 秒</p>
+				<p>· 朝循以始 夜继以终</p>
+				<p>· 单身为狗 {{age}} 年</p>
+			</section>
+			<section>
+				<p>• Powered By <a href="https://github.com/Bersder" target="_blank">Bersder</a></p>
+				<p>• Theme <a href="https://github.com/Bersder/nameless-blog" target="_blank">Nameless</a></p>
+				<p><a href="mailto:oshinoNya@outlook.com">• oshinoNya@outlook.com</a></p>
+			</section>
+			<section>
+				<a href="https://www.vultr.com/?ref=7572602" title="Vultr" target="_blank" rel="nofollow" ><img src="/static/img/vultr.svg" height="20" alt="server"></a>
+				<a href="https://vuejs.org/" title="Vue" target="_blank" rel="nofollow" ><img src="/static/img/vue.png" height="20" alt="frame"></a>
+			</section>
+		</div>
+		<p class="site-banner">© 2019-2019 <router-link to="/login">ᛟᛊᚺᛁᚾᛟ</router-link></p>
 	</footer>
 </template>
 
 <script>
+	import UCONF from "../config/user.conf"
     export default {
         name: "TheSiteFooter",
         data() {
             return {
-            	since:1567267200000, //9-1
-				now:new Date().getTime()
+            	since:UCONF.sinceTime,
+				day:0,
+				hour:0,
+				min:0,
+				sec:0,
+				age:Math.floor((new Date().getTime() - new Date(UCONF.birthday).getTime())/31536000000)
 			}
         },
-        mounted() {
-			setInterval(()=>this.now=new Date().getTime(),1000)
+        created() {
+			setInterval(()=>this.tick(),1000)
         },
-		filters:{
-			lastTime(now){
-
+		methods:{
+        	tick(){
+        		let dayLast = 86400000;
+        		let hourLast = 3600000;
+        		let minuteLast = 60000;
+        		let diff1 = new Date().getTime() - this.since;
+        		this.day = Math.floor(diff1/dayLast);
+        		let diff2 = diff1%dayLast;
+        		this.hour = Math.floor(diff2/hourLast);
+        		let diff3 = diff2%hourLast;
+        		this.min = Math.floor(diff3/minuteLast);
+        		let diff4 = diff3%minuteLast;
+        		this.sec = Math.floor(diff4/1000);
 			}
 		}
     }

@@ -72,7 +72,6 @@
 			else {
 				document.title = '标签'+siteTitle.title_;
 				this.$fetch('/apis/apiv5.php').then(response=>{
-					console.log(response.data.data);
 					let data = response.data.data;
 					this.artList = data.artInfos;
 					this.noteList = data.noteInfos;

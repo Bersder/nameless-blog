@@ -1,4 +1,6 @@
 export default {
+	sinceTime:1569944013000, //网站始于 2019.10.1 23:33:33
+	birthday:'1999-06-05', //生日
 	statusMap:[
 		{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
 		{icon:'icon-focus',des:'不咕鸟',color:'#ff3d44'},

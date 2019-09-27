@@ -63,7 +63,6 @@
 		created(){
 			this.$fetch('/apis/apiv8.php',{_:'anime'}).then(response=>{
 				let data = response.data.data;
-				console.log(data);
 				this.headerInfo = data.headerInfo;
 				if (!this.isMobile){
 					this.$store.commit('lumiBox/imgsC',data.album);

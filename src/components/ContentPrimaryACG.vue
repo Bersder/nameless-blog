@@ -44,7 +44,6 @@
         name: "ContentPrimaryACG",
 		created(){
 			this.$fetch('/apis/apiv1.php?',{_:this.type}).then(response=>{
-				console.log(response.data);
 				let data = response.data.data;
 				this.artWaiting = false;
 				this.noContent = !Boolean(parseInt(data.artNum));

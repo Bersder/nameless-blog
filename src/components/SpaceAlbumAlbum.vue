@@ -124,7 +124,6 @@
 				this.$post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
 					let data = response.data.data;
 					this.albumWaiting = false;
-					console.log(data);
 					this.$store.commit('lumiBox/imgsC',data.pictures);
 					this.curAlbums = data.pictures;
 				})

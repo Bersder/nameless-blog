@@ -26,7 +26,7 @@
 					</div>
 					<div class="ca series tl" v-if="seriesList.length" style="min-height: 1rem;">
 						<div class="series-head">
-							<i class="iconfont icon-paperclip"></i> 现存系列
+							<i class="iconfont icon-paperclip"></i> 现存系列(未实现...)
 						</div>
 						<div class="series-content">
 							<p v-for="series in seriesList"><router-link :to="'/series/'+series.name" :title="series.name+' | '+series.count+'篇'">{{series.name}}</router-link><span> ({{series.count}}篇)</span></p>
@@ -60,7 +60,6 @@
 		created(){
 			this.$fetch('/apis/apiv8.php',{_:'code'}).then(response=>{
 				let data = response.data.data;
-				console.log(data);
 				this.headerInfo = data.headerInfo;
 				if (!this.isMobile){
 					if (data.gossip)

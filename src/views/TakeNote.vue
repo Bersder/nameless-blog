@@ -194,7 +194,6 @@
 						it = this.inputTags.replace(/^[\s,;]+|[\s,;]+$/gm,'').replace(/\s*[,;]\s*/g,',').split(',');
 						it = unique(it);
 						it  = it.filter(v=>{return this.tagOptions.indexOf(v)===-1}).join(',');
-						console.log(it,typeof it)
 						//然后去重,筛选新标签合并,发送至launch
 					}
 					else{

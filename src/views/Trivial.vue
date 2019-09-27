@@ -97,7 +97,6 @@
 		created(){
 			this.$fetch('/apis/apiv1.php',{_:'trivial'}).then(response=>{
 				let data = response.data.data;
-				console.log(data);
 				this.headerInfo = data.headerInfo;
 				this.$set(this.arts[0],'1',data.artsNew);
 				this.$set(this.arts[1],'1',data.artsHot);

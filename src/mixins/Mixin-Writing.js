@@ -26,6 +26,25 @@ export default {
 			}
 		}
 	},
+	beforeRouteEnter(to,from,next){
+		//详细见Space.vue
+		if (!from.name){
+			if (window.localStorage.getItem('BB3000_token')){
+				next();
+			}
+			else{
+				next('/');
+			}
+		}
+		else{
+			if (to.meta.loginStatus){
+				next();
+			}
+			else{
+				next('/');
+			}
+		}
+	},
 	beforeRouteLeave(to,from,next){
 		if(to.name==='space'||to.name==='homepage')next();
 		else{
@@ -47,13 +66,12 @@ export default {
 			param.append('img',$file);
 			param.append('token',this.token);
 			this.$post_form('/apis/edit/mdimg.php',param).then(response=>{
-				this.$refs.md.$img2Url(pos,'http://localhost'+response.data.imgSrc);
+				this.$refs.md.$img2Url(pos,'/root'+response.data.imgSrc);
 				setTimeout(()=>this.loadImgs(),200);
 			}).catch(err=>console.warn(err));
 		},
 		imgDel(pos){
 			let delImg = /\/uploads\/\d{4}\/\d{2}\/\d{2}\/.+$/.exec(pos[0])[0];
-			console.log(delImg);
 			this.$post('/apis/edit/mdimg.php',{token:this.token,delImg:delImg}).then(response=>this.loadImgs()).catch(err=>console.warn(err));
 		},
 		loadImgs(){
