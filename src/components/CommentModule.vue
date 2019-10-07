@@ -6,19 +6,35 @@
 			<div class="comment-form">
 				<div class="comment-info-input">
 					<input placeholder="昵称(必填)" v-model.trim="nickname" name="nickname">
-					<input placeholder="邮箱(必填，保密)" v-model="email" name="email">
-					<input placeholder="网站(选填)" v-model="website" name="website">
+					<input placeholder="邮箱(必填，保密)" v-model.trim="email" name="email">
+					<input placeholder="网站(选填)" v-model.trim="website" name="website">
 				</div>
-				<div class="comment-content-input">
-					<textarea @keydown="textareaTab" placeholder="支持markdown语法除了标题、分割线、表格、图片、下划线、标记、上下标" v-model="content"></textarea>
-				</div>
+				<span title="除了html、标题、分割线、表格、图片、下划线、标记、上下标"><i class="iconfont icon-markdown"></i>Markdown Supported</span>
+				<div class="comment-content-input" v-show="!previewOn"><textarea @keydown="textareaTab" placeholder="说点什么吧..." v-model.trim="content"></textarea></div>
+				<div class="comment-content preview" v-show="previewOn" v-html="contentPreview" v-highlight></div>
+			</div>
+			<div class="comment-robot-check">
+				简单数学题：{{add1}} + {{add2}} = <input type="text" v-model.trim="sum">
 			</div>
 			<div class="comment-buttons tr">
-<!--				<span class="emotion-toggle"></span>表情区未支持-->
+				<div class="emotion pl" :class="{'emo-open':emoBoxShow}">
+					<span class="emotion-toggle" @click="emoBoxShow=!emoBoxShow"><i class="iconfont icon-emoji ibold"></i>表情</span>
+					<div class="emotion-box">
+						<div class="emo-title"><span>{{emoData[emoIndex].emoSeries}}</span></div>
+						<div class="emo-wrap" :class="{'emo-text':!emoData[emoIndex].pic}">
+							<a v-for="item in emoData[emoIndex].emoList"
+							   :title="item.des"
+							   @click="insertEmo(item,emoData[emoIndex].pic)"><img v-if="emoData[emoIndex].pic" :src="'/root'+item.imgSrc" :alt="item.des"><span v-else>{{item}}</span></a>
+						</div>
+						<div class="emo-tabs">
+							<a v-for="(item,index) in emoData" :key="index" @click="emoIndex=index" :class="{cur:index===emoIndex}"><img :src="'/root'+item.thumbnail" :alt="item.emoSeries" height="22" width="22"></a>
+						</div>
+					</div>
+				</div>
+
 				<span><label><input type="checkbox" v-model="notifyMe"> 回复提醒</label></span>
+				<button @click="commentPreview">{{previewOn?'返回编辑':'预览'}}</button>
 				<button @click="commentSubmit" >提交评论</button>
-			</div>
-			<div class="emotion-box no-select">
 			</div>
 		</div>
 		<div class="comments-main" id="anchor">
@@ -42,7 +58,7 @@
 						</div>
 						<div class="comment-content" v-html="commentRenderer(comment.content)" v-highlight>
 						</div>
-						<div class="comment-reply no-select" @click="replyThis(comment.id,comment.uid,comment.uname)">回复</div>
+						<button class="comment-reply no-select" @click="replyThis(comment.id,comment.uid,comment.uname)">回复</button>
 					</div>
 					<div class="comment-children">
 						<div class="comments-list">
@@ -57,7 +73,7 @@
 									</div>
 									<div class="comment-content" v-html="commentRenderer(reply.content)" v-highlight>
 									</div>
-									<div class="comment-reply no-select" @click="replyThis(reply.id,reply.uid,reply.uname)">回复</div>
+									<button class="comment-reply no-select" @click="replyThis(reply.id,reply.uid,reply.uname)">回复</button>
 								</div>
 							</div>
 						</div>
@@ -85,12 +101,12 @@
 	import {copyText} from "../utils/lib";
 	import marked from 'marked';
 	import hljs from "highlight.js"
+	import {unique,randInt} from "../utils/lib";
 	export default {
         name: "CommentModule",
-		created(){
+		async created(){
 			let renderer = new marked.Renderer();
 			renderer.heading = (text, level, raw, slugger) => '<p>'+ text +'</p>';
-			renderer.image = (href, title, text) => '';
 			renderer.hr = () => '';
 			renderer.table = (header, body) => '';
 			renderer.tablerow = content => '';
@@ -105,6 +121,8 @@
 				smartLists: true,
 				smartypants: false
 			});
+			this.genRandAdd();
+			await this.fetchEmo();
 			this.fetchComment(0);
 		},
 		data(){
@@ -120,6 +138,18 @@
 				email:'',
 				website:'',
 				content:'',
+				contentPreview:'',
+				previewOn:false,
+
+				emoData:[{emoSeries:'',emoList:[]}],
+				emoMap:{},
+				emoBoxShow:false,
+				emoIndex:0,
+
+				add1:NaN,
+				add2:NaN,
+				sum:'',
+
 				to_id:null,
 				to_uid:null,
 				to_uname:null,
@@ -153,17 +183,86 @@
 			}
 		},
 		methods:{
-			commentRenderer(raw){
-				return marked(raw)
+			commentRenderer(raw){//存在一个问题：发生任意更新时全部评论会调用一次，v-html的郭？如果真这样可以不要contentPreview将其纳入commentRenderer
+				return marked(this.emoRenderer(raw))
+			},
+			commentPreview(){
+				if (!this.previewOn)
+					this.contentPreview = marked(this.emoRenderer(this.content));
+				this.previewOn = !this.previewOn;
+			},
+			emoRenderer(raw){
+				let tmp = raw;
+				let replaceSrcList = tmp.match(/∫f\(.+?\)/g);
+				if (replaceSrcList){ //当使用了表情包后，需要转义替换以便mark
+					let replaceDstList = [];
+					let replaceAltList = [];
+					replaceSrcList = unique(replaceSrcList);
+					replaceSrcList.forEach(e=>{
+						let alt = e.match(/∫f\((.+?)\)/)[1];
+						replaceAltList.push(alt);
+						replaceDstList.push(this.emoMap[alt]);
+					});
+					// console.log(replaceSrcList);
+					// console.log(replaceAltList);
+					// console.log(replaceDstList);
+					for (let i = 0; i < replaceSrcList.length; i++){
+						let reg = new RegExp(replaceSrcList[i].replace('(','\\(').replace(')','\\)'),'g');
+						if (replaceDstList[i])//没有的表情不进行渲染
+							tmp = tmp.replace(reg,'!['+replaceAltList[i]+'](/root'+replaceDstList[i]+') ');
+						else
+							tmp = tmp.replace(reg,' ');
+					}
+				}
+				return tmp
+			},
+			insertEmo(item,isPic){
+				this.content = isPic?this.content + item.insert:this.content + item.replace(/_/g,'\\_');
+			},
+			genRandAdd(){
+				this.add1 = randInt(-50,50);
+				this.add2 = randInt(-50,50);
+				this.sum = '';
 			},
 			textareaTab(e){
-				if (e.keyCode === 9){
-					this.content += '\t';
+				if (e.keyCode === 9){//支持tab输入
+					let target = e.target;
+					if (document.selection){
+						let sel = document.selection.createRange();
+						sel.text = '    ';
+					}
+					else if (typeof target.selectionStart==='number'&&typeof target.selectionEnd==='number'){
+						let startPos = target.selectionStart, endPos = target.selectionEnd;
+						let cursorPos = startPos, tmp = this.content;
+						this.content = tmp.substring(0,startPos) + '    ' +tmp.substring(endPos,tmp.length);
+						cursorPos += 4;
+						setTimeout(() => target.selectionStart = target.selectionEnd = cursorPos, 10);
+					}
+					else{
+						this.content += '    ';
+					}
 					if (e&&e.preventDefault)
 						e.preventDefault();
 					else
 						window.event.returnValue = false;
 				}
+			},
+			async fetchEmo(){
+				let response = await this.$fetch('/emo/emo.json');
+				let data = response.data;
+				data.forEach(e=>{
+					e.thumbnail = e.path + e.thumbnail;
+					if (e.pic){
+						let g = e.path.split('/')[2]+'_';//类别前缀
+						e.emoList.forEach(f=>{
+							f.des = g + f.des;
+							f.imgSrc=e.path+f.imgSrc;
+							f.insert = '∫f(' + f.des + ')';
+							this.emoMap[f.des] = f.imgSrc;
+						});
+					}
+				});
+				this.emoData = data;
 			},
         	fetchComment(offset){
 				this.$post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
@@ -203,7 +302,8 @@
 					this.to_uid = uid;
 					this.to_uname = uname;
 					let target = document.getElementById('comment-'+id);
-					target.appendChild(document.getElementById('respond'))
+					target.appendChild(document.getElementById('respond'));
+					document.getElementById('respond').scrollIntoView(false);
 				}
 
 			},
@@ -212,39 +312,53 @@
         		document.getElementById('comments').insertBefore(document.getElementById('respond'),document.getElementById('anchor'))
 			},
 			commentSubmit(){
-        		if (/\d{11}|^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname&&this.content){
-        			if (!this.website || (this.website && /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.website))){ //网址验证
-						let data = {
-							id:this.id_,
-							type:this.type,
-							nickname:this.nickname,
-							email:this.email,
-							website:this.website,
-							content:this.content.trim(),
-							to_id:this.to_id,
-							to_uid:this.to_uid,
-							to_uname:this.to_uname,
-							notifyMe:this.notifyMe
-						};
-						if(window.confirm('即将提交评论，是否确认')){
-							this.$post('/apis/apiv7.php',data).then(response=>{
-								if (response.data.code<1)
-									location.reload();
-								else
-									console.warn('评论失败，错误编号：'+response.data.code)
-							})
+				if (!this.sum){
+					this.$store.commit('infoBox/callInfoBox',{info:'请完成简单数学题', ok:false, during:4000});
+					return;
+				}
+				if (this.add1+this.add2==this.sum){
+					if (/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname&&this.content){
+						if (!this.website || (this.website && /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.website))){ //网址验证
+							let data = {
+								puzzle:btoa(this.add1+','+this.add2+','+this.sum),
+								id:this.id_,
+								type:this.type,
+								nickname:this.nickname,
+								email:this.email,
+								website:this.website,
+								content:this.content,
+								to_id:this.to_id,
+								to_uid:this.to_uid,
+								to_uname:this.to_uname,
+								notifyMe:this.notifyMe
+							};
+							if(window.confirm('即将提交评论，是否确认')){
+								this.$post('/apis/apiv7.php',data).then(response=>{
+									if (response.data.code<1)
+										location.reload();
+									else
+										this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
+										//console.warn('评论失败，错误编号：'+response.data.code)
+								})
+							}
+							else
+								return;
+						}
+						else{
+							window.alert('网址不合法');
+							return;
 						}
 					}
-        			else{
-        				window.alert('网址不合法')
+					else{
+						//!!信息不全
+						window.alert('请检查必要信息是否完整且正确');
+						return;
 					}
-
 				}
-        		else{
-        			//!!信息不全
-					window.alert('请检查必要信息是否完整且正确')
+				else{
+					this.$store.commit('infoBox/callInfoBox',{info:'数学题不通过', ok:false, during:4000});
 				}
-
+				this.genRandAdd();
 			}
 		},
 		computed:{

@@ -502,7 +502,7 @@
 	font-size: .14rem;
 	margin-right: .2rem;
 }
-.pb-jump input{
+.pb-jump input,.comment-robot-check input{
 	background: transparent;
 	outline: none;
 	border: .01rem solid #ddd;
@@ -514,7 +514,7 @@
 	text-align: center;
 	transition: .3s;
 }
-.pb-jump input:focus{
+.pb-jump input:focus,.comment-robot-check input:focus{
 	border-color: #009ccd;
 }
 
@@ -655,7 +655,7 @@
 	.setting-panel section.links i{
 		margin: 0;
 	}
-	.setting-panel section.links a[title^=Sign]{
+	.setting-panel section.links a[title^="Sign"]{
 		font-weight: bold;
 	}
 

@@ -105,7 +105,8 @@
 					this.searchResults = data.result;
 					this.resultNum = data.result.length;
 					let pushNum = this.resultNum<8?this.resultNum:8;
-					for (let i = 0; i < pushNum; i++) this.curResults.push(this.searchResults[i])
+					for (let i = 0; i < pushNum; i++) this.curResults.push(this.searchResults[i]);
+					setTimeout(()=>this.$store.commit('lazyCheck'),100);
 				})
 			}
 		},

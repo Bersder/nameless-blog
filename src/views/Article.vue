@@ -17,7 +17,7 @@
 			<div class="page-content article">
 				<div class="content-area fc">
 					<div class="entry-series" id="entry-series" v-if="series">
-						<p>本文属于系列<router-link to="/">《{{series}}》</router-link></p>
+						<p>本文属于系列<router-link :to="'/series/'+series">《{{series}}》</router-link></p>
 					</div>
 					<article :id="'post-'+$route.params.id" class="">
 						<div class="entry-content tl"><!--markdown 渲染区域-->
@@ -274,9 +274,9 @@
 				this.titlePosition = [];
 				this.titlePosition.push(0);
 				this.titleList.forEach((v1)=>{
-					this.titlePosition.push(document.getElementById(v1.id).offsetTop+550+ESHeight);
+					this.titlePosition.push(document.getElementById(v1.id).offsetTop+540+ESHeight);
 					if(v1.subs.length)
-						v1.subs.forEach((v2)=>this.titlePosition.push(document.getElementById(v2.id).offsetTop+550+ESHeight))
+						v1.subs.forEach((v2)=>this.titlePosition.push(document.getElementById(v2.id).offsetTop+540+ESHeight))
 				});
 				this.titlePosition[this.titlePosition.length-1] -= 600+ESHeight;
 				this.titlePosition.push(document.body.offsetHeight);

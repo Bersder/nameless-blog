@@ -7,6 +7,7 @@ import Game from '@/views/Game'
 import Trivial from '@/views/Trivial'
 import Note from '@/views/Note'
 import Search from '@/views/Search'
+import Series from '@/views/Series'
 import Homepage from '@/views/Homepage'
 import Write from '@/views/Write'
 import TakeNote from "@/views/TakeNote"
@@ -134,6 +135,11 @@ export default new Router({
 			name: 'about',
 			component: About,
 			meta:{title:'关于'+title_}
+		},
+		{
+			path: '/series/:serName',
+			name: 'series',
+			component: Series,
 		},
 		{
 			path: '*',

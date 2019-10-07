@@ -35,8 +35,11 @@
 					<ul>
 						<li v-for="item in seriesList" :title="item.count+'相关'" :key="item.id">{{item.name}}<a class="iconfont icon-cancel" @click="delSeries(item)"></a></li>
 					</ul>
+					<div class="series-des-add">
+						<input type="text" v-model.trim="newSeriesDes" placeholder="系列描述">
+					</div>
 					<div class="series-add">
-						<input type="text" v-model.trim="newSeries" placeholder="添加新系列">
+						<input type="text" v-model.trim="newSeries" placeholder="新系列名">
 						<a class="iconfont icon-plus series-add-btn" @click="addSeries"></a>
 					</div>
 				</div>
@@ -172,6 +175,7 @@
 
 				seriesList:[],
 				newSeries:'',
+				newSeriesDes:'',
 				categoryList:[],
 				newCat:'',
 
@@ -224,15 +228,15 @@
 					this.$store.commit('infoBox/callInfoBox',{info:'标签为空或非法', ok:false, during:2000});
 			},
 			addSeries(){
-				if (this.newSeries){
-					let data = {newSeries:this.newSeries};
+				if (this.newSeries&&this.newSeriesDes){
+					let data = {newSeries:this.newSeries,newSeriesDes:this.newSeriesDes};
 					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code<1){
 							if (response.data.seriesExist > 0)
 								this.$store.commit('infoBox/callInfoBox',{info:'系列已存在', ok:false, during:2000});
 							else{
 								this.seriesList.push({name:data.newSeries,id:response.data.id,count:0});
-								this.newSeries = '';
+								this.newSeriesDes = this.newSeries = '';
 								this.$store.commit('infoBox/callInfoBox',{info:'系列添加成功', ok:true, during:2000});
 							}
 						}
@@ -241,7 +245,7 @@
 					}).catch(err=>console.warn(err))
 				}
 				else
-					this.$store.commit('infoBox/callInfoBox',{info:'系列名为空', ok:false, during:2000});
+					this.$store.commit('infoBox/callInfoBox',{info:'系列信息不全', ok:false, during:2000});
 			},
 			addCat(){
 				let CNEN = this.newCat.split('@');

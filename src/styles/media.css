@@ -19,6 +19,13 @@
 	.content-aside-h{
 		display: none;
 	}
+/*----------------------------------------*/
+	.content-primary-ser{
+		float: none;
+	}
+	.content-aside-ser{
+		display: none;
+	}
 }
 @media screen and (max-width: 999px){
 	.page-img{

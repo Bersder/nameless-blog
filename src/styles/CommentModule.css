@@ -38,6 +38,7 @@
 
 		.comment-form .comment-content-input{
 			position: relative;
+			margin-top: .05rem;
 		}
 			.comment-content-input:before{
 				content: '';
@@ -55,7 +56,6 @@
 			.comment-content-input textarea{
 				position: relative;
 				display: block;
-				margin-top: .1rem;
 				padding: .1rem;
 				height: 1.6rem;
 				resize: none;
@@ -67,17 +67,23 @@
 			}
 
 	.respond .comment-buttons{
-		margin: .2rem 0;
+		margin-bottom: .2rem;
 	}
-		.comment-buttons span{
+		.comment-buttons>span{
 			margin-right: .1rem;
 			color: #bbbbbb;
+		}
+		#mobile-app .comment-buttons button{
+			font-size: .12rem;
+			line-height: .2rem;
 		}
 		.comment-buttons button{
 			display: inline-block;
 			border-radius: 1rem;
 			border: .02rem solid rgba(0,0,0,.1);
-			padding: .04rem .12rem;
+			padding: 0 .1rem;
+			line-height: .24rem;
+			vertical-align: top;
 			font-size: .14rem;
 			color: #6a737d;
 			font-weight: 600;
@@ -87,7 +93,124 @@
 			color: white;
 			background: #00a1d6;
 		}
+/*---------------------------------*/
+/*emoji*/
+	.comment-form span{
+		font-size: .14rem;
+	}
+	.comment-content.preview{
+		border: .02rem solid rgba(0,0,0,.1);
+		min-height: 1.6rem;
+		padding: .1rem;
+		margin-top: .05rem;
+	}
+	#mobile-app .comment-content p img[alt^="2233"]{
+		width: .3rem;
+		height: .3rem;
+	}
+	#mobile-app .comment-content p img{
+		width: .2rem;
+		height: .2rem;
+	}
+	.comment-content p img{
+		display: inline-block;
+		vertical-align: text-bottom;
+	}
 
+	.comment-robot-check{
+		font-size: .14rem;
+		margin: .05rem 0;
+	}
+	#respond .comment-robot-check input{
+		line-height: .2rem;
+		padding: 0 .05rem;
+	}
+
+	.emotion{
+		position: relative;
+		padding: 0 .05rem;
+		border: .01rem solid #eaeaea;
+		border-radius: .04rem;
+		text-align: left;
+		z-index: 10;
+	}.emotion.emo-open{border-bottom-left-radius: 0;border-bottom-right-radius: 0}
+	.emotion .emotion-toggle{
+		color: #8b8e99;
+		font-size: .14rem;
+		cursor: pointer;
+		transition: .3s ease;
+	}
+	.emotion .emotion-toggle:hover,.emotion.emo-open .emotion-toggle{
+		color: #1e1e1e;
+	}
+
+
+	.emotion .emotion-box{
+		display: none;
+		position: absolute;
+		left: 0;
+		margin-left: -.01rem;
+		top: 100%;
+		width: 3.4rem;
+		background: white;
+		box-shadow: 0 .1rem .1rem 0 rgba(30,30,30,.1);
+		border: 1px solid #eaeaea;
+		border-radius: 0 .05rem .05rem .05rem;
+		overflow: hidden;
+	}
+	.emotion.emo-open .emotion-box{
+		display: block;
+	}
+		.emotion-box .emo-title{
+			color: #8b8e99;
+			margin: .05rem .1rem 0;
+			font-size: .14rem;
+			line-height: .2rem;
+		}
+		.emotion-box .emo-wrap{
+			margin-top: .05rem;
+			margin-left: .1rem;
+			font-size: 0;
+			height: 1.65rem;
+			overflow: auto;
+		}
+			.emotion-box .emo-wrap a{
+				display: inline-block;
+				color: #1e1e1e;
+				border-radius: .03rem;
+				cursor: pointer;
+				transition: none;
+			}
+			.emotion-box .emo-wrap.emo-text a{
+				font-size: .15rem;
+				padding: .03rem .05rem;
+				margin: .03rem;
+			}
+				.emotion-box .emo-wrap a img{
+					margin: .02rem;
+				}
+				.emotion-box .emo-wrap a[title^="plain"] img{
+					margin: .04rem;
+				}
+
+		.emotion-box .emo-tabs{
+			background: #f6f6f6;
+			overflow: hidden;
+		}
+			.emotion-box .emo-tabs a{
+				padding: .05rem .15rem;
+				float: left;
+				font-size: 0;
+				cursor: pointer;
+			}
+			.emotion-box .emo-tabs a.cur{
+				background: white !important;
+			}
+			.emotion-box .emo-tabs a:hover,.emotion-box .emo-wrap a:hover{
+				background: #eaeaea;
+			}
+
+/*---------------------------------*/
 .comments-list-title{
 	margin-bottom: .2rem;
 	border-bottom: .01rem dotted #eaeaea;
@@ -98,7 +221,9 @@
 		color: #bbbbbb;
 		vertical-align: text-bottom;
 	}
-
+#mobile-app .comment-children .comments-list-item .respond{
+	margin-left: -.2rem;
+}
 .comment-children .comments-list .comments-list-item{
 	border-bottom: none;
 }
@@ -181,14 +306,13 @@
 			position: absolute;
 			font-size: .12rem;
 			padding: 0 .1rem;
-			line-height: .2rem;
+			line-height: .18rem;
 			border-radius: .03rem;
 			top: .15rem;
 			right: .2rem;
 			background: #9dd9ff;
 			color: white;
 			opacity: 0;
-			cursor: pointer;
 			transition: .5s;
 		}
 		.comment-content-wrap .comment-reply:hover{
