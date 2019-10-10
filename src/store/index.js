@@ -94,6 +94,7 @@ export default new Vuex.Store({
 		screenHeight:window.innerHeight || document.documentElement.clientHeight,
 		screenWidth:window.innerWidth || document.body.clientWidth,
 		isMasked:false,
+		appBg:'',
 	},
 	mutations:{
 		platformInit(state,payload){
@@ -125,6 +126,10 @@ export default new Vuex.Store({
 					}
 				}
 			})
+		},
+		appBgC(state,bg){
+			state.appBg = bg;
+			console.log('bg change to',bg);
 		}
 	},
 	getters:{

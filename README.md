@@ -14,12 +14,17 @@
 
 ## GuGuList
 未来要实现的功能
-- [ ] 评论表冗余去除
 - [ ] Anime页面的追番板
 - [ ] Space主页面
+- [ ] SpaceSetting 附加功能
+- [ ] 数据库重组（Tag，Series，Category）
 ### GuGu01
 - [X] Series页面添加，series添加描述信息，spaceSetting中添加系列描述支持 
 - [X] 评论区表情支持，评论区机器人排查
+### GuGu02
+- [X] settingPanel主题功能实现
+顺带修复
+- 评论区针对移动端css优化
 
 ## 修复记录
 ### Fix01(Mainly for TheTopNav.vue)

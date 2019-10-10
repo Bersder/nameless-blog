@@ -135,6 +135,10 @@
         	if(/\d+/.test(to.params.id)&&(!to.params.type||['anime','code','game','trivial'].indexOf(to.params.type)!==-1))next();
 			else next('/404')
 		},
+		beforeRouteLeave(to,from,next){
+        	this.$store.commit('appBgC','');
+        	next()
+		},
 		created(){
 			this.xid = this.$route.params.id;
 			this.xtype = this.$route.name==='article_note'?'note':this.$route.params.type;
@@ -191,6 +195,7 @@
 					}
 					else{//直接使用缓存，不用等待渲染
 						document.title = this.title;
+						this.$store.commit('appBgC', this.imgSrc);
 						if (!cur.hash)
 							document.body.scrollIntoView(true);
 						else{
@@ -324,6 +329,7 @@
 						this.title = data.info.title;
 						document.title = this.title+siteTitle.title_;
 						this.imgSrc = data.info.imgSrc;
+						this.$store.commit('appBgC', this.imgSrc);
 						this.author = data.info.author;
 						this.time = data.info.time.substr(0,10);
 						this.lut = data.info.lut;

@@ -90,12 +90,12 @@
 							let data = response.data.data;
 							this.$store.commit('account/login',data);
 							this.$store.commit('infoBox/callInfoBox',{
-								info:'登录成功，返回主页',
+								info:'登录成功，返回',
 								ok:true,
 								during:3000
 							});
 							this.account = this.password = '';
-							this.$router.push({name:'homepage'});
+							this.$router.go(-1);
 
 						}
 					})

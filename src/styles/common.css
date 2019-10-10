@@ -618,7 +618,7 @@
 				border-radius: 50%;
 				cursor: pointer;
 			}
-			.theme-list li:hover{
+			.theme-list li:hover,.theme-list li.theme-on{
 				background: #5abebc;
 				color: white;
 			}
@@ -695,8 +695,9 @@
 	position: relative;
 	overflow: auto;
 	padding: 1em 0 0 3em;
-	background: #fafafa;
+	background: #f9f9f999;
 	margin: .05rem 0;
+	border: .01rem solid #eaeaea;
 	border-radius: .03rem;
 	line-height: 1.2;
 	font-size: 85%;
@@ -751,13 +752,13 @@ pre .copy-btn:hover{
 	background: transparent;
 }
 .hljs{
-	background: #fafafa !important;
+	background: transparent !important;
 	padding: 0 1em 1em 0 !important;
 }
 blockquote{
 	margin: .1rem .05rem;
-	padding: .05rem .2rem;
-	background: #fafafa;
+	padding: .02rem .1rem;
+	background: #fafafa99;
 	position: relative;
 	border-radius: .05rem;
 	text-align: left;
@@ -765,6 +766,16 @@ blockquote{
 	color: rgba(121, 121, 121, .8);
 	font-style: italic;
 	line-height: 1.5;
+}
+blockquote blockquote{
+	padding: 0 .1rem;
+	background: transparent;
+}
+blockquote:first-child{
+	margin-top: 0;
+}
+blockquote:last-child{
+	margin-bottom: 0;
 }
 .comment-content a,.about-post a,.link-description a{
 	color: #5abebc;
@@ -969,17 +980,17 @@ input::-webkit-search-cancel-button{
 	color: #1e1e1e;
 	/*color: #2c3e50;*/
 	font-size: .16rem;
-	background: #f1f4f7;/*测试*/
+	/*background: #f1f4f7;测试*/
 }
 /*测试*/
-.site-wrapper{
+.site-wrapper,#app.bg-no-rep{
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center center;
 	background-size: cover;
 }
-.page-content-wrap,.page-header-wrap{
-	background: rgba(255,255,255,.66);
+.bg-no-rep .page-content-wrap,.bg-no-rep .page-header-wrap{
+	background: rgba(255,255,255,.5);
 }
 .page-content{
 	max-width: 8rem;

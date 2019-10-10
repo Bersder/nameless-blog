@@ -2,7 +2,7 @@
     <section id="comments" class="comments tl">
 		<div id="respond" class="respond">
 			<button class="cancel-reply-btn" v-if="to_id" @click="cancelReply">取消回复</button>
-			<h3 class="respond-title">{{to_uname|respondTitle}}</h3>
+			<h3 class="respond-title">{{to_uname|respondTitle}}<span v-show="to_id&&!isMobile"> | #{{to_id}}</span></h3>
 			<div class="comment-form">
 				<div class="comment-info-input">
 					<input placeholder="昵称(必填)" v-model.trim="nickname" name="nickname">
@@ -10,7 +10,7 @@
 					<input placeholder="网站(选填)" v-model.trim="website" name="website">
 				</div>
 				<span title="除了html、标题、分割线、表格、图片、下划线、标记、上下标"><i class="iconfont icon-markdown"></i>Markdown Supported</span>
-				<div class="comment-content-input" v-show="!previewOn"><textarea @keydown="textareaTab" placeholder="说点什么吧..." v-model.trim="content"></textarea></div>
+				<div class="comment-content-input" v-show="!previewOn"><textarea @keydown="textareaTab" placeholder="说点什么吧..." v-model="content"></textarea></div>
 				<div class="comment-content preview" v-show="previewOn" v-html="contentPreview" v-highlight></div>
 			</div>
 			<div class="comment-robot-check">
@@ -53,10 +53,11 @@
 							<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'/root/site/static/passerby.png'">
 						</div>
 						<div class="comment-meta">
-							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a> <span class="comment-id pr">#{{comment.id}}</span></p>
-							<span :title="comment.datetime.substr(0,16)">{{comment.datetime|commentTime}}</span>
+							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a></p>
+							<span class="comment-time" :title="comment.datetime.substr(0,16)">{{comment.datetime|commentTime}}</span>
+							<span v-show="!isMobile" class="comment-id">#{{comment.id}}</span>
 						</div>
-						<div class="comment-content" v-html="commentRenderer(comment.content)" v-highlight>
+						<div class="comment-content" v-html="commentRenderer(comment,false)" v-highlight>
 						</div>
 						<button class="comment-reply no-select" @click="replyThis(comment.id,comment.uid,comment.uname)">回复</button>
 					</div>
@@ -68,10 +69,11 @@
 										<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'/root/site/static/passerby.png'">
 									</div>
 									<div class="comment-meta">
-										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span> <span class="comment-id pr">#{{reply.id}}</span></p>
-										<span :title="comment.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
+										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span v-show="!isMobile"><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span></p>
+										<span class="comment-time" :title="comment.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
+										<span v-show="!isMobile" class="comment-id">#{{reply.id}}</span>
 									</div>
-									<div class="comment-content" v-html="commentRenderer(reply.content)" v-highlight>
+									<div class="comment-content" v-html="commentRenderer(reply,true)" v-highlight>
 									</div>
 									<button class="comment-reply no-select" @click="replyThis(reply.id,reply.uid,reply.uname)">回复</button>
 								</div>
@@ -183,8 +185,10 @@
 			}
 		},
 		methods:{
-			commentRenderer(raw){//存在一个问题：发生任意更新时全部评论会调用一次，v-html的郭？如果真这样可以不要contentPreview将其纳入commentRenderer
-				return marked(this.emoRenderer(raw))
+			commentRenderer(item,isReply){//存在一个问题：发生任意更新时全部评论会调用一次，v-html的郭？如果真这样可以不要contentPreview将其纳入commentRenderer
+				//let start = (isReply&&this.isMobile)?'回复 @**'+item.to_uname+'** | [#'+item.parent_id+'](#comment-'+item.parent_id+')：':'';
+				let start = (isReply&&this.isMobile)?'回复 [@'+item.to_uname+'](#comment-'+item.parent_id+')：\n':'';
+				return marked(this.emoRenderer(start+item.content))
 			},
 			commentPreview(){
 				if (!this.previewOn)
@@ -326,10 +330,10 @@
 								nickname:this.nickname,
 								email:this.email,
 								website:this.website,
-								content:this.content,
+								content:this.content.trim(),
 								to_id:this.to_id,
 								to_uid:this.to_uid,
-								to_uname:this.to_uname,
+								//to_uname:this.to_uname,
 								notifyMe:this.notifyMe
 							};
 							if(window.confirm('即将提交评论，是否确认')){
@@ -371,7 +375,8 @@
 				else if(this.curPage>=3&&this.curPage<=this.pageNum-2)return[this.curPage-2,this.curPage-1,this.curPage,this.curPage+1,this.curPage+2];
 				else if(this.curPage===this.pageNum-1)return[this.curPage-2,this.curPage-1,this.curPage,this.pageNum];
 				else return[this.curPage-2,this.curPage-1,this.curPage];
-			}
+			},
+			isMobile(){return this.$store.state.isMobile}
 		},
 		props:['id_','type','unique'],
 		filters:{

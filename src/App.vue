@@ -1,5 +1,7 @@
 <template>
-  <div :id="isMobile?'mobile-app':'app'" :class="{DDF:darken,serif:fontFamily}" @click="setPanelShow=false">
+  <div :id="isMobile?'mobile-app':'app'"
+	   :class="{DDF:darken,serif:fontFamily,'bg-no-rep':!(darken+themeType)}" @click="setPanelShow=false"
+	   :style="{backgroundImage:appBg_}">
 	  <top-nav v-if="!/login|NotFind404/.test($route.name)"></top-nav>
 	  <keep-alive>
 		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
@@ -26,12 +28,9 @@
 				  <div class="toggle-mode" id="toggle-mode" title="暂未实装"><button @click="darkModeC"><i class="iconfont clearm" :class="darken?'icon-moono':'icon-suno'"></i></button></div>
 				  <div class="theme-switch">
 					  <ul class="theme-list">
-						  <li><i class="iconfont icon-Pixiv"></i></li>
-						  <li><i class="iconfont icon-Pixiv"></i></li>
-						  <li><i class="iconfont icon-Pixiv"></i></li>
-						  <li><i class="iconfont icon-Pixiv"></i></li>
+						  <li v-for="(item,key) in themeList" :class="{'theme-on':key===themeType}" :title="item.des" @click="themeTypeC(key)"><i :class="item.class"></i></li>
 					  </ul>
-					  <div class="font-family-setting"><button @click="fontFamilyC(1)" :class="{selected:fontFamily}">Serif</button><button @click="fontFamilyC(0)" :class="{selected:!fontFamily}">Sans</button></div>
+					  <div class="font-family-setting"><button @click="fontFamilyC(0)" :class="{selected:!fontFamily}">Sans</button><button @click="fontFamilyC(1)" :class="{selected:fontFamily}">Serif</button></div>
 				  </div>
 			  </section>
 			  <section class="links">
@@ -67,7 +66,15 @@ export default {
 			setPanelShow:false,
 			fontFamily:0,
 			darken:0,
-			blocking:0,
+			blocking:0,//用于防止频繁转换
+
+			themeList:[
+				{class:'iconfont icon-Pixiv',des:'跟随模式'},
+				{class:'iconfont icon-screen',des:'无垢白'},
+				{class:'iconfont icon-texture',des:'类纸张'},
+				{class:'iconfont icon-star',des:'kira'}
+			],
+			themeType:1,
 			back2topImg:''
 		}
 	},
@@ -95,7 +102,9 @@ export default {
 			})
 		}
 		let FF = window.localStorage.getItem('BB3000_fontType');//尝试获取历史设置记录
-		if (FF)this.fontFamily = parseInt(FF);
+		this.fontFamily = FF?parseInt(FF):0;
+		let TT = window.localStorage.getItem('BB3000_themeType');
+		this.themeType = TT?parseInt(TT):1;
 	},
 	watch:{
     	$route(cur,pre){
@@ -172,6 +181,12 @@ export default {
 				},1200);
 			}
 		},
+		themeTypeC(type){
+			if (type !== this.themeType) {
+				this.themeType = type;
+				window.localStorage.setItem('BB3000_themeType',type.toString());
+			}
+		},
 		signOut(){
     		this.$store.commit('account/logout')
 		}
@@ -183,13 +198,35 @@ export default {
 		'luminous-box':LuminousBox
 	},
 	computed:{
-    	...mapState(['isMobile','isMasked','screenWidth','scrollTop','screenHeight']),
+    	...mapState(['isMobile','isMasked','screenWidth','scrollTop','screenHeight','appBg']),
 		...mapState({
 			loginStatus:state=>state.account.loginStatus,
 			infoShow:state=>state.infoBox.infoShow,
 			infoOK:state=>state.infoBox.infoOK,
 			info:state=>state.infoBox.info
-		})
+		}),
+		appBg_(){
+    		if (!this.darken){
+    			switch (this.themeType) {
+					case 0:
+						return 'url('+'/root'+this.appBg+')';
+						break;
+					case 1:
+						return '';
+						break;
+					case 2:
+						return 'url(/root/site/bg/themebg2.png)';
+						break;
+					case 3:
+						return 'url(/root/site/bg/themebg3.png)';
+						break
+					default:
+						return '';
+				}
+			}
+    		else
+    			return '';
+		}
 	}
 
 }

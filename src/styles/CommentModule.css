@@ -247,14 +247,19 @@
 	}
 	#mobile-app .comment-content-wrap .comment-content{
 		font-size: .14rem;
-		margin-right: .2rem;
+		margin-right: .1rem;
+		margin-top: 0;
 		margin-left: .2rem;
 	}
 	#mobile-app .comment-reply{
 		opacity: 1;
+		top: .2rem;
+		right: .1rem;
+		line-height: .16rem;
+		padding: 0 .06rem;
 	}
 	#mobile-app .comment-avatar{
-		top: .05rem;
+		top: .03rem;
 		left: .1rem;
 	}
 	#mobile-app .comment-avatar img{
@@ -262,7 +267,7 @@
 		width: .3rem;
 		border-radius: .03rem;
 	}
-	#mobile-app .comment-meta>span{
+	#mobile-app .comment-meta .comment-time{
 		font-size: .12rem;
 	}
 	.comments-list-item .comment-children{
@@ -285,19 +290,35 @@
 			}
 		.comment-content-wrap .comment-meta{
 			margin-left: .5rem;
+			position: relative;
 		}
-			.comment-meta .uname{
-				font-weight: bold;
-				font-size: .15rem;
+			#mobile-app .comment-meta .uname{
+				font-size: .14rem;
 			}
-				.uname .comment-id,.uname .reply-id{
+			.comment-meta .uname{
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				margin-right: .4rem;
+				font-weight: bold;
+				font-size: .16rem;
+			}
+				.uname .reply-id,.respond-title span{
 					font-size: .12rem;
 					vertical-align: text-bottom;
 					color: #bbbbbb;
 				}
-			.comment-meta>span{
+			.comment-meta .comment-time{
 				color: #bbbbbb;
 				font-size: .14rem;
+			}
+			.comment-meta .comment-id{
+				position: absolute;
+				top: 0;
+				right: 0;
+				font-size: .12rem;
+				font-weight: bold;
+				color: #bbbbbb;
 			}
 		.comment-content-wrap .comment-content{
 			margin: .1rem .2rem 0 .5rem;
