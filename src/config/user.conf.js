@@ -1,5 +1,5 @@
 export default {
-	sinceTime:1569944013000, //网站始于 2019.10.1 23:33:33
+	sinceTime:1570723200000, //网站始于 2019.10.11 00:00:00 GTM+8
 	birthday:'1999-06-05', //生日
 	statusMap:[
 		{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},

@@ -1,60 +1,62 @@
 <template>
     <div>
-		<div class="space-h-wrap">
-			<div class="h-inner">
-				<div class="h-user">
-					<div class="h-info">
-						<div class="h-avatar"><img :src="avatar"></div>
-						<div class="h-basic">
-							<p>
-								<span class="h-name">{{name}}</span>
-								<span class="h-status" title="点击改变状态" @click="statusChange" :style="{background:statusMap[status].color}"><i class="iconfont" :class="statusMap[status].icon"></i>{{statusMap[status].des}}</span>
-							</p>
-							<div class="h-sign">
-								<input type="text" @change="signChange" placeholder="这个人很懒，什么都没写" v-model="signature">
+		<div class="space-wrap">
+			<div class="space-h-wrap">
+				<div class="h-inner">
+					<div class="h-user">
+						<div class="h-info">
+							<div class="h-avatar"><img :src="avatar"></div>
+							<div class="h-basic">
+								<p>
+									<span class="h-name">{{name}}</span>
+									<span class="h-status" title="点击改变状态" @click="statusChange" :style="{background:statusMap[status].color}"><i class="iconfont" :class="statusMap[status].icon"></i>{{statusMap[status].des}}</span>
+								</p>
+								<div class="h-sign">
+									<input type="text" @change="signChange" placeholder="这个人很懒，什么都没写" v-model="signature">
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="h-change">
+					<div class="h-change">
 
-				</div>
-			</div>
-		</div>
-		<div class="space-n-wrap">
-			<div class="n-inner">
-				<div class="n-tab-link">
-					<router-link to="/space" class="n-btn"><span class="iconfont icon-home"></span><span class="n-title">首页</span></router-link>
-					<router-link to="/space/dynamic" class="n-btn"><span class="iconfont icon-dongtai"></span><span class="n-title">动态</span></router-link>
-					<router-link to="/space/launch" class="n-btn"><span class="iconfont icon-launch"></span><span class="n-title">发布</span></router-link>
-					<router-link to="/space/album" class="n-btn"><span class="iconfont icon-album"></span><span class="n-title">相册</span></router-link>
-					<router-link to="/space/setting" class="n-btn"><span class="iconfont icon-gear"></span><span class="n-title">设置</span></router-link>
-				</div>
-				<div class="n-statistics">
-
-				</div>
-			</div>
-		</div>
-		<div class="space-c-wrap">
-			<router-view></router-view>
-			<div class="space-home" v-if="$route.name==='space'">
-				<div class="col-1">
-					<div class="section">
-						<h3 class="section-title">网站公告</h3>
-						<div class="section-content">
-
-						</div>
-					</div>
-					<div class="section">
-						<h3 class="section-title">站点访问</h3>
-						<div class="section-content">
-						</div>
 					</div>
 				</div>
-				<div class="col-2">
-					<div class="section memo">
-						<h4 class="section-title">便签</h4>
-						<textarea v-model="memo" @change="memoChange" placeholder="编辑我的备忘录"></textarea>
+			</div>
+			<div class="space-n-wrap">
+				<div class="n-inner">
+					<div class="n-tab-link">
+						<router-link to="/space" class="n-btn"><span class="iconfont icon-home"></span><span class="n-title">首页</span></router-link>
+						<router-link to="/space/dynamic" class="n-btn"><span class="iconfont icon-dongtai"></span><span class="n-title">动态</span></router-link>
+						<router-link to="/space/launch" class="n-btn"><span class="iconfont icon-launch"></span><span class="n-title">发布</span></router-link>
+						<router-link to="/space/album" class="n-btn"><span class="iconfont icon-album"></span><span class="n-title">相册</span></router-link>
+						<router-link to="/space/setting" class="n-btn"><span class="iconfont icon-gear"></span><span class="n-title">设置</span></router-link>
+					</div>
+					<div class="n-statistics">
+
+					</div>
+				</div>
+			</div>
+			<div class="space-c-wrap">
+				<router-view></router-view>
+				<div class="space-home" v-if="$route.name==='space'">
+					<div class="col-1">
+						<div class="section">
+							<h3 class="section-title">网站公告</h3>
+							<div class="section-content">
+
+							</div>
+						</div>
+						<div class="section">
+							<h3 class="section-title">站点访问</h3>
+							<div class="section-content">
+							</div>
+						</div>
+					</div>
+					<div class="col-2">
+						<div class="section memo">
+							<h4 class="section-title">便签</h4>
+							<textarea v-model="memo" @change="memoChange" placeholder="编辑我的备忘录"></textarea>
+						</div>
 					</div>
 				</div>
 			</div>

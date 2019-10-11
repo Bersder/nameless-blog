@@ -129,7 +129,6 @@ export default new Vuex.Store({
 		},
 		appBgC(state,bg){
 			state.appBg = bg;
-			console.log('bg change to',bg);
 		}
 	},
 	getters:{

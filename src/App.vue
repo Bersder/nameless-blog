@@ -70,7 +70,7 @@ export default {
 
 			themeList:[
 				{class:'iconfont icon-Pixiv',des:'跟随模式'},
-				{class:'iconfont icon-screen',des:'无垢白'},
+				{class:'iconfont icon-screen',des:'白无垢'},
 				{class:'iconfont icon-texture',des:'类纸张'},
 				{class:'iconfont icon-star',des:'kira'}
 			],
