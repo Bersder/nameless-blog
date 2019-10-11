@@ -48,8 +48,17 @@
 /*About*/
 /*==================================================================*/
 /*Link*/
+#mobile-app .page-content.link{
+	padding: .2rem .1rem;
+}
 .page-content.link{
-	overflow: hidden;
+	padding-top: .2rem;
+	padding-left: .2rem;
+	padding-right: .2rem;
+	max-width: 9rem;
+}
+.link-description h2:first-child{
+	margin-top: 0;
 }
 .link-description h2{
 	font-size: .2rem;
@@ -71,7 +80,7 @@
 	padding: .1rem 0;
 	font-weight: bold;
 	color: #00a1d6;
-	background: linear-gradient(90deg, transparent, #f0faff, transparent);
+	background: linear-gradient(90deg, transparent, #dff8ff, transparent);
 }
 	.link_subtitle p{
 		font-weight: normal;

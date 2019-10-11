@@ -996,6 +996,10 @@ input::-webkit-search-cancel-button{
 	max-width: 8rem;
 	padding: 0 .1rem;
 	margin: 0 auto;
+	background: rgba(255,255,255,.7);
+}
+.page-content.article,.page-content.link{
+	padding-bottom: .5rem;
 }
 .content-area{
 	animation: fadeIn 2s ;

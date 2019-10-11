@@ -46,7 +46,7 @@
 				<div class="rect4"></div>
 				<div class="rect5"></div>
 			</div>
-			<div class="comments-list" v-if="allCount" style="overflow: hidden;">
+			<div class="comments-list" v-if="allCount">
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
 						<div class="comment-avatar">

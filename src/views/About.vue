@@ -20,6 +20,7 @@
 						<p>因为单纯的喜欢物语系列和猫，所以起了个 <span><ruby>忍野<rp>(</rp><rt>おしの</rt><rp>)</rp></ruby><ruby>喵<rp>(</rp><rt>ニャ</rt><rp>)</rp></ruby></span> 的名字</p>
 						<p>在广州上学的一名普通的独身大学生，与所有普通的独身大学生一样普通，吉良吉影都为我点赞</p>
 						<p><del>不幸选择</del>计算机专业的程序猿、ACG爱好者、主机玩家、<span title="FGO&明日方舟">“硕博连读”</span></p>
+						<p>在某些方面的完美主义者</p>
 						<p><strong>不是大佬，不是大佬，不是大佬</strong></p>
 					</div>
 					<div class="about-post">
@@ -30,7 +31,7 @@
 						<p>无音乐不欢，偏向于纯音乐及东方音乐</p>
 						<p>游戏方面ARPG、JRPG最爱，另外P5天下第一</p>
 						<p>为自己的兴趣瞎折腾，并付出巨大代价</p>
-						<p>linux忠实粉丝</p>
+						<p>linux赛高</p>
 						<p>··· ···</p>
 					</div>
 					<div class="about-post">
@@ -42,7 +43,7 @@
 						<h4>破站黑历史</h4>
 						<div class="history">
 							<p><time>????-??-??</time><span class="isolate">·</span>学Vue时用Vue写了一个页面，自认为还不错，加之有建博客的想法，然后一发不可收拾...</p>
-							<p><time>????-??-??</time><span class="isolate">·</span>经过3个月的摸爬滚打，初版V0.0博客最终完成，主题无名</p>
+							<p><time>2019-10-13</time><span class="isolate">·</span>经过4个月的摸爬滚打，初版博客最终完成（其实是不想再拖了，实际上想干的是还是很多）</p>
 						</div>
 					</div>
 				</div>

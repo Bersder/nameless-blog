@@ -131,6 +131,8 @@
 		padding: 0 .05rem;
 		border: .01rem solid #eaeaea;
 		border-radius: .04rem;
+		background: #ffffffee;
+		user-select: none;
 		text-align: left;
 		z-index: 10;
 	}.emotion.emo-open{border-bottom-left-radius: 0;border-bottom-right-radius: 0}
