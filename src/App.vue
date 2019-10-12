@@ -79,6 +79,7 @@ export default {
 		}
 	},
 	created(){
+		console.info("%c Github %c","background:#24272A; color:#ffffff","","https://github.com/Bersder");
 		let agents = ["Android", "SymbianOS", "BlackBerry","Windows Phone", "iPad", "iPod", "iPhone"];
 		for(let i=0;i<agents.length;i++)
 			if (navigator.userAgent.indexOf(agents[i])>0){

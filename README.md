@@ -14,6 +14,7 @@
 
 ## GuGuList
 未来要实现的功能
+- [ ] SSR同构
 - [ ] Space主页面
 - [ ] SpaceSetting 附加功能
 - [ ] 数据库重组（Tag，Series，Category）

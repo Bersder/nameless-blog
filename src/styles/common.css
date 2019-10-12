@@ -1008,6 +1008,7 @@ input::-webkit-search-cancel-button{
 	margin: .2rem  0;
 	padding: .1rem .2rem;
 	border: .01rem dashed #e2e2e2;
+	background: rgba(255,255,255,.7);
 	color: #939393;
 }
 .pager-no-more{
