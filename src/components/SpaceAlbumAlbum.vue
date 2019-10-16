@@ -1,7 +1,7 @@
 <template>
     <div>
 		<h2 class="album-head">我的相簿</h2>
-		<div class="album-content" :class="{empty:!typeCount[curType]}" etext="这里空空如也">
+		<div class="album-content" :class="{empty:!typeCount[curType]&&!albumWaiting}" etext="这里空空如也">
 			<div class="tab-list">
 				<span class="tab" v-for="(item,key) in typeMap" @click="curType=key" :class="{cur:curType===key}"><span class="name">{{item}}</span><span class="count">{{typeCount[key]}}</span></span>
 			</div>
@@ -55,13 +55,9 @@
 		created(){
         	this.$post('/apis/auth/v8api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
 				let data = response.data.data;
-				let sum = 0;
-				for(let i in data.counts){
+				for(let i in data.counts)
 					this.$set(this.typeCount,i,data.counts[i]);
-					sum+=data.counts[i];
-				}
-				this.$set(this.typeCount, 'all', sum);
-				this.curPageNum = Math.ceil(sum/20);
+				this.curPageNum = Math.ceil(this.typeCount.all/20);
 				this.albumWaiting = false;
 				this.$store.commit('lumiBox/imgsC',data.pictures);
 				this.curAlbums = data.pictures;
@@ -78,7 +74,7 @@
 				curPage:1,
 				curPageNum:1,
 				typeMap:{all:'所有',anime:'Anime',game:'游民',trivial:'日常'},
-				typeCount:{all:2333,anime:233,game:233,trivial:233},
+				typeCount:{all:0,anime:0,game:0,trivial:0},
 
 			}
 		},

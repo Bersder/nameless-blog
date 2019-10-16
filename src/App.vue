@@ -19,6 +19,7 @@
 	  </transition>
 	  <!--回到顶部-->
 	  <a class="back2top" :class="{visible:scrollTop>500&&!/takenote|write/.test($route.name)}" target="_self" @click="back2top"><img :src="back2topImg" width="100"></a>
+	  <button class="mobile-back2top" v-show="isMobile" :class="{visible:scrollTop>500&&!/takenote|write/.test($route.name)}" @click="back2top"><i class="iconfont icon-chevron-up clearm"></i></button>
 	  <!--控制按钮-->
 	  <aside class="ctrl-panel" :class="{visible:scrollTop>100&&!/takenote|write/.test($route.name)}" @click.stop="setPanelShow=!setPanelShow"><span>SETTING | <i class="iconfont icon-gear clearm"></i></span></aside>
 	  <!--设置面板-->

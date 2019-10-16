@@ -135,6 +135,13 @@
 			padding: 0;
 			border: none;
 		}
+/*----------------------------------------*/
+	.post-tags{
+		width: 100%;
+	}
+	.post-share,.post-like{
+		display: none;
+	}
 }
 @media screen and (max-width: 650px) {
 	.post-prev .half{

@@ -35,7 +35,7 @@
 										  @change="afterRender">
 							</mavon-editor>
 						</div>
-						<footer class="post-footer">
+						<footer class="post-footer tl">
 							<div class="post-update"><span>{{lut}} Lsat Update</span></div>
 							<div class="post-reward"></div><!--暂不开发-->
 							<div class="post-copyright">
@@ -54,23 +54,32 @@
 									<span>，转载时请标明来源并附上地址</span>
 								</div>
 							</div>
-							<div class="post-tags">
-								<i class="iconfont icon-tags"></i>
-								<ul>
-									<li class="tag" v-for="(tag,index) in tags" :key="index"><router-link :to="'/tags/'+tag" rel="tag">{{tag}}</router-link></li>
-								</ul>
-							</div>
-							<div class="post-like pr">
-								<a href="/" class="like"><i class="iconfont icon-heart"></i><span class="count">{{liked}}</span></a>
-							</div>
-							<div class="post-share pr">
-								<i class="iconfont icon-share"></i>
-								<div class="share-option">
-									<a class="iconfont icon-wechat" href="/" target="_blank" rel="nofollow"></a>
-									<a class="iconfont icon-qq" href="/" target="_blank" rel="nofollow"></a>
-									<a class="iconfont icon-weibo" href="/" target="_blank" rel="nofollow"></a>
-									<a class="iconfont icon-facebook" href="/" target="_blank" rel="nofollow"></a>
-									<a class="iconfont icon-twitter" href="/" target="_blank" rel="nofollow"></a>
+							<div class="post-bot">
+								<div class="post-tags">
+									<i class="iconfont icon-tags"></i>
+									<ul>
+										<li class="tag" v-for="(tag,index) in tags" :key="index"><router-link :to="'/tags/'+tag" rel="tag">{{tag}}</router-link></li>
+									</ul>
+								</div>
+								<div class="post-like pr">
+									<a href="/" class="like"><i class="iconfont icon-heart"></i><span class="count">{{liked}}</span></a>
+								</div>
+								<div class="post-share pr">
+									<i class="iconfont icon-share clearm"></i>
+									<div class="share-option">
+										<a class="iconfont icon-wechat">
+											<div class="wechat-qrcode">
+												<h4>微信扫一扫</h4>
+												<div class="qrcode" id="qrcode"></div>
+												<p>微信扫一扫打开网页</p>
+												<p>左上角分享给朋友/朋友圈</p>
+											</div>
+										</a>
+										<a class="iconfont icon-qq" :href="qqShareUrl" target="_blank" rel="nofollow"></a>
+										<a class="iconfont icon-weibo" :href="weiboShareUrl" target="_blank" rel="nofollow"></a>
+										<a class="iconfont icon-facebook" :href="facebookShareUrl" target="_blank" rel="nofollow"></a>
+										<a class="iconfont icon-twitter" :href="twitterShareUrl" target="_blank" rel="nofollow"></a>
+									</div>
 								</div>
 							</div>
 						</footer>
@@ -124,7 +133,8 @@
 
 <script>
 	import {copyText} from "../utils/lib";
-	import {mapState} from 'vuex'
+	import {mapState} from 'vuex';
+	import QRCode from 'qrcodejs2';
 	import PCONF from "../config/project.conf";
 	import UCONF from "../config/user.conf";
 	import CommentModule from "@/components/CommentModule";
@@ -146,12 +156,19 @@
 			document.title = this.xtype==='article_note'?'笔记XXX'+siteTitle.title_:'文章XXX'+siteTitle.title_;
 			this.fetchData({xid:this.xid,_:this.xtype[0]});
 		},
+		mounted(){
+			this.qrcode = new QRCode('qrcode',{
+				width:100,
+				height:100
+			});
+		},
         data() {
             return {
             	xid:null,
 				xtype:null,
 				xurl:'',
 				title:'',
+				preview:'',
 				imgSrc:'/site/static/loading.gif',
 				author:'oshino',
 				time:'1111-11-11',
@@ -162,6 +179,7 @@
 				readCount:undefined,
 				series:undefined,//acgt特有
 				rawContent:'',
+				qrcode:null,
 				pre:null,
 				next:null,
 				mdSet:PCONF.MDPreviewMode,
@@ -210,7 +228,32 @@
 			}
 		},
 		computed:{
-        	...mapState(['scrollTop','isMobile'])
+        	...mapState(['scrollTop','isMobile']),
+			qqShareUrl(){
+        		return 'http://connect.qq.com/widget/shareqq/index.html?'+
+					'url='+encodeURIComponent(this.xurl)+
+					'&title='+encodeURIComponent(this.title)+
+					'&source='+encodeURIComponent(this.title)+
+					'&desc='+encodeURIComponent(this.preview)+
+					'&pics='+encodeURIComponent(location.origin + this.imgSrc)+
+					'&summary='+encodeURIComponent(this.preview)
+			},
+			weiboShareUrl(){
+        		return 'http://service.weibo.com/share/share.php?'+
+					'url='+encodeURIComponent(this.xurl)+
+					'&title='+encodeURIComponent(this.title)+
+					'&pic='+encodeURIComponent(location.origin + this.imgSrc)+
+					'&appkey='
+			},
+			twitterShareUrl(){
+        		return 'https://twitter.com/intent/tweet?'+
+					'text='+encodeURIComponent(this.title)+
+					'&url='+encodeURIComponent(this.xurl)+
+					'&via='+encodeURIComponent(location.origin)
+			},
+			facebookShareUrl(){
+        		return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(this.xurl)
+			},
 		},
         methods:{
         	afterRender(raw,render){
@@ -328,6 +371,7 @@
 						this.rawContent = data.rawContent || '';
 						this.title = data.info.title;
 						document.title = this.title+siteTitle.title_;
+						this.preview = data.info.preview;
 						this.imgSrc = data.info.imgSrc;
 						this.$store.commit('appBgC', this.imgSrc);
 						this.author = data.info.author;
@@ -340,6 +384,7 @@
 						this.series = data.info.series;//acgn特殊处理
 						this.pre = data.pre;
 						this.next = data.next;
+						this.qrcode.makeCode(this.xurl);
 					}
 					else{
 						//不存在该文章
@@ -378,27 +423,6 @@
 		components:{
         	comment:CommentModule
 		},
-		// activated() {
-        // 	let type = this.$route.name === 'article_note'?'note':this.$route.params.type;
-		// 	if(this.xid!==this.$route.params.id||this.xtype!==type){//如果文章变更放弃缓存重新请求数据
-		// 		this.xid = this.$route.params.id;
-		// 		this.xtype = type;
-		// 		this.initData();
-		// 		this.fetchData({xid:this.xid,_:this.xtype[0]});
-		// 	}
-		// 	else{//直接使用缓存，不用等待渲染
-		// 		//activated在create之后，因此首次进入会跳入此处扰乱复用判断?
-		// 		if (!this.$route.hash)
-		// 			document.body.scrollIntoView(true);
-		// 		else{
-		// 			try {
-		// 				document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true)
-		// 			}catch (e) {
-		//
-		// 			}
-		// 		}
-		// 	}
-		// }
 	}
 </script>
 

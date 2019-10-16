@@ -16,6 +16,7 @@
     "highlight.js": "^9.15.10",
     "marked": "^0.7.0",
     "mavon-editor": "^2.7.5",
+    "qrcodejs2": "0.0.2",
     "qs": "^6.7.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

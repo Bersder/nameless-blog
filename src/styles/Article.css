@@ -62,10 +62,10 @@
 		.post-footer{
 			border-top: .01rem dashed #ddd;
 			border-bottom: .01rem dashed #ddd;
-			padding: .1rem;
-			overflow: hidden;
+			padding: .1rem .1rem .05rem;
 		}
 			.post-update{
+				text-align: center;
 				font-family: 'Fira Code VF',Ubuntu,sans-serif;
 			}
 			.post-copyright{
@@ -76,6 +76,10 @@
 				border: .01rem solid #e3e3e3;
 			}.pck{color: #7d7d7d;font-weight: bold}.pcv{color: #b3b3b3;text-decoration: underline}a.pcv:hover{color: #FF7D7D}
 			.post-tags{
+				display: inline-block;
+				vertical-align: top;
+				width: calc(100% - 2.2rem);
+				min-height: .25rem;
 				color: grey;
 				text-transform: uppercase;
 				position: relative;
@@ -114,19 +118,68 @@
 					display: none;
 					float: left;
 					margin-right: .1rem;
+					text-align: center;
 					animation: mini-fadeInUp .5s;
 				}
 				.post-share:hover .share-option{
 					display: inline-block;
 				}
 					.share-option a{
-						margin-right: .05rem;
+						display: inline-block;
+						height: .2rem;
+						width: .2rem;
+						line-height: .18rem;
+						margin: 0 .03rem;
 						border-radius: 20%;
 					}
 					a.icon-wechat{
 						 color: #00c500;
 						 border: .01rem solid #00c500;
-					 }
+					}
+					.share-option .icon-wechat{
+						position: relative;
+					}
+						.icon-wechat:hover .wechat-qrcode{
+							display: block;
+						}
+						.icon-wechat .wechat-qrcode{
+							display: none;
+							position: absolute;
+							top: -2rem;
+							left: -.76rem;
+							width: 1.7rem;
+							padding-bottom: .1rem;
+							box-shadow: 0 .02rem .1rem #1e1e1e40;
+							border: .01rem solid #eaeaea;
+							background: rgba(255,255,255,.9);
+							font-size: .14rem;
+							color: #8b8e99;
+							z-index: 999;
+						}
+						.wechat-qrcode:after{
+							content: '';
+							position: absolute;
+							left: 50%;
+							margin-left: -.1rem;
+							bottom: -.2rem;
+							width: 0;
+							height: 0;
+							border: .1rem solid;
+							border-color: rgba(255,255,255,.9) transparent transparent transparent;
+						}
+							.wechat-qrcode .qrcode{
+								margin: .1rem auto;
+								width: 1rem;
+							}
+							.wechat-qrcode h4{
+								line-height: .24rem;
+								background: #dddddd80;
+							}
+							.wechat-qrcode p{
+								line-height: .16rem;
+								font-size: .12rem;
+							}
+
 					a.icon-weibo{
 						color:#ff3d36;
 						border: .01rem solid #ff3d36;
@@ -134,8 +187,6 @@
 					a.icon-qq{
 						color: lightskyblue;
 						border: .01rem solid lightskyblue;
-						height: .18rem;
-						width: .19rem;
 					}
 					a.icon-facebook{
 						color: white;
