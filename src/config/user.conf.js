@@ -1,5 +1,5 @@
 export default {
-	sinceTime:1570723200000, //网站始于 2019.10.11 00:00:00 GTM+8
+	sinceTime:1571500800000, //网站始于 2019.10.20 00:00:00 GTM+8
 	birthday:'1999-06-05', //生日
 	statusMap:[
 		{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
@@ -17,6 +17,10 @@ export default {
 		{imgSrc:'/root/site/images/moe.c.png',description:'这是什么，我有学过吗(滑稽)'},
 		{imgSrc:'/root/site/images/moe.php.jpg',description:'本站后端支持'},
 		{imgSrc:'/root/site/images/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
+	],
+	siteHistory:[
+		['????-??-??','学Vue时用Vue写了一个页面，自认为还不错，加之有建博客的想法，然后一发不可收拾...'],
+		['2019-10-20','经过4个月的摸爬滚打，初版博客最终完成（其实是不想再拖了，实际上想干的是还是很多）'],
 	],
 	siteTitle:{
 		title:'忍野喵',

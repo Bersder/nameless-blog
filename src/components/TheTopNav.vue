@@ -55,7 +55,7 @@
 			</div>
 			<div class="snh">
 				<div class="site-nav">
-					<ul class="menu" id="">
+					<ul class="menu">
 						<li v-for="each in navData">
 							<router-link :to="each.href" class="animated"><i :class="[each.icon,each.animate]"></i> {{each.des}}</router-link>
 							<ul v-show="each.subs" class="sub-menu">

@@ -165,7 +165,11 @@
 						else{
 							let gap_d = Math.floor(gap_h/24);
 							if (gap_d<30)return gap_d + '日前';
-							else return '数月前'
+							else{
+								let gap_mon = Math.floor(gap_d/30);
+								if (gap_mon<12)return gap_mon + '月前';
+								else return '很久以前';
+							}
 						}
 					}
 				}

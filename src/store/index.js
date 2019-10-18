@@ -76,7 +76,9 @@ const lumiBox = {
 			state.index = index;
 		},
 		showC(state,cur){
-			state.show = cur;
+			if (state.imgs.length===0&&cur){}
+			else
+				state.show = cur;
 		}
 	}
 };

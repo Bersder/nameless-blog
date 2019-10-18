@@ -62,7 +62,7 @@
 									</ul>
 								</div>
 								<div class="post-like pr">
-									<a href="/" class="like"><i class="iconfont icon-heart"></i><span class="count">{{liked}}</span></a>
+									<a href="javascript:void(0);" class="like"><i class="iconfont icon-heart"></i><span class="count">{{liked}}</span></a>
 								</div>
 								<div class="post-share pr">
 									<i class="iconfont icon-share clearm"></i>

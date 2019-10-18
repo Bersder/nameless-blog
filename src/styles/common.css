@@ -800,13 +800,13 @@ blockquote:last-child{
 	transform: scaleX(1);
 	transform-origin: bottom left;
 }
-.comment-content del,.about-post del{
+.comment-content del,.about-post del,.link-description del{
 	background: #1e1e1e;
 	color: #1e1e1e;
 	transition: .3s ease;
 	text-decoration: none;
 }
-.comment-content del:hover,.about-post del:hover{
+.comment-content del:hover,.about-post del:hover,.link-description del:hover{
 	color: white;
 }
 .comment-content p code{

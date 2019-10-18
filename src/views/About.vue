@@ -42,8 +42,7 @@
 <!--						<p>推荐使用 <code>Chrome</code> 或 <code>Firefox</code> 以获得最佳体验</p>-->
 						<h4>破站黑历史</h4>
 						<div class="history">
-							<p><time>????-??-??</time><span class="isolate">·</span>学Vue时用Vue写了一个页面，自认为还不错，加之有建博客的想法，然后一发不可收拾...</p>
-							<p><time>2019-10-13</time><span class="isolate">·</span>经过4个月的摸爬滚打，初版博客最终完成（其实是不想再拖了，实际上想干的是还是很多）</p>
+							<p v-for="item in siteHistory"><time>{{item[0]}}</time><span class="isolate">·</span>{{item[1]}}</p>
 						</div>
 					</div>
 				</div>
@@ -53,6 +52,7 @@
 </template>
 
 <script>
+	import UCONF from "../config/user.conf";
 	export default {
         name: "About",
 		created(){
@@ -64,6 +64,7 @@
 		data(){
         	return{
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'关于',description:''},
+				siteHistory: UCONF.siteHistory
 			}
 		}
     }

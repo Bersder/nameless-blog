@@ -27,7 +27,7 @@
 	.about-post rt{
 		background: #b8c0cc30;
 	}
-	.about-post p{
+	.about-post p,.link-description p{
 		margin-bottom: .15rem;
 	}
 	.about-post h2{
