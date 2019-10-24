@@ -99,14 +99,18 @@
 		user-select: none;
 		color: #00a1d6;
 	}
+	#mobile-app .category-list-item .item-name,#mobile-app .tag-query-result ul li .item-name{
+		max-width: calc(100% - 1.1rem);
+	}
 	.category-list-item .item-name,.tag-query-result ul li .item-name{
 		display: inline-block;
-		max-width: 65%;
+		max-width: calc(100% - 1.5rem);
 	}
 		.item-name .item-link{
 			font-size: .15rem;
 			margin-right: .1rem;
 			transition: .5s;
+			word-wrap: break-word;
 		}
 		.item-name .item-tag{
 			display: inline-block;

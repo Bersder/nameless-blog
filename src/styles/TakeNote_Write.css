@@ -142,7 +142,7 @@
 			padding: .1rem 0;
 			z-index: 1600;
 			position: absolute;
-		}.series-btn ul{left: .5rem !important;}
+		}
 
 			.type-btn li,.series-btn li,.cat-btn li{
 				cursor: pointer;
