@@ -141,11 +141,7 @@
 				});
 				if (Object.keys(this.tagDict).length>30) this.manyTags = true;
 				this.tags = Object.keys(this.tagDict);
-				data.series.forEach(e=>{
-					e.count = e.relateArt.split(',').length - 2;
-					delete e.relateArt;
-					this.seriesList.push(e);
-				});
+				data.seriesList.forEach(e=>this.seriesList.push(e));
 				data.category.forEach(e=>{
 					e.count = e.relateNote.split(',').length - 2;
 					delete e.relateNote;

@@ -56,8 +56,8 @@
 							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="seriesExpand">
-							<li v-for="each in seriesOptions" @click="selectedSeries=each" :title="each">{{each}}</li>
-							<li @click="selectedSeries=null">不选择分组</li>
+							<li v-for="each in seriesOptions" @click="selectedSeries=each.seriesName;selectedSeriesID=each.sid" :title="each.seriesName">{{each.seriesName}}</li>
+							<li @click="selectedSeriesID=selectedSeries=null">不选择分组</li>
 						</ul>
 					</div>
 				</div>
@@ -113,6 +113,7 @@ export default {
 						this.selectedType = art.info.type || 'code';
 						this.preview = art.info.preview || '';
 						this.selectedSeries = art.info.series || null;
+						this.selectedSeriesID = art.info.seriesID || null;
 						this.selectedTags = art.info.tags || [];
 						this.tagOptions = art.tagOptions || [];
 						this.seriesOptions = art.seriesOptions || [];
@@ -146,19 +147,13 @@ export default {
 				// tagOptions:[],
 
 				aid:this.$route.query.aid,
-				// title:'',
-				// author:'oshino',
             	selectedType:'code',
-				// preview:'',
-				// rawContent:'',
+
 				selectedSeries:null,
-				// selectedTags:[],
-				// inputTags:'',
-				// hi:null,
+				selectedSeriesID:null,
 
 				typeExpand:false,
 				seriesExpand:false,
-				// tiFocus:false,
 			}
         },
         methods:{
@@ -183,7 +178,7 @@ export default {
 					author:this.author,
 					tags:this.selectedTags.join(','),
 					inputTags:it,
-					series:this.selectedSeries,
+					seriesID:this.selectedSeriesID,
 					rawContent:v
 				};
         		this.$post('/apis/edit/saveTmp.php?aid='+this.aid,data).then(response=>{
@@ -223,7 +218,7 @@ export default {
 						author:this.author,
 						tags:this.selectedTags.join(','),
 						newTags:it,
-						series:this.selectedSeries,
+						seriesID:this.selectedSeriesID,
 						rawContent:this.rawContent,
 					};
 					if(typeof this.hi==='object'){

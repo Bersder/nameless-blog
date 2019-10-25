@@ -109,7 +109,7 @@
 		.type-btn button,.series-btn button,.cat-btn button{
 			position: relative;
 			vertical-align: middle;
-			width: 1.5rem;
+			width: 2rem;
 			text-transform: capitalize;
 			padding: 0 .25rem 0 .15rem;
 			background: white;
@@ -134,7 +134,7 @@
 			background: white;
 			top: 100%;
 			right: 0;
-			width: 1.5rem;
+			width: 2rem;
 			margin-top: .01rem;
 			border-radius: .03rem;
 			list-style-type: none;
