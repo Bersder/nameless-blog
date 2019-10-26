@@ -41,12 +41,12 @@
 					</div>
 					<div class="cat-btn">
 						<span>Category</span>
-						<button @click.stop="catExpand=!catExpand;tiFocus=false" :title="catMap[selectedCat]" class="tl">
-							<span>{{catMap[selectedCat]}}</span>
+						<button @click.stop="catExpand=!catExpand;tiFocus=false" :title="selectedCat" class="tl">
+							<span>{{selectedCat||'未分类'}}</span>
 							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="catExpand">
-							<li v-for="each in catOptions" @click="selectedCat=each">{{catMap[each]}}</li>
+							<li v-for="each in catOptions" @click="selectedCat=each.catName;selectedCatID=each.cid" :title="each.catName">{{each.catName}}</li>
 						</ul>
 					</div>
 				</div>
@@ -83,8 +83,7 @@
 						this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
 						this.nid = response.data.nid;
 						this.tagOptions = response.data.tagOptions || [];
-						this.catMap = response.data.catMap;
-						this.catOptions = Object.keys(this.catMap)|| [];
+						response.data.catOptions.forEach(e=>this.catOptions.push(e));
 					}
 					else
 						this.$router.push({name:'homepage'});
@@ -98,11 +97,11 @@
 						this.title = note.info.title || '';
 						document.title = this.title?this.title:'标题未定'+siteTitle.title_;
 						this.preview = note.info.preview || '';
-						this.selectedCat = note.info.category || 'zatsu';
+						this.selectedCat = note.info.category || null;
+						this.selectedCatID = note.info.categoryID || null;
 						this.selectedTags = note.info.tags || [];
 						this.tagOptions = note.tagOptions || [];
-						this.catMap = note.catMap;
-						this.catOptions = Object.keys(this.catMap)|| [];
+						note.catOptions.forEach(e=>this.catOptions.push(e));
 						this.inputTags = note.info.inputTags || '';
 						this.hi = note.info.imgSrc || null;
 						document.getElementById('hi').style.backgroundImage='url(/root'+note.info.imgSrc+')';
@@ -128,22 +127,14 @@
         data() {
             return {
             	catOptions:[],
-				// tagOptions:[],
-				catMap:{zatsu:'雑モツ'},
 
 				nid:this.$route.query.nid,
-				// title:'',
-				// author:'oshino',
 				selectedType:'note',
-				// preview:'',
-				// rawContent:'',
-				selectedCat:'zatsu',
-				// selectedTags:[],
-				// inputTags:'',
-				// hi:null,
+
+				selectedCat:null,
+				selectedCatID:null,
 
 				catExpand:false,
-				// tiFocus:false,
 			}
         },
         methods:{
@@ -168,7 +159,7 @@
 					author:this.author,
 					tags:this.selectedTags.join(','),
 					inputTags:it,
-					category:this.selectedCat,
+					categoryID:this.selectedCatID,
 					rawContent:v,
 				};
 				this.$post('/apis/edit/saveTmp.php?nid='+this.nid,data).then(response=>{
@@ -208,7 +199,7 @@
 						author:this.author,
 						tags:this.selectedTags.join(','),
 						newTags:it,
-						category:this.selectedCat,
+						categoryID:this.selectedCatID,
 						rawContent:this.rawContent,
 					};
 					if(typeof this.hi==='object'){

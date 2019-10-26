@@ -142,11 +142,7 @@
 				if (Object.keys(this.tagDict).length>30) this.manyTags = true;
 				this.tags = Object.keys(this.tagDict);
 				data.seriesList.forEach(e=>this.seriesList.push(e));
-				data.category.forEach(e=>{
-					e.count = e.relateNote.split(',').length - 2;
-					delete e.relateNote;
-					this.categoryList.push(e);
-				});
+				data.categoryList.forEach(e=>this.categoryList.push(e));
 				data.headers.forEach(e=>{
 					e.file = undefined;
 					e.tmpDes = e.description;

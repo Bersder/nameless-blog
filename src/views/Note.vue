@@ -24,9 +24,9 @@
 						<div class="rect5"></div>
 					</div>
 					<div class="list-container tl" v-show="rSelected">
-						<div class="category-list" v-for="(item,key,index) in catMap" :key="index">
+						<div class="category-list" v-for="(item,key) in catMap" :key="key">
 							<div class="category-title">
-								{{item}} <span> · {{key}}</span>
+								{{item.catName}} <span> · {{item.catName_en}}</span>
 							</div>
 							<div class="category-list-item" v-for="(item_,index_) in sortedNotes[key]">
 								<span class="item-num">{{index_|twoNum}}</span>
@@ -60,7 +60,7 @@
 										<router-link :to="each.nid" append>{{each.title}}</router-link>
 									</div>
 									<div class="category no-select">
-										{{catMap[each.category]}}<span> · {{each.category}}</span>
+										{{each.catName}}<span> · {{each.catName_en}}</span>
 									</div>
 								</div>
 							</div>
@@ -102,14 +102,14 @@
 				this.curNotes = this.notes.slice(0,this.noteNum<6?this.noteNum:6);
 				this.notice = data.notice;
 				for(let i in this.catMap)
-					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.category===i));
+					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.catID===i));
 				setTimeout(()=>this.$store.commit('lazyCheck'),100);
 			})
 		},
         data() {
             return {
 				headerInfo:{imgSrc:'/site/static/loading.gif',title:'笔记',description:''},
-            	catMap:null,
+            	catMap:{},
 				noteWaiting:true,
 				noteNum:0,
 				rSelected:false,
