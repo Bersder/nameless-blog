@@ -3,13 +3,13 @@ export default {
 	data(){
 		return{
 			mdSetting:PCONF.MDEditMode,
-			tagOptions:[],
 
 			title:'',
 			author:'oshino',
 			preview:'',
 			rawContent:'',
-			selectedTags:[],
+			selectedTagsID:[],
+			tagMap:{},
 			inputTags:'',
 			hi:null,
 
@@ -53,13 +53,13 @@ export default {
 		}
 	},
 	methods:{
-		selectTag(t){
-			if(this.selectedTags.indexOf(t)===-1)
-				this.selectedTags.push(t);
-			else this.selectedTags.splice(this.selectedTags.indexOf(t),1)
+		selectTagID(tid){
+			if (this.selectedTagsID.indexOf(tid)===-1)
+				this.selectedTagsID.push(tid);
+			else this.selectedTagsID.splice(this.selectedTagsID.indexOf(tid),1);
 		},
-		deleteTag(t){
-			this.selectedTags.splice(this.selectedTags.indexOf(t),1)
+		deleteTagID(tid){
+			this.selectedTagsID.splice(this.selectedTagsID.indexOf(tid),1);
 		},
 		imgAdd(pos,$file){
 			let param = new FormData();

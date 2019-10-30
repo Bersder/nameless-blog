@@ -14,7 +14,11 @@
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
-						<li class="tag" v-for="(item,key,index) in tagDict" :key="index" @click="tagClick(key)"><a href="javascript:void(0);" :title="item+' 相关'">{{key}}</a></li>
+						<li class="tag" v-for="item in tagCountList"
+							:key="item.id" @click="tagClick(item.tagName)"
+							:class="{cur:$route.params.tag===item.tagName}">
+							<a href="javascript:void(0);" :title="item.count+' 相关'">{{item.tagName}}</a>
+						</li>
 					</ul>
 				</div>
 				<div class="tag-query-result tl" v-if="!tag404">
@@ -54,16 +58,12 @@
 					this.noteList = data.noteInfos;
 					this.typeEN2CN(this.artList);
 					this.typeEN2CN(this.noteList);
-					data.tags.forEach(e=>{
-						this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length + e.relateNote.split(',').length - 4)
-					});
-					if ((!this.isMobile&&Object.keys(this.tagDict).length>30)||(Object.keys(this.tagDict).length>12&& this.isMobile)) this.manyTags = true;
+					data.tagCountList.forEach(e=>this.tagCountList.push(e));
+					if ((!this.isMobile&&this.tagCountList.length>30)||(this.tagCountList.length>12&& this.isMobile)) this.manyTags = true;
 					if(response.data.exist<1)this.tag404 = true;
 					else{
-						let relateArts = data.tagRelate.relateArt.split(',');
-						let relateNotes = data.tagRelate.relateNote.split(',');
-						relateArts.shift();relateArts.pop();
-						relateNotes.shift();relateNotes.pop();
+						let relateArts = data.tagRelate.arts.split(',');
+						let relateNotes = data.tagRelate.notes.split(',');
 						this.curListPush(relateArts,0);
 						this.curListPush(relateNotes,1);
 					}
@@ -77,10 +77,8 @@
 					this.noteList = data.noteInfos;
 					this.typeEN2CN(this.artList);
 					this.typeEN2CN(this.noteList);
-					data.tags.forEach(e=>{
-						this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length + e.relateNote.split(',').length - 4)
-					});
-					if ((!this.isMobile&&Object.keys(this.tagDict).length>30)||(Object.keys(this.tagDict).length>12&& this.isMobile)) this.manyTags = true;
+					data.tagCountList.forEach(e=>this.tagCountList.push(e));
+					if ((!this.isMobile&&this.tagCountList.length>30)||(this.tagCountList.length>12&& this.isMobile)) this.manyTags = true;
 					this.typeEN2CN(data.rand);
 					data.rand.forEach(e=>{
 						this.curList.push(e)
@@ -109,11 +107,9 @@
         			this.$fetch('/apis/apiv5.php',{tag:tag}).then(response=>{
         				this.tag404 = response.data.exist<1;
         				let data = response.data.data;
-						let relateArts = data.tagRelate.relateArt.split(',');
-						let relateNotes = data.tagRelate.relateNote.split(',');
-						relateArts.shift();relateArts.pop();
-						relateNotes.shift();relateNotes.pop();
-						this.curList.length = 0;
+						let relateArts = data.tagRelate.arts.split(',');
+						let relateNotes = data.tagRelate.notes.split(',');
+						while (this.curList.pop()){}
 						this.curListPush(relateArts,0);
 						this.curListPush(relateNotes,1);
 
@@ -144,7 +140,7 @@
         		return type==='note'?'/note/'+id:'/archive/'+type+'/'+id
 			},
 			headerIntro(flag,tag){
-				if(tag) return flag?'没有找到':'包含标签 “'+tag+'" 的条目';
+				if(tag) return flag?'标签不存在':'包含标签 “'+tag+'" 的条目';
 				else return '标签'
 			},
 			headerTsukkomi(flag,tag,num){

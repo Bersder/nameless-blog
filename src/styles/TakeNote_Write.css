@@ -178,7 +178,7 @@
 				background: transparent;
 				outline: none;
 				border: none;
-				max-width: 3.1rem;
+				max-width: 5rem;
 				width: 100%;
 			}
 			.tag-btn .tag-item{
@@ -207,12 +207,15 @@
 			.tag-btn span i{
 				cursor: pointer;
 			}
+			#mobile-app .tag-btn ul{
+				width: 3.2rem;
+			}
 			.tag-btn ul{
 				position: absolute;
 				top: 100%;
-				margin-top: .02rem;
+				margin-top: .01rem;
 				left: 0;
-				width: 3.2rem;
+				width: 5rem;
 				font-size: .14rem;
 				color: grey;
 				background: white;

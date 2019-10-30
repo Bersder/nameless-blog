@@ -6,7 +6,7 @@
 				<div class="tag-cloud">
 					<h4>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h4>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
-						<li class="tag" v-for="(item,key,index) in tagDict" :key="index"><a :title="item+' 相关'">{{key}}</a></li>
+						<li class="tag" v-for="item in tagCountList" :key="item.id"><a :title="item.count+' 相关'">{{item.tagName}}</a></li>
 					</ul>
 				</div>
 				<div class="tag-set-btns">
@@ -136,11 +136,9 @@
 		created(){
 			this.$post('/apis/auth/v10api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
 				let data = response.data.data;
-				data.tags.forEach(e=>{
-					this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length + e.relateNote.split(',').length - 4)
-				});
-				if (Object.keys(this.tagDict).length>30) this.manyTags = true;
-				this.tags = Object.keys(this.tagDict);
+				data.tagCountList.forEach(e=>this.tagCountList.push(e));
+				if (this.tagCountList.length>30) this.manyTags = true;
+				this.tags = this.genKeySet(this.tagCountList);
 				data.seriesList.forEach(e=>this.seriesList.push(e));
 				data.categoryList.forEach(e=>this.categoryList.push(e));
 				data.headers.forEach(e=>{
@@ -198,6 +196,18 @@
 			}
 		},
 		methods:{
+        	genKeySet(objArr){
+        		let r = [];
+        		objArr.forEach(e=>r.push(e.tagName));
+				return r;
+			},
+			findTagID(tagName,tagCountList){
+				for (let i = 0; i < tagCountList.length; i++) {
+					if (tagCountList[i].tagName===tagName)
+						return tagCountList[i].id;
+				}
+				return false;
+			},
         	addTag(){
 				if (this.newTag&&!/,/.test(this.newTag)) {
 					let data = {newTag:this.newTag};
@@ -206,8 +216,8 @@
 							if (response.data.tagExist > 0)
 								this.$store.commit('infoBox/callInfoBox',{info:'标签已存在', ok:false, during:2000});
 							else{
-								this.$set(this.tagDict,data.newTag,0);
-								this.tags = Object.keys(this.tagDict);
+								this.tagCountList.push(response.data.newTagInfo);
+								this.tags = this.genKeySet(this.tagCountList);
 								this.newTag = '';
 								this.$store.commit('infoBox/callInfoBox',{info:'标签添加成功', ok:true, during:2000});
 							}
@@ -291,10 +301,16 @@
 					if (this.delWaiting)
 						this.$store.commit('infoBox/callInfoBox',{info:'操作频繁，请稍等', ok:false, during:2000});
 					else{
-						this.delTarget = {delTag:this.searchKey};
-						this.popupTitle = '删除标签';
-						this.popupContent = '确定要删除标签「'+this.searchKey+'」';
-						this.popupShow = true
+						let delTagID = this.findTagID(this.searchKey,this.tagCountList);
+						if (!delTagID){
+							this.$store.commit('infoBox/callInfoBox',{info:'操作失败', ok:false, during:2000});
+						}
+						else {
+							this.delTarget = {delTagID:delTagID};
+							this.popupTitle = '删除标签';
+							this.popupContent = '确定要删除标签「'+this.searchKey+'」';
+							this.popupShow = true
+						}
 					}
 				}
 				else
@@ -332,43 +348,52 @@
 			},
 			delConfirm(bool){
 				if (bool){
-					this.delWaiting = true;
-					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(this.delTarget))}).then(response=>{
-						if (response.data.code < 1){
-							if (this.delTarget.delTag){
-								this.searchKey = '';
-								delete this.tagDict[this.delTarget.delTag];
-								this.tags = Object.keys(this.tagDict);
-							}
-							else if(this.delTarget.delSeriesID){
-								for(let i=0;i<this.seriesList.length;i++)
-									if (this.seriesList[i].id === this.delTarget.delSeriesID){
-										this.seriesList.splice(i,1);
-										break;
+					if (!this.delWaiting){
+						this.delWaiting = true;
+						this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(this.delTarget))}).then(response=>{
+							if (response.data.code < 1){
+								if (this.delTarget.delTagID){
+									this.searchKey = '';
+									for (let i = 0; i < this.tagCountList.length; i++) {
+										if (this.tagCountList[i].id===this.delTarget.delTagID){
+											this.tagCountList.splice(i,1);
+											break;
+										}
 									}
+									this.tags = this.genKeySet(this.tagCountList);
+								}
+								else if(this.delTarget.delSeriesID){
+									for(let i=0;i<this.seriesList.length;i++)
+										if (this.seriesList[i].id === this.delTarget.delSeriesID){
+											this.seriesList.splice(i,1);
+											break;
+										}
+								}
+								else if (this.delTarget.delCatID){
+									for(let i=0;i<this.categoryList.length;i++)
+										if (this.categoryList[i].id === this.delTarget.delCatID){
+											this.categoryList.splice(i,1);
+											break;
+										}
+								}
+								else if(this.delTarget.delLinkID&&this.delTarget.delLinkType){
+									let targetList = this.outerLinks[this.delTarget.delLinkType];
+									for(let i=0;i<targetList.length;i++)
+										if (targetList[i].id === this.delTarget.delLinkID){
+											targetList.splice(i,1);
+											break;
+										}
+								}
+								this.$store.commit('infoBox/callInfoBox',{info:'删除操作成功', ok:true, during:2000});
 							}
-							else if (this.delTarget.delCatID){
-								for(let i=0;i<this.categoryList.length;i++)
-									if (this.categoryList[i].id === this.delTarget.delCatID){
-										this.categoryList.splice(i,1);
-										break;
-									}
-							}
-							else if(this.delTarget.delLinkID&&this.delTarget.delLinkType){
-								let targetList = this.outerLinks[this.delTarget.delLinkType];
-								for(let i=0;i<targetList.length;i++)
-									if (targetList[i].id === this.delTarget.delLinkID){
-										targetList.splice(i,1);
-										break;
-									}
-							}
-							this.$store.commit('infoBox/callInfoBox',{info:'删除操作成功', ok:true, during:2000});
-						}
-						else
-							this.$store.commit('infoBox/callInfoBox',{info:'删除操作失败', ok:false, during:2000});
-						this.delWaiting = false;
-						this.popupShow = false;
-					}).catch(err=>console.warn(err))
+							else
+								this.$store.commit('infoBox/callInfoBox',{info:'删除操作失败', ok:false, during:2000});
+							this.delWaiting = false;
+							this.popupShow = false;
+						}).catch(err=>console.warn(err))
+					}
+					else
+						this.$store.commit('infoBox/callInfoBox',{info:'操作中，请稍等', ok:false, during:2000});
 				} //确认删除
 				else
 					this.popupShow = false

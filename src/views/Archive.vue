@@ -13,7 +13,7 @@
 				<div class="tag-cloud tl">
 					<h2>Tags <a class="roll-toggle" href="javascript:void(0);" @click="tagExpand=!tagExpand" v-if="manyTags">{{this.tagExpand|expandStatus}}</a></h2>
 					<ul class="tag-list" id="tag-list" :class="{more:tagExpand}">
-						<li class="tag" v-for="(item,key,index) in tagDict" :key="index"><router-link :to="'/tags/'+key" :title="item+' 相关'">{{key}}</router-link></li>
+						<li class="tag" v-for="item in tagCountList" :key="item.id"><router-link :to="'/tags/'+item.tagName" :title="item.count+' 相关'">{{item.tagName}}</router-link></li>
 					</ul>
 				</div>
 				<div class="archive-list">
@@ -67,10 +67,8 @@
 				this.year_ord.forEach(e=>{
 					this.arch_data[e]["mon_ord"] = Object.keys(this.arch_data[e]).sort((a,b)=>{return b - a});
 				});
-				response.data.data.tags.forEach(e=>{
-					this.$set(this.tagDict,e.tagName,e.relateArt.split(',').length + e.relateNote.split(',').length - 4)
-				});
-				if ((!this.isMobile&&Object.keys(this.tagDict).length>30)||(Object.keys(this.tagDict).length>12&& this.isMobile)) this.manyTags = true;
+				data.tagCountList.forEach(e=>this.tagCountList.push(e));
+				if ((!this.isMobile&&this.tagCountList.length>30)||(this.tagCountList.length>12&& this.isMobile)) this.manyTags = true;
 			});
 
 		},

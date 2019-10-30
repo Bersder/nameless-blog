@@ -1,7 +1,7 @@
 export default {
 	data(){
 		return{
-			tagDict:{},
+			tagCountList:[],
 			manyTags:false,
 			tagExpand:false
 		}

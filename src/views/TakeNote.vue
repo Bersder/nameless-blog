@@ -31,11 +31,11 @@
 					<div class="tag-btn-wrap" >
 						<span>Tags</span>
 						<div class="tag-btn tl" @click.stop>
-							<span v-if="!isMobile" v-for="each in selectedTags" class="tag-item">{{each}} <i class="iconfont icon-cancel clearm" @click="deleteTag(each)"></i></span>
-							<span class="tag-num" v-if="selectedTags.length">{{selectedTags.length}}</span>
+							<span v-if="!isMobile" v-for="each in selectedTagsID" class="tag-item">{{tagMap[each]}} <i class="iconfont icon-cancel clearm" @click="deleteTagID(each)"></i></span>
+							<span class="tag-num" v-if="selectedTagsID.length">{{selectedTagsID.length}}</span>
 							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;catExpand=false" >
-							<ul v-show="tiFocus&&tagOptions.length>0" @mouseover="tiFocus=true">
-								<li v-for="each in tagOptions" @click="selectTag(each)" :class="{'t-selected':selectedTags.indexOf(each)!==-1}">{{each}}</li>
+							<ul v-show="tiFocus&&Object.keys(tagMap).length>0">
+								<li v-for="(item,key) in tagMap" @click="selectTagID(key)" :class="{'t-selected':selectedTagsID.indexOf(key)!==-1}">{{item}}</li>
 							</ul>
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 					if (response.data.code < 1) {
 						this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
 						this.nid = response.data.nid;
-						this.tagOptions = response.data.tagOptions || [];
+						this.tagMap = response.data.tagMap;
 						response.data.catOptions.forEach(e=>this.catOptions.push(e));
 					}
 					else
@@ -99,8 +99,8 @@
 						this.preview = note.info.preview || '';
 						this.selectedCat = note.info.category || null;
 						this.selectedCatID = note.info.categoryID || null;
-						this.selectedTags = note.info.tags || [];
-						this.tagOptions = note.tagOptions || [];
+						note.info.tagsID.forEach(e=>this.selectedTagsID.push(e));
+						this.tagMap = note.tagMap;
 						note.catOptions.forEach(e=>this.catOptions.push(e));
 						this.inputTags = note.info.inputTags || '';
 						this.hi = note.info.imgSrc || null;
@@ -157,7 +157,7 @@
 					title:this.title,
 					preview:this.preview,
 					author:this.author,
-					tags:this.selectedTags.join(','),
+					tagsID:this.selectedTagsID.join(','),
 					inputTags:it,
 					categoryID:this.selectedCatID,
 					rawContent:v,
@@ -181,10 +181,12 @@
 
 				if(this.title&&this.rawContent&&this.hi){//检查信息是否完整合法
 					let it;
+					let it_ = [];//当前标签集合
+					for (let key in this.tagMap)it_.push(this.tagMap[key].toLowerCase());
 					if(/^([^,;，；]+[,;]?\s*)*$/.test(this.inputTags)){
 						it = this.inputTags.replace(/^[\s,;]+|[\s,;]+$/gm,'').replace(/\s*[,;]\s*/g,',').split(',');
 						it = unique(it);
-						it  = it.filter(v=>{return this.tagOptions.indexOf(v)===-1}).join(',');
+						it  = it.filter(v=>{return it_.indexOf(v.toLowerCase())===-1}).join(',');
 						//然后去重,筛选新标签合并,发送至launch
 					}
 					else{
@@ -197,7 +199,7 @@
 						title:this.title,
 						preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
 						author:this.author,
-						tags:this.selectedTags.join(','),
+						tagsID:this.selectedTagsID.join(','),
 						newTags:it,
 						categoryID:this.selectedCatID,
 						rawContent:this.rawContent,
