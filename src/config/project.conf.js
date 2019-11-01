@@ -6,7 +6,7 @@ export default {
 				{icon:'iconfont icon-youxi',des:'游民',href:'/archive/game'},
 				{icon:'iconfont icon-coffee',des:'随写',href:'/archive/trivial'}
 			],href:'/archive',isUnfolded:true},
-		{icon:'iconfont icon-pen',des:'笔记',animate:'writing',subs:false,href:'/note',isUnfolded:true},//笔记的sub待填充
+		{icon:'iconfont icon-pen',des:'笔记',animate:'writing',subs:false,href:'/note',isUnfolded:true},
 		{icon:'iconfont icon-tags',des:'标签',animate:'fade-bf',subs:false,href:'/tags',isUnfolded:true},
 		{icon:'iconfont icon-link',des:'友链',animate:'enlarge-abrupt',subs:false,href:'/links',isUnfolded:true},
 		// {icon:'iconfont icon-gear',des:'实验室',animate:'spin',subs:false,href:'/lab',isUnfolded:true},

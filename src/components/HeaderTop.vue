@@ -7,22 +7,12 @@
 					<p style="line-height: .3rem" class="fc">谢谢你，那个一直努力到了现在的自己</p>
 					<div class="social-box">
 						<i class="iconfont icon-chevronleft"></i>
-						<a href="https://github.com/Bersder" target="_blank" title="github">
-							<img width="20" height="20" src="/root/site/static/github.png">
-						</a>
-						<a href="https://music.163.com/user/home?id=93044810" target="_blank" title="netease">
-							<img width="20" height="20" src="/root/site/static/netease.png">
-						</a>
-						<a href="https://space.bilibili.com/13351138" target="_blank" title="bilibili">
-							<img width="20" height="20" src="/root/site/static/bilibili.png">
-						</a>
-						<a href="https://twitter.com/Bersder1" target="_blank" title="twitter">
-							<img width="20" height="20" src="/root/site/static/twitter.png">
+						<a v-for="item in socialList" :href="item.href" target="_blank" :title="item.title">
+							<img height="20" :src="item.imgSrc">
 						</a>
 						<i class="iconfont icon-chevronright"></i>
 					</div>
 				</div>
-
 			</div>
 		</figure>
 		<div class="htbg-info fc">
@@ -36,6 +26,7 @@
 
 <script>
 	import {mapState} from 'vuex';
+	import UCONF from "../config/user.conf";
 	export default {
         name: "HeaderTop",
 		created(){
@@ -55,6 +46,7 @@
 					authorLink:'',
 					avatar:''
 				},
+				socialList:UCONF.socialList
 			}
         },
         computed:{
