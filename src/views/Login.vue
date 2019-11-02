@@ -6,7 +6,7 @@
 				<p>
 					<label>
 						Username or Email Address
-						<input type="text" v-model="account">
+						<input type="text" v-model="account" ref="account">
 					</label>
 				</p>
 				<p>
@@ -44,6 +44,9 @@
 				loginOK:true
 
 			}
+		},
+		mounted() {
+        	this.$refs.account.focus();
 		},
 		computed:{
 			...mapState(['screenHeight']),

@@ -7,7 +7,7 @@ const account={//默认未登录状态
 	state:{
 		uid:0,
 		name:'???',//暂时这些信息
-		avatar:'/root/site/static/passerby.png',
+		avatar:'/static/images/passerby.png',
 		token:'',
 		loginStatus:false
 	},
@@ -32,7 +32,7 @@ const account={//默认未登录状态
 			state.token = '';
 			state.uid = 0;
 			state.name = '???';
-			state.avatar = '/root/site/static/passerby.png';
+			state.avatar = '/static/images/passerby.png';
 			state.loginStatus = false;
 		}
 	}

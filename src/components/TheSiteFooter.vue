@@ -12,8 +12,8 @@
 				<p><a href="mailto:oshinoNya@outlook.com">• oshinoNya@outlook.com</a></p>
 			</section>
 			<section>
-				<a href="https://www.vultr.com/?ref=7572602" title="Vultr" target="_blank" rel="nofollow" ><img src="/static/img/vultr.svg" height="20" alt="server"></a>
-				<a href="https://www.cloudflare.com/" title="cloudflare" target="_blank" rel="nofollow" ><img src="/static/img/cloudflare.svg" height="20" alt="frame"></a>
+				<a href="https://www.vultr.com/?ref=7572602" title="Vultr" target="_blank" rel="nofollow" ><img src="/static/logo/vultr.svg" height="20" alt="server"></a>
+				<a href="https://www.cloudflare.com/" title="cloudflare" target="_blank" rel="nofollow" ><img src="/static/logo/cloudflare.svg" height="20" alt="frame"></a>
 			</section>
 		</div>
 		<p class="site-banner">© 2019-2019 <router-link to="/login">ᛟᛊᚺᛁᚾᛟ</router-link></p>

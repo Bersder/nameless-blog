@@ -77,7 +77,7 @@
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'Anime',description:''}
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'Anime',description:''}
 			}
         },
         computed:{

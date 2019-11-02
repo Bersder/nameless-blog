@@ -120,7 +120,7 @@
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'随写',description:''},
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'随写',description:''},
 				artWaiting:true,
 				noContent:false,
 				pageNum:1,

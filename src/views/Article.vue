@@ -169,7 +169,7 @@
 				xurl:'',
 				title:'',
 				preview:'',
-				imgSrc:'/site/static/loading.gif',
+				imgSrc:'/static/images/loading.gif',
 				author:'oshino',
 				time:'1111-11-11',
 				lut:'1111-11-11 11:11:11',
@@ -273,7 +273,7 @@
 				else return this.scrollTop>this.titlePosition[subs[subs.length-1].index+1];
 			},
 			initData(){
-				this.imgSrc = '/site/static/loading.gif';
+				this.imgSrc = '/static/images/loading.gif';
 				this.title = '';
 				this.time = '1111-11-11';
 				this.lut = '1111-11-11 11:11:11';

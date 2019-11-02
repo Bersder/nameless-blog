@@ -50,7 +50,7 @@
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
 						<div class="comment-avatar">
-							<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'/root/site/static/passerby.png'">
+							<img src="/static/images/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'/static/images/passerby.png'">
 						</div>
 						<div class="comment-meta">
 							<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a></p>
@@ -66,7 +66,7 @@
 							<div class="comments-list-item" :id="'comment-'+reply.id" v-for="reply in comment.children" :key="reply.id">
 								<div class="comment-content-wrap">
 									<div class="comment-avatar">
-										<img src="/root/site/static/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'/root/site/static/passerby.png'">
+										<img src="/static/images/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'/static/images/passerby.png'">
 									</div>
 									<div class="comment-meta">
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span v-show="!isMobile"><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span></p>
@@ -252,12 +252,13 @@
 				}
 			},
 			async fetchEmo(){
-				let response = await this.$fetch('/emo/emo.json');
+				let response = await this.$fetch('/static/emo/emo.json');
 				let data = response.data;
 				data.forEach(e=>{
 					e.thumbnail = e.path + e.thumbnail;
 					if (e.pic){
-						let g = e.path.split('/')[2]+'_';//类别前缀
+						let f = e.path.split('/');
+						let g = f[f.length-2]+'_';//类别前缀
 						e.emoList.forEach(f=>{
 							f.des = g + f.des;
 							f.imgSrc=e.path+f.imgSrc;

@@ -108,7 +108,7 @@
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'笔记',description:''},
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'笔记',description:''},
             	catMap:{},
 				noteWaiting:true,
 				noteNum:0,

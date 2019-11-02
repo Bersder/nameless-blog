@@ -56,7 +56,7 @@ import LuminousBox from './components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
-import {debounce,randInt} from "./utils/lib";
+import {debounce, randInt, shuffle} from "./utils/lib";
 
 export default {
     name: 'App',
@@ -87,7 +87,7 @@ export default {
 				this.$store.commit('platformInit',{platform:agents[i],isMobile:true});
 				break;
 			}
-		this.back2topImg = "/root/site/images/back2top"+randInt(1,5)+".png";
+		this.back2topImg = "/static/images/b2t/back2top"+randInt(1,5)+".png";
 		if (window.localStorage.getItem('BB3000_token')){//尝试自动登录
 			let token = window.localStorage.getItem('BB3000_token');
 			this.$post('/apis/auth/aLogin.php',{token:token}).then(response=>{
@@ -156,7 +156,7 @@ export default {
 				fixed:true,
 				volume:.2,
 				lrcType:3,
-				audio:musicRes.data,
+				audio:shuffle(musicRes.data),
 				listMaxHeight:'3rem',
 				storageName:'BB3000_ap-setting'
 			});
@@ -239,7 +239,7 @@ export default {
 	@import "styles/animation.css";
 	@font-face {
 		font-family: 'Fira Code VF';
-		src: url('/root/fonts/FiraCode-VF.woff') format('woff-variations'), url("/root/fonts/FiraCode-VF.ttf") format("truetype");
+		src: url('/static/fonts/FiraCode-VF.woff') format('woff-variations'), url("/static/fonts/FiraCode-VF.ttf") format("truetype");
 		font-weight: 500;
 		font-style: normal;
 	}

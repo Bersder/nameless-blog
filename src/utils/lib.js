@@ -24,6 +24,13 @@ export function throttle(func, wait) {
 		}
 	}
 }
+export function shuffle(arr) {
+	for (let i = 0; i < arr.length; i++) {
+    const randomIndex = Math.round(Math.random() * (arr.length - 1 - i)) + i;
+    [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]]
+  }
+  return arr;
+}
 export function randInt(s,e){
 	return Math.floor(Math.random()*(e-s)+s);
 }

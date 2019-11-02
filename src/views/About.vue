@@ -63,7 +63,7 @@
 		},
 		data(){
         	return{
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'关于',description:''},
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'关于',description:''},
 				siteHistory: UCONF.siteHistory
 			}
 		}

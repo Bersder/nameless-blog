@@ -74,7 +74,7 @@
 				languageList:UCONF.languageList,
 				langNum:UCONF.languageList.length,
 				seriesList:[],
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'极客',description:''}
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'极客',description:''}
 
 			}
         },

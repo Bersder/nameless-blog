@@ -1,5 +1,5 @@
 export default {
-	sinceTime:1572656400000, //网站始于 2019.11.02 上午九点 GTM+8
+	sinceTime:1572742800000, //网站始于 2019.11.02 上午九点 GTM+8
 	birthday:'1999-06-05', //生日，用于计算年龄
 	statusMap:[
 		{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
@@ -8,11 +8,11 @@ export default {
 		{icon:'icon-bxs-smiley-sad',des:'(悲)',color:'#9b9b9b'}
 	],
 	socialList:[//首页社交链接
-		{title:'github',href:'https://github.com/Bersder',imgSrc:'/root/site/static/github.png'},
-		{title:'netease',href:'https://music.163.com/user/home?id=93044810',imgSrc:'/root/site/static/netease.png'},
-		{title:'bilibili',href:'https://space.bilibili.com/13351138',imgSrc:'/root/site/static/bilibili.png'},
-		{title:'twitter',href:'https://twitter.com/Bersder1',imgSrc:'/root/site/static/twitter.png'},
-		{title:'email',href:'mailto:oshinoNya@outlook.com',imgSrc:'/root/site/static/email.png'},
+		{title:'github',href:'https://github.com/Bersder',imgSrc:'/static/images/sns/github.png'},
+		{title:'netease',href:'https://music.163.com/user/home?id=93044810',imgSrc:'/static/images/sns/netease.png'},
+		{title:'bilibili',href:'https://space.bilibili.com/13351138',imgSrc:'/static/images/sns/bilibili.png'},
+		{title:'twitter',href:'https://twitter.com/Bersder1',imgSrc:'/static/images/sns/twitter.png'},
+		{title:'email',href:'mailto:oshinoNya@outlook.com',imgSrc:'/static/images/sns/email.png'},
 	],
 	friendExchange:[//Game页面右侧游戏好友交换
 		{icon:'iconfont icon-playstation',description:'PSN',value:'Bersder3000'},
@@ -20,14 +20,14 @@ export default {
 		{icon:'iconfont icon-steam',description:'steam',value:'Bersder3000'}
 	],
 	languageList:[//Code页面右侧语言列表
-		{imgSrc:'/root/site/images/moe.python.jpg',description:'python是最好的语言'},
-		{imgSrc:'/root/site/images/moe.c.png',description:'这是什么，我有学过吗(滑稽)'},
-		{imgSrc:'/root/site/images/moe.php.jpg',description:'本站后端支持'},
-		{imgSrc:'/root/site/images/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
+		{imgSrc:'/static/images/lang/moe.python.jpg',description:'python是最好的语言'},
+		{imgSrc:'/static/images/lang/moe.c.png',description:'这是什么，我有学过吗(滑稽)'},
+		{imgSrc:'/static/images/lang/moe.php.jpg',description:'本站后端支持'},
+		{imgSrc:'/static/images/lang/moe.javaScript.jpg',description:'Vue+原生js=无敌'},
 	],
 	siteHistory:[//关于页面的网站黑历史
 		['????-??-??','学Vue时用Vue写了一个页面，自认为还不错，加之有建博客的想法，然后一发不可收拾...'],
-		['2019-11-02','经过4个月的摸爬滚打，初版博客最终完成（其实是不想再拖了，实际上想干的是还是很多）'],
+		['2019-11-03','经过5个月的摸爬滚打，初版博客最终完成（其实是不想再拖了，实际上想干的是还是很多）'],
 	],
 	siteTitle:{//网站标题显示
 		title:'忍野喵',

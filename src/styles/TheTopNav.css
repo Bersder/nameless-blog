@@ -168,7 +168,7 @@
 			transition: .5s;
 			border-radius: .5rem;
 			color: transparent;
-			background: url(/root/site/static/search.png) no-repeat .05rem .05rem;
+			background: url(/static/images/search.png) no-repeat .05rem .05rem;
 		}
 		.search-box-t input:focus{
 			color: #425066;

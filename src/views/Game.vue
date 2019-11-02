@@ -72,7 +72,7 @@
         data() {
             return {
 				friendExchange:UCONF.friendExchange,
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'游民',description:''}
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'游民',description:''}
 			}
         },
 		computed:{

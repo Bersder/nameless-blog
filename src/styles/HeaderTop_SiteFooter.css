@@ -5,7 +5,7 @@
 }
 .header-top:before{
 	content: '';
-	background: url(/root/site/static/dot.png) fixed ;
+	background: url(/static/images/dot.png) fixed ;
 	position: absolute;
 	top: 0;
 	right: 0;

@@ -74,7 +74,7 @@
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/site/static/loading.gif',title:'归档',description:''},
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'归档',description:''},
 				noteNum:0,
 				articles:[],
 				year_ord:[],

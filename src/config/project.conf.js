@@ -24,7 +24,7 @@ export default {
 		shortCut:false,
 		tabSize:4,
 		externalLink: {
-			markdown_css:()=>'/root/markdown/github-markdown3.0.css'
+			markdown_css:()=>'/static/css/github-markdown3.0.css'
 		}
 	},
 
@@ -67,7 +67,7 @@ export default {
 			preview: true,
 		},
 		externalLink: {
-			markdown_css:()=>'/root/markdown/github-markdown3.0.css'
+			markdown_css:()=>'/static/css/github-markdown3.0.css'
 		}
 	},
 

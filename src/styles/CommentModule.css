@@ -48,7 +48,7 @@
 				bottom: .02rem;
 				left: 0;
 				right: .02rem;
-				background-image: url(/root/site/static/amiya.gif);
+				background-image: url(/static/images/amiya.gif);
 				background-size: contain;
 				background-repeat: no-repeat;
 				background-position: right bottom;
@@ -108,9 +108,13 @@
 		width: .3rem;
 		height: .3rem;
 	}
-	#mobile-app .comment-content p img{
-		width: .2rem;
-		height: .2rem;
+	.comment-content p img[alt^="2233"]{
+		width: .4rem;
+		height: .4rem;
+	}
+	.comment-content p img[alt^="plain"]{
+		width: .24rem;
+		height: .24rem;
 	}
 	.comment-content p img{
 		display: inline-block;
@@ -188,11 +192,15 @@
 				padding: .03rem .05rem;
 				margin: .03rem;
 			}
-				.emotion-box .emo-wrap a img{
+				.emotion-box .emo-wrap a[title^="2233"] img{
 					margin: .02rem;
+					width: .4rem;
+					height: .4rem;
 				}
 				.emotion-box .emo-wrap a[title^="plain"] img{
 					margin: .04rem;
+					height: .24rem;
+					width: .24rem;
 				}
 
 		.emotion-box .emo-tabs{
