@@ -34,6 +34,7 @@
 	width: 100%;
 	overflow: hidden;
 	box-shadow: 0 .03rem .05rem #1e1e1e50;
+	z-index: 1;
 }
 .pattern-full-width:before{
 	content: "";
@@ -440,7 +441,7 @@
 	line-height: .18rem;
 	text-align: left;
 	text-indent: .2rem;
-	padding: .22rem .1rem .4rem .55rem;
+	padding: .16rem .1rem .4rem .55rem;
 	color: #425066;
 }
 .board-post-time{

@@ -116,7 +116,7 @@ export default new Vuex.Store({
 		},
 		lazyCheck(state){
 			document.querySelectorAll('.lazyload').forEach(el=>{
-				if (el.attributes['data-src']&&(el.src !== el.attributes['data-src'].nodeValue)){
+				if (el.attributes['data-src']&&(el.getAttribute('src') !== el.attributes['data-src'].nodeValue)){
 					//到时候src和data-src需要不带端口
 					//console.log(el.src,el.attributes['data-src'].nodeValue);
 					if ((el.getBoundingClientRect().top<state.screenHeight + 50)&&(el.getBoundingClientRect().top>-50)){
