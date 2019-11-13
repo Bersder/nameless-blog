@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 6666;
 const baseURL = process.env.API_ROOT;
 axios.interceptors.response.use(
 	response=>{return response},

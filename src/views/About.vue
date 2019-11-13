@@ -20,7 +20,7 @@
 						<p>因为单纯的喜欢物语系列和猫，所以起了个 <span><ruby>忍野<rp>(</rp><rt>おしの</rt><rp>)</rp></ruby><ruby>喵<rp>(</rp><rt>ニャ</rt><rp>)</rp></ruby></span> 的名字</p>
 						<p>在广州上学的一名普通的独身大学生，与所有普通的独身大学生一样普通，吉良吉影都为我点赞</p>
 						<p><del>不幸选择</del>计算机专业的程序猿、ACG爱好者、主机玩家、<span title="FGO&明日方舟">“硕博连读”</span></p>
-						<p>在某些方面的完美主义者</p>
+						<p>不善言辞者，在某些方面的完美主义者</p>
 						<p><strong>不是大佬，不是大佬，不是大佬</strong></p>
 					</div>
 					<div class="about-post">
@@ -59,7 +59,8 @@
 			this.$fetch('/apis/apiv12.php').then(response=>{
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
-			})
+			});
+			window.scrollTo(0,0);
 		},
 		data(){
         	return{

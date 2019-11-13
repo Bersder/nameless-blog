@@ -51,6 +51,12 @@
 				interval:null
 			}
 		},
+		created(){
+        	document.onkeyup = (e)=>{
+				if (this.LBshow && e.keyCode === 27)
+					this.$store.commit('lumiBox/showC',false);
+			}
+		},
 		watch:{
 			LBshow(cur,pre){
 				this.$store.commit('isMaskedC',cur)

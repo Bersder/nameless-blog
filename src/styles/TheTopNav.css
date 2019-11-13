@@ -83,12 +83,13 @@
 		display: inline-block;
 		position: relative;
 		left: -50%;
-		margin-top: .16rem;
+		margin-top: .2rem;
 		pointer-events: auto !important;
 		animation: enlarge 1.5s;
 	}
 		.site-nav .menu{
 			display: inline-block;
+			vertical-align: bottom;
 			list-style-type: none;
 			width: auto;
 		}
@@ -101,7 +102,7 @@
 					content: '';
 					position: absolute;
 					display: block;
-					bottom: -.14rem;
+					bottom: -.17rem;
 					height: .05rem;
 					width: 0;
 					background: #5abebc;
@@ -117,6 +118,7 @@
 				color: #666;
 				padding: .05rem 0;
 				font-size: .18rem;
+				line-height: .2rem;
 				display: inline-block;
 			}
 			.menu li a:hover{
@@ -126,7 +128,7 @@
 				display: none;
 				position: absolute;
 				list-style-type: none;
-				top: .42rem;
+				top: .4rem;
 				right: -.12rem;
 				padding: .1rem 0;
 				background: #ffffffe0;

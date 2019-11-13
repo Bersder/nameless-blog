@@ -98,7 +98,7 @@
 						document.title = this.title?this.title:'标题未定'+siteTitle.title_;
 						this.preview = note.info.preview || '';
 						this.selectedCat = note.info.category || null;
-						this.selectedCatID = note.info.categoryID || null;
+						this.selectedCatID = note.info.categoryID || 1;
 						note.info.tagsID.forEach(e=>this.selectedTagsID.push(e));
 						this.tagMap = note.tagMap;
 						note.catOptions.forEach(e=>this.catOptions.push(e));
@@ -132,7 +132,7 @@
 				selectedType:'note',
 
 				selectedCat:null,
-				selectedCatID:null,
+				selectedCatID:1,
 
 				catExpand:false,
 			}

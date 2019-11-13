@@ -7,6 +7,7 @@
 				<div class="comment-info-input">
 					<input placeholder="昵称(必填)" v-model.trim="nickname" name="nickname">
 					<input placeholder="邮箱(必填，保密)" v-model.trim="email" name="email">
+					<input placeholder="qq(选填，拉取头像)" v-model.trim="qq" name="qqnum">
 					<input placeholder="网站(选填)" v-model.trim="website" name="website">
 				</div>
 				<span title="除了html、标题、分割线、表格、图片、下划线、标记、上下标"><i class="iconfont icon-markdown"></i>Markdown Supported</span>
@@ -137,6 +138,7 @@
 				commentList:[],
 
 				nickname:'',
+				qq:'',
 				email:'',
 				website:'',
 				content:'',
@@ -165,12 +167,15 @@
 				this.fetchComment((cur - 1)*10);
 				if (this.newing)//被unique叫去更新
 					this.newing = false;
-				else//页内跳转
+				else{//页内跳转
+					this.cancelReply();
 					setTimeout(()=>document.getElementById('comments').scrollIntoView(true),100);
+				}
 			},
 			unique(cur,pre){//文章发生更新，评论跟着更新
 				this.allCount = '??';
 				this.pageNum = 1;
+				this.cancelReply();
 				if (this.curPage === 1){ //原来就在第一页，不去触发curPage，自己去更新数据
 					//原来在第一页，自己更新
 					this.commentWaiting = true;
@@ -323,31 +328,35 @@
 				}
 				if (this.add1+this.add2==this.sum){
 					if (/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname&&this.content){
-						if (!this.website || (this.website && /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.website))){ //网址验证
-							let data = {
-								puzzle:btoa(this.add1+','+this.add2+','+this.sum),
-								id:this.id_,
-								type:this.type,
-								nickname:this.nickname,
-								email:this.email,
-								website:this.website,
-								content:this.content.trim(),
-								to_id:this.to_id,
-								to_uid:this.to_uid,
-								//to_uname:this.to_uname,
-								notifyMe:this.notifyMe
-							};
-							if(window.confirm('即将提交评论，是否确认')){
-								this.$post('/apis/apiv7.php',data).then(response=>{
-									if (response.data.code<1)
-										location.reload();
-									else
-										this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
-										//console.warn('评论失败，错误编号：'+response.data.code)
-								})
+						if (!this.website || /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.website)){ //网址验证
+							if (!this.qq || /^[1-9]\d{4,14}$/.test(this.qq)){ //扣扣验证
+								let data = {
+									puzzle:btoa(this.add1+','+this.add2+','+this.sum),
+									id:this.id_,
+									type:this.type,
+									nickname:this.nickname,
+									qq:this.qq,
+									email:this.email,
+									website:this.website,
+									content:this.content.trim(),
+									to_id:this.to_id,
+									to_uid:this.to_uid,
+									notifyMe:this.notifyMe
+								};
+								if(window.confirm('即将提交评论，是否确认')){
+									this.$post('/apis/apiv7.php',data).then(response=>{
+										if (response.data.code<1)
+											location.reload();
+										else
+											this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
+									})
+								}
+								else
+									return;
 							}
-							else
-								return;
+							else{
+								window.alert('扣扣不合法');
+							}
 						}
 						else{
 							window.alert('网址不合法');

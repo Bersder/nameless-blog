@@ -115,7 +115,8 @@
 					this.gossip = data.gossip;
 				this.notice = data.notice;
 				setTimeout(()=>this.$store.commit('lazyCheck'),100);
-			})
+			});
+			window.scrollTo(0,0);
 		},
         data() {
             return {

@@ -19,8 +19,8 @@
 			flex-flow: row wrap;
 			justify-content: space-between;
 		}
-			.comment-info-input input:nth-child(2){
-				margin: .05rem;
+			.comment-info-input input:first-child{
+				margin-left: 0;
 			}
 			.comment-info-input input{
 				padding: .05rem;
@@ -29,7 +29,7 @@
 				border-radius: .03rem;
 				flex: 1;
 				outline: none;
-				margin: .05rem 0;
+				margin: .05rem 0 .05rem .05rem;
 				transition: .5s;
 			}
 			.comment-info-input input:focus,.comment-content-input textarea:focus{
@@ -263,7 +263,7 @@
 	}
 	#mobile-app .comment-reply{
 		opacity: 1;
-		top: .2rem;
+		top: .05rem;
 		right: .1rem;
 		line-height: .16rem;
 		padding: 0 .06rem;

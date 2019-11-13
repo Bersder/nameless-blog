@@ -100,7 +100,8 @@
 				this.headerInfo = data.headerInfo;
 				data.FList.forEach(e => this.FList.push(e));
 				this.outerLinks = data.outerLinks;
-			})
+			});
+			window.scrollTo(0,0);
 		},
 		data(){
         	return {

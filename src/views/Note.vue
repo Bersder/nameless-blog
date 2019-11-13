@@ -104,7 +104,8 @@
 				for(let i in this.catMap)
 					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.catID===i));
 				setTimeout(()=>this.$store.commit('lazyCheck'),100);
-			})
+			});
+			window.scrollTo(0,0);
 		},
         data() {
             return {
