@@ -15,7 +15,7 @@
 			<div class="nav-m-mask" @click="isOpened=!isOpened" v-show="isOpened" :style="{height:screenHeight-50+'px'}"></div>
 			<div class="nav-aside" :class="{open:isOpened}" :style="{height:screenHeight-50+'px'}">
 				<div class="nav-avatar">
-					<router-link :to="loginStatus?'/space':'/about'"><img src="/root/uploads/avatar/me.png"></router-link>
+					<router-link :to="loginStatus?'/space':'/about'"><img src="/root/uploads/avatar/me"></router-link>
 					<span class="me-status" :title="'STATUS:'+statusMap[meStatus].des" :style="{background:statusMap[meStatus].color}"><i class="iconfont" :class="statusMap[meStatus].icon"></i></span>
 				</div>
 				<p style="color: #333;font-weight: 700;">忍野喵</p>
