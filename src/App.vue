@@ -56,7 +56,7 @@ import LuminousBox from './components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
-import {debounce, randInt, shuffle} from "./utils/lib";
+import {debounce, randInt, shuffle, setCookie, getCookie, delCookie} from "./utils/lib";
 
 export default {
     name: 'App',
@@ -88,12 +88,12 @@ export default {
 				break;
 			}
 		this.back2topImg = "/static/images/b2t/back2top"+randInt(1,5)+".png";
-		if (window.localStorage.getItem('BB3000_token')){//尝试自动登录
-			let token = window.localStorage.getItem('BB3000_token');
-			this.$post('/apis/auth/aLogin.php',{token:token}).then(response=>{
+		let token = getCookie('utk');
+		if (token){//尝试自动登录
+			this.$post('/apis/auth/aLogin.php').then(response=>{
 				if (response.data.code>0){
 					//token过期或非法,清除token
-					window.localStorage.removeItem('BB3000_token');
+					delCookie('utk');
 				}
 				else{
 					//自动登录成功、vuex用户信息注入
@@ -103,9 +103,9 @@ export default {
 				}
 			})
 		}
-		let FF = window.localStorage.getItem('BB3000_fontType');//尝试获取历史设置记录
+		let FF = window.localStorage.getItem('CUR_FONT');//尝试获取历史设置记录
 		this.fontFamily = FF?parseInt(FF):0;
-		let TT = window.localStorage.getItem('BB3000_themeType');
+		let TT = window.localStorage.getItem('CUR_THEME');
 		this.themeType = TT?parseInt(TT):1;
 	},
 	watch:{
@@ -158,7 +158,7 @@ export default {
 				lrcType:3,
 				audio:shuffle(musicRes.data),
 				listMaxHeight:'3rem',
-				storageName:'BB3000_ap-setting'
+				storageName:'ap-setting'
 			});
 			//this.ap.on('play',()=>this.ap.lrc.show());
 			this.ap.lrc.hide();
@@ -169,7 +169,7 @@ export default {
 		fontFamilyC(type){
 			if (type !== this.fontFamily) {
 				this.fontFamily = type;
-				window.localStorage.setItem('BB3000_fontType',type.toString())
+				window.localStorage.setItem('CUR_FONT',type.toString())
 			}
 		},
 		darkModeC(){
@@ -186,7 +186,7 @@ export default {
 		themeTypeC(type){
 			if (type !== this.themeType) {
 				this.themeType = type;
-				window.localStorage.setItem('BB3000_themeType',type.toString());
+				window.localStorage.setItem('CUR_THEME',type.toString());
 			}
 		},
 		signOut(){

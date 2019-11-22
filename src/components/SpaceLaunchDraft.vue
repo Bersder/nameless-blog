@@ -24,7 +24,7 @@
 	export default {
         name: "SpaceLaunchDraft",
 		created(){
-			this.$post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
+			this.$post('/apis/auth/v1api.php',{type:this.type}).then(response=>{
 				if (response.data.code < 1){
 					let data = response.data.data;
 					this.draftWaiting = false;
@@ -60,7 +60,7 @@
         	type(cur,pre){
 				this.draftExist = this.draftWaiting = true;
         		while(this.drafts.pop()){}
-        		this.$post('/apis/auth/v1api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:cur}).then(response=>{
+        		this.$post('/apis/auth/v1api.php',{type:cur}).then(response=>{
         			if (response.data.code<1){
 						let data = response.data.data;
 						this.draftWaiting = false;

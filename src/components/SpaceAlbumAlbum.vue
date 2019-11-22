@@ -53,7 +53,7 @@
 	export default {
         name: "SpaceAlbumAlbum",
 		created(){
-        	this.$post('/apis/auth/v8api.php',{token:this.token||window.localStorage.getItem('BB3000_token'),type:this.type}).then(response=>{
+        	this.$post('/apis/auth/v8api.php',{type:this.type}).then(response=>{
 				let data = response.data.data;
 				for(let i in data.counts)
 					this.$set(this.typeCount,i,data.counts[i]);

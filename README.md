@@ -4,6 +4,8 @@
 >
 > A blog theme written with Vue2 framework
 
+[更新日志](./LOG.md)
+
 ## 前置需求
 - Node.js环境
 - 服务器、后端及数据库（详细配置转此）

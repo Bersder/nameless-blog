@@ -53,7 +53,7 @@
 							<span>Previous</span>
 						</div>
 					</div>
-					<div class="pager-no-more fc" v-if="curArts.length>=artNum">没有更多啦( *・ω・)✄╰ひ╯</div>
+					<div class="pager-no-more fc" v-if="curArts.length>=artNum">已经到达底部啦</div>
 
 				</div>
 				<div class="content-aside-h fc">

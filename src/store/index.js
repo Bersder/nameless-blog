@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {delCookie} from "../utils/lib";
 
 Vue.use(Vuex);
 const account={//默认未登录状态
@@ -13,7 +14,6 @@ const account={//默认未登录状态
 	},
 	mutations:{
 		login(state,payload){
-			window.localStorage.setItem('BB3000_token',payload.token);
 			state.token = payload.token;
 			state.uid = payload.info.uid;
 			state.name = payload.info.name;
@@ -28,7 +28,7 @@ const account={//默认未登录状态
 			state.loginStatus = true;
 		},
 		logout(state){
-			window.localStorage.removeItem('BB3000_token');
+			delCookie('utk');
 			state.token = '';
 			state.uid = 0;
 			state.name = '???';

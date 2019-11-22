@@ -30,7 +30,7 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import {aesEncrypt} from "../utils/lib";
+	import {aesEncrypt,getCookie} from "../utils/lib";
 
 	export default {
         name: "Login",
@@ -53,7 +53,7 @@
 		},
 		beforeRouteEnter(to,from,next){
         	if (!from.name){ //非路由方式进入
-        		if (window.localStorage.getItem('BB3000_token')){
+        		if (getCookie('utk')){
 					next('/');
 				}//存在token，回去主页等待验证
 
@@ -98,7 +98,7 @@
 								during:3000
 							});
 							this.account = this.password = '';
-							this.$router.go(-1);
+							this.$router.push('/');
 
 						}
 					})

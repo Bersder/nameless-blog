@@ -67,6 +67,7 @@
 <script>
 	import {mapState} from 'vuex';
 	import UCONF from "../config/user.conf";
+	import {getCookie} from "../utils/lib";
 
 	export default {
         name: "Space",
@@ -77,7 +78,7 @@
 			// 3.路由方式进入，已经登录过
 			// 4.(非法)路由方式进入，驳回访问
 			if (!from.name){
-				if (window.localStorage.getItem('BB3000_token')){
+				if (getCookie('utk')){
 					next();
 				}
 				else{
@@ -104,7 +105,7 @@
 		created(){
         	if (this.isMobile){
         		if (window.confirm('个人空间并没适配移动端，是否进入?'))
-					this.$post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+					this.$post('/apis/auth/v0api.php').then(response=>{
 						let info = response.data.data.info;
 						this.signature = info.sign;
 						this.status = parseInt(info.status);
@@ -114,7 +115,7 @@
 					this.$router.go(-1)
 			}
         	else
-				this.$post('/apis/auth/v0api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/auth/v0api.php').then(response=>{
 					let info = response.data.data.info;
 					this.signature = info.sign;
 					this.status = parseInt(info.status);

@@ -1,4 +1,5 @@
 import PCONF from "../config/project.conf"
+import {getCookie} from "../utils/lib";
 export default {
 	data(){
 		return{
@@ -29,7 +30,7 @@ export default {
 	beforeRouteEnter(to,from,next){
 		//详细见Space.vue
 		if (!from.name){
-			if (window.localStorage.getItem('BB3000_token')){
+			if (getCookie('utk')){
 				next();
 			}
 			else{

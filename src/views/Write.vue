@@ -91,7 +91,7 @@ export default {
         name: "Write",
 		created(){
         	if(!this.aid){
-				this.$post('/apis/edit/initw.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initw.php').then(response=>{
 					if (response.data.code < 1) {
 						this.$router.replace({name:'write',query:{aid:response.data.aid}});
 						this.aid=response.data.aid;
@@ -104,7 +104,7 @@ export default {
 				//全新文章获取其adi，添加至后缀
 			}
 			else {//如果有后缀，不申请aid，根据现有aid请求保存的信息
-				this.$post('/apis/edit/initw.php?aid='+this.aid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initw.php?aid='+this.aid).then(response=>{
 					if(response.data.exist>0){
 						let art = response.data;
 						this.rawContent = art.rawContent || '';

@@ -64,7 +64,7 @@
 	export default {
         name: "SpaceLaunchContent",
 		created(){
-        	this.$post('/apis/auth/v3api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+        	this.$post('/apis/auth/v3api.php').then(response=>{
         		if (response.data.code < 1){
 					let data = response.data.data;
 					this.notes = data.notes;

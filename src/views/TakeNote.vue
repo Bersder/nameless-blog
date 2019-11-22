@@ -78,7 +78,7 @@
         name: "TakeNote",
 		created(){
 			if(!this.nid){
-				this.$post('/apis/edit/initn.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initn.php').then(response=>{
 					if (response.data.code < 1) {
 						this.$router.replace({name:'takenote',query:{nid:response.data.nid}});
 						this.nid = response.data.nid;
@@ -90,7 +90,7 @@
 				}).catch(err=>console.warn(err));
 			}
 			else{
-				this.$post('/apis/edit/initn.php?nid='+this.nid,{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+				this.$post('/apis/edit/initn.php?nid='+this.nid).then(response=>{
 					if(response.data.exist>0){
 						let note = response.data;
 						this.rawContent = note.rawContent || '';

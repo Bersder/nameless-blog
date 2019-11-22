@@ -49,7 +49,7 @@
 	export default {
         name: "SpaceDynamic",
 		created(){
-			this.$post('/apis/auth/v6api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+			this.$post('/apis/auth/v6api.php').then(response=>{
 				let data = response.data.data;
 				data.dynamics.forEach(e=>this.curDynamics.push(e));
 				this.dynamicNum = parseInt(data.dNum);

@@ -134,7 +134,7 @@
 	export default {
         name: "SpaceSetting",
 		created(){
-			this.$post('/apis/auth/v10api.php',{token:this.token||window.localStorage.getItem('BB3000_token')}).then(response=>{
+			this.$post('/apis/auth/v10api.php').then(response=>{
 				let data = response.data.data;
 				data.tagCountList.forEach(e=>this.tagCountList.push(e));
 				if (this.tagCountList.length>30) this.manyTags = true;
