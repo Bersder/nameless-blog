@@ -109,7 +109,7 @@
 		},
 		methods:{
         	editItem(item){
-				this.$post('/apis/auth/v2api.php?create',{token:this.token,id:item.id,type:item.type}).then(response=>{
+				this.$post('/apis/auth/v2api.php?create',{id:item.id,type:item.type}).then(response=>{
 					if (response.data.code < 1){
 						let to = item.type==='note'?'/takenote?nid='+item.id:'/write?aid='+item.id;
 						this.$router.push(to)
@@ -118,7 +118,7 @@
 			},
 			topItem(item){
 					let query = parseInt(item.topped)?'':'?topped';
-					this.$post('/apis/auth/v4api.php'+query,{token:this.token,id:item.id}).then(response=>{
+					this.$post('/apis/auth/v4api.php'+query,{id:item.id}).then(response=>{
 						if (response.data.code < 1){
 							//置顶或取消置顶成功
 							this.$store.commit('infoBox/callInfoBox',{
@@ -150,7 +150,7 @@
 						id:this.delTarget.id,
 						type:this.delTarget.type
 					};
-					this.$post('/apis/auth/v5api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v5api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code < 1){//授权成功删除
 							this.password = '';
 							this.authBoxShow = false;

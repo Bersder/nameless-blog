@@ -105,7 +105,6 @@
 				this.imgs.forEach(e=>{
 					e.uploading = true;
 					let fd = new FormData();
-					fd.append('token',this.token);
 					fd.append('type',e.type);
 					fd.append('des',e.des);
 					fd.append('img',e.img);

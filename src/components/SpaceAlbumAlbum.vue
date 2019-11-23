@@ -102,7 +102,7 @@
 					this.curAlbums = [];
 					this.albumWaiting = true;
 					let query = '?pn=1&type='+cur;
-					this.$post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
+					this.$post('/apis/auth/v8api.php'+query).then(response=>{
 						let data = response.data.data;
 						this.albumWaiting = false;
 						this.$store.commit('lumiBox/imgsC',data.pictures);
@@ -117,7 +117,7 @@
 				this.curAlbums = [];
 				this.albumWaiting = true;
 				let query = '?pn='+cur+'&type='+this.curType;
-				this.$post('/apis/auth/v8api.php'+query,{token:this.token}).then(response=>{
+				this.$post('/apis/auth/v8api.php'+query).then(response=>{
 					let data = response.data.data;
 					this.albumWaiting = false;
 					this.$store.commit('lumiBox/imgsC',data.pictures);
@@ -138,7 +138,7 @@
 			},
 			delConfirm(bool){
 				if (bool) //确认删除
-					this.$post('/apis/auth/v9api.php?delete='+this.delTarget.id,{token:this.token}).then(response=>{
+					this.$post('/apis/auth/v9api.php?delete='+this.delTarget.id).then(response=>{
 						if (response.data.code < 1) {
 							this.popupShow = false;
 							location.reload()

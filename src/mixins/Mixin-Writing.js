@@ -65,7 +65,6 @@ export default {
 		imgAdd(pos,$file){
 			let param = new FormData();
 			param.append('img',$file);
-			param.append('token',this.token);
 			this.$post_form('/apis/edit/mdimg.php',param).then(response=>{
 				this.$refs.md.$img2Url(pos,'/root'+response.data.imgSrc);
 				setTimeout(()=>this.loadImgs(),200);
@@ -73,7 +72,7 @@ export default {
 		},
 		imgDel(pos){
 			let delImg = /\/uploads\/\d{4}\/\d{2}\/\d{2}\/.+$/.exec(pos[0])[0];
-			this.$post('/apis/edit/mdimg.php',{token:this.token,delImg:delImg}).then(response=>this.loadImgs()).catch(err=>console.warn(err));
+			this.$post('/apis/edit/mdimg.php',{delImg:delImg}).then(response=>this.loadImgs()).catch(err=>console.warn(err));
 		},
 		loadImgs(){
 			let imgs = document.querySelectorAll('.v-show-content img');

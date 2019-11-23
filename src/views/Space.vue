@@ -132,7 +132,7 @@
 		},
 		methods:{
         	signChange(){
-        		this.$post('/apis/auth/v0api.php',{token:this.token,sign:this.signature}).then(response=>{
+        		this.$post('/apis/auth/v0api.php',{sign:this.signature}).then(response=>{
         			if (response.data.code < 1)
 						this.$store.commit('infoBox/callInfoBox',{
 							info:'个人签名更新成功',
@@ -143,13 +143,13 @@
 			},
 			statusChange(){
         		let nextStatus = (this.status+1)%this.statusMap.length;
-				this.$post('/apis/auth/v0api.php',{token:this.token,status:nextStatus}).then(response=>{
+				this.$post('/apis/auth/v0api.php',{status:nextStatus}).then(response=>{
 					if (response.data.code < 1)
 						this.status=nextStatus;
 				}).catch(err=>console.warn(err))
 			},
 			memoChange(){
-        		this.$post('/apis/auth/v0api.php',{token:this.token,memo:this.memo}).then(response=>{
+        		this.$post('/apis/auth/v0api.php',{memo:this.memo}).then(response=>{
         			if (response.data.code<1)
 						this.$store.commit('infoBox/callInfoBox',{
 							info:'备忘录更新成功',

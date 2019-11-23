@@ -211,7 +211,7 @@
         	addTag(){
 				if (this.newTag&&!/,/.test(this.newTag)) {
 					let data = {newTag:this.newTag};
-					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code < 1){
 							if (response.data.tagExist > 0)
 								this.$store.commit('infoBox/callInfoBox',{info:'标签已存在', ok:false, during:2000});
@@ -232,7 +232,7 @@
 			addSeries(){
 				if (this.newSeries&&this.newSeriesDes){
 					let data = {newSeries:this.newSeries,newSeriesDes:this.newSeriesDes};
-					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code<1){
 							if (response.data.seriesExist > 0)
 								this.$store.commit('infoBox/callInfoBox',{info:'系列已存在', ok:false, during:2000});
@@ -256,7 +256,7 @@
 					let EN = CNEN[1].trim();
 					if (CN&&EN){
 						let data = {newCatCN:CN,newCatEN:EN};
-						this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+						this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
 							if (response.data.code < 1) {
 								if (response.data.catExist > 0)
 									this.$store.commit('infoBox/callInfoBox',{info:'笔记类别已存在', ok:false, during:2000});
@@ -279,7 +279,7 @@
 			addLink(){
 				if (/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.newLinkUrl)&&this.newLinkName) {
 					let data = {newLinkUrl:this.newLinkUrl,newLinkName:this.newLinkName,newLinkType:this.newLinkType};
-					this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
 						if (response.data.code < 1) {
 							if (response.data.linkExist>0)
 								this.$store.commit('infoBox/callInfoBox',{info:'该链接已存在', ok:false, during:2000});
@@ -350,7 +350,7 @@
 				if (bool){
 					if (!this.delWaiting){
 						this.delWaiting = true;
-						this.$post('/apis/auth/v10api.php',{token:this.token,...aesEncrypt(JSON.stringify(this.delTarget))}).then(response=>{
+						this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(this.delTarget))}).then(response=>{
 							if (response.data.code < 1){
 								if (this.delTarget.delTagID){
 									this.searchKey = '';
@@ -404,7 +404,6 @@
         		else{
 					let data = item.file?{headerID:item.id,description:item.tmpDes,file:1}:{headerID:item.id,description:item.tmpDes,file:0};
 					let fd = new FormData();
-					fd.append('token',this.token);
 					let encData_param = aesEncrypt(JSON.stringify(data));
 					fd.append('encData',encData_param.encData);
 					fd.append('param',encData_param.param);

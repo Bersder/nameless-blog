@@ -152,7 +152,6 @@
 					return ;
 				}
 				let data = {
-					token:this.token,
 					type:'note',
 					title:this.title,
 					preview:this.preview,
@@ -194,7 +193,6 @@
 						return ;
 					}
 					let data = {
-						token:this.token,
 						type:this.selectedType,
 						title:this.title,
 						preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
@@ -207,7 +205,6 @@
 					if(typeof this.hi==='object'){
 						let fd = new FormData();
 						fd.append('hi',this.hi);
-						fd.append('token',this.token);
 						this.$post_form('/apis/edit/mdimg.php?nid='+this.nid,fd).then(response=>{
 			 				if (response.data.code < 1) {
 								data.imgSrc = response.data.imgSrc;

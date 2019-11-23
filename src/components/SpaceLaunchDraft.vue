@@ -48,7 +48,7 @@
 		methods:{
         	dropDraft(draft){
         		if(window.confirm('确认舍弃该草稿？'))
-					this.$post('/apis/auth/v2api.php',{token:this.token,type:this.type,id:draft.id}).then(response=>{
+					this.$post('/apis/auth/v2api.php',{type:this.type,id:draft.id}).then(response=>{
 						if (response.data.code < 1){
 							this.drafts.splice(this.drafts.indexOf(draft),1);
 							this.draftExist = Boolean(this.drafts.length);
