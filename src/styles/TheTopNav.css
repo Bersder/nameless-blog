@@ -273,6 +273,10 @@
 #mobile-app .nav-aside .me-status{
 	right: .55rem;
 }
+	.nav-aside .me-name{
+		color: #333;
+		font-weight: 700;
+	}
 	.nav-aside .me-sign{
 		color: #8b8e99;
 		font-size: .12rem;

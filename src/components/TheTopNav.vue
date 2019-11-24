@@ -18,13 +18,13 @@
 					<router-link :to="loginStatus?'/space':'/about'"><img src="/root/uploads/avatar/me"></router-link>
 					<span class="me-status" :title="'STATUS:'+statusMap[meStatus].des" :style="{background:statusMap[meStatus].color}"><i class="iconfont" :class="statusMap[meStatus].icon"></i></span>
 				</div>
-				<p style="color: #333;font-weight: 700;">忍野喵</p>
+				<p class="me-name">忍野喵</p>
 				<p class="me-sign">{{meSign}}</p>
 				<p class="cut-line"></p>
 
 
-				<div class="search-box-m"> <!--暂时未实现自定义弹框-->
-					<input v-model.trim="searchKey" type="search" class="text-input pl" @keyup.enter="post_Search" required placeholder="なにをさがしますか">
+				<div class="search-box-m">
+					<input v-model.trim="searchKey" type="search" class="text-input pl" @keyup.enter="post_Search" required placeholder="要搜些什么">
 					<button @click="post_Search"><i class="iconfont icon-search clearm"></i></button>
 				</div>
 				<div class="nav-menu">

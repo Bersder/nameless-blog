@@ -26,7 +26,7 @@
 	  <transition name="miniFadeUD">
 		  <aside class="setting-panel" v-show="setPanelShow" @click.stop>
 			  <section>
-				  <div class="toggle-mode" id="toggle-mode" title="暂未实装"><button @click="darkModeC"><i class="iconfont clearm" :class="darken?'icon-moono':'icon-suno'"></i></button></div>
+				  <div class="toggle-mode" id="toggle-mode"><button @click="darkModeC"><i class="iconfont clearm" :class="darken?'icon-moono':'icon-suno'"></i></button></div>
 				  <div class="theme-switch">
 					  <ul class="theme-list">
 						  <li v-for="(item,key) in themeList" :class="{'theme-on':key===themeType}" :title="item.des" @click="themeTypeC(key)"><i :class="item.class"></i></li>
@@ -45,6 +45,13 @@
 		  </aside>
 	  </transition>
 	  <div id="aplayer"></div>
+	  <transition name="extend">
+		  <div class="ddf-suggest" v-if="ddfShow">
+			  <button @click="darkModeC">进入</button>
+			  <span>黑暗模式</span>
+			  <button @click="ddfShow=false">不了</button>
+		  </div>
+	  </transition>
   </div>
 </template>
 
@@ -76,7 +83,8 @@ export default {
 				{class:'iconfont icon-star',des:'kira'}
 			],
 			themeType:1,
-			back2topImg:''
+			back2topImg:'',
+			ddfShow:false
 		}
 	},
 	created(){
@@ -102,6 +110,11 @@ export default {
 					this.$store.commit('account/alogin',data);
 				}
 			})
+		}
+		let DDF = getCookie('darken');
+		this.darken = DDF?parseInt(DDF):0;
+		if (this.darken) {
+			document.body.classList.add('deep');
 		}
 		let FF = window.localStorage.getItem('CUR_FONT');//尝试获取历史设置记录
 		this.fontFamily = FF?parseInt(FF):0;
@@ -146,7 +159,11 @@ export default {
 			screenWidth:window.innerWidth || document.body.clientWidth
 		}),50);
 		this.musicInit();
-
+		let h = new Date().getHours();
+		if (!this.darken&&(h < 5 || h > 20)){
+			this.ddfShow = true
+			setTimeout(()=>this.ddfShow=false,10000)
+		}
 	},
 	methods:{
     	async musicInit(){
@@ -174,9 +191,14 @@ export default {
 		},
 		darkModeC(){
     		if (!this.blocking){//用于防止频繁转换
+    			this.ddfShow = false;
 				this.blocking ^= 1;
 				document.getElementById('toggle-mode').classList.add('switching');
-				setTimeout(()=>this.darken ^= 1,600);
+				setTimeout(()=>{
+					this.darken ^= 1;
+					document.cookie = "darken="+this.darken+";path=/";
+					this.darken?document.body.classList.add('deep'):document.body.classList.remove('deep');
+				},600);
 				setTimeout(()=>{
 					document.getElementById('toggle-mode').classList.remove('switching');
 					this.blocking ^= 1;
@@ -258,5 +280,43 @@ export default {
 	}
 	.text-input:focus{
 		color: black;
+	}
+	.ddf-suggest{
+		position: fixed;
+		bottom: .2rem;
+		left: 50%;
+		transform: translate(-50%,0);
+		height: .4rem;
+		line-height: .4rem;
+		width: 2rem;
+		border-radius: .4rem;
+		background: #00000099;
+		box-shadow: 0 .05rem .1rem #1e1e1e80;
+		user-select: none;
+		overflow: hidden;
+		white-space: nowrap;
+		transform-origin: bottom right;
+		z-index: 1900;
+	}
+	.ddf-suggest span{
+		margin: 0 .1rem;
+		color: #ccc;
+	}
+	.ddf-suggest button{
+		color: #5abebc;
+	}
+	@keyframes extend {
+		from{
+			width: 0;
+		}
+		to{
+			width: 2rem;
+		}
+	}
+	.extend-enter-active{
+		animation: extend 1s cubic-bezier(.25,.46,.45,.94);
+	}
+	.extend-leave-active{
+		animation: extend .5s reverse cubic-bezier(.25,.46,.45,.94);
 	}
 </style>

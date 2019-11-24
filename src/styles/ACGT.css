@@ -302,7 +302,8 @@
 		#mobile-app .panel-t-info .preview{
 			font-size: .14rem;
 			line-height: .2rem;
-			height: .6rem;
+			height: unset;
+			max-height: .6rem;
 		}
 		.panel-t-info .preview{
 			overflow: hidden;

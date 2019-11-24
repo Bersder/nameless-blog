@@ -117,6 +117,7 @@
 	font-size: .15rem;
 	line-height: 1.4;
 	text-shadow: 0 0 .02rem #1e1e1e50;
+	transition: .5s ease-in-out;
 }
 .site-info,.site-banner{
 	animation: holdFadeIn 2s linear forwards;

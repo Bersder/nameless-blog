@@ -37,7 +37,6 @@
 		white-space: nowrap;
 		letter-spacing: .01rem;
 		margin-bottom: .1rem;
-		color: #636363;
 		transition: color .5s;
 	}
 	.panel-info .preview{
@@ -46,7 +45,7 @@
 		white-space: nowrap;
 		font-size: .16rem;
 	}
-	.panel-info .title:hover{
+	.panel-info a.title:hover{
 		color: #5abebc;
 	}
 	.meta .author,.meta .time,.meta .hit,.meta .comments{

@@ -81,6 +81,7 @@
 	font-weight: bold;
 	color: #00a1d6;
 	background: linear-gradient(90deg, transparent, #dff8ff, transparent);
+	transition: .5s ease-in-out;
 }
 	.link_subtitle p{
 		font-weight: normal;
