@@ -9,6 +9,7 @@
 	max-width: 12rem;
 	background: transparent;
 	overflow: hidden;
+	min-height: 4rem;
 }
 .space-dynamic .col-1,.space-home .col-1{
 	float: left;
@@ -114,6 +115,7 @@
 	.popup-content{
 		font-size: .14rem;
 		margin: .1rem 0;
+		color: #444;
 	}
 	.popup-confirm button{
 		width: 1rem;

@@ -1,7 +1,7 @@
 #app.DDF,#mobile-app.DDF,.DDF .hljs,.DDF .markdown-body{
 	color: #ccc;
 }
-.DDF .page-content-wrap,.DDF .page-header-wrap{
+.DDF .page-content-wrap,.DDF .page-header-wrap,.DDF .space-wrap{
 	background: #1a1a1a;
 }
 .DDF .ph-img:before,.DDF .pattern-full-width:before{
@@ -25,11 +25,11 @@
 	background: #1a1a1a;
 	color: #ccc;
 }
-.DDF .comment-content-input textarea,.DDF .comment-info-input input{
+.DDF .comment-content-input textarea,.DDF .comment-info-input input,.DDF .dynamic-launch textarea{
 	border-color: rgba(255,255,255,.1);
 	color: #ccc;
 }
-.DDF .comment-content-input textarea:focus,.DDF .comment-info-input input:focus{
+.DDF .comment-content-input textarea:focus,.DDF .comment-info-input input:focus,.DDF .dynamic-launch textarea:focus{
 	border-color: rgba(255,255,255,.3);
 }
 .DDF .pb-jump input,.DDF .comment-robot-check input {
@@ -300,6 +300,68 @@
 
 .DDF #aplayer.aplayer .aplayer-lrc p:not(.aplayer-lrc-current){
 	color: #ccc;
+}
+
+
+
+.DDF .n-inner,.DDF .space-home .col-1,.DDF .col-2 .section,/*1*/
+.DDF .dynamic-content-wrap,
+.DDF .space-launch,.DDF .space-album,.DDF .space-setting
+{
+	background: #333;
+	box-shadow: none;
+	border-color: #444;
+}
+.DDF .section,.DDF .col-2 .section .section-title,/*1*/
+.DDF .type-selector div,
+.DDF .l-main,.DDF .a-main,.DDF .draft-head,.DDF .album-head,.DDF .draft-list-item,.DDF .admin-nav,.DDF .a-table-row,
+.DDF .upload-foot span,
+.DDF .setting-series ul li,.DDF .setting-cat ul li,.DDF .header-card,.DDF .s-link-list
+{
+	border-color: #555;
+}
+.DDF .type-selector div.cur,.DDF .dynamic-launch button:hover,/*2*/
+.DDF .sidenav-list .sidenav-item.cur,.DDF .sidenav-list .sidenav-item:hover,.DDF .draft-list-item .draft-type,
+.DDF .s-link-list h4/*5*/
+{
+	background: #555;
+}
+.DDF .album-content .tab-list,/*4*/
+.DDF .tag-btn .tag-item,
+.DDF .type-btn li:hover,.DDF .series-btn li:hover,.DDF .cat-btn li:hover
+{
+	background: #666;
+}
+.DDF .memo textarea,/*1*/
+.DDF .type-selector div,.DDF .dynamic-launch button,
+.DDF .sidenav-list .sidenav-item,.DDF .admin-nav-item,
+.DDF .auto-textarea-wrapper .auto-textarea-input
+{
+	color: #ccc;
+}
+.DDF .a-table-row:nth-child(even),.DDF .admin-statistics .s-cell,.DDF .admin-nav-item.cur,.DDF .admin-nav-item:hover/*3*/
+{
+	background: #444;
+	border-color: #555;
+}
+.DDF .upload-info .type-input,.DDF .upload-info .description-input,.DDF .upload-info .type-input ul,.DDF .link-add .type-input ul,/*4*/
+.DDF .tag-del input,.DDF .tag-add input,.DDF .series-add input,.DDF .series-des-add input,.DDF .cat-add input,.DDF .setting-series ul,.DDF .setting-cat ul,.DDF .header-card .bg-title,.DDF .link-add input,.DDF .link-add .type-input
+{
+	background: #444;
+	border-color: #555;
+	color: #ccc;
+}
+.DDF .title-input,.DDF .preview-input,.DDF .tag-input,.DDF .tag-btn,.DDF .tag-btn ul,/*W&T*/
+.DDF .type-btn button,.DDF .series-btn button,.DDF .cat-btn button,.DDF .type-btn ul,.DDF .series-btn ul,.DDF .cat-btn ul,.DDF .pa-submit button{
+	background: #333;
+	border-color: #444;
+	color: #ccc;
+}
+.DDF .publish-area .v-note-wrapper,.DDF .publish-area .v-show-content{
+	background: #444 !important;
+}
+.DDF .publish-area .v-note-op{
+	background: #333 !important;
 }
 
 

@@ -851,12 +851,12 @@ blockquote:last-child{
 .content-area .v-note-wrapper .v-note-panel{
 	border: none;
 }
-.publish-area .v-note-wrapper,.publish-area .v-note-op{
-	background: rgba(255,255,255,.8) !important;
-}
-.publish-area .v-show-content{
-	background: rgba(251,251,251,.8) !important;
-}
+/*.publish-area .v-note-wrapper,.publish-area .v-note-op{*/
+/*	background: rgba(255,255,255,.8) !important;*/
+/*}*/
+/*.publish-area .v-show-content{*/
+/*	background: rgba(251,251,251,.8) !important;*/
+/*}*/
 
 /*==================================================================*/
 /*info-box*/
@@ -992,7 +992,7 @@ input::-webkit-search-cancel-button{
 	/*background: #f1f4f7;测试*/
 }
 /*测试*/
-.site-wrapper,#app.bg-no-rep{
+.site-wrapper,#app.bg-no-rep,#mobile-app.bg-no-rep{
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center center;

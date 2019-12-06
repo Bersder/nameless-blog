@@ -233,7 +233,7 @@
 	}
 	.auth-box .box-body{
 		padding: .15rem;
-
+		color: #444;
 	}
 		.box-body input{
 			display: block;

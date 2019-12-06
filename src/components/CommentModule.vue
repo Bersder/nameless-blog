@@ -416,27 +416,29 @@
         	highlight(e,dir,vm){
         		let blocks = e.querySelectorAll('pre code');
         		blocks.forEach(e=>{
-					let copyBtn = document.createElement('button');
-					copyBtn.innerText = 'Copy';
-					copyBtn.classList.add('copy-btn');
-					copyBtn.onclick = (e) => {
-						let flag = copyText(e.target.previousElementSibling.innerText);
-						if (flag)
-							vm.context.$store.commit('infoBox/callInfoBox',{info:'代码拷贝成功', ok:true, during:2000});
-						else
-							vm.context.$store.commit('infoBox/callInfoBox',{info:'代码拷贝失败', ok:false, during:2000});
-					};
-					e.parentElement.appendChild(copyBtn);
+        			if (e.parentElement.childNodes.length===1){
+						let copyBtn = document.createElement('button');
+						copyBtn.innerText = 'Copy';
+						copyBtn.classList.add('copy-btn');
+						copyBtn.onclick = (e) => {
+							let flag = copyText(e.target.previousElementSibling.innerText);
+							if (flag)
+								vm.context.$store.commit('infoBox/callInfoBox',{info:'代码拷贝成功', ok:true, during:2000});
+							else
+								vm.context.$store.commit('infoBox/callInfoBox',{info:'代码拷贝失败', ok:false, during:2000});
+						};
+						e.parentElement.appendChild(copyBtn);
 
-        			let numberring = document.createElement('ul');
-        			numberring.classList.add('line-numbers-rows');
-        			for (let i=1;i<=e.innerText.split('\n').length;i++){
-        				let li = document.createElement('li');
-        				li.innerText = i;
-        				numberring.appendChild(li)
+						let numberring = document.createElement('ul');
+						numberring.classList.add('line-numbers-rows');
+						for (let i=1;i<=e.innerText.split('\n').length;i++){
+							let li = document.createElement('li');
+							li.innerText = i;
+							numberring.appendChild(li)
+						}
+						e.parentElement.appendChild(numberring);
+						hljs.highlightBlock(e)
 					}
-        			e.parentElement.appendChild(numberring);
-					hljs.highlightBlock(e)
 				})
 			}
 		}

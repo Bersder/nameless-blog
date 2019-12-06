@@ -73,7 +73,8 @@
 		props:['type'],
 		filters:{
 			typeEN2CN(type){
-				if (type==='anime')return 'Anime';
+				if (!type) return '未定';
+				else if (type==='anime')return 'Anime';
 				else if (type==='code')return '极客';
 				else if (type==='game')return '游民';
 				else return type==='trivial'?'随写':'笔记'
