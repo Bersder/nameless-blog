@@ -22,6 +22,7 @@ import SpaceDynamic from "@/components/SpaceDynamic";
 import SpaceAlbum from "@/components/SpaceAlbum";
 import SpaceSetting from "@/components/SpaceSetting";
 import NotFind404 from "@/components/_404";
+import Bangumi from "../views/Bangumi"
 import UCONF from "../config/user.conf";
 Vue.use(Router);
 const title = UCONF.siteTitle.title;
@@ -41,12 +42,12 @@ export default new Router({
 			path:'/space',
 			name: 'space',
 			component:Space,
-			meta:{loginStatus:false,title:title+'的空间'},
+			meta:{loginStatus:false,title:title+'的空间',nh:true},
 			children: [
-				{path:'launch',name:'space-l',component:SpaceLaunch,meta:{title:'空间·发布'+title_}},
-				{path:'dynamic',name:'space-d',component:SpaceDynamic,meta:{title:'空间·动态'+title_}},
-				{path:'album',name:'space-a',component:SpaceAlbum,meta:{title:'空间·相册'+title_}},
-				{path:'setting',name:'space-s',component:SpaceSetting,meta:{title:'空间·设置'+title_}}
+				{path:'launch',name:'space-l',component:SpaceLaunch,meta:{title:'空间·发布'+title_,nh:true}},
+				{path:'dynamic',name:'space-d',component:SpaceDynamic,meta:{title:'空间·动态'+title_,nh:true}},
+				{path:'album',name:'space-a',component:SpaceAlbum,meta:{title:'空间·相册'+title_,nh:true}},
+				{path:'setting',name:'space-s',component:SpaceSetting,meta:{title:'空间·设置'+title_,nh:true}}
 			]
 		},
 		{
@@ -70,7 +71,8 @@ export default new Router({
 		{
 			path: '/search/:key',
 			name: 'search',
-			component:Search
+			component:Search,
+			meta:{nh:true}
 		},
 		{
 			path: '/tags',
@@ -87,7 +89,8 @@ export default new Router({
 		{
 			path: '/archive/:type/:id',
 			name: 'article',
-			component: Article
+			component: Article,
+			meta:{nh:true}
 		},
 		{
 			path: '/links',
@@ -126,20 +129,28 @@ export default new Router({
 			meta:{title:'笔记'+title_}
 		},
 		{
+			path: '/bangumi',
+			name: 'bangumi',
+			component: Bangumi,
+			meta:{title:'番组'+title_,nh:true}
+		},
+		{
 			path: '/note/:id',
 			name: 'article_note',
-			component: Article
+			component: Article,
+			meta:{nh:true}
 		},
 		{
 			path: '/about',
 			name: 'about',
 			component: About,
-			meta:{title:'关于'+title_}
+			meta:{title:'关于'+title_,nh:true}
 		},
 		{
 			path: '/series/:serName',
 			name: 'series',
 			component: Series,
+			meta:{nh:true}
 		},
 		{
 			path: '*',

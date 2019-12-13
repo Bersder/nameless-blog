@@ -1,5 +1,5 @@
 <template>
-	<div class="site-header" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!/article.*|search|space.*|about|series/.test($route.name)&&!isMasked,pinned:upping||scrollTop<200}">
+	<div class="site-header" :class="{home:$route.name==='homepage'&&scrollTop<200&&!isOpened&&screenWidth>=1000,reachTop:scrollTop<200&&!$route.meta.nh&&!isMasked,pinned:upping||scrollTop<200}">
 		<div class="header-scrollbar" :style="{width:processed}"></div>
 
 		<div class="header-nav-m" v-show="screenWidth<1000">

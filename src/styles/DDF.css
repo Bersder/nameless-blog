@@ -327,6 +327,7 @@
 	background: #555;
 }
 .DDF .album-content .tab-list,/*4*/
+.DDF .setting-series ul li:hover,.DDF .setting-cat ul li:hover,
 .DDF .tag-btn .tag-item,
 .DDF .type-btn li:hover,.DDF .series-btn li:hover,.DDF .cat-btn li:hover
 {
@@ -335,7 +336,8 @@
 .DDF .memo textarea,/*1*/
 .DDF .type-selector div,.DDF .dynamic-launch button,
 .DDF .sidenav-list .sidenav-item,.DDF .admin-nav-item,
-.DDF .auto-textarea-wrapper .auto-textarea-input
+.DDF .auto-textarea-wrapper .auto-textarea-input,
+.DDF .draft-content.empty:after,.DDF .album-content.empty:after,.DDF .section-content.empty:before
 {
 	color: #ccc;
 }
@@ -345,10 +347,16 @@
 	border-color: #555;
 }
 .DDF .upload-info .type-input,.DDF .upload-info .description-input,.DDF .upload-info .type-input ul,.DDF .link-add .type-input ul,/*4*/
-.DDF .tag-del input,.DDF .tag-add input,.DDF .series-add input,.DDF .series-des-add input,.DDF .cat-add input,.DDF .setting-series ul,.DDF .setting-cat ul,.DDF .header-card .bg-title,.DDF .link-add input,.DDF .link-add .type-input
+.DDF .tag-del input,.DDF .tag-del .match-list,.DDF .tag-add input,.DDF .series-add input,.DDF .series-des-add input,.DDF .cat-add input,.DDF .setting-series ul,.DDF .setting-cat ul,.DDF .header-card .bg-title,.DDF .link-add input,.DDF .link-add .type-input
 {
 	background: #444;
 	border-color: #555;
+	color: #ccc;
+}
+.DDF .a-table-row .operate button,
+.DDF .header-card .bg-title a{
+	background: #666;
+	border-color: #666;
 	color: #ccc;
 }
 .DDF .title-input,.DDF .preview-input,.DDF .tag-input,.DDF .tag-btn,.DDF .tag-btn ul,/*W&T*/
@@ -366,6 +374,16 @@
 
 
 
+
+.DDF .bgm-item{
+	background: #333;
+}
+.DDF .bgm-item-status-wrap{
+	background: #555;
+}
+.DDF .bgm-item-status{
+	background: #5abebc80;
+}
 .deep ::selection{
 	background: #5abebc;
 }

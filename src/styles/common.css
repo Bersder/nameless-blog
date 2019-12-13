@@ -176,6 +176,7 @@
 			border-radius: 1rem;
 			font-size: .14rem;
 			line-height: .2rem;
+			user-select: none;
 			transition: .5s cubic-bezier(.25,.46,.45,.94);
 		}
 			.tag-list .tag:hover a,.tag-list .tag.cur a{

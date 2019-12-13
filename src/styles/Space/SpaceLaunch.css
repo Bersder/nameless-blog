@@ -13,7 +13,6 @@
 	.draft-head i{
 		font-size: .2rem;
 		transition: .5s ease;
-		color: #6d757a;
 	}
 	.draft-head i:hover{
 		color: #00a1d6;
