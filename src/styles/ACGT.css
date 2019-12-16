@@ -120,28 +120,56 @@
 
 /*==================================================================*/
 /*Anime*/
-.broadcast{
-	display: none;
-}
-.broadcast-head{
+.bgmw-head{
 	padding: .05rem .1rem;
 	font-size: .15rem;
-	border-bottom: .01rem dashed #dadada;
+	border-bottom: .01rem dashed #aaa;
 }
-.broadcast-content{
-	padding: .1rem .15rem;
-	font-size: .12rem;
-	overflow: hidden;
+.bgmw-head a:hover{
+	color: #FF7D7D;
+}
+.bgmw-content{
+	padding: .1rem .1rem .1rem .32rem;
+	font-size: .14rem;
 	list-style-type: none;
 }
-	.broadcast-content li{
-		float: left;
-		margin-right: .05rem;
+	.bgmw-content li{
+		position: relative;
+		height: .24rem;
+		line-height: .24rem;
 		margin-bottom: .05rem;
-		padding: 0 .05rem;
-		border-radius: .1rem;
+		border-radius: .2rem;
 		background: #eaeaea;
+		z-index: 0;
 	}
+		.bgmw-content li span{
+			display: block;
+			padding: 0 .1rem;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.bgmw-content li:before{
+			content: attr(num);
+			position: absolute;
+			left: -.25rem;
+			top: .02rem;
+			line-height: .2rem;
+			height: .2rem;
+			width: .2rem;
+			color: white;
+			border-radius: .05rem;
+			background: #FF7D7D;
+		}
+		.bgmw-content li .bgm-process-bar{
+			position: absolute;
+			height: 100%;
+			left: 0;
+			top: 0;
+			border-radius: .2rem;
+			background: #5abebc;
+			z-index: -1;
+		}
 
 /*==================================================================*/
 /*Code*/

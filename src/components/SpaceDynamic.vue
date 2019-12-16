@@ -63,7 +63,8 @@
 				delTarget:null, //待删目标
 				sendContent:'',
 				sendType:'',
-				typeMap:{anime:'Anime',code:'极客',game:'游民',trivial:'随写'}
+				typeMap:{anime:'Anime',code:'极客',game:'游民',trivial:'随写'},
+				loadWait:false
         	}
 		},
 		watch:{
@@ -116,8 +117,10 @@
 					this.popupShow = false
 			},
         	loadMore(){
-				if (this.curDynamics.length < this.dynamicNum) {
+				if (this.curDynamics.length < this.dynamicNum&&!this.loadWait) {
+					this.loadWait = true;
 					this.$post('/apis/auth/v6api.php?more='+Math.floor(this.curDynamics.length/10)).then(response=>{
+						this.loadWait = true;
 						response.data.data.dynamics.forEach(e=>this.curDynamics.push(e))
 					}).catch(err=>console.warn(err))
 				}

@@ -89,6 +89,7 @@
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					})
 				}
+        		window.scrollTo(0,200);
 			}
 		},
         methods:{

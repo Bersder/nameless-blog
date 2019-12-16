@@ -125,8 +125,8 @@
 				latestUpdate:[],
 				hits:[],
 				topped:[],
-				notice:null
-
+				notice:null,
+				loadWait:false
 			}
         },
         mounted() {
@@ -143,11 +143,14 @@
 		},
         methods:{
         	loadMore(){
-				if (this.curArts.length<this.artNum)
+				if (this.curArts.length<this.artNum&&!this.loadWait){
+					this.loadWait = true;
 					this.$fetch('/apis/apiv9.php',{more:Math.floor(this.curArts.length/8)}).then(response=>{
+						this.loadWait = false;
 						response.data.data.arts.forEach(e=>this.curArts.push(e));
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					});
+				}
 			}
 		},
 		filters:{

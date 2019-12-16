@@ -196,7 +196,7 @@
 
 
 .DDF .ca,.DDF .cah,.DDF .panel-h,.DDF .panel{
-	background: #66666680;
+	background: #333;
 }
 .DDF .panel-h .post-read{
 	color: #bbb;
@@ -240,7 +240,7 @@
 
 
 
-.DDF .item-name .item-tag{
+.DDF .item-name .item-tag,.DDF .bgmw-content li:before{
 	background: #444;
 }
 .DDF .ser-tag-list ul>li,.DDF .tag-list .tag{
@@ -378,10 +378,10 @@
 .DDF .bgm-item{
 	background: #333;
 }
-.DDF .bgm-item-status-wrap{
+.DDF .bgm-item-status-wrap,.DDF .bgmw-content li{
 	background: #555;
 }
-.DDF .bgm-item-status{
+.DDF .bgm-item-status,.DDF .bgmw-content li .bgm-process-bar{
 	background: #5abebc80;
 }
 .deep ::selection{

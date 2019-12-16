@@ -20,18 +20,13 @@
 							<p>{{firstDes}}</p>
 						</div>
 					</div>
-					<div class="ca broadcast">
-						<div class="broadcast-head">
-							今天周五 | 正在放送
-						</div>
-						<ul class="broadcast-content">
-							<li><a href="/">罪恶王冠</a></li>
-							<li><a href="/">魔法少女特殊战明日香</a></li>
-							<li><a href="/">魔法少女特殊战明日香</a></li>
-							<li><a href="/">魔法少女特殊战明日香</a></li>
-							<li><a href="/">魔法少女特殊战明日香</a></li>
-							<li><a href="/">罪恶王冠</a></li>
-							<li><a href="/">罪恶王冠</a></li>
+					<div class="ca bgmw" v-if="bgms.length">
+						<div class="bgmw-head"><router-link to="/bangumi">正在追番 | Bangumi</router-link></div>
+						<ul class="bgmw-content">
+							<li v-for="(item,index) in bgms" :num="index+1" :title="item.curNum + '/' + item.epsNum">
+								<div class="bgm-process-bar" :style="{width:item.curNum/item.epsNum*100 +'%'}"></div>
+								<span><a :href="item.link" target="_blank">{{item.nameCN}}</a></span>
+							</li>
 						</ul>
 					</div>
 
@@ -70,6 +65,7 @@
 						this.firstImg = data.album[0].imgSrc;
 						this.firstDes = data.album[0].description;
 					}
+					data.bgms.forEach(e=>this.bgms.push(e));
 					if (data.gossip)
 						this.gossip = data.gossip;
 				}
@@ -77,7 +73,8 @@
 		},
         data() {
             return {
-				headerInfo:{imgSrc:'/static/images/loading.gif',title:'Anime',description:''}
+				headerInfo:{imgSrc:'/static/images/loading.gif',title:'Anime',description:''},
+				bgms:[]
 			}
         },
         computed:{
