@@ -120,7 +120,7 @@
 				if (this.curDynamics.length < this.dynamicNum&&!this.loadWait) {
 					this.loadWait = true;
 					this.$post('/apis/auth/v6api.php?more='+Math.floor(this.curDynamics.length/10)).then(response=>{
-						this.loadWait = true;
+						this.loadWait = false;
 						response.data.data.dynamics.forEach(e=>this.curDynamics.push(e))
 					}).catch(err=>console.warn(err))
 				}
