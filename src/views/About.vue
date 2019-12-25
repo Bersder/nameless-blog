@@ -13,25 +13,22 @@
 				<div class="content-area">
 					<blockquote>
 						<p>自分の世界を変えるのは自分。 —— モルガナ</p>
-						<p>my name is Van, I'm an artist, a performance artist —— Van·Darkholme</p>
 					</blockquote>
 					<div class="about-post">
 						<h2><span>壹</span>关于我</h2>
 						<p>因为单纯的喜欢物语系列和猫，所以起了个 <span><ruby>忍野<rp>(</rp><rt>おしの</rt><rp>)</rp></ruby><ruby>喵<rp>(</rp><rt>ニャ</rt><rp>)</rp></ruby></span> 的名字</p>
 						<p>在广州上学的一名普通的独身大学生，与所有普通的独身大学生一样普通，吉良吉影都为我点赞</p>
-						<p><del>不幸选择</del>计算机专业的程序猿、ACG爱好者、主机玩家、<span title="FGO&明日方舟">“硕博连读”</span></p>
-						<p>不善言辞者，在某些方面的完美主义者</p>
+						<p>程序猿、ACGer、<span title="FGO&明日方舟">“硕博连读”</span></p>
+						<p>jo厨、物语厨、车万厨</p>
+						<p>不善言辞，完美主义（某些方面）</p>
 						<p><strong>不是大佬，不是大佬，不是大佬</strong></p>
 					</div>
 					<div class="about-post">
 						<h2><span>貳</span>一些喜好</h2>
-						<p>科学爱好者，喜欢了解自己不清楚的科学原理</p>
-						<p>茶叶上瘾者，最喜绿茶</p>
-						<p>jo厨、物语厨、车万厨</p>
-						<p>无音乐不欢，偏向于纯音乐及东方音乐</p>
-						<p>游戏方面ARPG、JRPG最爱，另外P5天下第一</p>
-						<p>为自己的兴趣瞎折腾，并付出巨大代价</p>
-						<p>linux赛高</p>
+						<p>喝茶、听音乐</p>
+						<p>看科普、Van 游戏</p>
+						<p>宿舍做饭/研究食谱<del>（穷人吃厌了学校的结果）</del></p>
+						<p>为自己的兴趣瞎折腾</p>
 						<p>··· ···</p>
 					</div>
 					<div class="about-post">

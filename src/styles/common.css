@@ -765,8 +765,8 @@ pre .copy-btn:hover{
 }
 blockquote{
 	margin: .1rem .05rem;
-	padding: .02rem .1rem;
-	background: #fafafa99;
+	padding: .5em 1em;
+	background: #fafafa;
 	position: relative;
 	border-radius: .05rem;
 	text-align: left;
@@ -780,11 +780,11 @@ blockquote blockquote{
 	padding: 0 .1rem;
 	background: transparent;
 }
-blockquote:first-child{
-	margin-top: 0;
+blockquote>:first-child{
+	margin-top: 0 !important;
 }
-blockquote:last-child{
-	margin-bottom: 0;
+blockquote>:last-child{
+	margin-bottom: 0 !important;
 }
 .comment-content a,.about-post a,.link-description a{
 	color: #5abebc;
@@ -851,6 +851,10 @@ blockquote:last-child{
 }
 .content-area .v-note-wrapper .v-note-panel{
 	border: none;
+}
+.katex-display{
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 /*.publish-area .v-note-wrapper,.publish-area .v-note-op{*/
 /*	background: rgba(255,255,255,.8) !important;*/

@@ -328,7 +328,7 @@
 				});
 				this.titlePosition[this.titlePosition.length-1] -= 600+ESHeight;
 				this.titlePosition.push(document.body.offsetHeight);
-				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+100;
+				this.articleHeight = document.getElementsByClassName('content-area')[0].offsetHeight+380;
 				//console.log(this.titlePosition)
 			},
 			codeDecorate(){
