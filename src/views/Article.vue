@@ -152,7 +152,7 @@
 		created(){
 			this.xid = this.$route.params.id;
 			this.xtype = this.$route.name==='article_note'?'note':this.$route.params.type;
-			this.xurl = document.location.href;
+			this.xurl = document.location.href.split('#')[0];
 			document.title = this.xtype==='article_note'?'笔记XXX'+siteTitle.title_:'文章XXX'+siteTitle.title_;
 			this.fetchData({xid:this.xid,_:this.xtype[0]});
 		},

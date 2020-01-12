@@ -151,29 +151,44 @@
 						type:this.delTarget.type
 					};
 					this.$post('/apis/auth/v5api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
-						if (response.data.code < 1){//授权成功删除
-							this.password = '';
-							this.authBoxShow = false;
-							this.$store.commit('infoBox/callInfoBox',{
-								info:'再见了你嘞！',
-								ok:true,
-								during:2000
-							});
-							this.numSum--;
-							this.pvSum-=this.delTarget.readCount;
-							this.commentSum-=this.delTarget.commentCount;
-							if (this.curIndex)
-								this.notes.splice(this.notes.indexOf(this.delTarget),1);
-							else
-								this.articles.splice(this.articles.indexOf(this.delTarget),1);
-						}
-						else{//授权失败
-							this.password = '';
-							this.$store.commit('infoBox/callInfoBox',{
-								info:'密码错误，授权失败',
-								ok:false,
-								during:3000
-							});
+						switch (response.data.code) {
+							case 0://授权成功删除
+								this.password = '';
+								this.authBoxShow = false;
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'再见了你嘞！',
+									ok:true,
+									during:2000
+								});
+								this.numSum--;
+								this.pvSum-=this.delTarget.readCount;
+								this.commentSum-=this.delTarget.commentCount;
+								if (this.curIndex)
+									this.notes.splice(this.notes.indexOf(this.delTarget),1);
+								else
+									this.articles.splice(this.articles.indexOf(this.delTarget),1);
+								break;
+							case 1:
+								this.password = '';
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'密码错误，授权失败',
+									ok:false,
+									during:3000
+								});
+								break;
+							case 2:
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'失败过多，请明天再试',
+									ok:false,
+									during:3000
+								});
+								break;
+							default:
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'出现未知错误',
+									ok:false,
+									during:3000
+								});
 						}
 					}).catch(err=>console.warn(err))
 				}

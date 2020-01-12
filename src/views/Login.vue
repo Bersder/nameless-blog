@@ -81,25 +81,38 @@
 						remember: this.remember?1:0
 					};
 					this.$post('/apis/auth/login.php',aesEncrypt(JSON.stringify(data))).then(response=>{
-						if (response.data.code > 0){
-							//信息错误
-							this.$store.commit('infoBox/callInfoBox',{
-								info:'登录失败，请检查帐号密码是否正确',
-								ok:false,
-								during:3000
-							});
-						}
-						else{
-							let data = response.data.data;
-							this.$store.commit('account/login',data);
-							this.$store.commit('infoBox/callInfoBox',{
-								info:'登录成功，返回',
-								ok:true,
-								during:3000
-							});
-							this.account = this.password = '';
-							this.$router.push('/');
-
+						switch (response.data.code) {
+							case 0:
+								let data = response.data.data;
+								this.$store.commit('account/login',data);
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'登录成功，返回',
+									ok:true,
+									during:3000
+								});
+								this.account = this.password = '';
+								this.$router.push('/');
+								break;
+							case 1:
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'登录失败，请检查帐号密码是否正确',
+									ok:false,
+									during:3000
+								});
+								break;
+							case 2:
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'失败过多，请明天再试',
+									ok:false,
+									during:3000
+								});
+								break;
+							default:
+								this.$store.commit('infoBox/callInfoBox',{
+									info:'出现未知错误',
+									ok:false,
+									during:3000
+								});
 						}
 					})
 				}
