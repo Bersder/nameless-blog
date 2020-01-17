@@ -2,7 +2,7 @@ export default {
 	sinceTime:1573659213000, //网站始于 2019.11.13 23:33:33 GTM+8
 	birthday:'1999-06-05', //生日，用于计算年龄
 	statusMap:[
-		{icon:'icon-coffee',des:'美好一天',color:'#b77d68'},
+		{icon:'icon-coffee',des:'享受',color:'#b77d68'},
 		{icon:'icon-focus',des:'不咕鸟',color:'#ff3d44'},
 		{icon:'icon-gezi',des:'咕咕咕',color:'#00a1d6'},
 		{icon:'icon-bxs-smiley-sad',des:'(悲)',color:'#9b9b9b'}

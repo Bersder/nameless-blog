@@ -23,6 +23,7 @@ import SpaceAlbum from "@/components/SpaceAlbum";
 import SpaceSetting from "@/components/SpaceSetting";
 import NotFind404 from "@/components/_404";
 import Bangumi from "../views/Bangumi"
+import Dynamic from "../views/Dynamic"
 import UCONF from "../config/user.conf";
 Vue.use(Router);
 const title = UCONF.siteTitle.title;
@@ -133,6 +134,12 @@ export default new Router({
 			name: 'bangumi',
 			component: Bangumi,
 			meta:{title:'番组'+title_,nh:true}
+		},
+		{
+			path: '/dynamic',
+			name: 'dynamic',
+			component: Dynamic,
+			meta:{title:'动态'+title_,nh:true}
 		},
 		{
 			path: '/note/:id',
