@@ -691,13 +691,13 @@
 
 /*==================================================================*/
 /*text-css*/
-.comment-content ul{
+.comment-content ul,.d-card-content .text ul{
 	padding-left: 1.5em;
 }
-.comment-content>ul{
+.comment-content>ul,.d-card-content .text>ul{
 	margin-bottom: .1rem;
 }
-.comment-content pre{
+.comment-content pre,.d-card-content .text pre{
 	font-family: "Fira Code VF",monospace,sans-serif;
 	position: relative;
 	overflow: auto;
@@ -738,7 +738,7 @@ pre .copy-btn:hover{
 	background: #f0f0f0;
 
 }
-.comment-content pre .line-numbers-rows{
+.comment-content pre .line-numbers-rows,.d-card-content .text pre .line-numbers-rows{
 	position: absolute;
 	top: 1em;
 	padding: 0;
@@ -750,7 +750,7 @@ pre .copy-btn:hover{
 	list-style-type: none;
 	color: #b8c0cc;
 }
-.comment-content pre>code{
+.comment-content pre>code,.d-card-content .text pre>code{
 	font-family: inherit;
 	line-height: inherit;
 	word-spacing: normal;
@@ -810,16 +810,16 @@ blockquote>:last-child{
 	transform: scaleX(1);
 	transform-origin: bottom left;
 }
-.comment-content del,.about-post del,.link-description del{
+.comment-content del,.about-post del,.link-description del,.d-card-content .text del{
 	background: #1e1e1e;
 	color: #1e1e1e;
 	transition: .3s ease;
 	text-decoration: none;
 }
-.comment-content del:hover,.about-post del:hover,.link-description del:hover{
+.comment-content del:hover,.about-post del:hover,.link-description del:hover,.d-card-content .text del:hover{
 	color: white;
 }
-.comment-content p code{
+.comment-content p code,.d-card-content .text p code{
 	font-family: "Fira Code VF",monospace,sans-serif;
 	padding: .03rem;
 	font-size: 80%;
@@ -827,7 +827,7 @@ blockquote>:last-child{
 	border-radius: .03rem;
 	color: #ff7d7d;
 }
-.comment-content strong{
+.comment-content strong,.d-card-content .text strong{
 	font-weight: bold;
 }
 
@@ -910,6 +910,7 @@ button::-moz-focus-inner, input[type="reset"]::-moz-focus-inner, input[type="but
 p,ul,ol{display: block;}
 h1{letter-spacing: 2px}
 button{
+	color: inherit;
 	cursor: pointer;
 	border: none;
 	background: transparent;
