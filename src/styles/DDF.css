@@ -37,9 +37,6 @@
 	color: #ccc;
 	border-color: #333;
 }
-.DDF .comments-list-item{
-	border-bottom-color: #999;
-}
 .DDF .comment-content-wrap .comment-reply{
 	background: #6891af;
 }
@@ -312,6 +309,7 @@
 	box-shadow: none;
 	border-color: #444;
 }
+.DDF .comments-list-item,.DDF .comments-list-title,
 .DDF .section,.DDF .col-2 .section .section-title,/*1*/
 .DDF .type-selector div,
 .DDF .l-main,.DDF .a-main,.DDF .draft-head,.DDF .album-head,.DDF .draft-list-item,.DDF .admin-nav,.DDF .a-table-row,

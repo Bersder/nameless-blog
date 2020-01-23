@@ -10,40 +10,42 @@
 				<div class="imgsbox no-select" v-if="ddata.imgs.length">
 					<div class="thumbnail-wrap" v-if="!zoomingIn">
 						<ul class="thumbnail-list fzz">
-							<li class="item" v-for="(item,index) in ddata.imgs">
-								<div class="img-content" :style="{backgroundImage:`url(${item})`}"></div>
+							<li class="item" v-for="(item,index) in ddata.imgs" @click="zoomIn(index)" :class="{'item-1':ddata.imgs.length===1}">
+								<img class="img-content" :src="item">
 							</li>
 						</ul>
 					</div>
 					<div class="zoom-wrap" v-else>
 						<ul class="zoom-control">
-							<li><i class="iconfont icon-compress"></i><span>收起</span></li>
-							<li><i class="iconfont icon-expand"></i><span>大图</span></li>
-							<li><i class="iconfont icon-rotateleft"></i><span>向左旋转</span></li>
-							<li><i class="iconfont icon-rotateright"></i><span>向右旋转</span></li>
+							<li @click="zoomOut"><i class="iconfont icon-compress"></i><span>收起</span></li>
+							<li @click="callLB"><i class="iconfont icon-expand"></i><span>全屏</span></li>
+							<li @click="imgRotate(0)"><i class="iconfont icon-rotateleft"></i><span>向左旋转</span></li>
+							<li @click="imgRotate(1)"><i class="iconfont icon-rotateright"></i><span>向右旋转</span></li>
 						</ul>
-						<div class="zoom-img">
-							<div class="zoom-img-container"><img :src="ddata.imgs[zoomingIndex]"></div>
-							<div class="prev"></div>
-							<div class="next"></div>
+						<div class="zoom-img" ref="imgWrap">
+							<div class="zoom-img-container" @click="zoomOut"><img :src="ddata.imgs[zoomingIndex]" ref="img"></div>
+							<div class="prev" @click="imgPush(0)" v-show="zoomingIndex>0"></div>
+							<div class="next" @click="imgPush(1)" v-show="ddata.imgs.length-1>zoomingIndex"></div>
 						</div>
 						<!--当不止一张图片时才启用滑动栏-->
 						<div class="zoom-slider-wrap" v-if="ddata.imgs.length>1">
-							<div class="zoom-slider-border" :style="{left:`${zoomingIndex*66}px`}"></div>
+							<div class="zoom-slider-border" :style="{left:`${zoomingIndex*.66}rem`}"></div>
 							<ul class="zoom-slider fzz">
-								<li v-for="(item,index) in ddata.imgs"><img :src="item"></li>
+								<li v-for="(item,index) in ddata.imgs" @click="imgJump(index)" :class="{cur:zoomingIndex===index}">
+									<img :src="item">
+								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="d-card-btn-bar">
-				<button><i class="iconfont icon-comment"></i>{{ddata.commentCount}}</button>
-				<button><i class="iconfont icon-heart"></i>{{ddata.liked}}</button>
+				<button @click="commentToggle" :class="{selected:commentShow}"><i class="iconfont icon-comment"></i>{{ddata.commentCount}}</button>
+				<button @click="likeToggle" :class="{selected:liked}"><i class="iconfont icon-heart"></i>{{ddata.liked}}</button>
 			</div>
 		</div>
-		<div class="bottom">
-			<div class="d-card-comment">
+		<div class="bottom" v-if="commentShow">
+			<div class="d-card-comment" id="comments">
 				<div id="respond" class="respond">
 					<button class="cancel-reply-btn" v-if="to_id" @click="cancelReply">取消回复</button>
 					<h3 class="respond-title">{{to_uname|respondTitle}}<span v-show="to_id&&!isMobile"> | #{{to_id}}</span></h3>
@@ -136,47 +138,138 @@
 	export default {
         name: "DynamicCard",
 		async created(){
-			let renderer = new marked.Renderer();
-			renderer.heading = (text, level, raw, slugger) => '<p>'+ text +'</p>';
-			renderer.hr = () => '';
-			renderer.table = (header, body) => '';
-			renderer.tablerow = content => '';
-			renderer.tablecell = (content, flags) => '';
-			marked.setOptions({
-				renderer: renderer,
-				gfm: true,
-				tables: true,
-				breaks: true, //不开启时，单个换行只会p内\n换行（表现为空格）、多个换行会生成两个p;开启时单个换行会导致p内br换行，多个换行会导致两个p间br换行
-				pedantic: false,
-				sanitize: true,//开启时忽略rawString中的html标签
-				smartLists: true,
-				smartypants: false
-			});
+			this.markedInit();
 			await this.fetchEmo();
 		},
 		data(){
         	return{
-				zoomingIn:1,
+				zoomingIn:false,
 				zoomingIndex:0,
+				rotateStatus:0,
+
+				commentReady:false,
+				commentShow:false,
+				liked:false
+			}
+		},
+		watch:{
+        	rotateStatus(cur){
+				if (this.zoomingIn){
+					let imgNode = this.$refs.img;
+					let bound = imgNode.getBoundingClientRect();
+					let height = bound.height;
+					let width = bound.width;
+					let height_ = width*width/height;
+					switch (cur) {
+						case 0:
+							this.$refs.img.removeAttribute("style");
+							this.$refs.imgWrap.removeAttribute("style");
+							break;
+						case 1:
+							this.$refs.imgWrap.style.height = `${height_}px`;
+							imgNode.style.cssText = `
+							position: absolute;
+							width: unset;
+							height: ${width}px;
+							left: ${width}px;
+							transform-origin: left top;
+							transform: rotate(90deg);
+							`;
+							break;
+						case 2:
+							this.$refs.img.removeAttribute("style");
+							this.$refs.imgWrap.removeAttribute("style");
+							imgNode.style.transform = `rotate(180deg)`;
+							break;
+						case 3:
+							this.$refs.imgWrap.style.height = `${height_}px`;
+							imgNode.style.cssText = `
+							position: absolute;
+							width: unset;
+							height: ${width}px;
+							right: ${width}px;
+							transform-origin: right top;
+							transform: rotate(270deg);
+							`;
+					}
+				}
 			}
 		},
 		methods:{
+        	markedInit(){
+				let renderer = new marked.Renderer();
+				renderer.heading = (text) => `<p>${text}</p>`;
+				renderer.hr = () => '';
+				renderer.table = () => '';
+				renderer.tablerow = () => '';
+				renderer.tablecell = () => '';
+				marked.setOptions({
+					renderer: renderer,
+					gfm: true,
+					tables: true,
+					breaks: true, //不开启时，单个换行只会p内\n换行（表现为空格）、多个换行会生成两个p;开启时单个换行会导致p内br换行，多个换行会导致两个p间br换行
+					pedantic: false,
+					sanitize: true,//开启时忽略rawString中的html标签
+					smartLists: true,
+					smartypants: false
+				});
+			},
         	dRenderer(item,isComment,isReply){
         		if (isComment){
-					let start = (isReply&&this.isMobile)?`[@${item.to_uname}](#dc-${item.parent_id})`:'';
+					let start = (isReply&&this.isMobile)?`[@${item.to_uname}](#dc-${item.parent_id}) :`:'';
 					return marked(this.emoRenderer(start+item.content))
 				}
         		else
         			return marked(this.emoRenderer(item.content))
 			},
 			commentToggle(){
+        		if (!this.commentReady){
+        			this.fetchComment(0);
+        			this.commentReady = true;
+				}
+				this.commentShow = !this.commentShow;
+			},
+			likeToggle(){
 
+			},
+			zoomIn(index){
+        		this.zoomingIndex = index;
+        		this.zoomingIn = true;
+			},
+			zoomOut(){
+        		this.zoomingIn = false;
+        		this.rotateStatus = 0;
+			},
+			callLB(){
+        		let tmp = [],time = this.ddata.time;
+        		this.ddata.imgs.forEach(e=>{
+        			tmp.push({imgSrc:e,description:'',time:time})
+				});
+				this.$store.commit('lumiBox/imgsC',tmp);
+				this.$store.commit('lumiBox/indexC',this.zoomingIndex);
+				this.$store.commit('lumiBox/showC',true);
 			},
 			imgRotate(direction){
-
+				if (direction)
+					this.rotateStatus = (this.rotateStatus+1) % 4;
+				else if (this.rotateStatus===0)this.rotateStatus = 3;
+				else this.rotateStatus--;
+			},
+			imgPush(direction){
+				if (direction){
+					let tmp = this.zoomingIndex+1;
+					this.zoomingIndex = tmp<this.ddata.imgs.length?tmp:this.zoomingIndex
+				}
+				else
+					this.zoomingIndex = this.zoomingIndex?this.zoomingIndex-1:0;
+				this.rotateStatus = 0;
+			},
+			imgJump(index){
+        		this.zoomingIndex = index;
+				this.rotateStatus = 0;
 			},
 			fetchComment(offset){
-				this.$fetch('/apis/apiv16p1.php',{did:this.did,offset:offset}).then(response=>{
+				this.$fetch('/apis/apiv16p1.php',{did:this.ddata.id,offset:offset}).then(response=>{
 					if (response.data.code < 1) {
 						let data = response.data.data;
 						this.allCount = data.allCount;
