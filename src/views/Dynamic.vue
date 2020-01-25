@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="background-image: url(http://localhost/site/bg/dynamicbg.png)">
 		<div class="page-content-wrap">
 			<div class="page-content dynamic">
 				<div class="left-panel pl">

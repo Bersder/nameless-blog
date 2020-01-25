@@ -45,8 +45,8 @@
 			</div>
 		</div>
 		<div class="bottom" v-if="commentShow">
-			<div class="d-card-comment" id="comments">
-				<div id="respond" class="respond">
+			<div class="d-card-comment" :id="`comments-${ddata.id}`">
+				<div class="respond" :id="`respond-${ddata.id}`">
 					<button class="cancel-reply-btn" v-if="to_id" @click="cancelReply">取消回复</button>
 					<h3 class="respond-title">{{to_uname|respondTitle}}<span v-show="to_id&&!isMobile"> | #{{to_id}}</span></h3>
 					<div class="comment-form">
@@ -77,7 +77,7 @@
 						<button @click="commentSubmit">提交评论</button>
 					</div>
 				</div>
-				<div class="comments-main" id="anchor">
+				<div class="comments-main" :id="`anchor-${ddata.id}`">
 					<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论</span></h3>
 					<div class="waiting" v-if="commentWaiting">
 						<div class="rect1"></div>
@@ -97,8 +97,7 @@
 									<span class="comment-time" :title="comment.datetime.substr(0,16)">{{comment.datetime|commentTime}}</span>
 									<span v-show="!isMobile" class="comment-id">#{{comment.id}}</span>
 								</div>
-								<div class="comment-content" v-html="dRenderer(comment,1,0)" v-highlight>
-								</div>
+								<div class="comment-content" v-html="dRenderer(comment,1,0)" v-highlight></div>
 								<button class="comment-reply no-select" @click="replyThis(comment.id,comment.uid,comment.uname)">回复</button>
 							</div>
 							<div class="comment-children">
@@ -110,11 +109,10 @@
 											</div>
 											<div class="comment-meta">
 												<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span v-show="!isMobile"><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span></p>
-												<span class="comment-time" :title="comment.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
+												<span class="comment-time" :title="reply.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
 												<span v-show="!isMobile" class="comment-id">#{{reply.id}}</span>
 											</div>
-											<div class="comment-content" v-html="dRenderer(reply,1,1)" v-highlight>
-											</div>
+											<div class="comment-content" v-html="dRenderer(reply,1,1)" v-highlight></div>
 											<button class="comment-reply no-select" @click="replyThis(reply.id,reply.uid,reply.uname)">回复</button>
 										</div>
 									</div>
@@ -126,8 +124,16 @@
 						<h3>这里什么都没有`╮(￣▽￣)╭` </h3>
 					</div>
 				</div>
+				<ol class="c-pager" v-if="pageNum>1&&!commentWaiting">
+					<li class="prev" @click="curPage--" v-if="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
+					<li v-show="curPage>=4" @click="curPage=1">1</li>
+					<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
+					<li v-for="each in pageList" @click="curPage=each" :class="{current:each===curPage}">{{each}}</li>
+					<li v-if="curPage<=pageNum-4" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
+					<li v-show="curPage<=pageNum-3" @click="curPage=pageNum">{{pageNum}}</li>
+					<li class="next" @click="curPage++" v-if="curPage!==pageNum"><i class="iconfont icon-caretright"></i></li>
+				</ol>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -140,6 +146,7 @@
 		async created(){
 			this.markedInit();
 			await this.fetchEmo();
+			this.$forceUpdate();
 		},
 		data(){
         	return{
@@ -193,6 +200,11 @@
 							`;
 					}
 				}
+			},
+			curPage(cur){
+				this.cancelReply();
+				this.fetchComment((cur - 1)*10);
+				setTimeout(()=>document.getElementById('comments-'+this.ddata.id).scrollIntoView(true),100);
 			}
 		},
 		methods:{
@@ -269,6 +281,8 @@
 				this.rotateStatus = 0;
 			},
 			fetchComment(offset){
+				this.commentWaiting = true;
+				while (this.commentList.pop()){}
 				this.$fetch('/apis/apiv16p1.php',{did:this.ddata.id,offset:offset}).then(response=>{
 					if (response.data.code < 1) {
 						let data = response.data.data;
@@ -286,7 +300,59 @@
 				})
 			},
 			commentSubmit(){
-
+				if (/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname&&this.content){
+					if (!this.qq || /^[1-9]\d{4,14}$/.test(this.qq)){
+						let data = {
+							did:this.ddata.id,
+							nickname:this.nickname,
+							email:this.email,
+							qq:this.qq,
+							content:this.content.trim(),
+							to_id:this.to_id,
+							to_uid:this.to_uid,
+							notifyMe:this.notifyMe
+						};
+						if(window.confirm('即将提交评论，是否确认')){
+							this.$post('/apis/apiv16p2.php',data).then(response=>{
+								if (response.data.code<1){
+									//如果是回复更新当页，否则进行回到第一页更新
+									this.nickname = this.email = this.qq = this.content = '';
+									if (this.to_id){
+										this.cancelReply();
+										this.fetchComment((this.curPage-1)*10);
+									}
+									else if (this.curPage===1)
+										this.fetchComment(0);
+									else
+										this.curPage = 1;
+									this.ddata.commentCount ++;
+								}
+								else
+									this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
+							});
+						}
+					}
+					else{
+						window.alert('扣扣不合法');
+					}
+				}
+				else{
+					window.alert('请检查必要信息是否完整且正确');
+				}
+			},
+			replyThis(id,uid,uname){
+				if (id!==this.to_id){
+					this.to_id = id;
+					this.to_uid = uid;
+					this.to_uname = uname;
+					let target = document.getElementById('comment-'+id);
+					target.appendChild(document.getElementById('respond-'+this.ddata.id));
+					document.getElementById('respond-'+this.ddata.id).scrollIntoView(false);
+				}
+			},
+			cancelReply(){
+				this.to_id = this.to_uid = this.to_uname= null;
+				document.getElementById('comments-'+this.ddata.id).insertBefore(document.getElementById('respond-'+this.ddata.id),document.getElementById('anchor-'+this.ddata.id))
 			}
 		},
 		props:['ddata'],

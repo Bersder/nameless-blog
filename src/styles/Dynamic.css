@@ -2,6 +2,7 @@
 	max-width: unset;
 	width: 10rem;
 	padding-top: 1rem ;
+	background: 0;
 	overflow: hidden;
 }
 .loading-content:before{
@@ -125,6 +126,7 @@
 }
 .publish-sub-panel{
 	padding: .1rem .2rem;
+	margin-bottom: .2rem;
 	border-radius: .04rem;
 	background: #fcfaf2;
 }
@@ -363,3 +365,5 @@ img.img-content{
 	min-height: 1rem;
 	text-align: left;
 }
+.d-card-comment .respond{position: relative}
+.d-card-comment .respond .comment-buttons{margin: 0;padding: .1rem 0}

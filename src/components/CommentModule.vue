@@ -58,8 +58,7 @@
 							<span class="comment-time" :title="comment.datetime.substr(0,16)">{{comment.datetime|commentTime}}</span>
 							<span v-show="!isMobile" class="comment-id">#{{comment.id}}</span>
 						</div>
-						<div class="comment-content" v-html="commentRenderer(comment,false)" v-highlight>
-						</div>
+						<div class="comment-content" v-html="commentRenderer(comment,false)" v-highlight></div>
 						<button class="comment-reply no-select" @click="replyThis(comment.id,comment.uid,comment.uname)">回复</button>
 					</div>
 					<div class="comment-children">
@@ -71,11 +70,10 @@
 									</div>
 									<div class="comment-meta">
 										<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span v-show="!isMobile"><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span></p>
-										<span class="comment-time" :title="comment.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
+										<span class="comment-time" :title="reply.datetime.substr(0,16)">{{reply.datetime|commentTime}}</span>
 										<span v-show="!isMobile" class="comment-id">#{{reply.id}}</span>
 									</div>
-									<div class="comment-content" v-html="commentRenderer(reply,true)" v-highlight>
-									</div>
+									<div class="comment-content" v-html="commentRenderer(reply,true)" v-highlight></div>
 									<button class="comment-reply no-select" @click="replyThis(reply.id,reply.uid,reply.uname)">回复</button>
 								</div>
 							</div>
@@ -88,7 +86,7 @@
 				<h3>这里什么都没有`╮(￣▽￣)╭` </h3>
 			</div>
 		</div>
-		<ol class="c-pager" v-if="pageNum>1">
+		<ol class="c-pager" v-if="pageNum>1&&!commentWaiting">
 			<li class="prev" @click="curPage--" v-if="curPage!==1"><i class="iconfont icon-caretleft"></i></li>
 			<li v-show="curPage>=4" @click="curPage=1">1</li>
 			<li v-if="curPage>=5" class="ellipses"><i class="iconfont icon-ellipsis"></i></li>
@@ -162,8 +160,6 @@
 		},
 		watch:{
 			curPage(cur,pre){
-				this.commentWaiting = true;
-				this.commentList.length = 0;
 				this.fetchComment((cur - 1)*10);
 				if (this.newing)//被unique叫去更新
 					this.newing = false;
@@ -178,8 +174,6 @@
 				this.cancelReply();
 				if (this.curPage === 1){ //原来就在第一页，不去触发curPage，自己去更新数据
 					//原来在第一页，自己更新
-					this.commentWaiting = true;
-					this.commentList.length = 0;
 					this.fetchComment(0);
 				}
 				else{//原来不在第一页，更新并触发curPage，让他更新数据，
@@ -275,6 +269,8 @@
 				this.emoData = data;
 			},
         	fetchComment(offset){
+				this.commentWaiting = true;
+				while (this.commentList.pop()){}
 				this.$post('/apis/apiv6.php',{id:this.id_,type:this.type,offset:offset}).then(response=>{
 					if (response.data.code < 1) {
 						let data = response.data.data;
@@ -346,14 +342,22 @@
 								};
 								if(window.confirm('即将提交评论，是否确认')){
 									this.$post('/apis/apiv7.php',data).then(response=>{
-										if (response.data.code<1)
-											location.reload();
+										if (response.data.code<1){
+											this.nickname = this.email = this.qq = this.website = this.content = this.contentPreview = '';
+											this.previewOn = false;
+											if (this.to_id){
+												this.cancelReply();
+												this.fetchComment((this.curPage-1)*10);
+											}
+											else if (this.curPage===1)
+												this.fetchComment(0);
+											else
+												this.curPage = 1;
+										}
 										else
 											this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
 									})
 								}
-								else
-									return;
 							}
 							else{
 								window.alert('扣扣不合法');
@@ -361,13 +365,11 @@
 						}
 						else{
 							window.alert('网址不合法');
-							return;
 						}
 					}
 					else{
 						//!!信息不全
 						window.alert('请检查必要信息是否完整且正确');
-						return;
 					}
 				}
 				else{

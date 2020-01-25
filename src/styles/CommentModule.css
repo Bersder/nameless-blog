@@ -11,7 +11,7 @@
 		font-size: .14rem;
 	}
 	.respond .respond-title{
-		margin: .2rem 0;
+		padding: .2rem 0;
 	}
 		/*------------------------------------*/
 		.comment-form .comment-info-input{
@@ -125,7 +125,7 @@
 		font-size: .14rem;
 		margin: .05rem 0;
 	}
-	#respond .comment-robot-check input{
+	.respond .comment-robot-check input{
 		line-height: .2rem;
 		padding: 0 .05rem;
 	}
