@@ -1,11 +1,5 @@
 .dynamic-content-wrap{
 	position: relative;
-	padding: .2rem;
-	background: white;
-	border-radius: .03rem;
-	box-shadow: 0 0 0 .01rem #eee;
-	border: .01rem solid #eee;
-	text-align: left;
 	margin-bottom: .1rem;
 }
 	.dynamic-content-wrap .dynamic-avatar{
@@ -37,7 +31,7 @@
 	}
 	.dynamic-content-wrap .dynamic-opt{
 		position: absolute;
-		right: .2rem;
+		right: .15rem;
 		top: .2rem;
 		font-size: .2rem;
 		color: #bbbbbb;

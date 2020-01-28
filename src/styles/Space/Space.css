@@ -13,14 +13,15 @@
 }
 .space-dynamic .col-1,.space-home .col-1{
 	float: left;
-	border-radius: .03rem;
-	width: 8.35rem;
+	border-radius: .04rem;
 }
 .space-dynamic .col-2,.space-home .col-2{
 	float: right;
-	border-radius: .03rem;
-	width: 3.5rem;
 }
+.space-home .col-1{width: 8.3rem}
+.space-home .col-2{width: 3.6rem}
+.space-dynamic .col-1{width: 7.2rem}
+.space-dynamic .col-2{width: 4.7rem}
 
 
 .space-launch,.space-album,.space-setting{
@@ -185,7 +186,7 @@
 	margin-bottom: .1rem;
 	padding: .15rem .2rem;
 	background: white;
-	border-radius: .03rem;
+	border-radius: .04rem;
 	border: .01rem solid #eee;
 	box-shadow: 0 0 0 .01rem #eee;
 	text-align: left;

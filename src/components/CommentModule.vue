@@ -40,14 +40,14 @@
 		</div>
 		<div class="comments-main" id="anchor">
 			<h3 class="comments-list-title">Comments<span> | {{allCount}} 条评论</span></h3>
-			<div class="waiting" v-show="commentWaiting">
+			<div class="waiting" v-if="commentWaiting">
 				<div class="rect1"></div>
 				<div class="rect2"></div>
 				<div class="rect3"></div>
 				<div class="rect4"></div>
 				<div class="rect5"></div>
 			</div>
-			<div class="comments-list" v-if="allCount">
+			<div class="comments-list" v-else-if="allCount">
 				<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 					<div class="comment-content-wrap">
 						<div class="comment-avatar">
@@ -82,7 +82,7 @@
 
 				</div>
 			</div>
-			<div class="no-comment" v-if="!allCount">
+			<div class="no-comment" v-else>
 				<h3>这里什么都没有`╮(￣▽￣)╭` </h3>
 			</div>
 		</div>
@@ -160,13 +160,13 @@
 		},
 		watch:{
 			curPage(cur,pre){
-				this.fetchComment((cur - 1)*10);
 				if (this.newing)//被unique叫去更新
 					this.newing = false;
 				else{//页内跳转
 					this.cancelReply();
 					setTimeout(()=>document.getElementById('comments').scrollIntoView(true),100);
 				}
+				this.fetchComment((cur - 1)*10);
 			},
 			unique(cur,pre){//文章发生更新，评论跟着更新
 				this.allCount = '??';

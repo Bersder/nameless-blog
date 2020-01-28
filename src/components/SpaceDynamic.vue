@@ -2,18 +2,11 @@
     <div class="space-dynamic">
 		<div class="col-1">
 			<div class="history-dynamic">
-				<div class="dynamic-content-wrap" v-for="each in curDynamics" :key="each.id">
-					<div class="dynamic-avatar"><img :src="avatar" height="40" width="40"></div>
-					<div class="dynamic-meta">
-						<p class="uname">{{name}}</p>
-						<span>{{each.type|typeEN2CN}} · {{each.time|postTime}}</span>
-					</div>
-					<div class="dynamic-content"><p>{{each.content}}</p></div>
+				<div class="dynamic-content-wrap" v-for="item in dynamics" :key="item.id">
+					<dynamic-card :ddata="item" style="background: white"></dynamic-card>
 					<div class="dynamic-opt">
 						<i class="iconfont icon-more"></i>
-						<div class="more-opt">
-							<a @click="delDynamic(each)">删除</a>
-						</div>
+						<div class="more-opt"><a @click="delDynamic(item)">删除</a></div>
 					</div>
 				</div>
 			</div>
@@ -22,7 +15,7 @@
 		<div class="col-2">
 			<div class="section dynamic-launch">
 				<h4>发布动态</h4>
-				<textarea placeholder="要写些什么呢?" v-model="sendContent"></textarea>
+				<textarea placeholder="要写些什么呢?" @keydown="textareaTab" v-model="content"></textarea>
 				<div class="type-selector">
 					<div v-for="(item,key) in typeMap" @click="sendType=key" :class="{cur:sendType===key}">{{item}}</div>
 				</div>
@@ -46,25 +39,32 @@
 <script>
 	import {mapGetters} from 'vuex';
 	import {mapState} from 'vuex';
+	import DC from './DynamicCard';
 	export default {
         name: "SpaceDynamic",
-		created(){
-			this.$post('/apis/auth/v6api.php').then(response=>{
-				let data = response.data.data;
-				data.dynamics.forEach(e=>this.curDynamics.push(e));
-				this.dynamicNum = parseInt(data.dNum);
-			}).catch(err=>console.warn(err))
+		async created(){
+        	await this.fetchEmo();
+			this.$fetch('/apis/apiv16.php?offset=0').then(response=>{
+				response.data.data.dynamics.forEach(e=>this.dynamics.push(e));
+			});
 		},
 		data(){
         	return{
-				curDynamics:[],
-				dynamicNum:0,
+				emoData:[{emoSeries:'',emoList:[]}],
+				emoMap:{},
+				emoBoxShow:false,
+				emoIndex:0,
+
+				dynamics:[],
+				waiting:false,//标识更多动态加载状态
+				noMore:false,//标识是否穷尽动态
+
 				popupShow:false,
 				delTarget:null, //待删目标
-				sendContent:'',
+
+				content:'',
 				sendType:'',
 				typeMap:{anime:'Anime',code:'极客',game:'游民',trivial:'随写'},
-				loadWait:false
         	}
 		},
 		watch:{
@@ -73,15 +73,59 @@
 			}
 		},
 		methods:{
+			textareaTab(e){
+				if (e.keyCode === 9){//支持tab输入
+					let target = e.target;
+					if (document.selection){
+						let sel = document.selection.createRange();
+						sel.text = '    ';
+					}
+					else if (typeof target.selectionStart==='number'&&typeof target.selectionEnd==='number'){
+						let startPos = target.selectionStart, endPos = target.selectionEnd;
+						let cursorPos = startPos, tmp = this.content;
+						this.content = tmp.substring(0,startPos) + '    ' +tmp.substring(endPos,tmp.length);
+						cursorPos += 4;
+						setTimeout(() => target.selectionStart = target.selectionEnd = cursorPos, 10);
+					}
+					else{
+						this.content += '    ';
+					}
+					if (e&&e.preventDefault)
+						e.preventDefault();
+					else
+						window.event.returnValue = false;
+				}
+			},
+			async fetchEmo(){
+				let response = await this.$fetch('/static/emo/emo.json');
+				let data = response.data;
+				data.forEach(e=>{
+					e.thumbnail = e.path + e.thumbnail;
+					if (e.pic){
+						let f = e.path.split('/');
+						let g = f[f.length-2]+'_';//类别前缀
+						e.emoList.forEach(f=>{
+							f.des = g + f.des;
+							f.imgSrc=e.path+f.imgSrc;
+							f.insert = '∫f(' + f.des + ')';
+							this.emoMap[f.des] = f.imgSrc;
+						});
+					}
+				});
+				this.emoData = data;
+			},
+			insertEmo(item,isPic){
+				this.content = isPic?this.content + item.insert:this.content + item.replace(/_/g,'\\_');
+			},
         	launchDynamic(){
-        		if (this.sendContent.replace(/^\s*|\s*$/g,'')&&this.sendType){
+        		if (this.content.trim()&&this.sendType){
         			let data = {
-						content:this.sendContent.replace(/^\s*|\s*$/g,''),
+						content:this.content.trim(),
 						type:this.sendType
 					};
         			this.$post('/apis/auth/v7api.php',data).then(response=>{
 						if (response.data.code<1){
-							this.sendContent = '';
+							this.content = '';
 							this.$store.commit('infoBox/callInfoBox',{
 								info:'动态发布成功',
 								ok:true,
@@ -102,9 +146,8 @@
 			delConfirm(bool){
 				if (bool) //确认删除
 					this.$post('/apis/auth/v7api.php?delete='+this.delTarget.id).then(response=>{
-						if (response.data.code<1){//删除成功，总数-1,
-							this.dynamicNum--;
-							this.curDynamics.splice(this.curDynamics.indexOf(this.delTarget),1);
+						if (response.data.code<1){
+							this.dynamics.splice(this.dynamics.indexOf(this.delTarget),1);
 							this.popupShow = false;
 							this.$store.commit('infoBox/callInfoBox',{
 								info:'动态删除成功',
@@ -117,12 +160,14 @@
 					this.popupShow = false
 			},
         	loadMore(){
-				if (this.curDynamics.length < this.dynamicNum&&!this.loadWait) {
-					this.loadWait = true;
-					this.$post('/apis/auth/v6api.php?more='+Math.floor(this.curDynamics.length/10)).then(response=>{
-						this.loadWait = false;
-						response.data.data.dynamics.forEach(e=>this.curDynamics.push(e))
-					}).catch(err=>console.warn(err))
+				if (!this.noMore&&!this.waiting) {
+					this.waiting = true;
+					this.$fetch('/apis/apiv16.php',{offset:this.dynamics.length}).then(response=>{
+						let tmp = response.data.data.dynamics;
+						this.waiting = false;
+						if (tmp.length) tmp.forEach(e=>this.dynamics.push(e));
+						else this.noMore = true;
+					})
 				}
 			}
 		},
@@ -130,34 +175,10 @@
 			...mapGetters(['reachBottom']),
 			...mapState({
 				token:state=>state.account.token,
-				avatar:state=>state.account.avatar,
-				name:state=>state.account.name
 			})
 		},
-		filters:{
-        	typeEN2CN(type){
-				if (type==='anime')return '吐槽';
-				else if (type==='code')return 'Error';
-				else if (type==='game')return '游言';
-				else return '日常';
-			},
-			postTime(datetime){
-				let gap = new Date().getTime() -  new Date(datetime).getTime();
-				if (gap<60000)return '刚刚';
-				else{
-					let gap_m = Math.floor(gap/60000);
-					if (gap_m<60)return gap_m + '分钟前';
-					else{
-						let gap_h = Math.floor(gap_m/60);
-						if (gap_h<24)return gap_h + '小时前';
-						else{
-							let gap_d = Math.floor(gap_h/24);
-							if (gap_d<30)return gap_d + '日前';
-							else return datetime.substr(0,10);
-						}
-					}
-				}
-			}
+		components:{
+			'dynamic-card':DC,
 		}
     }
 </script>
