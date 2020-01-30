@@ -16,10 +16,43 @@
 			<div class="section dynamic-launch">
 				<h4>发布动态</h4>
 				<textarea placeholder="要写些什么呢?" @keydown="textareaTab" v-model="content"></textarea>
+				<div class="emotion pr" :class="{'emo-open':emoBoxShow}">
+					<span class="emotion-toggle" @click="emoBoxShow=!emoBoxShow"><i class="iconfont icon-emoji ibold"></i>表情</span>
+					<div class="emotion-box">
+						<div class="emo-title"><span>{{emoData[emoIndex].emoSeries}}</span></div>
+						<div class="emo-wrap" :class="{'emo-text':!emoData[emoIndex].pic}">
+							<a v-for="item in emoData[emoIndex].emoList"
+							   :title="item.des"
+							   @click="insertEmo(item,emoData[emoIndex].pic)"><img v-if="emoData[emoIndex].pic" :src="'/root'+item.imgSrc" :alt="item.des"><span v-else>{{item}}</span></a>
+						</div>
+						<div class="emo-tabs">
+							<a v-for="(item,index) in emoData" :key="index" @click="emoIndex=index" :class="{cur:index===emoIndex}"><img :src="'/root'+item.thumbnail" :alt="item.emoSeries" height="22" width="22"></a>
+						</div>
+					</div>
+				</div>
+				<div class="upload-box">
+					<div class="title fz-14">图片上传<span>{{uploadImgs.length}} / 9</span>
+						<span class="iconfont icon-chevronright pointer"
+							  :class="{unfold:ulUnfolded}"
+							  @click="ulUnfolded=!ulUnfolded"></span>
+					</div>
+					<div class="upload-list fzz is-collapsible" :class="{'is-collapsed':!ulUnfolded}">
+						<div class="upload-item" v-for="(item,index) in uploadImgs" v-divImg="item">
+							<span class="uploading"></span>
+							<div class="redo">
+								<span @click="delImg(index)"><i class="iconfont icon-cancel clearm"></i></span>
+							</div>
+						</div>
+						<div class="upload-btn" v-show="uploadImgs.length<9">
+							<input type="file" accept="image/png, image/jpeg, image/jpg, image/gif" @change="addImg">
+							<i class="iconfont icon-plus"></i>
+						</div>
+					</div>
+				</div>
 				<div class="type-selector">
 					<div v-for="(item,key) in typeMap" @click="sendType=key" :class="{cur:sendType===key}">{{item}}</div>
 				</div>
-				<button @click="launchDynamic">确认</button>
+				<button @click="launchDynamic">发布</button>
 			</div>
 		</div>
 
@@ -63,6 +96,10 @@
 				delTarget:null, //待删目标
 
 				content:'',
+				ulUnfolded:true,
+				uploadImgs:[],
+				uppedImgs:[],//已经上传的图片，存储其路径
+
 				sendType:'',
 				typeMap:{anime:'Anime',code:'极客',game:'游民',trivial:'随写'},
         	}
@@ -116,6 +153,22 @@
 			},
 			insertEmo(item,isPic){
 				this.content = isPic?this.content + item.insert:this.content + item.replace(/_/g,'\\_');
+			},
+			addImg(e){
+				let file = e.target.files[0];
+				if (file){
+					if(/image\/\w+/.test(file.type))
+						if(file.size<10000000){
+							this.uploadImgs.length<9 && this.uploadImgs.push(file);
+						}
+						else
+							window.alert('文件过大');
+					else window.alert('请选择正确的文件类型');
+					e.target.value = '';
+				}
+			},
+			delImg(index){
+				this.uploadImgs.splice(index,1);
 			},
         	launchDynamic(){
         		if (this.content.trim()&&this.sendType){
@@ -179,6 +232,16 @@
 		},
 		components:{
 			'dynamic-card':DC,
+		},
+		directives:{
+        	divImg:{
+        		bind(el,binding){
+					console.log(el,binding)
+				},
+				unbind(el,binding){
+					console.log(el,111)
+				}
+			}
 		}
     }
 </script>

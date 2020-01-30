@@ -150,18 +150,24 @@
 		color: #1e1e1e;
 	}
 
-
+	.emotion.pl .emotion-box{
+		left: 0;
+		margin-left: -.01rem;
+		border-radius: 0 .05rem .05rem .05rem;
+	}
+	.emotion.pr .emotion-box{
+		right: 0;
+		margin-right: -.01rem;
+		border-radius: .05rem 0 .05rem .05rem;
+	}
 	.emotion .emotion-box{
 		display: none;
 		position: absolute;
-		left: 0;
-		margin-left: -.01rem;
 		top: 100%;
 		width: 3.4rem;
 		background: white;
 		box-shadow: 0 .1rem .1rem 0 rgba(30,30,30,.1);
 		border: 1px solid #eaeaea;
-		border-radius: 0 .05rem .05rem .05rem;
 		overflow: hidden;
 	}
 	.emotion.emo-open .emotion-box{

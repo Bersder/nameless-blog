@@ -76,7 +76,7 @@
 		display: block;
 		margin: .1rem 0;
 		padding: .1rem;
-		height: 1.3rem;
+		height: 1.5rem;
 		width: 100%;
 		resize: none;
 		font-size: .14rem;
@@ -88,6 +88,99 @@
 	.dynamic-launch textarea:focus{
 		border-color: #00a1d6;
 	}
+	.upload-list{
+		margin-top: .1rem;
+		margin-left: -.1rem;
+	}
+		.upload-box .title span{
+			font-size: .12rem;
+			margin-left: .1rem;
+			color: #bbb;
+			transition: .3s ease-in-out;
+		}
+		.upload-box .title span.iconfont:hover{
+			color: #00a1d6;
+		}
+		.upload-box .title span.unfold{
+			transform: rotate(90deg);
+		}
+		.upload-list .upload-item,.upload-list .upload-btn{
+			display: inline-block;
+			position: relative;
+			width: 1rem;
+			height: 1rem;
+			margin-left: .1rem;
+			margin-bottom: .1rem;
+			border-radius: .04rem;
+		}
+		.upload-list .upload-item{
+			background: #eee;
+			overflow: hidden;
+		}
+			.upload-list .upload-item span.uploading{
+				position: absolute;
+				top: calc(50% - .15rem);
+				left: calc(50% - .15rem);
+				width: .3rem;
+				height: .3rem;
+				border: .03rem solid #ddd;
+				border-radius: 50%;
+				border-top-color: transparent;
+				animation: spin 1s linear infinite;
+			}
+			.upload-list .upload-item:hover .redo{
+				display: block;
+			}
+			.upload-list .upload-item .redo{
+				display: none;
+				position: absolute;
+				top: 0;
+				right: 0;
+				height: .2rem;
+				line-height: .2rem;
+				text-align: center;
+				background: rgba(0,0,0,.4);
+			}
+				.upload-item .redo span:hover{
+					background: rgba(0,0,0,.4);
+				}
+				.upload-item .redo span{
+					display: inline-block;
+					width: .2rem;
+					color: white;
+					font-size: .16rem;
+					transition: .5s ease-in-out;
+					cursor: pointer;
+				}
+
+
+
+		.upload-list .upload-btn:hover{
+			color: #00a1d6;
+			border-color: #00a1d6;
+		}
+		.upload-list .upload-btn{
+			border: .02rem dashed #ccc;
+			color: #ccc;
+			transition: all .5s ease-in-out;
+		}
+			.upload-list .upload-btn input{
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				left: 0;
+				top: 0;
+				opacity: 0;
+				z-index: 1;
+			}
+			.upload-list .upload-btn .icon-plus{
+				position: absolute;
+				font-size: .4rem;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+			}
+
 	.dynamic-launch .type-selector{
 		display: flex;
 		width: 70%;
