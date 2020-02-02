@@ -37,7 +37,10 @@
 							  @click="ulUnfolded=!ulUnfolded"></span>
 					</div>
 					<div class="upload-list fzz is-collapsible" :class="{'is-collapsed':!ulUnfolded}">
-						<div class="upload-item" v-for="(item,index) in uploadImgs" v-divImg="item">
+						<div class="upload-item"
+							 v-for="(item,index) in uploadImgs"
+							 v-divImg:[index]="item.file"
+							 :key="item.timestamp">
 							<span class="uploading"></span>
 							<div class="redo">
 								<span @click="delImg(index)"><i class="iconfont icon-cancel clearm"></i></span>
@@ -49,8 +52,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="type-selector">
-					<div v-for="(item,key) in typeMap" @click="sendType=key" :class="{cur:sendType===key}">{{item}}</div>
+				<div class="type-box">
+					<div class="title fz-14">发布栏目(可选)</div>
+					<ul class="type-selector no-select">
+						<li v-for="(item,key) in typeMap"
+							 @click="dType=dType===key?0:key"
+							 :class="{cur:dType===key}">{{item}}</li>
+					</ul>
 				</div>
 				<button @click="launchDynamic">发布</button>
 			</div>
@@ -60,8 +68,9 @@
 			<div class="popup-panel">
 				<h3 class="popup-title tl">删除动态</h3>
 				<div class="popup-content tl">确定要删除此条动态?</div>
-				<div class="popup-confirm tc">
-					<button class="btn-primary" @click="delConfirm(true)">删除</button><button class="btn-secondary" @click="delConfirm(false)">手抖点错</button>
+				<div class="popup-confirm tc fzz">
+					<button class="btn-primary" @click="delConfirm(true)">删除</button>
+					<button class="btn-secondary" @click="delConfirm(false)">手抖点错</button>
 				</div>
 				<a class="popup-cancel" @click="popupShow=false"><i class="iconfont icon-cancel"></i></a>
 			</div>
@@ -100,8 +109,8 @@
 				uploadImgs:[],
 				uppedImgs:[],//已经上传的图片，存储其路径
 
-				sendType:'',
-				typeMap:{anime:'Anime',code:'极客',game:'游民',trivial:'随写'},
+				dType:0,
+				typeMap:{1:'Anime',2:'极客',3:'游民',4:'随写'},
         	}
 		},
 		watch:{
@@ -159,7 +168,7 @@
 				if (file){
 					if(/image\/\w+/.test(file.type))
 						if(file.size<10000000){
-							this.uploadImgs.length<9 && this.uploadImgs.push(file);
+							this.uploadImgs.length<9 && this.uploadImgs.push({file:file,timestamp:new Date().getTime()});
 						}
 						else
 							window.alert('文件过大');
@@ -171,44 +180,55 @@
 				this.uploadImgs.splice(index,1);
 			},
         	launchDynamic(){
-        		if (this.content.trim()&&this.sendType){
+				if (!this.content.trim()){window.alert('动态不能为空');return;}
+        		if (this.uploadImgs.length===this.uppedImgs.length){
         			let data = {
 						content:this.content.trim(),
-						type:this.sendType
+						d_type:this.dType,
+						imgs_string:this.uppedImgs.join(','),
+						service_type:3
 					};
-        			this.$post('/apis/auth/v7api.php',data).then(response=>{
-						if (response.data.code<1){
-							this.content = '';
-							this.$store.commit('infoBox/callInfoBox',{
-								info:'动态发布成功',
-								ok:true,
-								during:2000
-							});
-							setTimeout(()=>location.reload(),2000)
+        			this.$post('/apis/auth/v7api.php',data).then(res=>{
+        				switch (parseInt(res.data.code)) {
+							case 0:
+								this.content = '';
+								this.dType = 0;
+								while (this.uppedImgs.pop()){}
+								while (this.uploadImgs.pop()){}
+								this.$store.commit('infoBox/callInfoBox',{info:'动态发布成功', ok:true, during:2000});
+								this.dynamics.unshift(res.data.data.dynamic);
+								break;
+							case 2:
+								while (this.uppedImgs.pop()){}
+								while (this.uploadImgs.pop()){}
+								this.$store.commit('infoBox/callInfoBox',{info:'图片丢失，请重新上传', ok:false, during:3000});
+								break;
+							default:
+								this.$store.commit('infoBox/callInfoBox',{info:'动态发布失败', ok:false, during:3000});
 						}
 					}).catch(err=>console.warn(err))
 				}
-        		else{
-					window.alert('请检查必要信息是否完整且正确')
-				}
+        		else
+					this.$store.commit('infoBox/callInfoBox',{info:'图片上载中', ok:false, during:3000});
 			},
         	delDynamic(item){
 				this.delTarget = item;
 				this.popupShow = true;
 			},
 			delConfirm(bool){
-				if (bool) //确认删除
-					this.$post('/apis/auth/v7api.php?delete='+this.delTarget.id).then(response=>{
-						if (response.data.code<1){
+				if (bool){
+					let data = {
+						delID:this.delTarget.id,
+						service_type:4
+					};
+					this.$post('/apis/auth/v7api.php',data).then(res=>{
+						if (!res.data.code){
 							this.dynamics.splice(this.dynamics.indexOf(this.delTarget),1);
 							this.popupShow = false;
-							this.$store.commit('infoBox/callInfoBox',{
-								info:'动态删除成功',
-								ok:true,
-								during:2000
-							});
+							this.$store.commit('infoBox/callInfoBox',{info:'动态删除成功', ok:true, during:2000});
 						}
 					}).catch(err=>console.warn(err));
+				}
 				else
 					this.popupShow = false
 			},
@@ -235,11 +255,28 @@
 		},
 		directives:{
         	divImg:{
-        		bind(el,binding){
-					console.log(el,binding)
+        		bind(el,binding,vnode){
+					let fd = new FormData();
+					fd.append('service_type','1');
+					fd.append('img_up',binding.value);
+					vnode.context.$post_form('/apis/auth/v7api.php',fd).then(res=>{
+						let imgSrc = res.data.data.imgSrc;
+						vnode.context.$data['uppedImgs'].push(imgSrc);
+						el.removeChild(el.children[0]);
+						el.style.backgroundImage = `url(/root${imgSrc})`
+					});
 				},
-				unbind(el,binding){
-					console.log(el,111)
+				unbind(el,binding,vnode){
+        			let index = binding.arg;
+					let path = vnode.context.$data['uppedImgs'][index];
+					vnode.context.$data['uppedImgs'].splice(index,1);
+					if (path){
+						let data = {
+							path:path,
+							service_type:2
+						};
+						vnode.context.$post('/apis/auth/v7api.php',data);
+					}
 				}
 			}
 		}

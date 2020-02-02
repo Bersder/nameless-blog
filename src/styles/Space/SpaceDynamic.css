@@ -46,7 +46,7 @@
 			text-align: center;
 			border: .01rem solid #e5e9ef;
 			box-shadow: 0 .1rem .1rem 0 rgba(106,115,133,0.12);
-			border-radius: .03rem;
+			border-radius: .04rem;
 			font-size: .15rem;
 			color: #6d757a;
 		}
@@ -114,7 +114,7 @@
 			border-radius: .04rem;
 		}
 		.upload-list .upload-item{
-			background: #eee;
+			background: #eee center/cover no-repeat;
 			overflow: hidden;
 		}
 			.upload-list .upload-item span.uploading{
@@ -181,26 +181,31 @@
 				transform: translate(-50%,-50%);
 			}
 
-	.dynamic-launch .type-selector{
-		display: flex;
-		width: 70%;
-		flex-flow: row wrap;
-		justify-content: space-between;
+	.type-box ul.type-selector{
+		list-style: none;
+		overflow: hidden;
+		margin-top: .1rem;
+		text-align: center;
 	}
-		.type-selector div{
-			flex: 1;
-			font-size: .15rem;
-			line-height: .15rem;
-			padding: .05rem 0;
+		ul.type-selector li{
+			width: .75rem;
+			height: .26rem;
+			line-height: .24rem;
+			font-size: .16rem;
 			margin-right: -.01rem;
 			border: .01rem solid #41a7ea;
-			text-align: center;
 			cursor: pointer;
 			color: #00a1d6;
-			transition: .3s ease;
-			user-select: none;
+			transition: .3s ease-in-out;
+			float: left;
 		}
-		.type-selector div.cur{
+		ul.type-selector li:first-child{
+			border-radius: .04rem 0 0 .04rem;
+		}
+		ul.type-selector li:last-child{
+			border-radius: 0 .04rem .04rem 0;
+		}
+		ul.type-selector li.cur{
 			background: #00a1d6;
 			color: white;
 		}

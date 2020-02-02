@@ -11,7 +11,7 @@
 					<div class="thumbnail-wrap" v-if="!zoomingIn">
 						<ul class="thumbnail-list fzz">
 							<li class="item" v-for="(item,index) in ddata.imgs" @click="zoomIn(index)" :class="{'item-1':ddata.imgs.length===1}">
-								<img class="img-content" :src="item">
+								<img class="img-content" :src="'/root'+item">
 							</li>
 						</ul>
 					</div>
@@ -23,7 +23,7 @@
 							<li @click="imgRotate(1)"><i class="iconfont icon-rotateright"></i><span>向右旋转</span></li>
 						</ul>
 						<div class="zoom-img" ref="imgWrap">
-							<div class="zoom-img-container" @click="zoomOut"><img :src="ddata.imgs[zoomingIndex]" ref="img"></div>
+							<div class="zoom-img-container" @click="zoomOut"><img :src="'/root'+ddata.imgs[zoomingIndex]" ref="img"></div>
 							<div class="prev" @click="imgPush(0)" v-show="zoomingIndex>0"></div>
 							<div class="next" @click="imgPush(1)" v-show="ddata.imgs.length-1>zoomingIndex"></div>
 						</div>
@@ -32,7 +32,7 @@
 							<div class="zoom-slider-border" :style="{left:`${zoomingIndex*.66}rem`}"></div>
 							<ul class="zoom-slider fzz">
 								<li v-for="(item,index) in ddata.imgs" @click="imgJump(index)" :class="{cur:zoomingIndex===index}">
-									<img :src="item">
+									<img :src="'/root'+item">
 								</li>
 							</ul>
 						</div>
