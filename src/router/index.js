@@ -139,7 +139,11 @@ export default new Router({
 			path: '/dynamic',
 			name: 'dynamic',
 			component: Dynamic,
-			meta:{title:'动态'+title_,nh:true}
+			meta:{title:'动态'+title_,nh:true},
+			children:[{
+				path:':id',
+				meta:{title:'动态'+title_,nh:true}
+			}]
 		},
 		{
 			path: '/note/:id',

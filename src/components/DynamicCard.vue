@@ -39,9 +39,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="d-card-btn-bar">
+			<div class="d-card-btn-bar no-select">
 				<button @click="commentToggle" :class="{selected:commentShow}"><i class="iconfont icon-comment"></i>{{ddata.commentCount}}</button>
-				<button @click="likeToggle" :class="{selected:liked}"><i class="iconfont icon-heart"></i>{{ddata.liked}}</button>
+				<button @click="likeToggle" :class="{selected:ddata.likeStatus}"><i class="iconfont" :class="`icon-${ddata.likeStatus?'heart':'hearto'}`"></i>{{ddata.liked}}</button>
 			</div>
 		</div>
 		<div class="bottom" v-if="commentShow">
@@ -156,7 +156,6 @@
 
 				commentReady:false,
 				commentShow:false,
-				liked:false
 			}
 		},
 		watch:{
@@ -242,7 +241,13 @@
 				this.commentShow = !this.commentShow;
 			},
 			likeToggle(){
-
+        		if (!this.ddata.likeStatus)
+					this.$fetch('/apis/apiv16p1.php',{like:this.ddata.id}).then(res=>{
+						if (res.data.code===0){
+							this.ddata.liked++;
+							this.ddata['likeStatus'] = true;
+						}
+					})
 			},
 			zoomIn(index){
         		this.zoomingIndex = index;

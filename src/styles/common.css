@@ -989,6 +989,27 @@ input::-webkit-search-cancel-button{
 }
 
 /*==================================================================*/
+/*no-more-bottom*/
+.no-more{
+	position: relative;
+	height: 1.2rem;
+	margin: .2rem 0;
+	line-height: 1.2rem;
+	color: #8b8e99;
+	text-align: center;
+	user-select: none;
+}
+.no-more:before{
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: url("/static/images/nomore.png") center/contain no-repeat;
+}
+
+/*==================================================================*/
 /*other*/
 .masked{
 	-webkit-overflow-scrolling:touch;

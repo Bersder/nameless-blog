@@ -222,7 +222,40 @@
 		font-weight: 600;
 		transition: .5s;
 	}
-	.dynamic-launch button:hover{
+	.dynamic-launch button:hover,.anli-add-wrap .anli-btn:hover{
 		color: white;
 		background: #00a1d6;
+	}
+
+.recommend-edit .anli-add-wrap{
+	padding: .1rem .2rem 0;
+	font-size: .14rem;
+}
+	.recommend-edit .anli-add span{
+		color: #6d757a;
+	}
+	.recommend-edit .anli-add input{
+		display: block;
+		width: 85%;
+		height: .26rem;
+		line-height: .22rem;
+		margin: 0 auto;
+		padding: 0 .1rem;
+		border-radius: .04rem;
+		border: .02rem solid rgba(0,0,0,.1);
+		font-size: inherit;
+		outline: none;
+		transition: .5s ease-in-out;
+	}
+	.anli-add-wrap .anli-btn{
+		display: block;
+		width: 85%;
+		height: .26rem;
+		line-height: .22rem;
+		margin: .1rem auto 0;
+		border-radius: 1rem;
+		border: .02rem solid rgba(0,0,0,.1);
+		color: #6a737d;
+		font-weight: 600;
+		transition: .5s ease-in-out;
 	}

@@ -9,6 +9,9 @@
 						<div class="more-opt"><a @click="delDynamic(item)">删除</a></div>
 					</div>
 				</div>
+				<div class="no-more" v-show="noMore">
+					<p>你已经到达了世界的尽头</p>
+				</div>
 			</div>
 		</div>
 
@@ -39,7 +42,7 @@
 					<div class="upload-list fzz is-collapsible" :class="{'is-collapsed':!ulUnfolded}">
 						<div class="upload-item"
 							 v-for="(item,index) in uploadImgs"
-							 v-divImg:[index]="item.file"
+							 v-divImg="item"
 							 :key="item.timestamp">
 							<span class="uploading"></span>
 							<div class="redo">
@@ -61,6 +64,20 @@
 					</ul>
 				</div>
 				<button @click="launchDynamic">发布</button>
+			</div>
+			<div class="section recommend-edit">
+				<h4>推荐栏目</h4>
+				<div class="anli-add-wrap">
+					<div class="anli-add title">
+						<span>标题:</span>
+						<input type="text" v-model.trim="anliTitle">
+					</div>
+					<div class="anli-add link">
+						<span>链接:</span>
+						<input type="text" v-model.trim="anliLink">
+					</div>
+					<button class="anli-btn" @click="anli">安利！安利！安利！</button>
+				</div>
 			</div>
 		</div>
 
@@ -107,7 +124,10 @@
 				content:'',
 				ulUnfolded:true,
 				uploadImgs:[],
-				uppedImgs:[],//已经上传的图片，存储其路径
+				uppedImgs:{},//已经上传的图片，用时间戳作为键来区分先后
+
+				anliTitle:'',
+				anliLink:'',
 
 				dType:0,
 				typeMap:{1:'Anime',2:'极客',3:'游民',4:'随写'},
@@ -181,11 +201,13 @@
 			},
         	launchDynamic(){
 				if (!this.content.trim()){window.alert('动态不能为空');return;}
-        		if (this.uploadImgs.length===this.uppedImgs.length){
+        		if (this.uploadImgs.length===Object.keys(this.uppedImgs).length){
+        			let uppedKeys = Object.keys(this.uppedImgs).map(e=>parseInt(e)).sort((a,b)=>a-b);
+        			let imgsString = uppedKeys.map(e=>this.uppedImgs[e]).join(',');
         			let data = {
 						content:this.content.trim(),
 						d_type:this.dType,
-						imgs_string:this.uppedImgs.join(','),
+						imgs_string:imgsString,
 						service_type:3
 					};
         			this.$post('/apis/auth/v7api.php',data).then(res=>{
@@ -193,13 +215,13 @@
 							case 0:
 								this.content = '';
 								this.dType = 0;
-								while (this.uppedImgs.pop()){}
+								this.uppedImgs = {};
 								while (this.uploadImgs.pop()){}
 								this.$store.commit('infoBox/callInfoBox',{info:'动态发布成功', ok:true, during:2000});
 								this.dynamics.unshift(res.data.data.dynamic);
 								break;
 							case 2:
-								while (this.uppedImgs.pop()){}
+								this.uppedImgs = {};
 								while (this.uploadImgs.pop()){}
 								this.$store.commit('infoBox/callInfoBox',{info:'图片丢失，请重新上传', ok:false, during:3000});
 								break;
@@ -210,6 +232,29 @@
 				}
         		else
 					this.$store.commit('infoBox/callInfoBox',{info:'图片上载中', ok:false, during:3000});
+			},
+			anli(){
+				let pass = (
+					this.anliTitle&&this.anliLink&&
+					/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.anliLink)
+				);
+				if (pass){
+					let data = {
+						url:this.anliLink,
+						title:this.anliTitle,
+						service_type:5
+					};
+					this.$post('/apis/auth/v7api.php',data).then(res=>{
+						if (res.data.code===0){
+							this.anliTitle = this.anliLink = '';
+							this.$store.commit('infoBox/callInfoBox',{info:'安利成功', ok:true, during:2000});
+						}
+						else
+							this.$store.commit('infoBox/callInfoBox',{info:'安利失败', ok:false, during:3000});
+					})
+				}
+				else
+					this.$store.commit('infoBox/callInfoBox',{info:'不能为空/信息有误', ok:false, during:3000});
 			},
         	delDynamic(item){
 				this.delTarget = item;
@@ -256,20 +301,21 @@
 		directives:{
         	divImg:{
         		bind(el,binding,vnode){
+        			let item = binding.value;
 					let fd = new FormData();
 					fd.append('service_type','1');
-					fd.append('img_up',binding.value);
+					fd.append('img_up',item.file);
 					vnode.context.$post_form('/apis/auth/v7api.php',fd).then(res=>{
 						let imgSrc = res.data.data.imgSrc;
-						vnode.context.$data['uppedImgs'].push(imgSrc);
+						vnode.context.$data['uppedImgs'][item.timestamp] = imgSrc;
 						el.removeChild(el.children[0]);
 						el.style.backgroundImage = `url(/root${imgSrc})`
 					});
 				},
 				unbind(el,binding,vnode){
-        			let index = binding.arg;
-					let path = vnode.context.$data['uppedImgs'][index];
-					vnode.context.$data['uppedImgs'].splice(index,1);
+        			let ts = binding.value.timestamp;
+					let path = vnode.context.$data['uppedImgs'][ts];
+					delete vnode.context.$data['uppedImgs'][ts];
 					if (path){
 						let data = {
 							path:path,
