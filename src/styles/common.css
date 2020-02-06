@@ -749,6 +749,7 @@ pre .copy-btn:hover{
 	border-right: .01rem solid #b8c0cc;
 	list-style-type: none;
 	color: #b8c0cc;
+	user-select: none;
 }
 .comment-content pre>code,.d-card-content .text pre>code{
 	font-family: inherit;

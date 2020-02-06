@@ -1,6 +1,6 @@
-import {copyText} from "../utils/lib";
+import {copyText,unique} from "../utils/lib";
 import hljs from "highlight.js"
-import {unique} from "../utils/lib";
+import marked from 'marked';
 export default {
 	data(){
 		return{
@@ -27,6 +27,24 @@ export default {
 		}
 	},
 	methods:{
+		markedInit(){
+			let renderer = new marked.Renderer();
+			renderer.heading = (text) => `<p>${text}</p>`;
+			renderer.hr = () => '';
+			renderer.table = () => '';
+			renderer.tablerow = () => '';
+			renderer.tablecell = () => '';
+			marked.setOptions({
+				renderer: renderer,
+				gfm: true,
+				tables: true,
+				breaks: true, //不开启时，单个换行只会p内\n换行（表现为空格）、多个换行会生成两个p;开启时单个换行会导致p内br换行，多个换行会导致两个p间br换行
+				pedantic: false,
+				sanitize: true,//开启时忽略rawString中的html标签
+				smartLists: true,
+				smartypants: false
+			});
+		},
 		emoRenderer(raw){
 			let tmp = raw;
 			let replaceSrcList = tmp.match(/∫f\(.+?\)/g);
@@ -167,7 +185,10 @@ export default {
 
 					let numberring = document.createElement('ul');
 					numberring.classList.add('line-numbers-rows');
-					for (let i=1;i<=e.innerText.split('\n').length;i++){
+					let len = e.innerText.split('\n').length;
+					if (e.innerText.charCodeAt(e.innerText.length-1)===10)
+						len--;
+					for (let i=1;i<=len;i++){
 						let li = document.createElement('li');
 						li.innerText = i;
 						numberring.appendChild(li)
