@@ -134,8 +134,8 @@
         	}
 		},
 		watch:{
-			reachBottom(cur,pre){
-				if (cur)this.loadMore();
+			xAboveBottom(cur){
+				if (cur<500)this.loadMore();
 			}
 		},
 		methods:{
@@ -290,7 +290,7 @@
 			}
 		},
 		computed:{
-			...mapGetters(['reachBottom']),
+			...mapGetters(['xAboveBottom']),
 			...mapState({
 				token:state=>state.account.token,
 			})

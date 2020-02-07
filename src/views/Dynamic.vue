@@ -112,8 +112,8 @@
 					else this.noMore = true;
 				});
 			},
-        	reachBottom(cur,pre){
-        		if (cur) this.loadMore();
+        	xAboveBottom(cur){
+        		if (cur<500)this.loadMore();
 			}
 		},
 		methods:{
@@ -130,7 +130,7 @@
 			}
 		},
 		computed:{
-			...mapGetters(['reachBottom']),
+			...mapGetters(['xAboveBottom']),
 		},
 		components:{
         	'dynamic-card':DC,

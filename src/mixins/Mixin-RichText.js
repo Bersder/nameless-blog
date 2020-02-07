@@ -167,10 +167,10 @@ export default {
 		}
 	},
 	directives:{
-		highlight(e,dir,vm){
-			let blocks = e.querySelectorAll('pre code');
-			blocks.forEach(e=>{
-				if (e.parentElement.childNodes.length===1){
+		highlight:{
+			bind(e,binding,vm){
+				let blocks = e.querySelectorAll('pre code');
+				blocks.forEach(e=>{
 					let copyBtn = document.createElement('button');
 					copyBtn.innerText = 'Copy';
 					copyBtn.classList.add('copy-btn');
@@ -195,8 +195,8 @@ export default {
 					}
 					e.parentElement.appendChild(numberring);
 					hljs.highlightBlock(e)
-				}
-			})
+				})
+			}
 		}
 	}
 }

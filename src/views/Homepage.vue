@@ -4,7 +4,7 @@
 			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3&&screenWidth>800}">
 				<div class="notice fc tl" v-if="notice"><i class="iconfont icon-notify"></i> {{notice}}</div>
 				<div class="content-primary-h">
-					<div class="topped-area" v-if="!isMobile">
+					<div class="topped-area" v-if="!isMobile&&topped.length">
 						<p class="description tl"><i class="iconfont icon-anchor"></i> 置顶区</p>
 						<div class="topped-list tl">
 							<div class="panel-topped" v-for="item in topped" :key="item.aid" :class="{odd:topped.length%2}">
@@ -47,13 +47,13 @@
 							</div>
 						</div>
 					</div>
-					<div class="pager" @click="loadMore" v-if="curArts.length<artNum">
+					<div class="pager" @click="loadMore" v-if="!noMore">
 						<div class="dec"></div>
 						<div class="previous-more">
 							<span>Previous</span>
 						</div>
 					</div>
-					<div class="pager-no-more fc" v-if="curArts.length>=artNum">已经到达底部啦</div>
+					<div class="pager-no-more fc" v-else>已经到达底部啦</div>
 
 				</div>
 				<div class="content-aside-h fc">
@@ -62,9 +62,9 @@
 							<span><i class="iconfont icon-fire"></i> 最热</span>
 						</div>
 						<ul class="hit-content">
-							<li :data-text="item.type[0].toUpperCase()" v-for="item in hits" :key="item.aid">
-								<div class="rc-item pl">
-									<p><router-link :to="item|artUrl">{{item.title}}</router-link></p>
+							<li :data-text="index+1" v-for="(item,index) in hits" :key="item.aid">
+								<div class="rc-item">
+									<p class="ellipsis"><router-link :title="item.title" :to="item|artUrl">{{item.title}}</router-link></p>
 									<span>{{item.type|typeEN2CN}} | {{item.readCount|readNum}} 阅读</span>
 								</div>
 							</li>
@@ -106,7 +106,6 @@
 		created(){
         	this.$fetch('/apis/apiv9.php').then(response=>{
         		let data = response.data.data;
-        		this.artNum = parseInt(data.artNum);
 				data.arts.forEach(e=>this.curArts.push(e));
 				data.latestUpdate.forEach(e=>this.latestUpdate.push(e));
 				data.hits.forEach(e=>this.hits.push(e));
@@ -120,34 +119,36 @@
 		},
         data() {
             return {
-            	artNum:0,
             	curArts:[],
 				latestUpdate:[],
 				hits:[],
 				topped:[],
 				notice:null,
-				loadWait:false
+				waiting:false,
+				noMore:false
 			}
         },
         mounted() {
 
         },
 		computed:{
-        	...mapGetters(['reachBottom']),
+        	...mapGetters(['xAboveBottom']),
 			...mapState(['scrollTop','screenHeight','screenWidth','isMobile'])
 		},
 		watch:{
-        	reachBottom(cur,pre){
-        		if (cur)this.loadMore();
+        	xAboveBottom(cur){
+        		if (cur<650)this.loadMore();
 			}
 		},
         methods:{
         	loadMore(){
-				if (this.curArts.length<this.artNum&&!this.loadWait){
-					this.loadWait = true;
-					this.$fetch('/apis/apiv9.php',{more:Math.floor(this.curArts.length/8)}).then(response=>{
-						this.loadWait = false;
-						response.data.data.arts.forEach(e=>this.curArts.push(e));
+				if (!this.noMore&&!this.waiting){
+					this.waiting = true;
+					this.$fetch('/apis/apiv9.php',{offset:this.curArts.length}).then(response=>{
+						let tmp = response.data.data.arts;
+						this.waiting = false;
+						if (tmp.length) tmp.forEach(e=>this.curArts.push(e));
+						else this.noMore = true;
 						setTimeout(()=>this.$store.commit('lazyCheck'),100);
 					});
 				}

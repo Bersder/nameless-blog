@@ -40,7 +40,7 @@
 			float: left;
 		}
 		.panel-topped:before{
-			content: 'Top';
+			content: 'TOP';
 			position: absolute;
 			right: .1rem;
 			top: .1rem;
@@ -113,31 +113,32 @@
 		}
 
 
-		.hit-content li:before{
-			content: attr(data-text);
-			font-size: .3rem;
-			line-height: .38rem;
-			width: .38rem;
-			height: .38rem;
-			border-radius: 100%;
-			text-align: center;
-			margin-right: .1rem;
-			border: .01rem dashed #d5d5d5;
-			float: left;
-		}
 		.hit-content span,.update-content span{
 			font-size: .12rem;
 			user-select: none;
-			color: #bac1c8;
+			color: #bbb;
 		}
 		.hit-content li{
-			height: 100%;
-			overflow: hidden;
 			position: relative;
-			padding-bottom: .1rem;
+			margin-bottom: .1rem;
+		}
+		.hit-content li:before{
+			position: absolute;
+			content: attr(data-text);
+			width: .32rem;
+			height: .32rem;
+			top: 50%;
+			left: 0;
+			transform: translate(0,-50%);
+			line-height: .32rem;
+			font-size: .22rem;
+			font-family: "Fira Code VF",sans-serif;
+			text-align: center;
+			border-radius: 50%;
+			border: .01rem dashed #ccc;
 		}
 		.rc-item{
-			width: 1.9rem;
+			margin-left: .4rem;
 		}
 			.rc-item a:hover{
 				color: #00a1d6;

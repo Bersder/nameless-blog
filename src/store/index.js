@@ -134,8 +134,8 @@ export default new Vuex.Store({
 		}
 	},
 	getters:{
-		reachBottom(state){
-			return state.scrollTop + state.screenHeight >= document.documentElement.scrollHeight
+		xAboveBottom(state){
+			return document.documentElement.scrollHeight - state.scrollTop - state.screenHeight
 		}
 	}
 
