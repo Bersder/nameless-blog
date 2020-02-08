@@ -33,7 +33,7 @@
 }
 
 .author-sub-panel .content .author-pic{
-	background: url("http://localhost/site/bg/bg3.jpg") center/cover no-repeat;
+	background: url("/root/site/bg/bg3.jpg") center/cover no-repeat;
 	height: .6rem;
 }
 .author-sub-panel .content .author-namae{
@@ -52,7 +52,7 @@
 .author-sub-panel .content .author-sign{
 	display: block;
 	padding: .05rem .1rem 0 .8rem;
-	color: #8b8e99;
+	color: #aaa;
 	font-size: .12rem;
 	line-height: .14rem;
 }
@@ -344,7 +344,7 @@ img.img-content{
 	.d-card-btn-bar{
 		height: .4rem;
 		line-height: .4rem;
-		color: #8b8e99;
+		color: #aaa;
 	}
 		.d-card-btn-bar button{
 			display: inline-block;

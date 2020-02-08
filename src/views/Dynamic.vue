@@ -1,7 +1,7 @@
 <template>
-    <div style="background-image: url(http://localhost/site/bg/dynamicbg.png)">
+    <div style="background-image: url(/root/site/bg/dynamicbg.png)">
 		<div class="page-content-wrap">
-			<div class="page-content dynamic">
+			<div class="page-content dynamic fc">
 				<div class="left-panel pl">
 					<div class="author-sub-panel">
 						<div class="loading-content" v-if="loading"></div>

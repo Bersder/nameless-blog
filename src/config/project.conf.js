@@ -8,6 +8,7 @@ export default {
 			],href:'/archive',isUnfolded:true},
 		{icon:'iconfont icon-pen',des:'笔记',animate:'writing',subs:false,href:'/note',isUnfolded:true},
 		{icon:'iconfont icon-tags',des:'标签',animate:'fade-bf',subs:false,href:'/tags',isUnfolded:true},
+		{icon:'iconfont icon-dongtai',des:'动态',animate:'writing',subs:false,href:'/dynamic',isUnfolded:true},
 		{icon:'iconfont icon-link',des:'友链',animate:'enlarge-abrupt',subs:false,href:'/links',isUnfolded:true},
 		// {icon:'iconfont icon-gear',des:'实验室',animate:'spin',subs:false,href:'/lab',isUnfolded:true},
 		{icon:'iconfont icon-leaf',des:'关于',animate:'axis-rotate',subs:false,href:'/about',isUnfolded:true}

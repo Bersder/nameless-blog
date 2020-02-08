@@ -17,11 +17,11 @@
 	background: #222;
 	border-left-color: #444;
 }
-.DDF .comment-content del,.DDF .about-post del,.DDF .link-description del{
+.DDF .comment-content del,.DDF .about-post del,.DDF .link-description del,.DDF .d-card-content .text del{
 	background: black;
 	color: black;
 }
-.DDF .comment-content del:hover,.DDF .about-post del:hover,.DDF .link-description del:hover{
+.DDF .comment-content del:hover,.DDF .about-post del:hover,.DDF .link-description del:hover,.DDF .d-card-content .text del:hover{
 	background: #1a1a1a;
 	color: #ccc;
 }
@@ -43,7 +43,7 @@
 .DDF .comment-content-wrap .comment-reply:hover{
 	background: #84b6d7;
 }
-.DDF .comment-content pre{
+.DDF .comment-content pre,.DDF .d-card-content .text pre{
 	background: #333;
 	border-color: #444;
 }
@@ -248,8 +248,8 @@
 	background: #777;
 }
 .DDF .category-list-item .item-num,.DDF .tag-query-result ul li .item-type{
-	border-color: #ddd;
-	color: #ddd;
+	border-color: #555;
+	color: #bbb;
 }
 .DDF .ctrl-panel{
 	color: #eaeaea;
@@ -310,6 +310,7 @@
 	border-color: #444;
 }
 .DDF .comments-list-item,.DDF .comments-list-title,
+.DDF .category-list .category-list-item,.DDF .tag-query-result ul li,
 .DDF .section,.DDF .col-2 .section .section-title,/*1*/
 .DDF .type-selector div,
 .DDF .l-main,.DDF .a-main,.DDF .draft-head,.DDF .album-head,.DDF .draft-list-item,.DDF .admin-nav,.DDF .a-table-row,
@@ -373,7 +374,8 @@
 
 
 
-.DDF .bgm-item{
+.DDF .bgm-item,
+.DDF .zoom-wrap .zoom-control{
 	background: #333;
 }
 .DDF .bgm-item-status-wrap,.DDF .bgmw-content li{
@@ -381,6 +383,12 @@
 }
 .DDF .bgm-item-status,.DDF .bgmw-content li .bgm-process-bar{
 	background: #5abebc80;
+}
+
+
+.DDF .d-card,.DDF .dynamic .left-panel>div,.DDF .dynamic .publish-sub-panel{
+	background: #2b2b2b;
+	border-color: #333;
 }
 .deep ::selection{
 	background: #5abebc;

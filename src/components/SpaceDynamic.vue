@@ -3,7 +3,7 @@
 		<div class="col-1">
 			<div class="history-dynamic">
 				<div class="dynamic-content-wrap" v-for="item in dynamics" :key="item.id">
-					<dynamic-card :ddata="item" style="background: white"></dynamic-card>
+					<dynamic-card :ddata="item"></dynamic-card>
 					<div class="dynamic-opt">
 						<i class="iconfont icon-more"></i>
 						<div class="more-opt"><a @click="delDynamic(item)">删除</a></div>
