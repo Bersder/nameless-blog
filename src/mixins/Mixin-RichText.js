@@ -17,8 +17,6 @@ export default {
 
 			emoData:[{emoSeries:'',emoList:[]}],
 			emoMap:{},
-			emoBoxShow:false,
-			emoIndex:0,
 
 			to_id:null,
 			to_uid:null,
@@ -69,9 +67,6 @@ export default {
 				}
 			}
 			return tmp
-		},
-		insertEmo(item,isPic){
-			this.content = isPic?this.content + item.insert:this.content + item.replace(/_/g,'\\_');
 		},
 		textareaTab(e){
 			if (e.keyCode === 9){//支持tab输入

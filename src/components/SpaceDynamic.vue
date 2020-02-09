@@ -19,20 +19,7 @@
 			<div class="section dynamic-launch">
 				<h4>发布动态</h4>
 				<textarea placeholder="要写些什么呢?" @keydown="textareaTab" v-model="content"></textarea>
-				<div class="emotion pr" :class="{'emo-open':emoBoxShow}">
-					<span class="emotion-toggle" @click="emoBoxShow=!emoBoxShow"><i class="iconfont icon-emoji ibold"></i>表情</span>
-					<div class="emotion-box">
-						<div class="emo-title"><span>{{emoData[emoIndex].emoSeries}}</span></div>
-						<div class="emo-wrap" :class="{'emo-text':!emoData[emoIndex].pic}">
-							<a v-for="item in emoData[emoIndex].emoList"
-							   :title="item.des"
-							   @click="insertEmo(item,emoData[emoIndex].pic)"><img v-if="emoData[emoIndex].pic" :src="'/root'+item.imgSrc" :alt="item.des"><span v-else>{{item}}</span></a>
-						</div>
-						<div class="emo-tabs">
-							<a v-for="(item,index) in emoData" :key="index" @click="emoIndex=index" :class="{cur:index===emoIndex}"><img :src="'/root'+item.thumbnail" :alt="item.emoSeries" height="22" width="22"></a>
-						</div>
-					</div>
-				</div>
+				<emotion-box v-model="content" :emoData="emoData" :emoMap="emoMap" float="right"></emotion-box>
 				<div class="upload-box">
 					<div class="title fz-14">图片上传<span>{{uploadImgs.length}} / 9</span>
 						<span class="iconfont icon-chevronright pointer"
@@ -99,6 +86,7 @@
 	import {mapGetters} from 'vuex';
 	import {mapState} from 'vuex';
 	import DC from './DynamicCard';
+	import EmotionBox from './EmotionBox';
 	export default {
         name: "SpaceDynamic",
 		async created(){
@@ -111,8 +99,6 @@
         	return{
 				emoData:[{emoSeries:'',emoList:[]}],
 				emoMap:{},
-				emoBoxShow:false,
-				emoIndex:0,
 
 				dynamics:[],
 				waiting:false,//标识更多动态加载状态
@@ -297,6 +283,7 @@
 		},
 		components:{
 			'dynamic-card':DC,
+			'emotion-box':EmotionBox
 		},
 		directives:{
         	divImg:{

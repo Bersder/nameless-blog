@@ -59,20 +59,7 @@
 						<div class="comment-content-input"><textarea @keydown="textareaTab" placeholder="说点什么吧..." v-model="content"></textarea></div>
 					</div>
 					<div class="comment-buttons tr">
-						<div class="emotion pl" :class="{'emo-open':emoBoxShow}">
-							<span class="emotion-toggle" @click="emoBoxShow=!emoBoxShow"><i class="iconfont icon-emoji ibold"></i>表情</span>
-							<div class="emotion-box">
-								<div class="emo-title"><span>{{emoData[emoIndex].emoSeries}}</span></div>
-								<div class="emo-wrap" :class="{'emo-text':!emoData[emoIndex].pic}">
-									<a v-for="item in emoData[emoIndex].emoList"
-									   :title="item.des"
-									   @click="insertEmo(item,emoData[emoIndex].pic)"><img v-if="emoData[emoIndex].pic" :src="'/root'+item.imgSrc" :alt="item.des"><span v-else>{{item}}</span></a>
-								</div>
-								<div class="emo-tabs">
-									<a v-for="(item,index) in emoData" :key="index" @click="emoIndex=index" :class="{cur:index===emoIndex}"><img :src="'/root'+item.thumbnail" :alt="item.emoSeries" height="22" width="22"></a>
-								</div>
-							</div>
-						</div>
+						<emotion-box v-model="content" :emoData="emoData" :emoMap="emoMap" float="left"></emotion-box>
 						<span><label><input type="checkbox" v-model="notifyMe"> 回复提醒</label></span>
 						<button @click="commentSubmit">提交评论</button>
 					</div>
@@ -141,8 +128,12 @@
 <script>
 	import marked from 'marked';
 	import richTextMixin from "../mixins/Mixin-RichText";
+	import EmotionBox from './EmotionBox';
 	export default {
         name: "DynamicCard",
+		components:{
+			'emotion-box':EmotionBox
+		},
 		async created(){
 			this.markedInit();
 			await this.fetchEmo();
