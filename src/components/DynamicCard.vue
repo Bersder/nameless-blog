@@ -136,7 +136,6 @@
 		},
 		async created(){
 			this.markedInit();
-			await this.fetchEmo();
 			this.$forceUpdate();
 		},
 		data(){
@@ -144,12 +143,20 @@
 				zoomingIn:false,
 				zoomingIndex:0,
 				rotateStatus:0,
+				emoData:this.emoData_,
+				emoMap:this.emoMap_,
 
 				commentReady:false,
 				commentShow:false,
 			}
 		},
 		watch:{
+        	emoData_(cur){
+        		this.emoData = cur
+			},
+			emoMap_(cur){
+        		this.emoMap = cur
+			},
         	rotateStatus(cur){
 				if (this.zoomingIn){
 					let imgNode = this.$refs.img;
@@ -333,7 +340,24 @@
 				document.getElementById('comments-'+this.ddata.id).insertBefore(document.getElementById('respond-'+this.ddata.id),document.getElementById('anchor-'+this.ddata.id))
 			}
 		},
-		props:['ddata'],
+		props:{
+        	ddata:{
+        		type:Object,
+				required:true
+			},
+			emoData_:{
+				type:Array,
+				default(){
+					return [{emoSeries:'',emoList:[]}]
+				}
+			},
+			emoMap_:{
+				type:Object,
+				default(){
+					return{}
+				}
+			}
+		},
 		mixins:[richTextMixin]
     }
 </script>

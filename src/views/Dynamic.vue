@@ -44,7 +44,12 @@
 					</div>
 					<div class="main-panel">
 						<div class="d-card-list">
-							<dynamic-card v-for="item in dynamics" :key="item.id" :ddata="item"></dynamic-card>
+							<dynamic-card
+								v-for="item in dynamics"
+								:key="item.id"
+								:ddata="item"
+								:emoData_="emoData"
+								:emoMap_="emoMap"/>
 						</div>
 						<div class="no-more" v-show="noMore">
 							<p>你已经到达了世界的尽头</p>
@@ -73,12 +78,16 @@
 				recommendations:[],
 				danmaku:'',
 
+				emoData:[{emoSeries:'',emoList:[]}],
+				emoMap:{},
+
 				dynamics:[],
 				waiting:false,//标识更多动态加载状态
 				noMore:false//标识是否穷尽动态
 			}
 		},
-		created(){
+		async created(){
+			await this.fetchEmo();
         	let did = this.$route.params.id;
 			if (did && !/\d+/.test(did)){this.$router.push('/404');return}
         	this.didObj = did?{did:did}:{};
@@ -117,6 +126,24 @@
 			}
 		},
 		methods:{
+			async fetchEmo(){
+				let response = await this.$fetch('/static/emo/emo.json');
+				let data = response.data;
+				data.forEach(e=>{
+					e.thumbnail = e.path + e.thumbnail;
+					if (e.pic){
+						let f = e.path.split('/');
+						let g = f[f.length-2]+'_';//类别前缀
+						e.emoList.forEach(f=>{
+							f.des = g + f.des;
+							f.imgSrc=e.path+f.imgSrc;
+							f.insert = '∫f(' + f.des + ')';
+							this.emoMap[f.des] = f.imgSrc;
+						});
+					}
+				});
+				this.emoData = data;
+			},
 			loadMore(){
 				if (!this.noMore&&!this.waiting) {
 					this.waiting = true;

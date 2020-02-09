@@ -3,7 +3,10 @@
 		<div class="col-1">
 			<div class="history-dynamic">
 				<div class="dynamic-content-wrap" v-for="item in dynamics" :key="item.id">
-					<dynamic-card :ddata="item"></dynamic-card>
+					<dynamic-card
+						:ddata="item"
+						:emoData_="emoData"
+						:emoMap_="emoMap"/>
 					<div class="dynamic-opt">
 						<i class="iconfont icon-more"></i>
 						<div class="more-opt"><a @click="delDynamic(item)">删除</a></div>
@@ -165,9 +168,6 @@
 					}
 				});
 				this.emoData = data;
-			},
-			insertEmo(item,isPic){
-				this.content = isPic?this.content + item.insert:this.content + item.replace(/_/g,'\\_');
 			},
 			addImg(e){
 				let file = e.target.files[0];
