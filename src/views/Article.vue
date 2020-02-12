@@ -88,7 +88,7 @@
 						<div class="previous tl" v-if="pre" :class="{half:pre&&next}">
 							<router-link :to="pre|toUrl">
 								<div class="background">
-									<img :src="'/root'+pre.imgSrc+'.thumb'" class="lazyload"  :data-src="'/root'+pre.imgSrc">
+									<img v-lazyload="[`/root${pre.imgSrc}`,`/root${pre.imgSrc}.thumb`]">
 								</div>
 								<span class="label">PREVIOUS</span>
 								<div class="info">
@@ -99,7 +99,7 @@
 						<div class="next tr" v-if="next" :class="{half:pre&&next}">
 							<router-link :to="next|toUrl">
 								<div class="background">
-									<img :src="'/root'+next.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+next.imgSrc">
+									<img v-lazyload="[`/root${next.imgSrc}`,`/root${next.imgSrc}.thumb`]">
 								</div>
 								<span class="label">NEXT</span>
 								<div class="info">

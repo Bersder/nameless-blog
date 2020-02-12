@@ -42,7 +42,7 @@
 							<ul>
 								<li v-for="(item,index) in FList" :key="index">
 									<a :href="item.ulink" target="_blank" :title="item.message" rel="noopener">
-										<img src="/static/images/spinner-preloader.svg" class="lazyload" :data-src="item.avatar">
+										<img v-lazyload="[item.avatar,'/static/images/spinner-preloader.svg']">
 										<h5>{{item.uname}}</h5>
 										<p>{{item.message||'这人很懒，什么都没留下'}}</p>
 									</a>

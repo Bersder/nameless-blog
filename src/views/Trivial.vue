@@ -32,7 +32,7 @@
 							<p class="pt-time"><i class="iconfont icon-time"></i> {{art.time.substr(0,10)}}</p>
 							<div class="panel-t-img">
 								<router-link :to="art.aid" append>
-									<img :src="'/root'+art.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+art.imgSrc">
+									<img v-lazyload="[`/root${art.imgSrc}`,`/root${art.imgSrc}.thumb`]">
 								</router-link>
 							</div>
 							<div class="panel-t-info ">

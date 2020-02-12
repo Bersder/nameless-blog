@@ -3,7 +3,7 @@ export default (Vue,options={})=>{
 	let init = {
 		preloadClass:'lazyload-preload',
 		default:'/static/images/loading_content.gif',
-		error:`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAgMAAADXB5lNAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAxQTFRFAAAA////U1NT9/f3LGVtlQAAAAR0Uk5TAP///7MtQIgAAACaSURBVHiczdIxDsMwCAVQVIklS6fey4szcLouLCw9Ygu1hUjs4qlSmKKn/ACOAa5e1SoDJBHhFMSqRKAlDJH/ANf6C962bEyc4f4CeOjgnpgB7hrwHiPoy4exJsB2OEIJtKpL8FUHAJpD+I+4hJapGViGSwokFGCzbYn7eP2rjLHrDMoR5AwWiVfB4dbbPvWiYztAff6Ww3XqA75spZ34fdQrAAAAAElFTkSuQmCC`,
+		error:`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAACFQTFRFAAAA////////mJiYU1NT9/f3urq6////U1NTU1NTU1NTrFF76QAAAAt0Uk5TAJn//////2aZXGYhZNSUAAAAmklEQVR4nK2QwQ3CMAxFTaRIwIkyQeX6wLlhAtewAXswA6eMwajYSSFuj6hfihS/fDs/AdhQncnVuyGlNDoQriIynRwQUtJ7IH8ARpzBQxc6Q7wBnPWOn0FBGPT8W0PUs8XIKGyhhBqowjVoIUqD3J+rlOzeXizoP8MMbcQ+v0iIL7lo7uHgR0CmfgnMYTEOtTq+ATHUnLrfQB/OCCYp7ourYgAAAABJRU5ErkJggg==`,
 		...options
 	};
 	let listenList = [];
@@ -26,11 +26,13 @@ export default (Vue,options={})=>{
 				imgCacheList.pushIfNew(src);
 				listenList.remove(item);
 			};
-			img.onerror = ()=>{
-				el.src = init.error;
-				el.style.objectFit = 'none';
-				listenList.remove(item);
-			};
+			// 关闭出错处理防止连预载图也被覆盖
+			// img.onerror = ()=>{
+			// 	el.src = init.error;
+			// 	el.style.objectFit = 'none';
+			// 	el.classList.remove(init.preloadClass);
+			// 	listenList.remove(item);
+			// };
 			return true;
 		}else{
 			return false;
@@ -40,19 +42,20 @@ export default (Vue,options={})=>{
 	let listenStatus = false;
 	const listenScroll = ()=>{
 		if (!listenStatus){
-			//console.log('lazyload Start');
+			console.log('lazyload Start');
 			window.addEventListener('scroll',throttle(()=>{
 				let len = listenList.length;
-				//console.log(len,listenList,imgCacheList);
+				console.log(len,listenList,imgCacheList);
 				for (let i = 0; i < len; i++){
 					tryLoad(listenList[i])
 				}
-			},100));
+			},200));
 			listenStatus = true;
 		}
 	};
 
 	Vue.directive('lazyload',{
+		//还差不换皮的更新(不变el变bind)的状况
 		inserted:(el,binding)=>{
 			let imgSrc,placeholder;
 			if (typeof binding.value==='string'){

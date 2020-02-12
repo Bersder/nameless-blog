@@ -45,10 +45,8 @@
 							<div class="panel-n" >
 								<div class="panel-n-img">
 									<router-link :to="each.nid" append>
-										<img :src="'/root'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+each.imgSrc">
-										<div class="float-preview tl">
-											{{each.preview}}
-										</div>
+										<img v-lazyload="[`/root${each.imgSrc}`,`/root${each.imgSrc}.thumb`]">
+										<div class="float-preview tl">{{each.preview}}</div>
 									</router-link>
 								</div>
 								<div class="slant-mask slant-beneath"></div>

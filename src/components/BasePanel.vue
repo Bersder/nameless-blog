@@ -2,7 +2,7 @@
 	<div class="panel">
 		<div class="panel-img">
 			<router-link :to="article.aid" append>
-				<img class="img lazyload" :src="'/root'+article.imgSrc+'.thumb'" :data-src="'/root'+article.imgSrc">
+				<img class="img" v-lazyload="[`/root${article.imgSrc}`,`/root${article.imgSrc}.thumb`]">
 			</router-link>
 		</div>
 		<div class="panel-info">

@@ -21,10 +21,8 @@
 						<div class="panel-h" v-for="each in curResults" :key="each.id+each.type">
 							<div class="panel-h-img">
 								<router-link :to="each|artUrl">
-									<img :src="'/root'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+each.imgSrc">
-									<div class="float-preview fc tl">
-										{{each.preview}}
-									</div>
+									<img v-lazyload="[`/root${each.imgSrc}`,`/root${each.imgSrc}.thumb`]">
+									<div class="float-preview fc tl">{{each.preview}}</div>
 								</router-link>
 							</div>
 							<div class="panel-h-info">

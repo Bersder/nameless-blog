@@ -77,7 +77,7 @@
 						<div class="comments-list-item" :id="'comment-'+comment.id" v-for="comment in commentList" :key="comment.id">
 							<div class="comment-content-wrap">
 								<div class="comment-avatar">
-									<img src="/static/images/spinner-preloader.svg" class="lazyload" :data-src="comment.avatar||'/static/images/passerby.png'">
+									<img v-lazyload="[comment.avatar||'/static/images/passerby.png','/static/images/spinner-preloader.svg']">
 								</div>
 								<div class="comment-meta">
 									<p class="uname"><a :href="comment.ulink">{{comment.uname}}</a></p>
@@ -92,7 +92,7 @@
 									<div class="comments-list-item" :id="'comment-'+reply.id" v-for="reply in comment.children" :key="reply.id">
 										<div class="comment-content-wrap">
 											<div class="comment-avatar">
-												<img src="/static/images/spinner-preloader.svg" class="lazyload" :data-src="reply.avatar||'/static/images/passerby.png'">
+												<img v-lazyload="[reply.avatar||'/static/images/passerby.png','/static/images/spinner-preloader.svg']">
 											</div>
 											<div class="comment-meta">
 												<p class="uname"><a :href="reply.ulink">{{reply.uname}}</a><span v-show="!isMobile"><span style="font-weight: normal"> 回复 </span><span>@{{reply.to_uname}}<span class="reply-id"> | #{{reply.parent_id}}</span></span></span></p>

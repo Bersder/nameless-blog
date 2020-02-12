@@ -9,7 +9,7 @@
 						<div class="topped-list tl">
 							<div class="panel-topped" v-for="item in topped" :key="item.aid" :class="{odd:topped.length%2}">
 								<router-link :to="item|artUrl">
-									<img :src="'/root'+item.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+item.imgSrc">
+									<img v-lazyload="[`/root${item.imgSrc}`,`/root${item.imgSrc}.thumb`]">
 									<div class="float-preview fc tl">
 										<h3 :title="item.title">{{item.title}}</h3>
 										{{item.preview}}
@@ -23,7 +23,7 @@
 						<div class="panel-h" v-for="each in curArts" :key="each.aid">
 							<div class="panel-h-img">
 								<router-link :to="each|artUrl">
-									<img :src="'/root'+each.imgSrc+'.thumb'" class="lazyload" :data-src="'/root'+each.imgSrc">
+									<img v-lazyload="[`/root${each.imgSrc}`,`/root${each.imgSrc}.thumb`]">
 									<div class="float-preview fc tl">
 										{{each.preview}}
 									</div>
