@@ -112,19 +112,6 @@
 					this.isOpened = false;
 			}
 		},
-        // mounted() {
-        // 	let me = this;
-        // 	window.onscroll = debounce(function () {
-		// 		me.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-		// 		media.$emit('scrollTopC',me.scrollTop)
-		// 	},50);
-        // 	window.onresize = debounce(function () {
-		// 		me.screenWidth = window.innerWidth || document.body.clientWidth;
-		// 		media.$emit('screenWidthC',me.screenWidth);
-		// 		me.screenHeight = window.innerHeight || document.documentElement.clientHeight;
-		// 		media.$emit('screenHeightC',me.screenHeight);
-		// 	},50)
-        // },
         computed:{
         	processed:function () {
 				return this.scrollTop/(document.body.offsetHeight-document.documentElement.clientHeight)*100 + '%';
