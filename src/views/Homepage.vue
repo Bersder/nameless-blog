@@ -113,7 +113,7 @@
 				if (data.gossip)
 					this.gossip = data.gossip;
 				this.notice = data.notice;
-				setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 			});
 			window.scrollTo(0,0);
 		},
@@ -149,7 +149,7 @@
 						this.waiting = false;
 						if (tmp.length) tmp.forEach(e=>this.curArts.push(e));
 						else this.noMore = true;
-						setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 					});
 				}
 			}

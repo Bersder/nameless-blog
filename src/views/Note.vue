@@ -101,7 +101,7 @@
 				this.notice = data.notice;
 				for(let i in this.catMap)
 					this.$set(this.sortedNotes,i,this.notes.filter(e=>e.catID===i));
-				setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 			});
 			window.scrollTo(0,0);
 		},
@@ -135,7 +135,7 @@
 					for(let i=0;i<6;i++)this.curNotes.push(this.notes[this.curNotes.length]);
 				else
 					for(let i=this.curNotes.length;i<this.noteNum;i++)this.curNotes.push(this.notes[i]);
-				setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 			}
 		},
 		filters:{

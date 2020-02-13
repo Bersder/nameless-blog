@@ -146,8 +146,6 @@ export default {
 			}
 		},
 		scrollTop(cur,pre){
-			//全局图片懒加载监听
-			this.$store.commit('lazyCheck');
 			if (cur<=150&&this.$route.name==='homepage')//首页靠近顶部时强制关闭控制面板
 				this.setPanelShow = false;
 		}

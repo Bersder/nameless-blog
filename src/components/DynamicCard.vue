@@ -280,7 +280,7 @@
 							delete e.replies;
 							this.commentList.push(e)
 						});
-						setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 					}
 				})
 			},

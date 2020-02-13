@@ -76,7 +76,7 @@
 				this.resultNum = data.result.length;
 				let pushNum = this.resultNum<8?this.resultNum:8;
 				for (let i = 0; i < pushNum; i++) this.curResults.push(this.searchResults[i]);
-				setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 			})
 		},
         data() {
@@ -104,7 +104,7 @@
 					this.resultNum = data.result.length;
 					let pushNum = this.resultNum<8?this.resultNum:8;
 					for (let i = 0; i < pushNum; i++) this.curResults.push(this.searchResults[i]);
-					setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 				})
 			}
 		},
@@ -125,7 +125,7 @@
         			for(let i=0;i<8;i++)this.curResults.push(this.searchResults[this.curResults.length]);
 				else
 					for(let i=this.curResults.length;i<this.resultNum;i++)this.curResults.push(this.searchResults[i]);
-				setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 			}
 		},
         filters:{

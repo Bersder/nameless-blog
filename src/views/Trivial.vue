@@ -115,7 +115,7 @@
 					if (data.gossip)
 						this.gossip = data.gossip;
 				}
-				setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 			})
 		},
         data() {
@@ -159,7 +159,7 @@
 				if(this.curPage===1){
 					this.curArts.length = 0;
 					this.arts[cur][1].forEach(e=>this.curArts.push(e));
-					setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 				}
 				else this.curPage = 1;
 			},
@@ -167,7 +167,7 @@
 				if(this.arts[this.orderFlag][cur]){
 					this.curArts.length = 0;
 					this.arts[this.orderFlag][cur].forEach(e=>this.curArts.push(e));
-					setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 				}
 				else{
 					while (this.curArts.pop()){}
@@ -176,7 +176,7 @@
 						this.$set(this.arts[this.orderFlag],cur,response.data.data.arts);
 						this.artWaiting = false;
 						this.arts[this.orderFlag][cur].forEach(e=>this.curArts.push(e));
-						setTimeout(()=>this.$store.commit('lazyCheck'),100);
+
 					})
 				}
 			}

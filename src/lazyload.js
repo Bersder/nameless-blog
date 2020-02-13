@@ -2,7 +2,8 @@ import {throttle} from "./utils/lib";
 export default (Vue,options={})=>{
 	let init = {
 		preloadClass:'lazyload-preload',
-		default:'/static/images/loading_content.gif',
+		loadErrorClass:'lazyload-status-fail',
+		default:'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==',
 		error:`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAACFQTFRFAAAA////////mJiYU1NT9/f3urq6////U1NTU1NTU1NTrFF76QAAAAt0Uk5TAJn//////2aZXGYhZNSUAAAAmklEQVR4nK2QwQ3CMAxFTaRIwIkyQeX6wLlhAtewAXswA6eMwajYSSFuj6hfihS/fDs/AdhQncnVuyGlNDoQriIynRwQUtJ7IH8ARpzBQxc6Q7wBnPWOn0FBGPT8W0PUs8XIKGyhhBqowjVoIUqD3J+rlOzeXizoP8MMbcQ+v0iIL7lo7uHgR0CmfgnMYTEOtTq+ATHUnLrfQB/OCCYp7ourYgAAAABJRU5ErkJggg==`,
 		...options
 	};
@@ -26,13 +27,16 @@ export default (Vue,options={})=>{
 				imgCacheList.pushIfNew(src);
 				listenList.remove(item);
 			};
-			// 关闭出错处理防止连预载图也被覆盖
-			// img.onerror = ()=>{
-			// 	el.src = init.error;
-			// 	el.style.objectFit = 'none';
-			// 	el.classList.remove(init.preloadClass);
-			// 	listenList.remove(item);
-			// };
+
+			img.onerror = ()=>{
+				if (item.errorHandle){
+					el.src = init.error;
+					el.style.objectFit = 'none';
+				}
+				el.classList.remove(init.preloadClass);
+				el.classList.add(init.loadErrorClass);
+				listenList.remove(item);
+			};
 			return true;
 		}else{
 			return false;
@@ -71,7 +75,8 @@ export default (Vue,options={})=>{
 			}
 			let item = {
 				el:el,
-				src:imgSrc
+				src:imgSrc,
+				errorHandle:!!binding.modifiers.rude
 			};
 			el.src = placeholder;
 			el.classList.add(init.preloadClass);
