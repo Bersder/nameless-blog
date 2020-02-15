@@ -87,7 +87,8 @@
 		font-size: .2rem;
 		padding-left: .5rem;
 		outline: none;
-		border: .01rem solid #adadad;
+		box-shadow: 0 0 .04rem rgba(0,0,0,0.15), 0 0 .04rem rgba(0,0,0,0.2);
+		border: none;
 		border-radius: .05rem;
 	}
 	.preview-input{
@@ -96,7 +97,8 @@
 		line-height: .3rem;
 		width: 100%;
 		outline: none;
-		border: .01rem solid #adadad;
+		box-shadow: 0 0 .04rem rgba(0,0,0,0.15), 0 0 .04rem rgba(0,0,0,0.2);
+		border: none;
 		border-radius: .05rem;
 	}
 
@@ -113,7 +115,8 @@
 			text-transform: capitalize;
 			padding: 0 .25rem 0 .15rem;
 			background: white;
-			border: .01rem solid #ccd0d7;
+			box-shadow: 0 0 .04rem rgba(0,0,0,0.15), 0 0 .04rem rgba(0,0,0,0.2);
+			border: none;
 			border-radius: .05rem;
 		}
 			.type-btn button span,.cat-btn button span,.series-btn button span{
@@ -168,7 +171,8 @@
 			width: calc(100% - .4rem);
 			background: white;
 			padding: 0 .1rem;
-			border: .01rem solid #ccd0d7;
+			box-shadow: 0 0 .04rem rgba(0,0,0,0.15), 0 0 .04rem rgba(0,0,0,0.2);
+			border: none;
 			border-radius: .05rem;
 		}
 			.tag-input{

@@ -17,8 +17,11 @@
 					<div class="tag-del">
 						<input type="text" v-model.trim="searchKey" placeholder="删除标签">
 						<ul class="match-list" v-show="tagTips.length">
-							<li class="match-list-item" v-for="(item,key,index) in tagTips" :key="index" @click="searchKey=item">
-								<span>{{item.substr(0,item.toLowerCase().indexOf(searchKey.toLowerCase()))}}</span><span style="color:#00a1d6">{{searchKey}}</span><span>{{item.substr(item.toLowerCase().indexOf(searchKey.toLowerCase())+searchKey.length)}}</span>
+							<li class="match-list-item"
+								v-for="item in tagTips"
+								:key="item"
+								@click="searchKey=item">
+								<span>{{beforeTarget(item)}}</span><span style="color:#00a1d6">{{target(item)}}</span><span>{{afterTarget(item)}}</span>
 							</li>
 						</ul>
 						<a class="iconfont icon-trash tag-del-btn" @click="delTag"></a>
@@ -130,7 +133,7 @@
 	import {mapState} from 'vuex'
 	import tagCloudMixin from "../mixins/Mixin-TagCloud";
 	import {aesEncrypt} from "../utils/lib";
-
+	import Validator from '../utils/Validator';
 	export default {
         name: "SpaceSetting",
 		created(){
@@ -185,7 +188,7 @@
 			}
 		},
 		watch:{
-        	searchKey(cur,pre){
+        	searchKey(cur){
 				this.tagTips = [];
 				if (cur){
 					let reg = new RegExp(cur,'i');
@@ -209,92 +212,110 @@
 				return false;
 			},
         	addTag(){
-				if (this.newTag&&!/,/.test(this.newTag)) {
-					let data = {newTag:this.newTag};
-					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
-						if (response.data.code < 1){
-							if (response.data.tagExist > 0)
-								this.$store.commit('infoBox/callInfoBox',{info:'标签已存在', ok:false, during:2000});
-							else{
-								this.tagCountList.push(response.data.newTagInfo);
-								this.tags = this.genKeySet(this.tagCountList);
-								this.newTag = '';
-								this.$store.commit('infoBox/callInfoBox',{info:'标签添加成功', ok:true, during:2000});
-							}
-						}
-						else
-							this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
-					}).catch(err=>console.warn(err))
+        		let validator = new Validator();
+        		validator.check(this.newTag,[
+					{strategy:'notEmpty',errMsg:'标签不能为空'},
+					{strategy:'notContains:,',errMsg:'标签不能含英文逗号'}
+				]);
+				let err = validator.checkResult();
+				if (err){
+					this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
+					return;
 				}
-				else
-					this.$store.commit('infoBox/callInfoBox',{info:'标签为空或非法', ok:false, during:2000});
+				let data = {newTag:this.newTag};
+				this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					if (response.data.code < 1){
+						if (response.data.tagExist > 0)
+							this.$store.commit('infoBox/callInfoBox',{info:'标签已存在', ok:false, during:2000});
+						else{
+							this.tagCountList.push(response.data.newTagInfo);
+							this.tags = this.genKeySet(this.tagCountList);
+							this.newTag = '';
+							this.$store.commit('infoBox/callInfoBox',{info:'标签添加成功', ok:true, during:2000});
+						}
+					}
+					else
+						this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
+				}).catch(err=>console.warn(err))
 			},
 			addSeries(){
-				if (this.newSeries&&this.newSeriesDes){
-					let data = {newSeries:this.newSeries,newSeriesDes:this.newSeriesDes};
-					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
-						if (response.data.code<1){
-							if (response.data.seriesExist > 0)
-								this.$store.commit('infoBox/callInfoBox',{info:'系列已存在', ok:false, during:2000});
-							else{
-								this.seriesList.push({name:data.newSeries,id:response.data.id,count:0});
-								this.newSeriesDes = this.newSeries = '';
-								this.$store.commit('infoBox/callInfoBox',{info:'系列添加成功', ok:true, during:2000});
-							}
-						}
-						else
-							this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
-					}).catch(err=>console.warn(err))
+				let validator = new Validator();
+				validator.check(this.newSeries,{strategy:'notEmpty',errMsg:'系列不能为空'});
+				validator.check(this.newSeriesDes,{strategy:'notEmpty',errMsg:'系列描述不能为空'});
+				let err = validator.checkResult();
+				if (err){
+					this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
+					return;
 				}
-				else
-					this.$store.commit('infoBox/callInfoBox',{info:'系列信息不全', ok:false, during:2000});
+				let data = {newSeries:this.newSeries,newSeriesDes:this.newSeriesDes};
+				this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					if (response.data.code<1){
+						if (response.data.seriesExist > 0)
+							this.$store.commit('infoBox/callInfoBox',{info:'系列已存在', ok:false, during:2000});
+						else{
+							this.seriesList.push({name:data.newSeries,id:response.data.id,count:0});
+							this.newSeriesDes = this.newSeries = '';
+							this.$store.commit('infoBox/callInfoBox',{info:'系列添加成功', ok:true, during:2000});
+						}
+					}
+					else
+						this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
+				}).catch(err=>console.warn(err))
 			},
 			addCat(){
 				let CNEN = this.newCat.split('@');
 				if (CNEN.length===2){
 					let CN = CNEN[0].trim();
 					let EN = CNEN[1].trim();
-					if (CN&&EN){
-						let data = {newCatCN:CN,newCatEN:EN};
-						this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
-							if (response.data.code < 1) {
-								if (response.data.catExist > 0)
-									this.$store.commit('infoBox/callInfoBox',{info:'笔记类别已存在', ok:false, during:2000});
-								else{
-									this.categoryList.push({nameCN:CN,nameEN:EN,id:response.data.id,count:0});
-									this.newCat = '';
-									this.$store.commit('infoBox/callInfoBox',{info:'笔记类别添加成功', ok:true, during:2000});
-								}
-							}
-							else
-								this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
-						}).catch(err=>console.warn(err))
+					let validator = new Validator();
+					validator.check(CN,{strategy:'notEmpty',errMsg:'@左端不能为空'});
+					validator.check(EN,{strategy:'isEn',errMsg:'@右端只允许英文数字下划线'});
+					let err = validator.checkResult();
+					if (err){
+						this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
+						return;
 					}
-					else
-						this.$store.commit('infoBox/callInfoBox',{info:'类别不能为空', ok:false, during:2000});
+					let data = {newCatCN:CN,newCatEN:EN};
+					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
+						if (response.data.code < 1) {
+							if (response.data.catExist > 0)
+								this.$store.commit('infoBox/callInfoBox',{info:'笔记类别已存在', ok:false, during:2000});
+							else{
+								this.categoryList.push({nameCN:CN,nameEN:EN,id:response.data.id,count:0});
+								this.newCat = '';
+								this.$store.commit('infoBox/callInfoBox',{info:'笔记类别添加成功', ok:true, during:2000});
+							}
+						}
+						else
+							this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
+					}).catch(err=>console.warn(err))
 				}
 				else
 					this.$store.commit('infoBox/callInfoBox',{info:'创建格式非法', ok:false, during:2000});
 			},
 			addLink(){
-				if (/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.newLinkUrl)&&this.newLinkName) {
-					let data = {newLinkUrl:this.newLinkUrl,newLinkName:this.newLinkName,newLinkType:this.newLinkType};
-					this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
-						if (response.data.code < 1) {
-							if (response.data.linkExist>0)
-								this.$store.commit('infoBox/callInfoBox',{info:'该链接已存在', ok:false, during:2000});
-							else{
-								this.outerLinks[data.newLinkType].push({name:data.newLinkName,url:data.newLinkUrl,type:data.newLinkType,id:response.data.id});
-								this.newLinkName = this.newLinkUrl = '';
-								this.$store.commit('infoBox/callInfoBox',{info:'外部链接添加成功', ok:true, during:2000});
-							}
-						}
-						else
-							this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
-					}).catch(err=>console.warn(err));
+				let validator = new Validator();
+				validator.check(this.newLinkUrl,{strategy:'isLink',errMsg:'请输入正确网址'});
+				validator.check(this.newLinkName,{strategy:'notEmpty',errMsg:'内容不能为空'});
+				let err = validator.checkResult();
+				if (err){
+					this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
+					return;
 				}
-				else
-					this.$store.commit('infoBox/callInfoBox',{info:'请检查信息是否完整且合法', ok:false, during:2000});
+				let data = {newLinkUrl:this.newLinkUrl,newLinkName:this.newLinkName,newLinkType:this.newLinkType};
+				this.$post('/apis/auth/v10api.php',{...aesEncrypt(JSON.stringify(data))}).then(response=>{
+					if (response.data.code < 1) {
+						if (response.data.linkExist>0)
+							this.$store.commit('infoBox/callInfoBox',{info:'该链接已存在', ok:false, during:2000});
+						else{
+							this.outerLinks[data.newLinkType].push({name:data.newLinkName,url:data.newLinkUrl,type:data.newLinkType,id:response.data.id});
+							this.newLinkName = this.newLinkUrl = '';
+							this.$store.commit('infoBox/callInfoBox',{info:'外部链接添加成功', ok:true, during:2000});
+						}
+					}
+					else
+						this.$store.commit('infoBox/callInfoBox',{info:'添加操作失败', ok:false, during:2000});
+				}).catch(err=>console.warn(err));
 			},
 			delTag(){
 				if (this.tags.indexOf(this.searchKey) >= 0) {
@@ -443,7 +464,16 @@
 		computed:{
 			...mapState({
 				token:state=>state.account.token,
-			})
+			}),
+			target(){
+				return tip => tip.substr(tip.toLowerCase().indexOf(this.searchKey.toLowerCase()),this.searchKey.length)
+			},
+			beforeTarget(){
+				return tip => tip.substr(0,tip.toLowerCase().indexOf(this.searchKey.toLowerCase()))
+			},
+			afterTarget(){
+				return tip => tip.substr(tip.toLowerCase().indexOf(this.searchKey.toLowerCase())+this.searchKey.length)
+			}
 		},
 		mixins:[tagCloudMixin]
     }

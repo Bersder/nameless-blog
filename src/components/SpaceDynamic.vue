@@ -88,6 +88,7 @@
 <script>
 	import {mapGetters} from 'vuex';
 	import {mapState} from 'vuex';
+	import Validator from '../utils/Validator';
 	import DC from './DynamicCard';
 	import EmotionBox from './EmotionBox';
 	export default {
@@ -220,27 +221,27 @@
 					this.$store.commit('infoBox/callInfoBox',{info:'图片上载中', ok:false, during:3000});
 			},
 			anli(){
-				let pass = (
-					this.anliTitle&&this.anliLink&&
-					/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.anliLink)
-				);
-				if (pass){
-					let data = {
-						url:this.anliLink,
-						title:this.anliTitle,
-						service_type:5
-					};
-					this.$post('/apis/auth/v7api.php',data).then(res=>{
-						if (res.data.code===0){
-							this.anliTitle = this.anliLink = '';
-							this.$store.commit('infoBox/callInfoBox',{info:'安利成功', ok:true, during:2000});
-						}
-						else
-							this.$store.commit('infoBox/callInfoBox',{info:'安利失败', ok:false, during:3000});
-					})
+				let validator = new Validator();
+				validator.check(this.anliTitle,{strategy:'notEmpty',errMsg:'标题不能为空'});
+				validator.check(this.anliLink,{strategy:'isLink',errMsg:'请输入正确网址'});
+				let err = validator.checkResult();
+				if (err){
+					this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
+					return;
 				}
-				else
-					this.$store.commit('infoBox/callInfoBox',{info:'不能为空/信息有误', ok:false, during:3000});
+				let data = {
+					url:this.anliLink,
+					title:this.anliTitle,
+					service_type:5
+				};
+				this.$post('/apis/auth/v7api.php',data).then(res=>{
+					if (res.data.code===0){
+						this.anliTitle = this.anliLink = '';
+						this.$store.commit('infoBox/callInfoBox',{info:'安利成功', ok:true, during:2000});
+					}
+					else
+						this.$store.commit('infoBox/callInfoBox',{info:'安利失败', ok:false, during:3000});
+				})
 			},
         	delDynamic(item){
 				this.delTarget = item;

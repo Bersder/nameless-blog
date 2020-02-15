@@ -86,6 +86,7 @@
 
 <script>
 	import {randInt} from "../utils/lib";
+	import Validator from '../utils/Validator';
 	import marked from 'marked';
 	import richTextMixin from '../mixins/Mixin-RichText';
 	import EmotionBox from './EmotionBox';
@@ -188,57 +189,49 @@
         		document.getElementById('comments').insertBefore(document.getElementById('respond'),document.getElementById('anchor'))
 			},
 			commentSubmit(){
-				if (!this.sum){
-					this.$store.commit('infoBox/callInfoBox',{info:'请完成简单数学题', ok:false, during:4000});
+				let validator = new Validator();
+				validator.check(this.nickname,{strategy:'notEmpty',errMsg:'昵称不能为空'});
+				validator.check(this.email,{strategy:'isEmail',errMsg:'请输入正确邮箱'});
+				validator.check(this.qq,{strategy:'isQQ',errMsg:'请输入合法QQ号'},true);
+				validator.check(this.website,{strategy:'isLink',errMsg:'请输入正确网址'},true);
+				validator.check(this.content.trim(),{strategy:'notEmpty',errMsg:'内容不能为空'});
+				validator.check(this.sum,{strategy:'notEmpty',errMsg:'请完成简单数学题'});
+				let err = validator.checkResult();
+				if (err){
+					this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
 					return;
 				}
 				if (this.add1+this.add2==this.sum){
-					if (/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)&&this.nickname&&this.content){
-						if (!this.website || /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/#])+$/.test(this.website)){ //网址验证
-							if (!this.qq || /^[1-9]\d{4,14}$/.test(this.qq)){ //扣扣验证
-								let data = {
-									puzzle:btoa(this.add1+','+this.add2+','+this.sum),
-									id:this.id_,
-									type:this.type,
-									nickname:this.nickname,
-									qq:this.qq,
-									email:this.email,
-									website:this.website,
-									content:this.content.trim(),
-									to_id:this.to_id,
-									to_uid:this.to_uid,
-									notifyMe:this.notifyMe
-								};
-								if(window.confirm('即将提交评论，是否确认')){
-									this.$post('/apis/apiv7.php',data).then(response=>{
-										if (response.data.code<1){
-											this.nickname = this.email = this.qq = this.website = this.content = this.contentPreview = '';
-											this.previewOn = false;
-											if (this.to_id){
-												this.cancelReply();
-												this.fetchComment((this.curPage-1)*10);
-											}
-											else if (this.curPage===1)
-												this.fetchComment(0);
-											else
-												this.curPage = 1;
-										}
-										else
-											this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
-									})
+					let data = {
+						puzzle:btoa(this.add1+','+this.add2+','+this.sum),
+						id:this.id_,
+						type:this.type,
+						nickname:this.nickname,
+						qq:this.qq,
+						email:this.email,
+						website:this.website,
+						content:this.content.trim(),
+						to_id:this.to_id,
+						to_uid:this.to_uid,
+						notifyMe:this.notifyMe
+					};
+					if(window.confirm('即将提交评论，是否确认')){
+						this.$post('/apis/apiv7.php',data).then(response=>{
+							if (response.data.code<1){
+								this.nickname = this.email = this.qq = this.website = this.content = this.contentPreview = '';
+								this.previewOn = false;
+								if (this.to_id){
+									this.cancelReply();
+									this.fetchComment((this.curPage-1)*10);
 								}
+								else if (this.curPage===1)
+									this.fetchComment(0);
+								else
+									this.curPage = 1;
 							}
-							else{
-								window.alert('扣扣不合法');
-							}
-						}
-						else{
-							window.alert('网址不合法');
-						}
-					}
-					else{
-						//!!信息不全
-						window.alert('请检查必要信息是否完整且正确');
+							else
+								this.$store.commit('infoBox/callInfoBox',{info:'评论发布失败', ok:false, during:3000});
+						})
 					}
 				}
 				else{

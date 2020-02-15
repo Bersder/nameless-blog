@@ -31,7 +31,12 @@
 					<div class="tag-btn-wrap" >
 						<span>标签</span>
 						<div class="tag-btn tl" @click.stop>
-							<span v-if="!isMobile" v-for="each in selectedTagsID" class="tag-item">{{tagMap[each]}} <i class="iconfont icon-cancel clearm" @click="deleteTagID(each)"></i></span>
+							<div class="no-select dis-ib" v-if="!isMobile">
+								<span v-for="each in selectedTagsID" class="tag-item">
+									{{tagMap[each]}}
+									<i class="iconfont icon-cancel clearm" @click="deleteTagID(each)"></i>
+								</span>
+							</div>
 							<span class="tag-num" v-if="selectedTagsID.length">{{selectedTagsID.length}}</span>
 							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;seriesExpand=typeExpand=false" >
 							<ul v-show="tiFocus&&Object.keys(tagMap).length>0">
@@ -61,7 +66,7 @@
 						</ul>
 					</div>
 				</div>
-				<mavon-editor v-model.trim="rawContent"
+				<mavon-editor v-model="rawContent"
 							  :imageClick="imageClick"
 							  :placeholder="mdSetting.placeholder"
 							  :imageFilter="mdSetting.imageFilter"
@@ -84,7 +89,7 @@
 <script>
 import {unique} from "../utils/lib";
 import UCONF from "../config/user.conf";
-import {mapState} from 'vuex'
+import Validator from '../utils/Validator';
 import writingMixin from "../mixins/Mixin-Writing"
 const siteTitle = UCONF.siteTitle;
 export default {
@@ -134,12 +139,6 @@ export default {
 			}
 
 		},
-		computed:{
-        	...mapState({
-				isMobile:'isMobile',
-				token:state=>state.account.token
-			})
-		},
         data() {
             return {
             	typeOptions:['anime','code','game','trivial'],
@@ -177,7 +176,7 @@ export default {
 					tagsID:this.selectedTagsID.join(','),
 					inputTags:it,
 					seriesID:this.selectedSeriesID,
-					rawContent:v
+					rawContent:v.trim()
 				};
         		this.$post('/apis/edit/saveTmp.php?aid='+this.aid,data).then(response=>{
 					if (response.data.code<1)
@@ -195,73 +194,75 @@ export default {
 				}).catch(err=>console.warn(err));
 			},
 			launch(){
-
-				if(this.title&&this.rawContent&&this.hi){//检查信息是否完整合法
-					let it;
-					let it_ = [];//当前标签集合
-					for (let key in this.tagMap)it_.push(this.tagMap[key].toLowerCase());
-					if(/^([^,;，；]+[,;]?\s*)*$/.test(this.inputTags)){
-						it = this.inputTags.replace(/^[\s,;]+|[\s,;]+$/gm,'').replace(/\s*[,;]\s*/g,',').split(',');
-						it = unique(it);
-						it  = it.filter(v=>{return it_.indexOf(v.toLowerCase())===-1}).join(',');
-						//然后去重,筛选新标签合并,发送至launch
-					}
-					else{
-						window.alert('inputTags非法');
-						return ;
-					}
-					let data = {
-						type:this.selectedType,
-						title:this.title,
-						preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
-						author:this.author,
-						tagsID:this.selectedTagsID.join(','),
-						newTags:it,
-						seriesID:this.selectedSeriesID,
-						rawContent:this.rawContent,
-					};
-					if(typeof this.hi==='object'){
-						let fd = new FormData();
-						fd.append('hi',this.hi);
-						this.$post_form('/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
-							if (response.data.code < 1) {
-								data.imgSrc = response.data.imgSrc;
-								this.$post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
-									if (re.data.code<1){
-										this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
-										this.$router.push({name:'space'});
-									}
-									else
-										this.$store.commit('infoBox/callInfoBox',{
-											info:'文章发布失败，bug?',
-											ok:false,
-											during:2000
-										});
-								}).catch(err=>console.warn(err));
-							}
-							else
-								this.$store.commit('infoBox/callInfoBox',{
-									info:'文章头图片上传失败，终止发布',
-									ok:false,
-									during:2000
-								});
-						}).catch(err=>console.warn(err));
-					}
-					else{
-						data.imgSrc = this.hi;
-						this.$post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
-							if (response.data.code<1){
-								this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
-								this.$router.push({name:'space'});
-							}
-							else
-								this.$store.commit('infoBox/callInfoBox',{info:'文章发布失败，bug?', ok:false, during:2000});
-						}).catch(err=>console.warn(err));
-					}
-
+				let validator = new Validator();
+				validator.check(this.title,{strategy:'notEmpty',errMsg:'请填写标题'});
+				validator.check(this.rawContent.trim(),{strategy:'notEmpty',errMsg:'请写点东西'});
+				validator.check(this.hi,{strategy:'notEmpty',errMsg:'请选择背景图'});
+				let err = validator.checkResult();
+				if (err){
+					this.$store.commit('infoBox/callInfoBox',{info:err, ok:false, during:3000});
+					return;
+				}
+				let it;
+				let it_ = [];//当前标签集合
+				for (let key in this.tagMap)it_.push(this.tagMap[key].toLowerCase());
+				if(/^([^,;，；]+[,;]?\s*)*$/.test(this.inputTags)){
+					it = this.inputTags.replace(/^[\s,;]+|[\s,;]+$/gm,'').replace(/\s*[,;]\s*/g,',').split(',');
+					it = unique(it);
+					it  = it.filter(v=>{return it_.indexOf(v.toLowerCase())===-1}).join(',');
+					//然后去重,筛选新标签合并,发送至launch
 				}
 				else{
-					window.alert('标题，内容，图片不能为空');
+					window.alert('inputTags非法');
+					return ;
+				}
+				let data = {
+					type:this.selectedType,
+					title:this.title,
+					preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
+					author:this.author,
+					tagsID:this.selectedTagsID.join(','),
+					newTags:it,
+					seriesID:this.selectedSeriesID,
+					rawContent:this.rawContent.trim(),
+				};
+				if(typeof this.hi==='object'){
+					let fd = new FormData();
+					fd.append('hi',this.hi);
+					this.$post_form('/apis/edit/mdimg.php?aid='+this.aid,fd).then(response=>{
+						if (response.data.code < 1) {
+							data.imgSrc = response.data.imgSrc;
+							this.$post('/apis/edit/launch.php?aid='+this.aid,data).then(re=>{
+								if (re.data.code<1){
+									this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
+									this.$router.push({name:'space'});
+								}
+								else
+									this.$store.commit('infoBox/callInfoBox',{
+										info:'文章发布失败，bug?',
+										ok:false,
+										during:2000
+									});
+							}).catch(err=>console.warn(err));
+						}
+						else
+							this.$store.commit('infoBox/callInfoBox',{
+								info:'文章头图片上传失败，终止发布',
+								ok:false,
+								during:2000
+							});
+					}).catch(err=>console.warn(err));
+				}
+				else{
+					data.imgSrc = this.hi;
+					this.$post('/apis/edit/launch.php?aid='+this.aid,data).then(response=>{
+						if (response.data.code<1){
+							this.$store.commit('infoBox/callInfoBox',{info:'文章发布成功', ok:true, during:2000});
+							this.$router.push({name:'space'});
+						}
+						else
+							this.$store.commit('infoBox/callInfoBox',{info:'文章发布失败，bug?', ok:false, during:2000});
+					}).catch(err=>console.warn(err));
 				}
 
 			},

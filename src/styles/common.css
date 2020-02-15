@@ -941,6 +941,7 @@ input::-webkit-search-cancel-button{
 .pr{float: right}.pl{float: left}
 .tr{text-align: right}.tl{text-align: left}.tc{text-align: center}
 .fzz{font-size: 0}.fz-12{font-size: .12rem}.fz-14{font-size: .14rem}
+.dis-ib{display: inline-block}.dis-b{display: block}
 .pointer{cursor: pointer}
 .ellipsis{
 	overflow: hidden;
