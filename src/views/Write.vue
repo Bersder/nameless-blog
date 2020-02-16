@@ -38,30 +38,37 @@
 								</span>
 							</div>
 							<span class="tag-num" v-if="selectedTagsID.length">{{selectedTagsID.length}}</span>
-							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;seriesExpand=typeExpand=false" >
+							<input class="tag-input" type="text" placeholder="请选中已有标签或新建标签，逗号/分号分隔"
+								   v-model="inputTags"
+								   @focus="tagInputFocus">
 							<ul v-show="tiFocus&&Object.keys(tagMap).length>0">
-								<li v-for="(item,key) in tagMap" @click="selectTagID(key)" :class="{'t-selected':selectedTagsID.indexOf(key)!==-1}">{{item}}</li>
+								<li v-for="(item,key) in tagMap"
+									:class="{'t-selected':selectedTagsID.indexOf(key)!==-1}"
+									@click="selectTagID(key)">{{item}}</li>
 							</ul>
 						</div>
 					</div>
 					<div class="type-btn">
 						<span>类别</span>
-						<button @click.stop="typeExpand=!typeExpand;tiFocus=seriesExpand=false" class="tl">
+						<button @click.stop="typeClick" class="tl">
 							<span>{{selectedType}}</span>
 							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="typeExpand">
-							<li v-for="each in typeOptions" @click="selectedType=each">{{each}}</li>
+							<li v-for="item in typeOptions"
+								@click="selectedType=item">{{item}}</li>
 						</ul>
 					</div>
 					<div class="series-btn">
 						<span>系列</span>
-						<button @click.stop="seriesExpand=!seriesExpand;tiFocus=typeExpand=false" :title="selectedSeries" class="tl">
+						<button @click.stop="seriesClick" :title="selectedSeries" class="tl">
 							<span>{{selectedSeries||'不选择分组'}}</span>
 							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="seriesExpand">
-							<li v-for="each in seriesOptions" @click="selectedSeries=each.seriesName;selectedSeriesID=each.sid" :title="each.seriesName">{{each.seriesName}}</li>
+							<li v-for="item in seriesOptions"
+								:title="item['seriesName']"
+								@click="seriesSelect(item)">{{item['seriesName']}}</li>
 							<li @click="selectedSeriesID=selectedSeries=null">不选择分组</li>
 						</ul>
 					</div>
@@ -155,7 +162,23 @@ export default {
 			}
         },
         methods:{
-			saveTmp(v,r){
+			tagInputFocus(){
+				this.tiFocus=true;
+				this.seriesExpand=this.typeExpand=false
+			},
+			typeClick(){
+				this.typeExpand=!this.typeExpand;
+				this.tiFocus=this.seriesExpand=false
+			},
+			seriesClick(){
+				this.seriesExpand=!this.seriesExpand;
+				this.tiFocus=this.typeExpand=false
+			},
+			seriesSelect(item){
+				this.selectedSeries=item['seriesName'];
+				this.selectedSeriesID=item['sid']
+			},
+			saveTmp(v){
 				let it;
 				if(!this.title){//标题非空
 					window.alert('请输入标题');
@@ -216,10 +239,12 @@ export default {
 					window.alert('inputTags非法');
 					return ;
 				}
+				let tmp = document.createElement('div');
+				tmp.innerHTML = this.$refs.md.$data['d_render'];
 				let data = {
 					type:this.selectedType,
 					title:this.title,
-					preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
+					preview:this.preview?this.preview:`${tmp.innerText.slice(0,80).replace(/ +/g,' ')}…`,
 					author:this.author,
 					tagsID:this.selectedTagsID.join(','),
 					newTags:it,

@@ -38,20 +38,26 @@
 								</span>
 							</div>
 							<span class="tag-num" v-if="selectedTagsID.length">{{selectedTagsID.length}}</span>
-							<input type="text" v-model="inputTags" placeholder="请选中已有标签或新建标签，逗号/分号分隔" class="tag-input" @focus="tiFocus=true;catExpand=false" >
+							<input class="tag-input" type="text" placeholder="请选中已有标签或新建标签，逗号/分号分隔"
+								   v-model="inputTags"
+								   @focus="tagInputFocus">
 							<ul v-show="tiFocus&&Object.keys(tagMap).length>0">
-								<li v-for="(item,key) in tagMap" @click="selectTagID(key)" :class="{'t-selected':selectedTagsID.indexOf(key)!==-1}">{{item}}</li>
+								<li v-for="(item,key) in tagMap"
+									:class="{'t-selected':selectedTagsID.indexOf(key)!==-1}"
+									@click="selectTagID(key)">{{item}}</li>
 							</ul>
 						</div>
 					</div>
 					<div class="cat-btn">
 						<span>Category</span>
-						<button @click.stop="catExpand=!catExpand;tiFocus=false" :title="selectedCat" class="tl">
+						<button @click.stop="categoryClick" :title="selectedCat" class="tl">
 							<span>{{selectedCat||'未分类'}}</span>
 							<i class="iconfont icon-down"></i>
 						</button>
 						<ul v-show="catExpand">
-							<li v-for="each in catOptions" @click="selectedCat=each.catName;selectedCatID=each.cid" :title="each.catName">{{each.catName}}</li>
+							<li v-for="item in catOptions"
+								:title="item['catName']"
+								@click="categorySelect(item)">{{item['catName']}}</li>
 						</ul>
 					</div>
 				</div>
@@ -137,7 +143,19 @@
 			}
         },
         methods:{
-			saveTmp(v,r){
+        	tagInputFocus(){
+				this.tiFocus=true;
+				this.catExpand=false
+			},
+			categoryClick(){
+				this.catExpand=!this.catExpand;
+				this.tiFocus=false
+			},
+			categorySelect(item){
+				this.selectedCat=item['catName'];
+				this.selectedCatID=item['cid']
+			},
+			saveTmp(v){
 				let it;
 				if(!this.title){//标题非空
 					window.alert('请输入标题');
@@ -198,10 +216,12 @@
 					window.alert('inputTags非法');
 					return ;
 				}
+				let tmp = document.createElement('div');
+				tmp.innerHTML = this.$refs.md.$data['d_render'];
 				let data = {
 					type:this.selectedType,
 					title:this.title,
-					preview:this.preview?this.preview:this.rawContent.slice(0,100).replace(/!\[.+]\(.+\)|[#*+~^=> ]/g,'').replace(/\s/g,','),
+					preview:this.preview?this.preview:`${tmp.innerText.slice(0,95).replace(/ +/g,' ')}…`,
 					author:this.author,
 					tagsID:this.selectedTagsID.join(','),
 					newTags:it,
