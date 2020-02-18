@@ -46,10 +46,10 @@ export default (Vue,options={})=>{
 	let listenStatus = false;
 	const listenScroll = ()=>{
 		if (!listenStatus){
-			console.log('lazyload Start');
+			// console.log('lazyload Start');
 			window.addEventListener('scroll',throttle(()=>{
 				let len = listenList.length;
-				console.log(len,listenList,imgCacheList);
+				// console.log(len,listenList,imgCacheList);
 				for (let i = 0; i < len; i++){
 					tryLoad(listenList[i])
 				}

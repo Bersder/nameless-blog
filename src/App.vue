@@ -45,7 +45,7 @@
 		  </aside>
 	  </transition>
 	  <div id="aplayer"></div>
-	  <transition name="extend">
+	  <transition name="ddf-popup">
 		  <div class="ddf-suggest" v-if="ddfShow">
 			  <button @click="darkModeC">进入</button>
 			  <span>黑暗模式</span>
@@ -311,10 +311,10 @@ export default {
 			width: 2rem;
 		}
 	}
-	.extend-enter-active{
+	.ddf-popup-enter-active{
 		animation: extend 1s cubic-bezier(.25,.46,.45,.94);
 	}
-	.extend-leave-active{
-		animation: extend .5s reverse cubic-bezier(.25,.46,.45,.94);
+	.ddf-popup-leave-active{
+		animation: fadeOut .5s cubic-bezier(.25,.46,.45,.94);
 	}
 </style>
