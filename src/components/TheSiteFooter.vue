@@ -2,31 +2,38 @@
 	<footer class="site-footer">
 		<div class="site-info">
 			<section>
-				<p>· Alive: {{day}} 天 {{hour}} 小时 {{min}} 分 {{sec}} 秒</p>
-				<p>· 朝循以始 夜继以终</p>
-				<p>· 单身为狗 {{age}} 年</p>
+				<p>• 单身为狗 {{age}} 年</p>
+				<p>• 朝循以始 夜继以终</p>
+				<p>• Alive: {{day}} 天 {{hour}} 小时 {{min}} 分 {{sec}} 秒</p>
 			</section>
 			<section>
+				<p>• <a href="https://github.com/Bersder/nameless-blog" target="_blank">Nameless {{ver}}</a></p>
 				<p>• Powered By <a href="https://github.com/Bersder" target="_blank">Bersder</a></p>
-				<p>• Theme <a href="https://github.com/Bersder/nameless-blog" target="_blank">Nameless</a></p>
 				<p><a href="mailto:oshinoNya@outlook.com">• oshinoNya@outlook.com</a></p>
 			</section>
 			<section>
-				<a href="https://www.vultr.com/?ref=7572602" title="Vultr" target="_blank" rel="nofollow" ><img src="/static/logo/vultr.svg" height="20" alt="server"></a>
-				<a href="https://www.cloudflare.com/" title="cloudflare" target="_blank" rel="nofollow" ><img src="/static/logo/cloudflare.svg" height="20" alt="frame"></a>
+				<p>Support:</p>
+				<a href="https://vuejs.org" title="Vue" target="_blank" rel="nofollow" ><img src="/static/logo/vue.png" height="20" alt="frame"></a>
+				<a href="https://www.vultr.com/?ref=7572602" title="Vultr" target="_blank" rel="nofollow" ><img src="/static/logo/vultr.webp" height="20" alt="server"></a>
+				<a href="https://www.cloudflare.com" title="cloudflare" target="_blank" rel="nofollow" ><img src="/static/logo/cloudflare.webp" height="20" alt="DNS"></a>
+				<a href="https://github.com/MoePlayer/APlayer" title="APlayer" target="_blank" rel="nofollow" ><img src="/static/logo/aplayer.png" height="20" alt="music player"></a>
 			</section>
 		</div>
-		<p class="site-banner">© 2019-2019 <router-link to="/login">ᛟᛊᚺᛁᚾᛟ</router-link></p>
+		<p class="site-banner">© {{`${fromY}-${toY}`}} <router-link to="/login">ᛟᛊᚺᛁᚾᛟ</router-link></p>
 	</footer>
 </template>
 
 <script>
 	import UCONF from "../config/user.conf"
+	import PCONF from "../config/project.conf"
     export default {
         name: "TheSiteFooter",
         data() {
             return {
             	since:UCONF.sinceTime,
+				ver:PCONF.version,
+				fromY:new Date(UCONF.sinceTime).getFullYear(),
+				toY:new Date().getFullYear(),
 				day:0,
 				hour:0,
 				min:0,

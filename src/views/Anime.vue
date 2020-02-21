@@ -35,12 +35,11 @@
 						<div class="board-head">
 							<span>吐槽　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
-						<div class="board-content">
-							{{gossip.content}}
-						</div>
-						<div class="board-post-time">
-							-- {{gossip.time|gossipTime}}
-						</div>
+						<div class="board-content"
+							 :class="{pointer:dynamic.id}"
+							 @click="openDyn(dynamic.id)"
+							 v-html="dynamic.content"></div>
+						<div class="board-post-time">{{dynamic.time|dynTime}}</div>
 					</div>
 				</div>
 			</div>
@@ -66,8 +65,9 @@
 						this.firstDes = data.album[0].description;
 					}
 					data.bgms.forEach(e=>this.bgms.push(e));
-					if (data.gossip)
-						this.gossip = data.gossip;
+					if (data.dynamic)
+						this.dynamic = data.dynamic;
+					this.dynamic.content = this.markIt(this.dynamic.content);
 				}
 			})
 		},

@@ -82,12 +82,11 @@
 						<div class="board-head">
 							<span>雑談　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
-						<div class="board-content">
-							{{gossip.content}}
-						</div>
-						<div class="board-post-time">
-							-- {{gossip.time|gossipTime}}
-						</div>
+						<div class="board-content"
+							 :class="{pointer:dynamic.id}"
+							 @click="openDyn(dynamic.id)"
+							 v-html="dynamic.content"></div>
+						<div class="board-post-time">{{dynamic.time|dynTime}}</div>
 					</div>
 				</div>
 			</div>
@@ -110,8 +109,9 @@
 				data.latestUpdate.forEach(e=>this.latestUpdate.push(e));
 				data.hits.forEach(e=>this.hits.push(e));
 				data.topped.forEach(e=>this.topped.push(e));
-				if (data.gossip)
-					this.gossip = data.gossip;
+				if (data.dynamic)
+					this.dynamic = data.dynamic;
+				this.dynamic.content = this.markIt(this.dynamic.content);
 				this.notice = data.notice;
 
 			});

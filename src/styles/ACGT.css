@@ -294,6 +294,7 @@
 			object-position: center center;
 			width: 1.5rem;
 			height: 1.5rem;
+			border-radius: .04rem;
 		}
 	#mobile-app .panel-t-info{
 		margin-left: 0;

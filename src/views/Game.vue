@@ -32,12 +32,11 @@
 						<div class="board-head">
 							<span>游言　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
-						<div class="board-content">
-							{{gossip.content}}
-						</div>
-						<div class="board-post-time">
-							-- {{gossip.time|gossipTime}}
-						</div>
+						<div class="board-content"
+							 :class="{pointer:dynamic.id}"
+							 @click="openDyn(dynamic.id)"
+							 v-html="dynamic.content"></div>
+						<div class="board-post-time">{{dynamic.time|dynTime}}</div>
 					</div>
 
 				</div>
@@ -64,8 +63,9 @@
 						this.firstImg = data.album[0].imgSrc;
 						this.firstDes = data.album[0].description;
 					}
-					if (data.gossip)
-						this.gossip = data.gossip;
+					if (data.dynamic)
+						this.dynamic = data.dynamic;
+					this.dynamic.content = this.markIt(this.dynamic.content);
 				}
 			})
 		},

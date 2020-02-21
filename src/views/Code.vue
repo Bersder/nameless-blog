@@ -26,7 +26,7 @@
 					</div>
 					<div class="ca series tl" v-if="seriesList.length" style="min-height: 1rem;">
 						<div class="series-head">
-							<i class="iconfont icon-paperclip"></i> 现存系列
+							<i class="iconfont icon-paperclip"></i> 系列文章
 						</div>
 						<div class="series-content">
 							<p v-for="series in seriesList"><router-link :to="'/series/'+series.name" :title="series.name+' | '+series.count+'篇'">{{series.name}}</router-link><span> ({{series.count}}篇)</span></p>
@@ -36,12 +36,11 @@
 						<div class="board-head">
 							<span>Error　</span><i class="iconfont icon-story clearm ibold"></i>
 						</div>
-						<div class="board-content">
-							{{gossip.content}}
-						</div>
-						<div class="board-post-time">
-							-- {{gossip.time|gossipTime}}
-						</div>
+						<div class="board-content"
+							 :class="{pointer:dynamic.id}"
+							 @click="openDyn(dynamic.id)"
+							 v-html="dynamic.content"></div>
+						<div class="board-post-time">{{dynamic.time|dynTime}}</div>
 					</div>
 				</div>
 			</div>
@@ -62,8 +61,9 @@
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
 				if (!this.isMobile){
-					if (data.gossip)
-						this.gossip = data.gossip;
+					if (data.dynamic)
+						this.dynamic = data.dynamic;
+					this.dynamic.content = this.markIt(this.dynamic.content);
 					data.seriesList.forEach(e=>this.seriesList.push(e));
 				}
 			})
