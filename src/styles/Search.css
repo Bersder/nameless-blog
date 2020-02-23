@@ -42,9 +42,6 @@
 		padding: .1rem;
 		border: .01rem dashed #ddd;
 	}
-.search-results{
-	min-height: 5rem;
-}
 .search-404{
 	text-align: left;
 	border: .01rem solid #eaeaea;

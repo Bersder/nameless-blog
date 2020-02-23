@@ -1,7 +1,8 @@
 <template>
   <div :id="isMobile?'mobile-app':'app'"
-	   :class="{DDF:darken,serif:fontFamily,'bg-no-rep':!(darken+themeType)}" @click="setPanelShow=false"
-	   :style="{backgroundImage:appBg_}">
+	   :class="{DDF:darken,serif:fontFamily,'bg-no-rep':!(darken+themeType)}"
+	   :style="{backgroundImage:appBg_,minHeight:`${screenHeight}px`}"
+	   @click="setPanelShow=false">
 	  <top-nav v-if="!/login|NotFind404/.test($route.name)"></top-nav>
 	  <keep-alive>
 		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>

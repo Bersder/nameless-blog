@@ -185,14 +185,11 @@ img.img-content{
 	vertical-align: text-bottom;
 }
 
-.d-card:first-child{
-	margin-top: 0;
-}
 .d-card{
 	position: relative;
 	border: .01rem solid #eaeaea;
 	border-radius: .04rem;
-	margin-top: .1rem;
+	margin-bottom: .1rem;
 	background: #fcfaf2;
 }
 .d-card .author-avatar{
@@ -362,7 +359,6 @@ img.img-content{
 	margin: 0 .2rem;
 }
 .d-card-comment{
-	min-height: 1rem;
 	text-align: left;
 }
 .d-card-comment .respond{position: relative}

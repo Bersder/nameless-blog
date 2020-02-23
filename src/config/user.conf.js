@@ -11,7 +11,7 @@ export default {
 		{title:'github',href:'https://github.com/Bersder',imgSrc:'/static/images/sns/github.png'},
 		{title:'netease',href:'https://music.163.com/user/home?id=93044810',imgSrc:'/static/images/sns/netease.png'},
 		{title:'bilibili',href:'https://space.bilibili.com/13351138',imgSrc:'/static/images/sns/bilibili.png'},
-		{title:'twitter',href:'https://twitter.com/Bersder1',imgSrc:'/static/images/sns/twitter.png'},
+		{title:'twitter',href:'https://twitter.com/nya_oshino',imgSrc:'/static/images/sns/twitter.png'},
 		{title:'email',href:'mailto:oshinoNya@outlook.com',imgSrc:'/static/images/sns/email.png'},
 	],
 	friendExchange:[//Game页面右侧游戏好友交换

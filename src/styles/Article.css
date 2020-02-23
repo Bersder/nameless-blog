@@ -62,7 +62,7 @@
 		.post-footer{
 			border-top: .01rem dashed #ddd;
 			border-bottom: .01rem dashed #ddd;
-			padding: .1rem .1rem .05rem;
+			padding: .1rem 0 .05rem;
 		}
 			.post-update{
 				text-align: center;

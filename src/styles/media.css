@@ -36,7 +36,6 @@
 	}
 	.page-content.note{ /*note特有*/
 		padding: 0;
-		min-height: 4.9rem;
 	}
 	.page-info .intro.tag{
 		font-size: .2rem;
@@ -44,9 +43,6 @@
 	}
 	.page-info .tsukkomi.tag{
 		font-size: .16rem;
-	}
-	.page-content.tag{ /*tag特有*/
-		min-height: 4.9rem;
 	}
 
 	.h-inner{
@@ -90,12 +86,6 @@
 /*-----------------------------------------*/
 	.page-img{
 		height: 2.5rem;
-	}
-	.page-content.note{ /*note特有*/
-		min-height: 5.4rem;
-	}
-	.page-content.tag{ /*tag特有*/
-		min-height: 5.4rem;
 	}
 }
 @media screen and (max-width: 799px){
@@ -170,15 +160,8 @@
 	}
 }
 @media screen and (max-width: 550px){
-	.page-content.note{ /*note特有*/
-		/*padding: 0;*/
-		min-height: 3.9rem;
-	}
 	.panel-n-wrap{/*note特有*/
 		width: 100%;
-	}
-	.page-content.tag{ /*tag特有*/
-		min-height: 3.9rem;
 	}
 }
 @media screen and (max-width: 500px) {

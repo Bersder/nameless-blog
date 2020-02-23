@@ -20,7 +20,6 @@ export default (Vue,options={})=>{
 		let screenHeight = window.innerHeight || document.documentElement.clientHeight;
 		if (top < screenHeight + 50 && top > -50){
 			let img = new Image();
-			img.src = src;
 			img.onload = ()=>{
 				el.src = src;
 				el.classList.remove(init.preloadClass);
@@ -37,6 +36,7 @@ export default (Vue,options={})=>{
 				el.classList.add(init.loadErrorClass);
 				listenList.remove(item);
 			};
+			img.src = src;
 			return true;
 		}else{
 			return false;
@@ -60,14 +60,14 @@ export default (Vue,options={})=>{
 
 	Vue.directive('lazyload',{
 		//还差不换皮的更新(不变el变bind)的状况
-		inserted:(el,binding)=>{
+		inserted:(el,{value,modifiers})=>{
 			let imgSrc,placeholder;
-			if (typeof binding.value==='string'){
-				imgSrc = binding.value;
+			if (typeof value==='string'){
+				imgSrc = value;
 				placeholder = init.default;
 			}else{
-				imgSrc = binding.value[0];
-				placeholder = binding.value[1]||init.default;
+				imgSrc = value[0];
+				placeholder = value[1]||init.default;
 			}
 			if (isAlreadyLoad(imgSrc)){
 				el.src = imgSrc;
@@ -76,7 +76,7 @@ export default (Vue,options={})=>{
 			let item = {
 				el:el,
 				src:imgSrc,
-				errorHandle:!!binding.modifiers.rude
+				errorHandle:!!modifiers.rude
 			};
 			el.src = placeholder;
 			el.classList.add(init.preloadClass);

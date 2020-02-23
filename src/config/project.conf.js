@@ -1,5 +1,5 @@
 export default {
-	version:'v1.1.7',
+	version:'v1.1.8',
 	navList:[
 		{icon:'iconfont icon-archive',des:'归档',animate:'rotate-bf',subs:[
 				{icon:'iconfont icon-bilibili',des:'Anime',href:'/archive/anime'},

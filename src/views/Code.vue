@@ -24,7 +24,7 @@
 						<span class="lprev" style="left: 0"><i class="iconfont icon-chevronleft" @click="ulLeft=ulLeft==0?1-langNum:ulLeft+1"></i></span>
 						<span class="lnext" style="right: 0"><i class="iconfont icon-chevronright" @click="ulLeft=ulLeft==1-langNum?0:ulLeft-1"></i></span>
 					</div>
-					<div class="ca series tl" v-if="seriesList.length" style="min-height: 1rem;">
+					<div class="ca series tl" v-if="seriesList.length">
 						<div class="series-head">
 							<i class="iconfont icon-paperclip"></i> 系列文章
 						</div>

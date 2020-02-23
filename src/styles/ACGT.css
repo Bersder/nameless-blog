@@ -60,7 +60,6 @@
 }
 .article-list{
 	clear: both;
-	min-height: 4rem;
 }
 .article-list.empty:before{ /*用于acgt空页面*/
 	background-image: url(/static/images/noart.png);

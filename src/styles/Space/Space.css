@@ -9,7 +9,6 @@
 	max-width: 12rem;
 	background: transparent;
 	overflow: hidden;
-	min-height: 4rem;
 }
 .space-dynamic .col-1,.space-home .col-1{
 	float: left;
@@ -70,7 +69,7 @@
 	border-bottom: .01rem dashed #eaeaea;
 }
 .draft-content,.album-content{
-	min-height: 4.5rem;
+	min-height: 4rem;
 }
 .draft-content.empty:after,.album-content.empty:after{
 	background-image: url(/static/images/nodata.png);
