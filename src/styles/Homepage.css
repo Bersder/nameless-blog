@@ -102,10 +102,20 @@
 		.update-content a:hover{
 			color: #00a1d6;
 		}
+		.update-content li{
+			display: block;
+			position: relative;
+			padding-left: .16rem;
+			line-height: .2rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 		.update-content li:before{
+			position: absolute;
+			left: 0;
 			content: '❁';
 			color: #5abebc;
-			margin-right: .07rem;
 		}
 
 
