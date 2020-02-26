@@ -127,8 +127,12 @@
 .bgmw-head a:hover{
 	color: #FF7D7D;
 }
+.bgmw .no-content{
+	color:#8b8e99;
+	padding: .2rem 0;
+}
 .bgmw-content{
-	padding: .1rem .1rem .1rem .32rem;
+	padding: .1rem .1rem .1rem .35rem;
 	font-size: .14rem;
 	list-style-type: none;
 }
@@ -190,21 +194,13 @@
 	cursor: pointer;
 	transform: scaleY(2.5);
 	font-size: .24rem;
-	padding: .01rem .03rem;
-	color: #eaeaea;
-	background: black;
+	padding: .03rem;
+	color: white;
+	text-shadow: 0 0 .08rem black;
 }
 .language span:hover{
-	opacity: .4;
+	opacity: 1;
 }
-	.lprev i{
-		border-bottom-right-radius: .03rem;
-		border-top-right-radius: .03rem;
-	}
-	.lnext i{
-		border-bottom-left-radius: .03rem;
-		border-top-left-radius: .03rem;
-	}
 .language ul{
 	transition: all .3s;
 	list-style-type: none;
@@ -222,8 +218,18 @@
 			width: 100%;
 			background: rgba(0,0,0,.4);
 		}
-
-.series-content p{
+.series .no-content{
+	color:#8b8e99;
+	padding: .2rem;
+}
+.series-content{
+	list-style: none;
+}
+.series-content li{
+	display: block;
+	position: relative;
+	padding-left: .16rem;
+	line-height: .2rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -231,24 +237,26 @@
 .series-content a:hover{
 	color: #00a1d6;
 }
-.series-content p:before{
+.series-content li:before{
+	position: absolute;
+	left: 0;
 	content: '★';
 	color: #edb100;
-	margin-right: .05rem;
-}
-.series-content span{
-	color: #afafaf;
 }
 
 /*==================================================================*/
 /*Game*/
-.fexchange-content i{
-	width: .6rem;
+.fexchange-content{
+	list-style: none;
 	color: #1e1e1e;
 }
-.fexchange-content p{
-	color: #afafaf;
-	margin-bottom: .02rem;
+.fexchange-content li{margin-bottom: .02rem}
+.fexchange-content li .platform{
+	display: inline-block;
+	width: .6rem;
+}
+.fexchange-content li .code{
+	color: #bbb;
 }
 
 /*==================================================================*/

@@ -13,33 +13,7 @@
 		<div class="page-content-wrap">
 			<div class="page-content acg fc">
 				<pc-acg type="game"></pc-acg>
-				<div class="content-aside"><!--侧边栏待开发-->
-					<div class="ca album">
-						<div class="album-img-wrap">
-							<img class="album-img" @click="openLB" :src="'/root'+firstImg">
-							<p>{{firstDes}}</p>
-						</div>
-					</div>
-					<div class="ca fexchange tl">
-						<div class="fexchange-head">
-							<i class="iconfont icon-friends"></i> 好友交换
-						</div>
-						<div class="fexchange-content">
-							<p v-for="each in friendExchange"><i :class="each.icon"> {{each.description}}</i>:{{each.value}}</p>
-						</div>
-					</div>
-					<div class="ca board">
-						<div class="board-head">
-							<span>游言　</span><i class="iconfont icon-story clearm ibold"></i>
-						</div>
-						<div class="board-content"
-							 :class="{pointer:dynamic.id}"
-							 @click="openDyn(dynamic.id)"
-							 v-html="dynamic.content"></div>
-						<div class="board-post-time">{{dynamic.time|dynTime}}</div>
-					</div>
-
-				</div>
+				<game-aside v-if="!isMobile"/>
 			</div>
 		</div>
 	</div>
@@ -47,9 +21,8 @@
 
 <script>
 	import ContentPrimaryACG from '@/components/ContentPrimaryACG'
-	import contentAsideMixin from "../mixins/Mixin-ContentAside";
+	import GameAside from './GameAside';
 	import {mapState} from 'vuex'
-	import UCONF from "../config/user.conf";
 
 	export default {
         name: "Game",
@@ -57,21 +30,10 @@
 			this.$fetch('/apis/apiv8.php',{_:'game'}).then(response=>{
 				let data = response.data.data;
 				this.headerInfo = data.headerInfo;
-				if (!this.isMobile){
-					this.$store.commit('lumiBox/imgsC',data.album);
-					if (data.album.length){
-						this.firstImg = data.album[0].imgSrc;
-						this.firstDes = data.album[0].description;
-					}
-					if (data.dynamic)
-						this.dynamic = data.dynamic;
-					this.dynamic.content = this.markIt(this.dynamic.content);
-				}
 			})
 		},
         data() {
             return {
-				friendExchange:UCONF.friendExchange,
 				headerInfo:{imgSrc:'/static/images/loading.gif',title:'游民',description:''}
 			}
         },
@@ -79,9 +41,9 @@
         	...mapState(['isMobile'])
 		},
 		components: {
-			'pc-acg':ContentPrimaryACG
+			'pc-acg':ContentPrimaryACG,
+			GameAside
 		},
-		mixins:[contentAsideMixin]
     }
 </script>
 

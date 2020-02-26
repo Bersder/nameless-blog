@@ -65,34 +65,20 @@
 					</div>
 					<div class="pager-no-more" v-if="pageNum===curPage&&!artWaiting">已经到达底部啦</div>
 				</div>
-				<div class="content-aside">
-					<div class="ca album" >
-						<div class="album-img-wrap">
-							<img class="album-img" @click="openLB" :src="'/root'+firstImg">
-							<p>{{firstDes}}</p>
-						</div>
-					</div>
-					<div class="ca board">
-						<div class="board-head">
-							<span>日常　</span><i class="iconfont icon-story clearm ibold"></i>
-						</div>
-						<div class="board-content"
-							 :class="{pointer:dynamic.id}"
-							 @click="openDyn(dynamic.id)"
-							 v-html="dynamic.content"></div>
-						<div class="board-post-time">{{dynamic.time|dynTime}}</div>
-					</div>
-				</div>
+				<trivial-aside v-if="!isMobile"/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import contentAsideMixin from "../mixins/Mixin-ContentAside";
+	import TrivialAside from './TrivialAside';
 	import {mapState} from 'vuex'
 	export default {
         name: "Trivial",
+		components:{
+        	TrivialAside
+		},
 		created(){
 			this.$fetch('/apis/apiv1.php',{_:'trivial'}).then(response=>{
 				let data = response.data.data;
@@ -105,17 +91,6 @@
 				this.artWaiting = false;
 				this.noContent = !Boolean(parseInt(data.artNum));
 				this.pageNum = Math.ceil(parseInt(data.artNum)/8);
-				if (!this.isMobile){
-					this.$store.commit('lumiBox/imgsC',data.album);
-					if (data.album.length){
-						this.firstImg = data.album[0].imgSrc;
-						this.firstDes = data.album[0].description;
-					}
-					if (data.dynamic)
-						this.dynamic = data.dynamic;
-					this.dynamic.content = this.markIt(this.dynamic.content);
-				}
-
 			})
 		},
         data() {
@@ -181,7 +156,6 @@
 				}
 			}
 		},
-		mixins:[contentAsideMixin]
     }
 </script>
 

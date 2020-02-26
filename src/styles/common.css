@@ -694,6 +694,7 @@
 
 /*==================================================================*/
 /*text-css*/
+.comment-content>p,.d-card-content .text>p{margin-bottom: 1em}
 .comment-content ul,.d-card-content .text ul{
 	padding-left: 1.5em;
 }

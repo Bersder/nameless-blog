@@ -56,7 +56,7 @@
 					<div class="pager-no-more fc" v-else>已经到达底部啦</div>
 
 				</div>
-				<homepage-aside/>
+				<homepage-aside v-if="!isMobile"/>
 			</div>
 		</div>
 	</div>

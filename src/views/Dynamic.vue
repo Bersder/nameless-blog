@@ -1,10 +1,11 @@
 <template>
-    <div style="background-image: url(/root/site/bg/dynamicbg.png)">
+    <div style="background-image: url(/root/site/bg/dynamicbg.png)"
+		 :style="{minHeight:`${screenHeight}px`}">
 		<div class="page-content-wrap">
 			<div class="page-content dynamic fc">
 				<div class="left-panel pl">
 					<div class="author-sub-panel">
-						<div class="loading-content" v-if="loading"></div>
+						<div class="loading-content h-1p5" v-if="loading"></div>
 						<div class="content tl" v-else>
 							<div class="author-pic"></div>
 							<p class="fzz">
@@ -23,7 +24,7 @@
 
 					<div class="recommend-sub-panel tl">
 						<p class="title">推荐所</p>
-						<div class="loading-content" v-if="loading"></div>
+						<div class="loading-content h-p5" v-if="loading"></div>
 						<div class="recommend-list" v-else>
 							<a v-for="item in recommendations"
 							   target="_blank" :title="item.title"
@@ -158,6 +159,7 @@
 		},
 		computed:{
 			...mapGetters(['xAboveBottom']),
+			screenHeight(){return this.$store.state.screenHeight}
 		},
 		components:{
         	'dynamic-card':DC,

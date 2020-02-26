@@ -88,7 +88,7 @@
 	.dynamic-launch textarea:focus{
 		border-color: #00a1d6;
 	}
-	.upload-list{
+	.upload-box .upload-list{
 		margin-top: .1rem;
 		margin-left: -.1rem;
 	}
