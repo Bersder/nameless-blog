@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<header-top class="header-top filter-grid"></header-top>
 		<div class="page-content-wrap">
 			<div class="page-content homepage" :class="{hidden:scrollTop<screenHeight/3&&screenWidth>800}">
 				<div class="notice fc tl" v-if="notice"><i class="iconfont icon-notify"></i> {{notice}}</div>
@@ -67,10 +68,11 @@
 	import {mapState} from 'vuex'
 	import HomepageAside from './HomepageAside';
 	import panelHMixin from	"../mixins/Mixin-PanelH";
-
+	import HeaderTop from '../components/HeaderTop';
 	export default {
         name: "Homepage",
 		components:{
+        	HeaderTop,
         	HomepageAside
 		},
 		created(){

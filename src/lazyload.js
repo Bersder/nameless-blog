@@ -85,6 +85,13 @@ export default (Vue,options={})=>{
 			}
 			listenList.pushIfNew(item);
 			!listenStatus && listenScroll();
+		},
+		unbind:(el)=>{
+			for(let item of listenList)
+				if (item.el===el){
+					listenList.remove(item);
+					//console.log('remove')
+				}
 		}
 	})
 }

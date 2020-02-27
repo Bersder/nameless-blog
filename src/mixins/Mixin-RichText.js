@@ -40,7 +40,8 @@ export default {
 				pedantic: false,
 				sanitize: true,//开启时忽略rawString中的html标签
 				smartLists: true,
-				smartypants: false
+				smartypants: false,
+				silent:true
 			});
 		},
 		emoRenderer(raw){

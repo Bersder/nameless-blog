@@ -30,9 +30,16 @@
 	export default {
         name: "HeaderTop",
 		created(){
+        	let htInfo = this.$store.state.htInfo;
+        	if (htInfo){
+        		this.bgInfo = htInfo;
+        		this.SH = false;
+        		return;
+			}
         	this.$fetch('/apis/apiv13.php').then(response=>{
 				this.bgInfo = response.data;
-				setTimeout(()=>this.SH=false,1000)
+				this.$store.commit('htInfoC',this.bgInfo);
+				this.$nextTick(()=>this.SH=false);
 			})
 		},
         data() {
@@ -54,9 +61,11 @@
 		},
 		methods:{
         	go_down:function () {
-				document.getElementsByClassName('site-wrapper')[0].scrollIntoView({behavior: "smooth",
+				document.getElementsByClassName('page-content-wrap')[0].scrollIntoView({
+					behavior: "smooth",
 					block: "start",
-					inline: "nearest"})
+					inline: "nearest"
+				})
 			}
 		}
     }

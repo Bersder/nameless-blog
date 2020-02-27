@@ -4,9 +4,6 @@
 	   :style="{backgroundImage:appBg_,minHeight:`${screenHeight}px`}"
 	   @click="setPanelShow=false">
 	  <top-nav v-if="!/login|NotFind404/.test($route.name)"></top-nav>
-	  <keep-alive>
-		  <header-top class="header-top filter-grid" v-if="this.$route.name==='homepage'"></header-top>
-	  </keep-alive>
 	  <keep-alive include="Article">
 		  <router-view class="site-wrapper"></router-view>
 	  </keep-alive>
@@ -59,7 +56,6 @@
 <script>
 import TheSiteFooter from './components/TheSiteFooter'
 import TheTopNav from './components/TheTopNav'
-import HeaderTop from './components/HeaderTop'
 import LuminousBox from './components/LuminousBox'
 import {mapState} from 'vuex'
 import 'aplayer/dist/APlayer.min.css';
@@ -216,7 +212,6 @@ export default {
 	},
 	components:{
     	'site-footer':TheSiteFooter,
-		'header-top':HeaderTop,
 		'top-nav':TheTopNav,
 		'luminous-box':LuminousBox
 	},

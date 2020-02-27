@@ -31,8 +31,10 @@ ___
 `2020-02-26`_``
 ### Features
 - app 容器最低高度限定并优化相关css `07d1da1`
-- HACGT 侧边栏抽离成组件 `333cfb3,`
-- HeaderTop 的使用由 App 转至 Homepage
+- HACGT 侧边栏抽离成组件 `333cfb3,145808d`
+- HeaderTop 的使用由 App 转至 Homepage ``
+### Bug Fixes
+- 修复路由切换时懒加载不移除旧监听目标的问题
 
 ## v1.1.7
 `2020-02-21`_`d22938b`

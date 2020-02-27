@@ -97,6 +97,7 @@ export default new Vuex.Store({
 		screenWidth:window.innerWidth || document.body.clientWidth,
 		isMasked:false,
 		appBg:'',
+		htInfo:null,
 	},
 	mutations:{
 		platformInit(state,payload){
@@ -116,6 +117,9 @@ export default new Vuex.Store({
 		},
 		appBgC(state,bg){
 			state.appBg = bg;
+		},
+		htInfoC(state,payload){
+			state.htInfo = payload;
 		}
 	},
 	getters:{

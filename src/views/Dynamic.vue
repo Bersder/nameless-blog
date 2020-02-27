@@ -107,6 +107,7 @@
 					data.dynamics.forEach(e=>this.dynamics.push(e));
 				}
 			});
+			window.scrollTo(0,0);
 		},
 		watch:{
 			$route(cur){//如果在动态总页和分页间跳转，清空动态重新取数据

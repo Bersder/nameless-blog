@@ -1,10 +1,9 @@
 <template>
 	<div class="content-aside-h fc">
 		<div class="cah hit tl">
-			<div class="hit-head">
-				<span><i class="iconfont icon-fire"></i> 最热</span>
-			</div>
-			<ul class="hit-content">
+			<div class="hit-head"><span><i class="iconfont icon-fire"></i> 最热</span></div>
+			<div class="loading-content h-1" v-if="loading"></div>
+			<ul class="hit-content" v-else>
 				<li :data-text="index+1" v-for="(item,index) in hits" :key="item.aid">
 					<div class="rc-item">
 						<p class="ellipsis"><router-link :title="item.title" :to="item|artUrl">{{item.title}}</router-link></p>
@@ -14,10 +13,9 @@
 			</ul>
 		</div>
 		<div class="cah update tl">
-			<div class="update-head">
-				<span><i class="iconfont icon-file"></i> 最近更新</span>
-			</div>
-			<ul class="update-content">
+			<div class="update-head"><span><i class="iconfont icon-file"></i> 最近更新</span></div>
+			<div class="loading-content h-p5" v-if="loading"></div>
+			<ul class="update-content" v-else>
 				<li v-for="item in latestUpdate" :key="item.aid">
 					<router-link :to="item|artUrl" :title="item|updateTitle">{{item.title}}</router-link>
 				</li>
