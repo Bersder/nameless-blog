@@ -259,7 +259,6 @@
         	afterRender(raw,render){
 				if (!this.$route.hash)
 					setTimeout(()=>document.body.scrollIntoView(true),250);
-					//setTimeout(()=>document.body.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}),300);
         		else{
         			setTimeout(()=>document.getElementById(this.$route.hash.substr(1)).scrollIntoView(true),250);
 				}
